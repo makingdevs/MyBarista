@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">myBarista</string>
+    <string name="checkin_title">Elige tu cafe</string>
+    <string name="button_checkin">Check-in!</string>
+
+    <string name="spinner_prompt">Choose a country</string>
+</resources>
