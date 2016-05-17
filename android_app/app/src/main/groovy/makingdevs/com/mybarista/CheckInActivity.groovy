@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
+import groovy.transform.CompileStatic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,30 +17,11 @@ import java.util.List;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@CompileStatic
 public class CheckInActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckInActivity";
-    public static final String API_URL = "https://api.github.com";
-    private Spinner methodCoffe;
     private Button checkInButton;
-
-    private void loadMethodsCoffe(){
-        methodCoffe = (Spinner) findViewById(R.id.methodSpinner);
-        List<String> list = new ArrayList<String>();
-        list.add("Expresso");
-        list.add("Americano");
-        list.add("Goteo");
-        list.add("Prensa");
-        list.add("Sifón");
-        list.add("Otro");
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item,list);
-
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        methodCoffe.setAdapter(dataAdapter);
-    }
 
     private void initListenerCheckIn(){
         checkInButton = (Button) findViewById(R.id.btnCheckIn);
@@ -68,8 +51,6 @@ public class CheckInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
-
-        loadMethodsCoffe();
         initListenerCheckIn();
     }
 
