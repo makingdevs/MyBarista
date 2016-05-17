@@ -6,7 +6,7 @@
     android:weightSum="1">
 
     <Spinner
-        android:id="@+id/spinner1"
+        android:id="@+id/methodSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/spinner_prompt" />
@@ -14,7 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/originField"
         android:layout_weight="0.04" />
 
     <EditText
@@ -22,14 +22,14 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText2" />
+        android:id="@+id/priceField" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText3" />
+        android:id="@+id/noteField" />
 
     <Button
         android:id="@+id/btnCheckIn"
