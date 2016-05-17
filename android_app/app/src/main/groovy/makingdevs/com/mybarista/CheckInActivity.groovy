@@ -4,16 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner
-import android.widget.SpinnerAdapter
-import groovy.transform.CompileStatic;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import groovy.transform.CompileStatic
+import makingdevs.com.mybarista.model.Status
+import makingdevs.com.mybarista.service.ApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,6 +21,13 @@ public class CheckInActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckInActivity";
     private Button checkInButton;
+
+
+    private final Retrofit retrofit = new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl('http://api.makingdevs.com/')
+            .build()
+
 
     private void initListenerCheckIn(){
         checkInButton = (Button) findViewById(R.id.btnCheckIn);
@@ -56,6 +62,19 @@ public class CheckInActivity extends AppCompatActivity {
 
     private void saveCheckIn() {
         Log.d(TAG,"algo");
+        ApiService owm = retrofit.create(ApiService)
+        Log.d(TAG,owm.toString());
+        Call<Status> model = owm.getData()
+        model.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Log.d(TAG,response.body().dump().toString())
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG,"Trono")            }
+        });
     }
 }
 
