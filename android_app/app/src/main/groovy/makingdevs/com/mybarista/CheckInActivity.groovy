@@ -9,15 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import makingdevs.com.mybarista.model.Contributor;
-import makingdevs.com.mybarista.service.GitHubService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -41,8 +35,7 @@ public class CheckInActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item,list);
 
-        dataAdapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         methodCoffe.setAdapter(dataAdapter);
     }
@@ -81,31 +74,7 @@ public class CheckInActivity extends AppCompatActivity {
     }
 
     private void saveCheckIn() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Create an instance of our GitHub API interface.
-        GitHubService github = retrofit.create(GitHubService.class);
-
-        // Create a call instance for looking up Retrofit contributors.
-        Call<List<Contributor>> call = github.contributors("square", "retrofit");
-
-
-        call.enqueue(new Callback<List<Contributor>>() {
-            @Override
-            public void onResponse(Call<List<Contributor>> call, Response<List<Contributor>> response) {
-                Log.d(TAG,response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<List<Contributor>> call, Throwable t) {
-                Log.d(TAG,"fallo",t);
-            }
-        });
-
-
+        Log.d(TAG,"algo");
     }
 }
 
