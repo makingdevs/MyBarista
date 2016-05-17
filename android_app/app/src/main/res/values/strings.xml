@@ -3,5 +3,13 @@
     <string name="checkin_title">Elige tu cafe</string>
     <string name="button_checkin">Check-in!</string>
 
-    <string name="spinner_prompt">Choose a country</string>
+    <string-array name="methods_arrays">
+        <item>Expresso</item>
+        <item>Americano</item>
+        <item>Goteo</item>
+        <item>Prensa</item>
+        <item>Sifón</item>
+        <item>Otro</item>
+    </string-array>
+    <string name="select_one">Seleccióna metodo</string>
 </resources>
