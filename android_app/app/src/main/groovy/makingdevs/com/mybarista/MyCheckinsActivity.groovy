@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar
 
 import android.util.Log;
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import groovy.transform.CompileStatic
 import makingdevs.com.mybarista.model.Checkin
 import makingdevs.com.mybarista.service.ApiService
@@ -21,12 +23,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyCheckInsActivity extends AppCompatActivity {
 
     private static final String TAG = "MyCheckInsActivity"
-
+    ListView listView
 
     private final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl('http://192.168.1.198:3000/')
             .build()
+
+    private void createListView(Response<List<Checkin>> response){
+        listView = (ListView) findViewById(R.id.listCheckinsView)
+        ArrayAdapter<String> adapter
+        String[] checkins = response.body().method
+        /*response.body().each {
+            checkins[it.method.toString()]
+        }*/
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,checkins)
+        listView.setAdapter(adapter)
+    }
 
 
     private void initListCheckins(){
@@ -35,6 +49,7 @@ public class MyCheckInsActivity extends AppCompatActivity {
         def callback = [
                 onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
                     Log.d(TAG, response.body().toString())
+                    createListView(response)
                 },
                 onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d(TAG, "el error") }
         ]
