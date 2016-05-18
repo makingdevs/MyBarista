@@ -1,5 +1,6 @@
-package makingdevs.com.mybarista;
+package makingdevs.com.mybarista
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,9 +35,7 @@ public class MyCheckInsActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listCheckinsView)
         ArrayAdapter<String> adapter
         String[] checkins = response.body().method
-        /*response.body().each {
-            checkins[it.method.toString()]
-        }*/
+
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,checkins)
         listView.setAdapter(adapter)
@@ -67,8 +66,7 @@ public class MyCheckInsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                MyCheckInsActivity.this.startActivity(new Intent(MyCheckInsActivity.this,CheckInActivity.class));
             }
         });
 
