@@ -22,7 +22,6 @@ public class CheckInActivity extends AppCompatActivity {
     private static final String TAG = "CheckInActivity";
     private Button checkInButton;
 
-
     private final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl('http://192.168.1.198:3000/')
@@ -34,26 +33,24 @@ public class CheckInActivity extends AppCompatActivity {
         checkInButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                getFormCheckIn();
-                saveCheckIn();
+                Map<String,String> parameters = getFormCheckIn()
+                saveCheckIn(parameters)
             }
         });
     }
 
-    private void getFormCheckIn(){
+    private Map<String,String> getFormCheckIn(){
         final EditText originEditText = (EditText) findViewById(R.id.originField);
         final EditText priceEditText = (EditText) findViewById(R.id.priceField);
         final EditText noteEditText = (EditText) findViewById(R.id.noteField);
         String origin = originEditText.getText().toString();
         String price = priceEditText.getText().toString();
         String note = noteEditText.getText().toString();
-
         final Spinner methodFieldSprinner = (Spinner) findViewById(R.id.methodSpinner);
         String method = methodFieldSprinner.getSelectedItem().toString();
-
+        Map<String,String> parameters = new HashMap<String, String>()
+        parameters << ["method":method,"note":note,"origin":origin,"price":price?.toString()]
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +59,17 @@ public class CheckInActivity extends AppCompatActivity {
         initListenerCheckIn();
     }
 
-    private void saveCheckIn() {
+    private void saveCheckIn(Map<String,String> parameters) {
         ApiService owm = retrofit.create(ApiService)
-
-        Call<List<Checkin>> model = owm.getCheckins()
+        Call<Checkin> model = owm.createCheckinForm(parameters.method,parameters.note,parameters.origin,parameters.price)
         def callback = [
-        onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
-            Log.d(TAG, response.body().toString())
-        },
-                onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d(TAG, "el error") }
+                onResponse :{Call<Checkin> call, Response<Checkin> response ->
+                    Log.d(TAG,response.dump().toString())
+                                Log.d(TAG, response.message())
+                            },
+                onFailure : {Call<Checkin> call, Throwable t -> Log.d(TAG, "el error",t) }
         ]
-        model.enqueue(callback as Callback<List<Checkin>>)
+        model.enqueue(callback as Callback<Checkin>)
     }
 }
 
