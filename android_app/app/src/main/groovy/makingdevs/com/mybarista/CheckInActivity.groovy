@@ -61,7 +61,7 @@ public class CheckInActivity extends AppCompatActivity {
 
     private void saveCheckIn(Map<String,String> parameters) {
         ApiService owm = retrofit.create(ApiService)
-        Call<Checkin> model = owm.createCheckinForm(parameters.method,parameters.note,parameters.origin,parameters.price)
+        Call<Checkin> model = owm.createCheckinForm(parameters.method,parameters.note,parameters.origin,parameters.price,"neodevelop")
         def callback = [
                 onResponse :{Call<Checkin> call, Response<Checkin> response ->
                     Log.d(TAG,response.dump().toString())

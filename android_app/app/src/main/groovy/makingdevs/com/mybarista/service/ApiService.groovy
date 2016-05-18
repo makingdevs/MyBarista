@@ -18,6 +18,7 @@ public interface ApiService {
     Call<Checkin> createCheckinForm(@Field("method") String method,
                                     @Field("note") String note,
                                     @Field("origin") String origin,
-                                    @Field("price") String price);
+                                    @Field("price") String price,
+                                    @Field("username") String username);
 
 }
