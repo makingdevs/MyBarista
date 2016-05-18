@@ -68,7 +68,7 @@ public class CheckInActivity extends AppCompatActivity {
         Call<List<Checkin>> model = owm.getCheckins()
         def callback = [
         onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
-            1Log.d(TAG, response.body().toString())
+            Log.d(TAG, response.body().toString())
         },
                 onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d(TAG, "el error") }
         ]
