@@ -16,5 +16,7 @@
     <string name="placeholderPrice">Precio</string>
     <string name="placeholderNote">Notas</string>labelMethod
     <string name="labelMethod">Método de Preparación</string>
+    <string name="toastCheckinSuccess">Check-in Relizado!!!</string>
+    <string name="toastCheckinFail">Ups!! ocurrio un error</string>
 
 </resources>
