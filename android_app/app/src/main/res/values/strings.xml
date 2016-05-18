@@ -12,4 +12,9 @@
         <item>Otro</item>
     </string-array>
     <string name="select_one">Seleccióna metodo</string>
+    <string name="placeholderOrigin">Origen</string>
+    <string name="placeholderPrice">Precio</string>
+    <string name="placeholderNote">Notas</string>labelMethod
+    <string name="labelMethod">Método de Preparación</string>
+
 </resources>
