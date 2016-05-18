@@ -4,12 +4,13 @@ class CheckinsController < ApplicationController
   # GET /checkins
   def index
     @checkins = Checkin.all
-
+    puts "GET"
     render json: @checkins
   end
 
   # GET /checkins/1
   def show
+    puts "show"
     render json: @checkin
   end
 
@@ -46,6 +47,6 @@ class CheckinsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def checkin_params
-      params.require(:checkin).permit(:method, :origin, :price, :note)
+      params.permit(:method, :origin, :price, :note)
     end
 end
