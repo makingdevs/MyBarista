@@ -9,4 +9,5 @@ class Checkin {
     String origin
     String price
     String updated_at
+    String user_id
 }
