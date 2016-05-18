@@ -17,7 +17,8 @@ class CheckinsController < ApplicationController
   # POST /checkins
   def create
     @checkin = Checkin.new(checkin_params)
-
+    user = User.find_by username: params['username']
+    @checkin.user = user
     if @checkin.save
       render json: @checkin, status: :created, location: @checkin
     else
