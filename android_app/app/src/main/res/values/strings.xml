@@ -18,5 +18,6 @@
     <string name="labelMethod">Método de Preparación</string>
     <string name="toastCheckinSuccess">Check-in Relizado!!!</string>
     <string name="toastCheckinFail">Ups!! ocurrio un error</string>
+    <string name="title_activity_my_check_ins">MyCheckInsActivity</string>
 
 </resources>
