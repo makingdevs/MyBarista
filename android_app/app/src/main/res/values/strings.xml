@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">myBarista</string>
+    <string name="checkin_title">Elige tu cafe</string>
+    <string name="button_checkin">Check-in!</string>
+
+    <string-array name="methods_arrays">
+        <item>Expresso</item>
+        <item>Americano</item>
+        <item>Goteo</item>
+        <item>Prensa</item>
+        <item>Sifón</item>
+        <item>Otro</item>
+    </string-array>
+    <string name="select_one">Seleccióna metodo</string>
+    <string name="placeholderOrigin">Origen</string>
+    <string name="placeholderPrice">Precio</string>
+    <string name="placeholderNote">Notas</string>labelMethod
+    <string name="labelMethod">Método de Preparación</string>
+
+</resources>
