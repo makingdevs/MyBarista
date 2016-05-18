@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner
 import groovy.transform.CompileStatic
-import makingdevs.com.mybarista.model.Status
+import makingdevs.com.mybarista.model.Checkin
 import makingdevs.com.mybarista.service.ApiService
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +25,7 @@ public class CheckInActivity extends AppCompatActivity {
 
     private final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl('http://api.makingdevs.com/')
+            .baseUrl('http://192.168.1.198:3000/')
             .build()
 
 
@@ -53,6 +53,8 @@ public class CheckInActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,20 +63,16 @@ public class CheckInActivity extends AppCompatActivity {
     }
 
     private void saveCheckIn() {
-        Log.d(TAG,"algo");
         ApiService owm = retrofit.create(ApiService)
-        Log.d(TAG,owm.toString());
-        Call<Status> model = owm.getData()
-        model.enqueue(new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
-                Log.d(TAG,response.body().dump().toString())
-            }
 
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                Log.d(TAG,"Trono")            }
-        });
+        Call<List<Checkin>> model = owm.getCheckins()
+        def callback = [
+        onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
+            1Log.d(TAG, response.body().toString())
+        },
+                onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d(TAG, "el error") }
+        ]
+        model.enqueue(callback as Callback<List<Checkin>>)
     }
 }
 
