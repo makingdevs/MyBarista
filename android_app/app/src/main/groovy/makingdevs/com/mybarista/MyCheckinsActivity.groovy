@@ -36,18 +36,23 @@ public class MyCheckInsActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter
         String[] checkins = response.body().method
 
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1,checkins)
-        listView.setAdapter(adapter)
+            adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, android.R.id.text1,checkins)
+            listView.setAdapter(adapter)
+        adapter.notifyDataSetChanged()
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        initListCheckins()
+    }
 
     private void initListCheckins(){
         ApiService owm = retrofit.create(ApiService)
         Call<List<Checkin>> model = owm.getCheckins()
         def callback = [
                 onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
-                    Log.d(TAG, response.body().toString())
                     createListView(response)
                 },
                 onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d(TAG, "el error") }
