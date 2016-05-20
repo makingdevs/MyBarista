@@ -1,24 +1,23 @@
 package com.makingdevs.mybarista.ui.activity
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Intent
+import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-
-import android.util.Log;
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import groovy.transform.CompileStatic
-import makingdevs.com.mybarista.R
+import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.service.ApiService
-import retrofit2.Callback
+import com.makingdevs.mybarista.network.CheckinRestOperations
+import groovy.transform.CompileStatic
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory
 
 @CompileStatic
 public class MyCheckinsActivity extends AppCompatActivity {
@@ -49,7 +48,7 @@ public class MyCheckinsActivity extends AppCompatActivity {
     }
 
     private void initListCheckins(){
-        ApiService owm = retrofit.create(ApiService)
+        CheckinRestOperations owm = retrofit.create(CheckinRestOperations)
         Call<List<Checkin>> model = owm.getCheckins()
         def callback = [
                 onResponse :{Call<List<Checkin>> call, Response<List<Checkin>> response ->
