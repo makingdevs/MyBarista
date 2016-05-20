@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp">
+
+    <TextView
+        android:id="@+id/label_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text=""
+        android:textStyle=""/>
+
+    <TextView
+        android:id="@+id/label_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/label_origin"
+        android:layout_toStartOf="@+id/label_origin"
+        android:maxLines="1"
+        android:text=""
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/label_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_method"
+        android:layout_toLeftOf="@+id/label_origin"
+        android:layout_toStartOf="@+id/label_origin"
+        android:maxLines="1"
+        android:text=""/>
+
+</RelativeLayout>
