@@ -9,12 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.service.ApiService
+import com.makingdevs.mybarista.network.CheckinRestOperations
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
-import makingdevs.com.mybarista.R
+import com.makingdevs.mybarista.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,7 +47,7 @@ public class ListBrewFragment extends Fragment {
     }
 
     void updateUI() {
-        ApiService owm = retrofit.create(ApiService)
+        CheckinRestOperations owm = retrofit.create(CheckinRestOperations)
         Call<List<Checkin>> model = owm.getCheckins()
         def callback = [
                 onResponse :{ Call<List<Checkin>> call, Response<List<Checkin>> response ->
