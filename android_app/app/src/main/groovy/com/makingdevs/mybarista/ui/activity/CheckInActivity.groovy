@@ -1,23 +1,21 @@
 package com.makingdevs.mybarista.ui.activity
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.content.Context
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import groovy.transform.CompileStatic
-import makingdevs.com.mybarista.R
+import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.service.ApiService
+import com.makingdevs.mybarista.service.CheckinManager
+import com.makingdevs.mybarista.service.CheckingManagerImpl
+import groovy.transform.CompileStatic
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Response
 
 @CompileStatic
 public class CheckInActivity extends AppCompatActivity {
@@ -30,11 +28,7 @@ public class CheckInActivity extends AppCompatActivity {
     private Button checkInButton
     private static Context contextView
 
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl('http://192.168.1.198:3000/')
-            .build()
-
+    CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
     private void initListenerCheckIn(){
         checkInButton = (Button) findViewById(R.id.btnCheckIn);
@@ -61,23 +55,17 @@ public class CheckInActivity extends AppCompatActivity {
     }
 
     private void saveCheckIn(Map<String,String> parameters) {
-        ApiService owm = retrofit.create(ApiService)
-        Call<Checkin> model = owm.createCheckinForm(parameters.method,parameters.note,parameters.origin,parameters.price,"neodevelop")
-        def callback = [
-                onResponse :{Call<Checkin> call, Response<Checkin> response ->
-                    Log.d(TAG,response.dump().toString())
-                    if (response.code() == 201){
-                        Toast.makeText(contextView,R.string.toastCheckinSuccess,Toast.LENGTH_SHORT).show();
-                        cleanForm()
-                    }else {
-                        Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
-                    }
-                },
-                onFailure : {Call<Checkin> call, Throwable t ->
-                                Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
-                            }
-        ]
-        model.enqueue(callback as Callback<Checkin>)
+        mCheckinManager.save(parameters, { Call<Checkin> call, Response<Checkin> response ->
+            Log.d(TAG,response.dump().toString())
+            if (response.code() == 201){
+                Toast.makeText(contextView,R.string.toastCheckinSuccess,Toast.LENGTH_SHORT).show();
+                cleanForm()
+            }else {
+                Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
+            }
+        },{ Call<Checkin> call, Throwable t ->
+            Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
+        })
     }
 
     private void cleanForm(){
