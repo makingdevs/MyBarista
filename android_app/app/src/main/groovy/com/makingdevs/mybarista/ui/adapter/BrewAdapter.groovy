@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.model.Checkin
-import makingdevs.com.mybarista.R
+import com.makingdevs.mybarista.R
 
 class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
