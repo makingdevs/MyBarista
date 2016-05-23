@@ -14,6 +14,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import groovy.transform.CompileStatic
@@ -49,27 +50,23 @@ public class FormCheckinFragment extends Fragment {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, String> parameters = getFormCheckIn()
-                saveCheckIn(parameters)
+                saveCheckIn(getFormCheckIn())
             }
         });
 
         root
     }
 
-    private Map<String,String> getFormCheckIn(){
-        Log.d(TAG,"huesosss")
+    private CheckinCommand getFormCheckIn(){
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
-        Map<String,String> parameters = new HashMap<String, String>()
-        Log.d(TAG,parameters.dump().toString())
-        parameters << ["method":method,"note":note,"origin":origin,"price":price?.toString()]
+        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:"neodevelop")
     }
 
-    private void saveCheckIn(Map<String, String> parameters) {
-        mCheckinManager.save(parameters, onSuccess(), onError())
+    private void saveCheckIn(CheckinCommand checkin) {
+        mCheckinManager.save(checkin, onSuccess(), onError())
     }
 
     private Closure onSuccess() {
