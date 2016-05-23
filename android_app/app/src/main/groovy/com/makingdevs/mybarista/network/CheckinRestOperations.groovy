@@ -6,11 +6,13 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.QueryMap
 
 public interface CheckinRestOperations {
 
-    @GET("checkins?username=neodevelop")
-    Call<List<Checkin>> getCheckins()
+    @GET("checkins")
+    Call<List<Checkin>> getCheckins(@QueryMap Map<String, String> options)
 
     @FormUrlEncoded
     @POST("checkins")
