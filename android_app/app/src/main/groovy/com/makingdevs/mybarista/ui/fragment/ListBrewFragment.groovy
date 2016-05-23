@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.network.CheckinRestOperations
+import com.makingdevs.mybarista.service.CheckinManager
+import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
 import com.makingdevs.mybarista.R
@@ -26,11 +28,8 @@ public class ListBrewFragment extends Fragment {
 
     RecyclerView mListBrew
     BrewAdapter mBrewAdapter
+    CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl('http://192.168.1.198:3000/')
-            .build()
 
     ListBrewFragment(){
 
@@ -47,21 +46,15 @@ public class ListBrewFragment extends Fragment {
     }
 
     void updateUI() {
-        CheckinRestOperations owm = retrofit.create(CheckinRestOperations)
-        Call<List<Checkin>> model = owm.getCheckins()
-        def callback = [
-                onResponse :{ Call<List<Checkin>> call, Response<List<Checkin>> response ->
-                    Log.d("TAGGGGGG", response.body().toList().toString())
-                    if(!mBrewAdapter){
-                        mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
-                        mListBrew.adapter = mBrewAdapter
-                    } else {
-                        mBrewAdapter.setmCheckins(response.body().toList())
-                        mBrewAdapter.notifyDataSetChanged()
-                    }
-                },
-                onFailure : {Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
-        ]
-        model.enqueue(callback as Callback<List<Checkin>>)
+        mCheckinManager.list([:], {Call<List<Checkin>> call, Response<List<Checkin>> response ->
+            Log.d("algodon",response.body().toList().toString())
+        if(!mBrewAdapter){
+            mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
+            mListBrew.adapter = mBrewAdapter
+        } else {
+            mBrewAdapter.setmCheckins(response.body().toList())
+            mBrewAdapter.notifyDataSetChanged()
+        }
+         },{Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") })
     }
 }
