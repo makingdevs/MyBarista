@@ -3,7 +3,8 @@ class CheckinsController < ApplicationController
 
   # GET /checkins
   def index
-    @checkins = Checkin.all
+    @user = User.find_by username: params['username']
+    @checkins = Checkin.where(:user => @user).all
     puts "GET"
     render json: @checkins
   end
