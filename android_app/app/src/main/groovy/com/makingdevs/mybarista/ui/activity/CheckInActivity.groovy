@@ -55,7 +55,11 @@ public class CheckInActivity extends AppCompatActivity {
     }
 
     private void saveCheckIn(Map<String,String> parameters) {
-        mCheckinManager.save(parameters, { Call<Checkin> call, Response<Checkin> response ->
+        mCheckinManager.save(parameters, onSuccess(), onError())
+    }
+
+    private Closure onSuccess(){
+        { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG,response.dump().toString())
             if (response.code() == 201){
                 Toast.makeText(contextView,R.string.toastCheckinSuccess,Toast.LENGTH_SHORT).show();
@@ -63,9 +67,13 @@ public class CheckInActivity extends AppCompatActivity {
             }else {
                 Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
             }
-        },{ Call<Checkin> call, Throwable t ->
+        }
+    }
+
+    private Closure onError(){
+        { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView,R.string.toastCheckinFail,Toast.LENGTH_SHORT).show();
-        })
+        }
     }
 
     private void cleanForm(){

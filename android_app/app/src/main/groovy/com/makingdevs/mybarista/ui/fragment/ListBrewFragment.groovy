@@ -9,19 +9,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.network.CheckinRestOperations
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
-import com.makingdevs.mybarista.R
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 @CompileStatic
 public class ListBrewFragment extends Fragment {
@@ -31,9 +26,7 @@ public class ListBrewFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
 
-    ListBrewFragment(){
-
-    }
+    ListBrewFragment(){}
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -46,15 +39,23 @@ public class ListBrewFragment extends Fragment {
     }
 
     void updateUI() {
-        mCheckinManager.list([:], {Call<List<Checkin>> call, Response<List<Checkin>> response ->
+        mCheckinManager.list([:],onSuccess(),onError())
+    }
+
+    private Closure onSuccess(){
+        {Call<List<Checkin>> call, Response<List<Checkin>> response ->
             Log.d("algodon",response.body().toList().toString())
-        if(!mBrewAdapter){
-            mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
-            mListBrew.adapter = mBrewAdapter
-        } else {
-            mBrewAdapter.setmCheckins(response.body().toList())
-            mBrewAdapter.notifyDataSetChanged()
+            if(!mBrewAdapter){
+                mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
+                mListBrew.adapter = mBrewAdapter
+            } else {
+                mBrewAdapter.setmCheckins(response.body().toList())
+                mBrewAdapter.notifyDataSetChanged()
+            }
         }
-         },{Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") })
+    }
+
+    private Closure onError(){
+        {Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
 }
