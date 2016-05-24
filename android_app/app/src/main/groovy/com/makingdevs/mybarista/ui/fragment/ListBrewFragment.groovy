@@ -12,8 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.database.BaristaOpenHelper
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.repository.UserRepository
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.ui.activity.CheckinActivity
@@ -48,11 +49,9 @@ public class ListBrewFragment extends Fragment {
                 startActivity(intent)
             }
         });
-
-        BaristaOpenHelper openhelper = new BaristaOpenHelper(getContext())
-        openhelper.getWritableDatabase()
-
-
+        UserRepository userRepository = new UserRepository(getContext())
+        userRepository.addUser(new User(username:"neodevelop",token:"tu mama"))
+        userRepository.findById(1L)
         updateUI()
         root
     }
