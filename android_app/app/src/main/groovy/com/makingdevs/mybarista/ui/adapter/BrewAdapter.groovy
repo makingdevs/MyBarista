@@ -1,15 +1,16 @@
 package com.makingdevs.mybarista.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 
 class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
@@ -48,7 +49,8 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
         void bindCheckin(Checkin checkin) {
             itemView.onClickListener = {
-                Toast.makeText(mContext,"${mCheckin.properties}",Toast.LENGTH_SHORT).show();
+                Intent intent = ShowCheckinActivity.newIntentWithContext(mContext,mCheckin.id)
+                mContext.startActivity(intent)
             }
             mCheckin = checkin
             mtitle.text = checkin.method
