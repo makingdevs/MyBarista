@@ -20,7 +20,13 @@ class CheckingManagerImpl implements CheckinManager {
     void list(Map params, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofit(operations, onSuccess, onError){ CheckinRestOperations restOperations ->
             restOperations.getCheckins([username:"neodevelop"])
+        }
+    }
 
+    @Override
+    void show(String id, Closure onSuccess, Closure onError){
+        RetrofitTemplate.instance.withRetrofit(operations, onSuccess, onError){ CheckinRestOperations restOperations ->
+            restOperations.getCheckin(id)
         }
     }
 }
