@@ -30,7 +30,7 @@ class UserRepository {
     }
 
     void findById(Long id){
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE  = '$id'", null);
+        Cursor c = db.rawQuery("SELECT * FROM users WHERE _id = '$id'", null);
         c.moveToNext();
         Log.d("Repository",c.getString(c.getColumnIndex("username")))
     }
