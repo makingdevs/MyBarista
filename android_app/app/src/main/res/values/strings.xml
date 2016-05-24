@@ -20,4 +20,9 @@
     <string name="toastCheckinFail">Ups!! ocurrio un error</string>
     <string name="title_activity_my_check_ins">MyCheckInsActivity</string>
 
+    <string name="label_origin">Origen:</string>
+    <string name="label_method">Metodo de preparación:</string>
+    <string name="label_price">Precio:</string>
+    <string name="label_note">Notas:</string>
+
 </resources>
