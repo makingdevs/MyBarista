@@ -16,7 +16,6 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.ui.activity.CheckinActivity
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
 import retrofit2.Call
