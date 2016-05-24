@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.database.BaristaOpenHelper
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
@@ -48,6 +49,10 @@ public class ListBrewFragment extends Fragment {
             }
         });
 
+        BaristaOpenHelper openhelper = new BaristaOpenHelper(getContext())
+        openhelper.getWritableDatabase()
+
+
         updateUI()
         root
     }
@@ -64,7 +69,6 @@ public class ListBrewFragment extends Fragment {
 
     private Closure onSuccess(){
         {Call<List<Checkin>> call, Response<List<Checkin>> response ->
-            Log.d("algodon",response.body().toList().toString())
             if(!mBrewAdapter){
                 mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
                 mListBrew.adapter = mBrewAdapter
