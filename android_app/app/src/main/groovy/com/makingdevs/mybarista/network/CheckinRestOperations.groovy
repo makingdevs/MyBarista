@@ -19,4 +19,7 @@ public interface CheckinRestOperations {
     @POST("checkins")
     Call<Checkin> createCheckinForm(@Body CheckinCommand checkin)
 
+    @GET("checkins/{id}")
+    Call<Checkin> getCheckin(@Path("id") String id)
+
 }
