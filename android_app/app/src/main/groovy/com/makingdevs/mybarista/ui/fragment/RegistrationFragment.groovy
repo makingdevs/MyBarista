@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.ui.fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,17 @@ import android.widget.EditText
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.RegistrationCommand
+import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.service.UserManager
+import com.makingdevs.mybarista.service.UserManagerImpl
 import groovy.transform.CompileStatic
+import retrofit2.Call
+import retrofit2.Response
 
 @CompileStatic
 class RegistrationFragment extends Fragment{
+
+    UserManager mUserManager = UserManagerImpl.instance
 
     private static final String TAG = "RegistrationFragment"
     private EditText userNameEditText
@@ -52,12 +60,26 @@ class RegistrationFragment extends Fragment{
     private void validateRegistration(RegistrationCommand registrationCommand){
         def pattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}/
         if(registrationCommand.username ==~ pattern && registrationCommand.password == registrationCommand.confirmPassword && registrationCommand.username != registrationCommand.password){
-            Toast.makeText(getContext(), R.string.toastRegistrationSuccess, Toast.LENGTH_SHORT).show()
-            //TODO Consumir servicio para registro en rails
+            createNewUser(registrationCommand)
         }
         else{
             Toast.makeText(getContext(), R.string.toastRegistrationFail, Toast.LENGTH_SHORT).show()
             cleanForm()
+        }
+    }
+
+    private void createNewUser(RegistrationCommand registrationCommand) {
+        mUserManager.save(registrationCommand,onSuccess(),OnError())
+    }
+
+    Closure OnError() {
+        { Call<User> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    }
+
+    Closure onSuccess() {
+        { Call<User> call, Response<User> response ->
+            Log.d(TAG,response.body().toString())
+            //enviar a la vista de login
         }
     }
 
