@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -15,6 +16,8 @@ import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
+import com.makingdevs.mybarista.ui.activity.CheckinActivity
+import com.makingdevs.mybarista.ui.activity.LoginActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -78,8 +81,15 @@ class RegistrationFragment extends Fragment{
 
     Closure onSuccess() {
         { Call<User> call, Response<User> response ->
-            Log.d(TAG,response.body().toString())
-            //enviar a la vista de login
+            Log.d(TAG,"Respueta:"+response.code())
+            if(response.code() == 201){
+                Intent intent = LoginActivity.newIntentWithContext(getContext())
+                startActivity(intent)
+            }
+            else {
+                Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
