@@ -3,7 +3,6 @@ package com.makingdevs.mybarista.ui.fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,11 +52,11 @@ class RegistrationFragment extends Fragment{
     private void validateRegistration(RegistrationCommand registrationCommand){
         def pattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}/
         if(registrationCommand.username ==~ pattern && registrationCommand.password == registrationCommand.confirmPassword && registrationCommand.username != registrationCommand.password){
-            Toast.makeText(getContext(), "Username and Password success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext(), R.string.toastRegistrationSuccess, Toast.LENGTH_SHORT).show()
             //TODO Consumir servicio para registro en rails
         }
         else{
-            Toast.makeText(getContext(), "Username or Password incorrect!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext(), R.string.toastRegistrationFail, Toast.LENGTH_SHORT).show()
             cleanForm()
         }
     }
