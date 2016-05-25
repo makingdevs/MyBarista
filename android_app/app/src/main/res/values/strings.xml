@@ -29,5 +29,10 @@
     <string name="password_layout">Password:</string>
     <string name="confirm_password_layout">Confirm password:</string>
     <string name="button_registration">Registration</string>
+    <string name="button_login">Login</string>
+    <string name="toastLoginSuccess">Username and Password correct!</string>
+    <string name="toastLoginFail">Username or Password incorrect!</string>
+    <string name="toastRegistrationSuccess">Username and Password correct!</string>
+    <string name="toastRegistrationFail">Username or Password incorrect!</string>
 
 </resources>
