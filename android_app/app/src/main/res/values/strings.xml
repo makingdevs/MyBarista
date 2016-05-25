@@ -25,4 +25,9 @@
     <string name="label_price">Precio:</string>
     <string name="label_note">Notas:</string>
 
+    <string name="user_layout">Username:</string>
+    <string name="password_layout">Password:</string>
+    <string name="confirm_password_layout">Confirm password:</string>
+    <string name="button_registration">Registration</string>
+
 </resources>
