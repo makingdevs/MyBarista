@@ -1,6 +1,5 @@
 package com.makingdevs.mybarista.ui.fragment
 
-
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -12,10 +11,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.command.LoginCommand
+import com.makingdevs.mybarista.service.UserManager
+import com.makingdevs.mybarista.service.UserManagerImpl
 import groovy.transform.CompileStatic
+import retrofit2.Call
+import retrofit2.Response
 
 @CompileStatic
 class LoginFragment extends Fragment{
+
+    UserManager mUserManager = UserManagerImpl.instance
 
     private static final String TAG = "LoginFragment"
     private EditText userNameEditText
@@ -30,35 +37,46 @@ class LoginFragment extends Fragment{
         userNameEditText = (EditText) root.findViewById(R.id.username_login)
         passwordEditText = (EditText) root.findViewById(R.id.password_login)
         mButtonLogin = (Button) root.findViewById(R.id.btnLogin)
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            void onClick(View v) {
+        mButtonLogin.onClickListener = {
                 getFormLogin()
             }
-        })
         root
     }
 
     private void getFormLogin(){
-        Map loginData = [:]
-        String username = userNameEditText.text
-        String password = passwordEditText.text
-        loginData << ["username":username,"password":password]
-        validateForm(loginData)
+        LoginCommand loginCommand = new LoginCommand(username:userNameEditText.text.toString(),password:passwordEditText.text.toString())
+        validateForm(loginCommand)
     }
 
-    private void validateForm(Map loginData){
-        def pattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}/
-        if(loginData.username ==~ pattern){
-            Toast.makeText(getContext(), R.string.toastLoginSuccess, Toast.LENGTH_SHORT).show()
-        }
-        else{
-            Toast.makeText(getContext(), R.string.toastLoginFail, Toast.LENGTH_SHORT).show()
+    private void validateForm(LoginCommand loginCommand){
+        if(loginCommand.validateCommand())
+            mUserManager.login(loginCommand,onSuccess(),OnError())
+        else
             cleanForm()
-        }
+
     }
 
     private void cleanForm(){
         passwordEditText.text = ""
+        Toast.makeText(getContext(), R.string.toastLoginFail, Toast.LENGTH_SHORT).show()
+    }
+
+    private Closure OnError() {
+        { Call<User> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    }
+
+    private Closure onSuccess() {
+        { Call<User> call, Response<User> response ->
+            Log.d(TAG,"Respueta:"+response.code())
+            if(response.code() == 200){
+                Toast.makeText(getContext(), R.string.toastLoginSuccess, Toast.LENGTH_SHORT).show()
+                //Intent intent = LoginActivity.newIntentWithContext(getContext())
+                //startActivity(intent)
+            }
+            else {
+                cleanForm()
+            }
+
+        }
     }
 }
