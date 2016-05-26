@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.LoginCommand
+import com.makingdevs.mybarista.model.repository.UserRepository
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import groovy.transform.CompileStatic
@@ -69,7 +70,16 @@ class LoginFragment extends Fragment{
         { Call<User> call, Response<User> response ->
             Log.d(TAG,"Respueta:"+response.code())
             if(response.code() == 200){
+                Log.d(TAG, response.body().dump().toString())
                 Toast.makeText(getContext(), R.string.toastLoginSuccess, Toast.LENGTH_SHORT).show()
+                UserRepository userRepository = new UserRepository(getContext())
+                User user
+                if (userRepository.isCurrentUser()){
+                    user = userRepository.getCurrentUser()
+                }else{
+                    user = userRepository.addUser(response.body())
+                }
+                Log.d(TAG,user.dump().toString())
                 //Intent intent = LoginActivity.newIntentWithContext(getContext())
                 //startActivity(intent)
             }
