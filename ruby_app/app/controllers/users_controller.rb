@@ -35,6 +35,16 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/login   => username, password =>success 200 o 201 y user token , error 401
+  def login
+    @user = User.find_by username:params['username']
+    if @user.authenticate(params['password'])
+      render json: @user
+    else
+      render :json => {:error => "Unauthorized"}.to_json, :status => 401
+    end
+  end
+
   # DELETE /users/1
   def destroy
     @user.destroy
