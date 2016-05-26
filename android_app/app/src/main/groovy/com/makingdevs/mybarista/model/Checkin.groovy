@@ -1,4 +1,4 @@
-package  makingdevs.com.mybarista.model
+package  com.makingdevs.mybarista.model
 
 class Checkin {
 

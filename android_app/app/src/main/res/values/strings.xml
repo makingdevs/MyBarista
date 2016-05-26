@@ -20,4 +20,19 @@
     <string name="toastCheckinFail">Ups!! ocurrio un error</string>
     <string name="title_activity_my_check_ins">MyCheckInsActivity</string>
 
+    <string name="label_origin">Origen:</string>
+    <string name="label_method">Metodo de preparación:</string>
+    <string name="label_price">Precio:</string>
+    <string name="label_note">Notas:</string>
+
+    <string name="user_layout">Username:</string>
+    <string name="password_layout">Password:</string>
+    <string name="confirm_password_layout">Confirm password:</string>
+    <string name="button_registration">Registration</string>
+    <string name="button_login">Login</string>
+    <string name="toastLoginSuccess">Username and Password correct!</string>
+    <string name="toastLoginFail">Username or Password incorrect!</string>
+    <string name="toastRegistrationSuccess">Username and Password correct!</string>
+    <string name="toastRegistrationFail">Username or Password incorrect!</string>
+
 </resources>
