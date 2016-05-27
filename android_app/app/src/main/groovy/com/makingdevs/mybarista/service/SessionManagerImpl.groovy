@@ -14,10 +14,16 @@ class SessionManagerImpl implements SessionManager{
         session.commit()
     }
 
-    Map getUserSession(Context context) {
+    User getUserSession(Context context) {
         SharedPreferences session = context.getSharedPreferences("UserSession",Context.MODE_PRIVATE)
         String username = session.getString("username",null);
-        String token = session.getString("token",null);
-        [username:username,token:token]
+        String token = session.getString("token",null)
+        new User(username:username,token:token)
+    }
+
+    Boolean isUserSession(Context context){
+        SharedPreferences session = context.getSharedPreferences("UserSession",Context.MODE_PRIVATE)
+        String username = session.getString("username",null);
+        username != null
     }
 }
