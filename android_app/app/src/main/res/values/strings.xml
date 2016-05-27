@@ -34,5 +34,7 @@
     <string name="toastLoginFail">Username or Password incorrect!</string>
     <string name="toastRegistrationSuccess">Username and Password correct!</string>
     <string name="toastRegistrationFail">Username or Password incorrect!</string>
+    <string name="userame">Userame</string>
+    <string name="password">Password</string>
 
 </resources>
