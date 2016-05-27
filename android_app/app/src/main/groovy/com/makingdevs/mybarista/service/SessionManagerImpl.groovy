@@ -26,4 +26,11 @@ class SessionManagerImpl implements SessionManager{
         String username = session.getString("username",null);
         username != null
     }
+
+    void setLogout(Context context){
+        SharedPreferences.Editor session = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit()
+        session.remove("username")
+        session.remove("token")
+        session.commit()
+    }
 }
