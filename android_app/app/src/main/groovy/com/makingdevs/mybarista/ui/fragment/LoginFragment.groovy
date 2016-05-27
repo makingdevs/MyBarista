@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -16,6 +17,7 @@ import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.model.repository.UserRepository
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
+import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -35,8 +37,8 @@ class LoginFragment extends Fragment{
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_login, container, false)
-        userNameEditText = (EditText) root.findViewById(R.id.username_login)
-        passwordEditText = (EditText) root.findViewById(R.id.password_login)
+        userNameEditText = (EditText) root.findViewById(R.id.input_username)
+        passwordEditText = (EditText) root.findViewById(R.id.input_password)
         mButtonLogin = (Button) root.findViewById(R.id.btnLogin)
         mButtonLogin.onClickListener = {
                 getFormLogin()
@@ -80,8 +82,8 @@ class LoginFragment extends Fragment{
                     user = userRepository.addUser(response.body())
                 }
                 Log.d(TAG,user.dump().toString())
-                //Intent intent = LoginActivity.newIntentWithContext(getContext())
-                //startActivity(intent)
+                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                startActivity(intent)
             }
             else {
                 cleanForm()
