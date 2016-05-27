@@ -8,5 +8,6 @@ interface SessionManager {
     void setUserSession(User user, Context context)
     User getUserSession(Context context)
     Boolean isUserSession(Context context)
+    void setLogout(Context context)
 
 }
