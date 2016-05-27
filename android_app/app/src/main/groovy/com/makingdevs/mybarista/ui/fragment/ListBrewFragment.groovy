@@ -17,6 +17,8 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.repository.UserRepository
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.CheckinActivity
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
@@ -26,11 +28,13 @@ import retrofit2.Response
 @CompileStatic
 public class ListBrewFragment extends Fragment {
 
+    private static final String TAG = "ListBrewFragment"
     RecyclerView mListBrew
     BrewAdapter mBrewAdapter
     FloatingActionButton mButtonGoChekin
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     ListBrewFragment(){}
 
@@ -60,7 +64,8 @@ public class ListBrewFragment extends Fragment {
     }
 
     void updateUI() {
-        mCheckinManager.list([:],onSuccess(),onError())
+        User currentUser =  mSessionManager.getUserSession(getContext())
+        mCheckinManager.list([username:currentUser.username],onSuccess(),onError())
     }
 
     private Closure onSuccess(){
