@@ -14,7 +14,8 @@ import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.LoginCommand
-import com.makingdevs.mybarista.model.repository.UserRepository
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewActivity
@@ -26,6 +27,7 @@ import retrofit2.Response
 class LoginFragment extends Fragment{
 
     UserManager mUserManager = UserManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "LoginFragment"
     private EditText userNameEditText
@@ -70,18 +72,8 @@ class LoginFragment extends Fragment{
 
     private Closure onSuccess() {
         { Call<User> call, Response<User> response ->
-            Log.d(TAG,"Respueta:"+response.code())
             if(response.code() == 200){
-                Log.d(TAG, response.body().dump().toString())
-                Toast.makeText(getContext(), R.string.toastLoginSuccess, Toast.LENGTH_SHORT).show()
-                UserRepository userRepository = new UserRepository(getContext())
-                User user
-                if (userRepository.isCurrentUser()){
-                    user = userRepository.getCurrentUser()
-                }else{
-                    user = userRepository.addUser(response.body())
-                }
-                Log.d(TAG,user.dump().toString())
+                mSessionManager.setUserSession(response.body(),getContext())
                 Intent intent = ListBrewActivity.newIntentWithContext(getContext())
                 startActivity(intent)
             }
