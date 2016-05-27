@@ -36,16 +36,21 @@ class LoginFragment extends Fragment{
 
     LoginFragment(){}
 
-    View onCreateView(LayoutInflater inflater,
-                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+        validateHasUserSession()
         View root = inflater.inflate(R.layout.fragment_login, container, false)
         userNameEditText = (EditText) root.findViewById(R.id.input_username)
         passwordEditText = (EditText) root.findViewById(R.id.input_password)
         mButtonLogin = (Button) root.findViewById(R.id.btnLogin)
-        mButtonLogin.onClickListener = {
-                getFormLogin()
-            }
+        mButtonLogin.onClickListener = { getFormLogin() }
         root
+    }
+
+    private void validateHasUserSession(){
+        if (mSessionManager.isUserSession(getContext())){
+            Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+            startActivity(intent)
+        }
     }
 
     private void getFormLogin(){
@@ -58,7 +63,6 @@ class LoginFragment extends Fragment{
             mUserManager.login(loginCommand,onSuccess(),OnError())
         else
             cleanForm()
-
     }
 
     private void cleanForm(){
