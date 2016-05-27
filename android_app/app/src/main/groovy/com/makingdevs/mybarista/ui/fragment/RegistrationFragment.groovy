@@ -14,9 +14,12 @@ import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.CheckinActivity
+import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -26,6 +29,7 @@ import retrofit2.Response
 class RegistrationFragment extends Fragment{
 
     UserManager mUserManager = UserManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "RegistrationFragment"
     private EditText userNameEditText
@@ -42,13 +46,7 @@ class RegistrationFragment extends Fragment{
         passwordEditText = (EditText) root.findViewById(R.id.password)
         confirmPasswordEditText = (EditText) root.findViewById(R.id.confirm_password)
         mButtonRegistration = (Button) root.findViewById(R.id.btnRegistration)
-        mButtonRegistration.setOnClickListener(new View.OnClickListener(){
-            @Override
-            void onClick(View v) {
-                getFormRegistration()
-            }
-        })
-
+        mButtonRegistration.onClickListener = {  getFormRegistration() }
         root
     }
 
@@ -61,29 +59,26 @@ class RegistrationFragment extends Fragment{
     }
 
     private void validateRegistration(RegistrationCommand registrationCommand){
-        def pattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}/
-        if(registrationCommand.username ==~ pattern && registrationCommand.password == registrationCommand.confirmPassword && registrationCommand.username != registrationCommand.password){
+        if(registrationCommand.validateCommand())
             createNewUser(registrationCommand)
-        }
-        else{
-            Toast.makeText(getContext(), R.string.toastRegistrationFail, Toast.LENGTH_SHORT).show()
+        else
             cleanForm()
-        }
     }
 
     private void createNewUser(RegistrationCommand registrationCommand) {
         mUserManager.save(registrationCommand,onSuccess(),OnError())
     }
 
-    Closure OnError() {
+    private Closure OnError() {
         { Call<User> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
 
-    Closure onSuccess() {
+    private Closure onSuccess() {
         { Call<User> call, Response<User> response ->
             Log.d(TAG,"Respueta:"+response.code())
             if(response.code() == 201){
-                Intent intent = LoginActivity.newIntentWithContext(getContext())
+                mSessionManager.setUserSession(response.body(),getContext())
+                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
                 startActivity(intent)
             }
             else {
@@ -94,6 +89,7 @@ class RegistrationFragment extends Fragment{
     }
 
     private void cleanForm(){
+        Toast.makeText(getContext(), R.string.toastRegistrationFail, Toast.LENGTH_SHORT).show()
         passwordEditText.text = ""
         confirmPasswordEditText.text = ""
     }
