@@ -49,9 +49,6 @@ public class ListBrewFragment extends Fragment {
                 startActivity(intent)
             }
         });
-        UserRepository userRepository = new UserRepository(getContext())
-        userRepository.addUser(new User(username:"neodevelop",token:"tu mama"))
-        userRepository.findById(1L)
         updateUI()
         root
     }
