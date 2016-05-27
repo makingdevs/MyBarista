@@ -62,7 +62,7 @@ public class FormCheckinFragment extends Fragment {
         String price = priceEditText.getText().toString()
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
-        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:"neodevelop")
+        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:"jorge@makingdevs.com")
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
