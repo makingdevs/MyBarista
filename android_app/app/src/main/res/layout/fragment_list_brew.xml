@@ -4,6 +4,11 @@
              android:layout_height="match_parent"
              tools:context="com.makingdevs.mybarista.ui.fragment.ListBrewFragment">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        ></include>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_brews"
         android:layout_width="match_parent"
