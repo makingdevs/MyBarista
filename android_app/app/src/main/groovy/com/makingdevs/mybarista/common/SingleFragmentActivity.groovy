@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
@@ -30,8 +31,11 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
         Fragment fragment = fm.findFragmentById(R.id.container)
         if (!fragment)
             fm.beginTransaction().add(R.id.container, createFragment()).commit()
+    }
 
+    void createMenu(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar)
+        toolbar.setVisibility(View.VISIBLE)
         setSupportActionBar(toolbar)
     }
 
