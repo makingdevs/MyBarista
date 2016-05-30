@@ -14,9 +14,12 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -34,6 +37,7 @@ public class FormCheckinFragment extends Fragment {
     private static Context contextView
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     FormCheckinFragment() {}
 
@@ -62,7 +66,8 @@ public class FormCheckinFragment extends Fragment {
         String price = priceEditText.getText().toString()
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
-        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:"jorge@makingdevs.com")
+        User currentUser =  mSessionManager.getUserSession(getContext())
+        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:currentUser.username)
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
