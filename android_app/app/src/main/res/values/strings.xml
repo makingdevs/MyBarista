@@ -36,5 +36,7 @@
     <string name="toastRegistrationFail">Username or Password incorrect!</string>
     <string name="userame">Userame</string>
     <string name="password">Password</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_logout">Logout</string>
 
 </resources>
