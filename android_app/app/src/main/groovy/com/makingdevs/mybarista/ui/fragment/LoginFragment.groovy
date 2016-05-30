@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
@@ -19,6 +20,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.RegistrationActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -32,6 +34,7 @@ class LoginFragment extends Fragment{
     private static final String TAG = "LoginFragment"
     private EditText userNameEditText
     private EditText passwordEditText
+    private TextView messageToRegister
     private Button mButtonLogin
 
     LoginFragment(){}
@@ -41,8 +44,13 @@ class LoginFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_login, container, false)
         userNameEditText = (EditText) root.findViewById(R.id.input_username)
         passwordEditText = (EditText) root.findViewById(R.id.input_password)
+        messageToRegister = (TextView) root.findViewById(R.id.message_register)
         mButtonLogin = (Button) root.findViewById(R.id.btnLogin)
         mButtonLogin.onClickListener = { getFormLogin() }
+        messageToRegister.onClickListener = {
+            Intent intent = RegistrationActivity.newIntentWithContext(getContext())
+            startActivity(intent)
+        }
         root
     }
 
