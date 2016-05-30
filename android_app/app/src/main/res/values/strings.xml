@@ -39,5 +39,6 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
     <string name="login_textView_message">¿No tienes cuenta? Registrate!</string>
+    <string name="confirm_password">Confirm Password</string>
 
 </resources>
