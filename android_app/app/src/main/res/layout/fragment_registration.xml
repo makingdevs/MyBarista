@@ -45,6 +45,6 @@
             android:text="@string/button_registration"
             android:id="@+id/btnRegistration"
             android:layout_marginTop="@dimen/spacing_large"
-            android:gravity="center_horizontal"/>
+            />
 
 </LinearLayout>
