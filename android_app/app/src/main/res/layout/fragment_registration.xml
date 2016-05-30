@@ -2,59 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:padding="16dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_layout"
-            android:gravity="center"
-            android:textStyle="bold"/>
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/username"
-            android:layout_weight="0.04"/>
-
-        <TextView
+            style="@style/EditText.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/password_layout"
-            android:gravity="center"
-            android:textStyle="bold"/>
+            android:drawableLeft="@drawable/ic_user"
+            android:drawableStart="@drawable/ic_user"
+            android:hint="@string/userame"/>
+
+
         <EditText
+            android:id="@+id/password"
+            style="@style/EditText.Icon"
+            android:drawableLeft="@drawable/ic_password"
+            android:drawableStart="@drawable/ic_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/password"
+            android:hint="@string/password"
             />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_password_layout"
-            android:gravity="center"
-            android:textStyle="bold"/>
         <EditText
+            android:id="@+id/confirm_password"
+            style="@style/EditText.Icon"
+            android:drawableLeft="@drawable/ic_password"
+            android:drawableStart="@drawable/ic_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/confirm_password"
-            android:layout_gravity="center_horizontal"/>
+            android:hint="@string/confirm_password"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_normal"
+            android:layout_gravity="center_horizontal"
             android:text="@string/button_registration"
             android:id="@+id/btnRegistration"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center_horizontal"/>
 
-    </LinearLayout>
 </LinearLayout>
