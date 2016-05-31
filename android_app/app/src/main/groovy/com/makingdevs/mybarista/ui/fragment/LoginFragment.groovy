@@ -58,6 +58,7 @@ class LoginFragment extends Fragment{
         if (mSessionManager.isUserSession(getContext())){
             Intent intent = ListBrewActivity.newIntentWithContext(getContext())
             startActivity(intent)
+            getActivity().finish()
         }
     }
 
@@ -88,6 +89,7 @@ class LoginFragment extends Fragment{
                 mSessionManager.setUserSession(response.body(),getContext())
                 Intent intent = ListBrewActivity.newIntentWithContext(getContext())
                 startActivity(intent)
+                getActivity().finish()
             }
             else {
                 cleanForm()
