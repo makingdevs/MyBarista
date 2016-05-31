@@ -40,5 +40,10 @@
     <string name="menu_logout">Logout</string>
     <string name="login_textView_message">¿No tienes cuenta? Registrate!</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="profile_first_name">First Name</string>
+    <string name="profile_last_name">Last Name</string>
+    <string name="profile_username">Username</string>
+    <string name="title_profile">Tu perfil</string>
+    <string name="profile_mesage_add_photo">Add a cover Photo</string>
 
 </resources>
