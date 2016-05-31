@@ -11,6 +11,7 @@ class SessionManagerImpl implements SessionManager{
         SharedPreferences.Editor session = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit()
         session.putString("username",user.username)
         session.putString("token",user.token)
+        session.putString("id",user.id)
         session.commit()
     }
 
@@ -18,7 +19,8 @@ class SessionManagerImpl implements SessionManager{
         SharedPreferences session = context.getSharedPreferences("UserSession",Context.MODE_PRIVATE)
         String username = session.getString("username",null);
         String token = session.getString("token",null)
-        new User(username:username,token:token)
+        String id = session.getString("id",null)
+        new User(username:username,token:token,id:id)
     }
 
     Boolean isUserSession(Context context){
@@ -31,6 +33,7 @@ class SessionManagerImpl implements SessionManager{
         SharedPreferences.Editor session = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit()
         session.remove("username")
         session.remove("token")
+        session.remove("id")
         session.commit()
     }
 }
