@@ -80,6 +80,7 @@ class RegistrationFragment extends Fragment{
                 mSessionManager.setUserSession(response.body(),getContext())
                 Intent intent = ListBrewActivity.newIntentWithContext(getContext())
                 startActivity(intent)
+                getActivity().finish()
             }
             else {
                 Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
