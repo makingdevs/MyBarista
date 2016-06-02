@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="4dp">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp">
+                android:orientation="vertical"
+                android:padding="0dp">
 
-    <TextView
-        android:id="@+id/label_origin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text=""
-        android:textStyle=""/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/coffee"
+                    android:cropToPadding="true"
+                    android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/label_method"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/label_origin"
-        android:layout_toStartOf="@+id/label_origin"
-        android:maxLines="1"
-        android:text=""
-        android:textStyle="bold"/>
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/label_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/label_method"
-        android:layout_toLeftOf="@+id/label_origin"
-        android:layout_toStartOf="@+id/label_origin"
-        android:maxLines="1"
-        android:text=""/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-</RelativeLayout>
+
+                <TextView
+                    android:id="@+id/label_origin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hola"
+                    android:textStyle=""/>
+
+                <TextView
+                    android:id="@+id/label_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="inmundo"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/label_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="como estas"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
