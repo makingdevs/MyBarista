@@ -50,6 +50,10 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  def imageProfile
+    puts params[:file].class.name
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
