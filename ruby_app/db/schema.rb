@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526153204) do
+ActiveRecord::Schema.define(version: 20160603151537) do
 
-  create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "method",                             null: false
     t.string   "origin"
     t.decimal  "price",      precision: 8, scale: 2
@@ -24,7 +24,17 @@ ActiveRecord::Schema.define(version: 20160526153204) do
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "body"
+    t.integer  "user_id"
+    t.integer  "checkin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checkin_id"], name: "index_comments_on_checkin_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "username"
     t.string   "token"
     t.datetime "created_at",      null: false
@@ -35,4 +45,6 @@ ActiveRecord::Schema.define(version: 20160526153204) do
   end
 
   add_foreign_key "checkins", "users"
+  add_foreign_key "comments", "checkins"
+  add_foreign_key "comments", "users"
 end
