@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        ></include>
+
+    <FrameLayout
+        android:id="@+id/topFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/FrameLayout.withActionBar">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/middleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topFragment"
+        android:padding="16dp">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottomFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/middleFragment"
+        android:padding="16dp">
+    </FrameLayout>
+
+</RelativeLayout>
