@@ -45,5 +45,17 @@
     <string name="profile_username">Username</string>
     <string name="title_profile">Your profile</string>
     <string name="profile_mesage_add_photo">Add a cover Photo</string>
+    <string name="circulo_del_sabor">Circulo del Sabor</string>
+    <string name="crear_circulo">Crear Circulo</string>
+    <string name="dulzura_label">Dulzura</string>
+    <string name="acidez_label">Acidez</string>
+    <string name="floral_label">Floral</string>
+    <string name="especiado_label">Especiado</string>
+    <string name="salado_label">Salado</string>
+    <string name="frutos_rojos_label">Frutos Rojos</string>
+    <string name="limpieza_label">Limpieza</string>
+    <string name="cuerpo_label">Cuerpo</string>
+    <string name="caramelo_label">Caramelo</string>
+    <string name="chocolate_label">Chocolate</string>
 
 </resources>
