@@ -80,7 +80,7 @@ class LoginFragment extends Fragment{
     }
 
     private Closure OnError() {
-        { Call<User> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<User> call, Throwable t -> Log.d("ERRORZ", t.toString()) }
     }
 
     private Closure onSuccess() {
