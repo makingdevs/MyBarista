@@ -5,4 +5,5 @@ Rails.application.routes.draw do
 
    get '/login/user/', to: 'users#login', as: 'login'
 
+   post '/users/image/profile', to: 'users#imageProfile', as: 's3'
 end
