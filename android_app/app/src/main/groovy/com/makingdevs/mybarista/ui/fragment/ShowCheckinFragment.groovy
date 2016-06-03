@@ -1,13 +1,22 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
@@ -20,6 +29,7 @@ import retrofit2.Response
 public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    static final int REQUEST_IMAGE_CAPTURE = 1
 
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
@@ -29,6 +39,9 @@ public class ShowCheckinFragment extends Fragment {
     TextView mNote
     TextView mDateCreated
     View itemView
+    ImageButton mButtonCamera
+    ImageView mImageCamera
+    Context context
 
     ShowCheckinFragment(String id){
         Bundle args = new Bundle()
@@ -69,11 +82,28 @@ public class ShowCheckinFragment extends Fragment {
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
+        mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
+        mButtonCamera.onClickListener = {
+            Log.d(TAG,"camara...")
+            useCamera()
+        }
 
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price
         mNote.text = checkin.note
+    }
+
+    private void useCamera(){
+        context = getActivity();
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            Log.d(TAG,"tomo foto....")
+        }
+        else{
+            Log.d(TAG,"nop...")
+        }
     }
 
 }
