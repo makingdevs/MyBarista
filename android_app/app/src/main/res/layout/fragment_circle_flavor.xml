@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/circulo_del_sabor"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Dulzura -->
+
+        <SeekBar
+            android:id="@+id/seekSweetness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessSweetnessText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/dulzura_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+        <!--Seccion Acidez -->
+        <SeekBar
+            android:id="@+id/seekAcidity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessAcidityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/acidez_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Floral -->
+        <SeekBar
+            android:id="@+id/seekFlowery"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessFloweryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/floral_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Especiado -->
+        <SeekBar
+            android:id="@+id/seekSpicy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessSpacyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/especiado_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Salado -->
+        <SeekBar
+            android:id="@+id/seekSalty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessSaltyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/salado_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Frutos Rojos -->
+        <SeekBar
+            android:id="@+id/seekBerries"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessBerriesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/frutos_rojos_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Chocolate -->
+        <SeekBar
+            android:id="@+id/seekChocolate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessChocolateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/chocolate_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Caramelo -->
+        <SeekBar
+            android:id="@+id/seekCandy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessCandyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/caramelo_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Cuerpo -->
+        <SeekBar
+            android:id="@+id/seekBody"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/cuerpo_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <!--Seccion Limpieza -->
+        <SeekBar
+            android:id="@+id/seekCleaning"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/seekProcessCleaningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/limpieza_label"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnCircle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:padding="@dimen/spacing_normal"
+            android:text="@string/crear_circulo" />
+
+    </LinearLayout>
+</ScrollView>
