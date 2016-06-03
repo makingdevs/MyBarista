@@ -51,7 +51,9 @@ class UsersController < ApplicationController
   end
 
   def imageProfile
-    puts params[:file].class.name
+    s3 = Aws::S3::Resource.new(region:'us-east-1')
+    file_to_upload = s3.bucket('mybarista.com').object("#{Time.now()} #{params['file'].original_filename}")
+    file_to_upload.upload_file(params['file'].tempfile)
   end
 
   private
