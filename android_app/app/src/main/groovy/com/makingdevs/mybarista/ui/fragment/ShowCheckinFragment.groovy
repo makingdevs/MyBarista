@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -21,15 +23,17 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.ui.activity.CameraEmptyActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
+
+import java.text.SimpleDateFormat
 
 @CompileStatic
 public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
-    static final int REQUEST_IMAGE_CAPTURE = 1
 
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
@@ -41,7 +45,6 @@ public class ShowCheckinFragment extends Fragment {
     View itemView
     ImageButton mButtonCamera
     ImageView mImageCamera
-    Context context
 
     ShowCheckinFragment(String id){
         Bundle args = new Bundle()
@@ -85,25 +88,15 @@ public class ShowCheckinFragment extends Fragment {
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         mButtonCamera.onClickListener = {
             Log.d(TAG,"camara...")
-            useCamera()
+            Intent intent = CameraEmptyActivity.newIntentWithContext(getActivity())
+            startActivity(intent)
+
         }
 
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price
         mNote.text = checkin.note
-    }
-
-    private void useCamera(){
-        context = getActivity();
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            Log.d(TAG,"tomo foto....")
-        }
-        else{
-            Log.d(TAG,"nop...")
-        }
     }
 
 }
