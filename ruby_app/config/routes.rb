@@ -6,4 +6,5 @@ Rails.application.routes.draw do
 
    get '/login/user/', to: 'users#login', as: 'login'
 
+   post 'checkins/:id/circleFlavor', to: 'checkins#circleFlavor', as: 'circleFlavor'
 end
