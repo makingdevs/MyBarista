@@ -50,6 +50,12 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  def imageProfile
+    s3 = Aws::S3::Resource.new(region:'us-east-1')
+    file_to_upload = s3.bucket('mybarista.com').object("#{Time.now()} #{params['file'].original_filename}")
+    file_to_upload.upload_file(params['file'].tempfile)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
