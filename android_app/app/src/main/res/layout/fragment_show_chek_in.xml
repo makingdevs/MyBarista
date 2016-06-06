@@ -65,6 +65,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.08"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_photo_checkin"/>
+    <ImageButton
+        android:id="@+id/button_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera"
+        android:background="@color/primary_dark"/>
+
 
     <Button
         android:id="@+id/btnCircle_flavor"

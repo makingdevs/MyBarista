@@ -9,11 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.ui.activity.CameraEmptyActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -33,6 +36,8 @@ public class ShowCheckinFragment extends Fragment {
     TextView mDateCreated
     Button mButtonCircleFlavor
     View itemView
+    ImageButton mButtonCamera
+    ImageView mImageCamera
 
     ShowCheckinFragment(String id){
         Bundle args = new Bundle()
@@ -83,6 +88,13 @@ public class ShowCheckinFragment extends Fragment {
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
+        mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
+        mButtonCamera.onClickListener = {
+            Log.d(TAG,"camara...")
+            Intent intent = CameraEmptyActivity.newIntentWithContext(getActivity())
+            startActivity(intent)
+
+        }
 
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
