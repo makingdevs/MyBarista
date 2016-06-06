@@ -10,4 +10,5 @@ class Checkin {
     String price
     String updated_at
     String user_id
+    String circle_flavor_id
 }
