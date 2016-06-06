@@ -66,4 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.08"/>
 
+    <Button
+        android:id="@+id/btnCircle_flavor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/agregar_circulo_del_sabor"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_large"/>
+
 </LinearLayout>
