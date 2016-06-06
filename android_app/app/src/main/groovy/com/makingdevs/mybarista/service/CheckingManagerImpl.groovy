@@ -38,4 +38,8 @@ class CheckingManagerImpl implements CheckinManager {
             restOperations.createCircleFlavor(id,circleFlavorCommand)
         }
     }
+
+    void showCircleFlavor(String id, Closure onSuccess, Closure onError){
+
+    }
 }
