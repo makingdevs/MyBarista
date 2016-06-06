@@ -42,9 +42,10 @@ class CheckinsController < ApplicationController
   end
 
   def circleFlavor
-    @checkin Checkin.find_by id: params['id']
-
-
+    @checkin =  Checkin.find_by id: params['id']
+    @circle_flavor = CircleFlavor.new(circle_flavor_params)
+    @checkin.circle_flavor = @circle_flavor
+    puts @checkin.inspect
   end
 
 
@@ -59,7 +60,7 @@ class CheckinsController < ApplicationController
       params.permit(:method, :origin, :price, :note)
     end
 
-    def create_checkin_with_circle_flavor
-
+    def circle_flavor_params
+      params.permit(:sweetness,:acidity,:flowery,:spicy,:salty,:berries,:chocolate,:candy,:body,:cleaning)
     end
 end
