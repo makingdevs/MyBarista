@@ -19,5 +19,5 @@ public interface CheckinRestOperations {
     Call<Checkin> getCheckin(@Path("id") String id)
 
     @POST("checkins/{id}/circleFlavor")
-    Call<CircleFlavor> createCircleFlavor(@Body CircleFlavorCommand circleFlavorCommand)
+    Call<Checkin> createCircleFlavor(@Path("id") String id,@Body CircleFlavorCommand circleFlavorCommand)
 }
