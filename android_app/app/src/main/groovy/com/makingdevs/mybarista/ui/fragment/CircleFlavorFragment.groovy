@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -13,10 +14,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.model.CircleFlavor
+import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.command.CircleFlavorCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -52,6 +54,7 @@ public class CircleFlavorFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
     CircleFlavorFragment() {}
+
 
     @Override
     View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,7 +93,8 @@ public class CircleFlavorFragment extends Fragment {
         buttonCircleFlavor.setOnClickListener(new View.OnClickListener(){
             @Override
             void onClick(View v) {
-                saveCircleFlavor(getCircleFlavor())
+                String id = getActivity().getIntent().getExtras().getString("checkingId")
+                saveCircleFlavor(id,getCircleFlavor())
             }
         })
 
@@ -218,29 +222,28 @@ public class CircleFlavorFragment extends Fragment {
         });
     }
 
-    private void saveCircleFlavor(CircleFlavorCommand circleFlavorCommand) {
-        mCheckinManager.saveCircle(circleFlavorCommand, onSuccess(), onError())
+    private void saveCircleFlavor(String id,CircleFlavorCommand circleFlavorCommand) {
+        mCheckinManager.saveCircle(id,circleFlavorCommand, onSuccess(), onError())
     }
 
     private CircleFlavorCommand getCircleFlavor() {
-        String dulzura = seekProcessSweetness.getProgress()
-        String acidez = seekProcessAcidity.getProgress()
-        String floral = seekProcessFlowery.getProgress()
-        String especiado = seekProcessSpicy.getProgress()
-        String salado = seekProcessSalty.getProgress()
-        String frutosRojos = seekProcessBerries.getProgress()
+        String sweetness = seekProcessSweetness.getProgress()
+        String acidity = seekProcessAcidity.getProgress()
+        String flowery = seekProcessFlowery.getProgress()
+        String spicy = seekProcessSpicy.getProgress()
+        String salty = seekProcessSalty.getProgress()
+        String berries = seekProcessBerries.getProgress()
         String chocolate = seekProcessChocolate.getProgress()
-        String caramelo = seekProcessChocolate.getProgress()
-        String cuerpo = seekProcessBody.getProgress()
-        String limpieza = seekProcessCleaning.getProgress()
-        new CircleFlavorCommand(dulzura:dulzura,acidez:acidez,floral:floral,especiado:especiado,salado:salado,frutosRojos:frutosRojos,chocolate:chocolate,caramelo:caramelo,cuerpo:cuerpo,limpieza:limpieza)
+        String candy = seekProcessChocolate.getProgress()
+        String body = seekProcessBody.getProgress()
+        String cleaning = seekProcessCleaning.getProgress()
+        new CircleFlavorCommand(sweetness:sweetness,acidity:acidity,flowery:flowery,spicy:spicy,salty:salty,berries:berries,chocolate:chocolate,candy:candy,body:body,cleaning:cleaning)
     }
 
     private Closure onSuccess() {
-        { Call<CircleFlavor> call, Response<CircleFlavor> response ->
-            Log.d(TAG, response.dump().toString())
+        { Call<Checkin> call, Response<Checkin> response ->
             if (response.code() == 201) {
-                Toast.makeText(contextView, R.string.toastCheckinSuccess, Toast.LENGTH_SHORT).show();
+                showCheckin(response.body())
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -248,9 +251,14 @@ public class CircleFlavorFragment extends Fragment {
     }
 
     private Closure onError() {
-        { Call<CircleFlavor> call, Throwable t ->
+        { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void showCheckin(Checkin checkin){
+        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id)
+        intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
+        startActivity(intent)
+    }
 }
