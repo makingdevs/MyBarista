@@ -1,0 +1,2 @@
+class CircleFlavor < ApplicationRecord
+end
