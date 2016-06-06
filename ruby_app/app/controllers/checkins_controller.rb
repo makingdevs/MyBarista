@@ -41,6 +41,13 @@ class CheckinsController < ApplicationController
     @checkin.destroy
   end
 
+  def circleFlavor
+    @checkin Checkin.find_by id: params['id']
+
+
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_checkin
@@ -50,5 +57,9 @@ class CheckinsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def checkin_params
       params.permit(:method, :origin, :price, :note)
+    end
+
+    def create_checkin_with_circle_flavor
+
     end
 end
