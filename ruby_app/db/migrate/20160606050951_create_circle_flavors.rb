@@ -1,7 +1,7 @@
 class CreateCircleFlavors < ActiveRecord::Migration[5.0]
   def change
     create_table :circle_flavors do |t|
-      t.integer :sweeness
+      t.integer :sweetness
       t.integer :acidity
       t.integer :flowery
       t.integer :spicy
