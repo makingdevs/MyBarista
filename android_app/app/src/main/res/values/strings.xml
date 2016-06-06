@@ -57,5 +57,6 @@
     <string name="cuerpo_label">Cuerpo</string>
     <string name="caramelo_label">Caramelo</string>
     <string name="chocolate_label">Chocolate</string>
+    <string name="agregar_circulo_del_sabor">Agregar Circulo del Sabor</string>
 
 </resources>
