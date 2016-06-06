@@ -44,8 +44,14 @@ class CheckinsController < ApplicationController
   def circleFlavor
     @checkin =  Checkin.find_by id: params['id']
     @circle_flavor = CircleFlavor.new(circle_flavor_params)
+    @circle_flavor.save
     @checkin.circle_flavor = @circle_flavor
-    puts @checkin.inspect
+    if @checkin.save
+      render json: @checkin, status: :created, location: @checkin
+    else
+      render json: @checkin.errors, status: :unprocessable_entity
+    end
+
   end
 
 
