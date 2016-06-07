@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/avatar_comment"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_user"/>
+
+    <TextView
+        android:id="@+id/label_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_message"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/avatar_comment"/>
+
+</RelativeLayout>
