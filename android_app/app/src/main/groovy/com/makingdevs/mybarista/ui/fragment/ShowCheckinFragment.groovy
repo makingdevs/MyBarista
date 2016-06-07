@@ -90,7 +90,6 @@ public class ShowCheckinFragment extends Fragment {
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         mButtonCamera.onClickListener = {
-            Log.d(TAG,"camara...")
             Intent intent = CameraEmptyActivity.newIntentWithContext(getActivity())
             startActivity(intent)
 
