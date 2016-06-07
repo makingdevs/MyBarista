@@ -257,7 +257,7 @@ public class CircleFlavorFragment extends Fragment {
     }
 
     private void showCheckin(Checkin checkin){
-        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id)
+        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id, checkin.circle_flavor_id)
         intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
         startActivity(intent)
     }
