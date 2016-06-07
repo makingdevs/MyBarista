@@ -40,6 +40,8 @@ class CheckingManagerImpl implements CheckinManager {
     }
 
     void showCircleFlavor(String id, Closure onSuccess, Closure onError){
-
+        RetrofitTemplate.instance.withRetrofit(operations, onSuccess, onError){ CheckinRestOperations restOperations ->
+            restOperations.getCircleFlavor(id)
+        }
     }
 }
