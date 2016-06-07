@@ -2,14 +2,14 @@ package com.makingdevs.mybarista.model
 
 class CircleFlavor {
 
-    String dulzura
-    String acidez
-    String floral
-    String especiado
-    String salado
-    String frutosRojos
+    String sweetness
+    String acidity
+    String flowery
+    String spicy
+    String salty
+    String berries
     String chocolate
-    String caramelo
-    String cuerpo
-    String limpieza
+    String candy
+    String body
+    String cleaning
 }
