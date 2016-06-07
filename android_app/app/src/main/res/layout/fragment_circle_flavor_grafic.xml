@@ -1,21 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/sweetnessBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
 
     <TextView
-        android:text="tu mama"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textSize="25dp" />
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_margin="10dp" />
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/dulzura_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/acidityBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/acidez_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/berriesBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/furtos_rojos_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/cleaningBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/limpieza_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/candyBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/caramelo_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/chocolateBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/chocolate_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/floweryBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/floral_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/saltyBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/salado_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/spicyBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/especiado_progress_bar"
+        android:layout_gravity="center_horizontal" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/bodyBar"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        app:rcBackgroundPadding="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/cuerpo_progress_bar"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
