@@ -3,8 +3,10 @@ package com.makingdevs.mybarista.network.impl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.Comment
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.network.CheckinRestOperations
+import com.makingdevs.mybarista.network.CommentRestOperations
 import com.makingdevs.mybarista.network.UserRestOperations
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,5 +43,15 @@ class RetrofitTemplate {
                 onFailure : onError
         ]
         model.enqueue(callback as Callback<Checkin>)
+    }
+
+    def withRetrofitComemnt(Class operations, Closure onSuccess, Closure onError, Closure action){
+        CommentRestOperations restOperations = retrofit.create(operations)
+        Call<Comment> model = action(restOperations)
+        def callback = [
+                onResponse :onSuccess,
+                onFailure : onError
+        ]
+        model.enqueue(callback as Callback<Comment>)
     }
 }
