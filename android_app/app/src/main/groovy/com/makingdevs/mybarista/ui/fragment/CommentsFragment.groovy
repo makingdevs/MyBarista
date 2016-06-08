@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.Comment
@@ -62,7 +63,7 @@ public class CommentsFragment extends Fragment {
 
     void sendMessage(){
         String comment = mCommentsText.getText().toString()
-        CommentCommand commentCommand = new CommentCommand()
+        CommentCommand commentCommand = new CommentCommand(body:"jajajajaj",checkin_id:"1",username:"jorge@makingdevs.com")
         mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
@@ -83,13 +84,11 @@ public class CommentsFragment extends Fragment {
     }
 
     private Closure onSuccessComment(){
-        { Call<List<Comment>> call, Response<List<Comment>> response ->
-            if(!mCommentsAdapter){
-                mCommentsAdapter = new CommentAdapter(getActivity(), response.body().toList())
-                mListComments.adapter = mCommentsAdapter
+        { Call<Comment> call, Response<Comment> response ->
+            if (response.code() == 201) {
+                updateUI()
             } else {
-                mCommentsAdapter.setmComments(response.body().toList())
-                mCommentsAdapter.notifyDataSetChanged()
+                Toast.makeText(getContext(), R.string.comment_error_message, Toast.LENGTH_SHORT).show()
             }
         }
     }
