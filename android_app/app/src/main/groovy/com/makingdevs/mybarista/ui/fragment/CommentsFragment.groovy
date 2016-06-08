@@ -9,10 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.Comment
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.command.CommentCommand
 import com.makingdevs.mybarista.service.CommentManager
 import com.makingdevs.mybarista.service.CommentManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
@@ -29,6 +32,8 @@ public class CommentsFragment extends Fragment {
     private static final String TAG = "CommentsFragment"
     RecyclerView mListComments
     CommentAdapter mCommentsAdapter
+    ImageView mSendMessage
+    EditText mCommentsText
 
     SessionManager mSessionManager = SessionManagerImpl.instance
     CommentManager mCommentManager = CommentManagerImpl.instance
@@ -40,6 +45,11 @@ public class CommentsFragment extends Fragment {
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_comments,container, false)
         mListComments = (RecyclerView) root.findViewById(R.id.list_commnets)
+        mSendMessage= (ImageView) root.findViewById(R.id.sendButton)
+        mCommentsText = (EditText) root.findViewById(R.id.comment)
+        mSendMessage.onClickListener = {
+            sendMessage()
+        }
         mListComments.setLayoutManager(new LinearLayoutManager(getActivity()))
         updateUI()
         root
@@ -48,6 +58,12 @@ public class CommentsFragment extends Fragment {
     void updateUI() {
         User currentUser =  mSessionManager.getUserSession(getContext())
         mCommentManager.list([username:currentUser.username],onSuccess(),onError())
+    }
+
+    void sendMessage(){
+        String comment = mCommentsText.getText().toString()
+        CommentCommand commentCommand = new CommentCommand()
+        mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
     private Closure onSuccess(){
@@ -66,5 +82,16 @@ public class CommentsFragment extends Fragment {
         {Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
 
+    private Closure onSuccessComment(){
+        { Call<List<Comment>> call, Response<List<Comment>> response ->
+            if(!mCommentsAdapter){
+                mCommentsAdapter = new CommentAdapter(getActivity(), response.body().toList())
+                mListComments.adapter = mCommentsAdapter
+            } else {
+                mCommentsAdapter.setmComments(response.body().toList())
+                mCommentsAdapter.notifyDataSetChanged()
+            }
+        }
+    }
 
 }
