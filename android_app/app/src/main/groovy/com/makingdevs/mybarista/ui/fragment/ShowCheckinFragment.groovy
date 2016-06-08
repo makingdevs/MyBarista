@@ -12,17 +12,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.ui.activity.CameraEmptyActivity
-import com.makingdevs.mybarista.ui.activity.CameraSavePictureActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -33,7 +27,6 @@ public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     static final int REQUEST_TAKE_PHOTO = 0
-
 
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
@@ -65,7 +58,7 @@ public class ShowCheckinFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Bundle extras = data.getExtras()
+
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
@@ -126,7 +119,9 @@ public class ShowCheckinFragment extends Fragment {
                 Log.d(TAG,"Error al crear la foto $ex")
             }
             if (photoFile != null) {
-                takePictureIntent.putExtra("URI", Uri.fromFile(photoFile))
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFile.getName()))
+                takePictureIntent.putExtra("FileName",photoFile.getName())
+                Log.d(TAG,takePictureIntent.getProperties().toString())
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
         }
@@ -137,6 +132,22 @@ public class ShowCheckinFragment extends Fragment {
         String imageFileName = "Checkin_$timeStamp"
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         File image = File.createTempFile(imageFileName,".jpg", storageDir)
+    }
+
+    public Uri getPhotoFileUri(String fileName) {
+        if (isExternalStorageAvailable()) {
+            File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d(TAG, "failed to create directory");
+            }
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
+        }
+        return null
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState()
+        return state.equals(Environment.MEDIA_MOUNTED)
     }
 
 }
