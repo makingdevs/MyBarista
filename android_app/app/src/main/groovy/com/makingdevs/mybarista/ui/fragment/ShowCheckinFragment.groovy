@@ -119,8 +119,7 @@ public class ShowCheckinFragment extends Fragment {
                 Log.d(TAG,"Error al crear la foto $ex")
             }
             if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFile.getName()))
-                takePictureIntent.putExtra("FileName",photoFile.getName())
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
                 Log.d(TAG,takePictureIntent.getProperties().toString())
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
