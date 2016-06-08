@@ -35,6 +35,6 @@
             android:layout_below="@+id/middleFragment"
             android:padding="16dp">
         </FrameLayout>
-        
+
     </RelativeLayout>
 </ScrollView>

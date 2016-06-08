@@ -41,20 +41,6 @@ class CheckinsController < ApplicationController
     @checkin.destroy
   end
 
-  def circleFlavor
-    @checkin =  Checkin.find_by id: params['id']
-    @circle_flavor = CircleFlavor.new(circle_flavor_params)
-    @circle_flavor.save
-    @checkin.circle_flavor = @circle_flavor
-    if @checkin.save
-      render json: @checkin, status: :created, location: @checkin
-    else
-      render json: @checkin.errors, status: :unprocessable_entity
-    end
-
-  end
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_checkin
@@ -64,9 +50,5 @@ class CheckinsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def checkin_params
       params.permit(:method, :origin, :price, :note)
-    end
-
-    def circle_flavor_params
-      params.permit(:sweetness,:acidity,:flowery,:spicy,:salty,:berries,:chocolate,:candy,:body,:cleaning)
     end
 end
