@@ -69,5 +69,6 @@
     <string name="limpieza_progress_bar">Limpieza</string>
     <string name="cuerpo_progress_bar">Cuerpo</string>
     <string name="text_message">Text Message</string>
+    <string name="comment_error_message">Ocurrio un error al comentar</string>
 
 </resources>
