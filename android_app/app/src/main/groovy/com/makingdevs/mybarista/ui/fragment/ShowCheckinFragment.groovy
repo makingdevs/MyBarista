@@ -1,7 +1,11 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -12,11 +16,13 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.ui.activity.CameraEmptyActivity
+import com.makingdevs.mybarista.ui.activity.CameraSavePictureActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -26,6 +32,8 @@ import retrofit2.Response
 public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    static final int REQUEST_TAKE_PHOTO = 0
+
 
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
@@ -52,6 +60,15 @@ public class ShowCheckinFragment extends Fragment {
             throw new IllegalArgumentException("No arguments $ID_CHECKIN")
         String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
         mCheckinManager.show(checkinId,onSuccess(),onError())
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            Bundle extras = data.getExtras()
+        } else {
+            Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+        }
     }
 
     @Override
@@ -90,16 +107,36 @@ public class ShowCheckinFragment extends Fragment {
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         mButtonCamera.onClickListener = {
-            Log.d(TAG,"camara...")
-            Intent intent = CameraEmptyActivity.newIntentWithContext(getActivity())
-            startActivity(intent)
-
+            dispatchTakePictureIntent()
         }
 
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price
         mNote.text = checkin.note
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            File photoFile = null
+            try {
+                photoFile = createImageFile()
+            } catch (IOException ex) {
+                Log.d(TAG,"Error al crear la foto $ex")
+            }
+            if (photoFile != null) {
+                takePictureIntent.putExtra("URI", Uri.fromFile(photoFile))
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+            }
+        }
+    }
+
+    private File createImageFile(){
+        String timeStamp = new Date().format("yyyyMMdd_HHmmss")
+        String imageFileName = "Checkin_$timeStamp"
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        File image = File.createTempFile(imageFileName,".jpg", storageDir)
     }
 
 }

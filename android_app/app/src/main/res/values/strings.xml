@@ -58,6 +58,16 @@
     <string name="caramelo_label">Caramelo</string>
     <string name="chocolate_label">Chocolate</string>
     <string name="agregar_circulo_del_sabor">Agregar Circulo del Sabor</string>
+    <string name="dulzura_progress_bar">Dulzura</string>
+    <string name="acidez_progress_bar">Acidez</string>
+    <string name="furtos_rojos_progress_bar">Furtos Rojos</string>
+    <string name="caramelo_progress_bar">Caramelo</string>
+    <string name="chocolate_progress_bar">Chocolate</string>
+    <string name="floral_progress_bar">Floral</string>
+    <string name="salado_progress_bar">Salado</string>
+    <string name="especiado_progress_bar">Especiado</string>
+    <string name="limpieza_progress_bar">Limpieza</string>
+    <string name="cuerpo_progress_bar">Cuerpo</string>
     <string name="text_message">Text Message</string>
 
 </resources>

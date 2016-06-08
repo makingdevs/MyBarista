@@ -4,6 +4,10 @@
               android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_photo_captured_camera"/>
 
     <TextView
         android:id="@+id/method_label"

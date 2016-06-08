@@ -22,10 +22,13 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
 
     static String EXTRA_CHECKIN_ID = "checkin_id"
     static String EXTRA_CIRCLE_FLAVOR_ID = "circle_flavor_id"
+    private static final String TAG = "ShowCheckinActivity"
 
-    static Intent newIntentWithContext(Context context, String id){
+
+    static Intent newIntentWithContext(Context context, String id,String idCircleFlavor){
         Intent intent = new Intent(context, ShowCheckinActivity)
         intent.putExtra(EXTRA_CHECKIN_ID, id)
+        intent.putExtra(EXTRA_CIRCLE_FLAVOR_ID,idCircleFlavor)
         intent
     }
 

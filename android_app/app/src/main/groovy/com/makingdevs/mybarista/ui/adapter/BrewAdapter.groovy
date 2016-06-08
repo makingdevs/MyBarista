@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.ui.adapter
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,11 +49,11 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
         TextView mmoment
 
         void bindCheckin(Checkin checkin) {
+            mCheckin = checkin
             itemView.onClickListener = {
-                Intent intent = ShowCheckinActivity.newIntentWithContext(mContext,mCheckin.id)
+                Intent intent = ShowCheckinActivity.newIntentWithContext(mContext,mCheckin.id,mCheckin.circle_flavor_id)
                 mContext.startActivity(intent)
             }
-            mCheckin = checkin
             mtitle.text = checkin.method
             morigin.text = checkin.origin
             //mmoment.text = checkin.created_at.format("dd - MM - yy")
