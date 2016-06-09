@@ -36,7 +36,7 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
         String id = getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)
         String idCircleFlavor =  getIntent()?.extras.getSerializable(EXTRA_CIRCLE_FLAVOR_ID)
         if(!id) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
-        [top:new ShowCheckinFragment(id), middle:new ShowCircleFlavorFragment(idCircleFlavor), bottom:new CommentsFragment()]
+        [top:new ShowCheckinFragment(id), middle:new ShowCircleFlavorFragment(idCircleFlavor), bottom:new CommentsFragment(id)]
     }
 
     @Override
