@@ -66,7 +66,7 @@ public class CommentsFragment extends Fragment {
     }
 
     void updateUI() {
-        mCommentManager.list([username:currentUser.username],onSuccess(),onError())
+        mCommentManager.list(checkinId,onSuccess(),onError())
     }
 
     void sendMessage(){
