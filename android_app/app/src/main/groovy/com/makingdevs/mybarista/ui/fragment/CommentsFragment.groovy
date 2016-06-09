@@ -63,7 +63,7 @@ public class CommentsFragment extends Fragment {
 
     void sendMessage(){
         String comment = mCommentsText.getText().toString()
-        CommentCommand commentCommand = new CommentCommand(body:"jajajajaj",checkin_id:"1",username:"jorge@makingdevs.com")
+        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:"1",username:"jorge@makingdevs.com")
         mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
@@ -86,6 +86,7 @@ public class CommentsFragment extends Fragment {
     private Closure onSuccessComment(){
         { Call<Comment> call, Response<Comment> response ->
             if (response.code() == 201) {
+                mCommentsText.text = ""
                 updateUI()
             } else {
                 Toast.makeText(getContext(), R.string.comment_error_message, Toast.LENGTH_SHORT).show()
