@@ -9,5 +9,5 @@ Rails.application.routes.draw do
    get '/login/user/', to: 'users#login', as: 'login'
    post 'checkins/:id/circleFlavor', to: 'circles#create', as: 'circleFlavor'
    post '/users/image/profile', to: 'users#imageProfile', as: 's3'
-   get '/users/:id/comments', to: 'comments#user', as: 'commentsUser'
+   get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
 end
