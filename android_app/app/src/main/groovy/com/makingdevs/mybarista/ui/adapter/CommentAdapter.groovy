@@ -2,6 +2,7 @@ package com.makingdevs.mybarista.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,16 +42,21 @@ class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder>{
 
         Comment mComment
         TextView mBody
+        TextView mAuthorComment
+        TextView mDateCreated
 
         void bindCheckin(Comment comment) {
-//            itemView.onClickListener = {}
             mComment = comment
             mBody.text = comment.body
+            mAuthorComment.text = comment.user.username
+            mDateCreated.text = comment.created_at.toString()
         }
 
         CommentViewHolder(View itemView) {
             super(itemView)
             mBody = (TextView) itemView.findViewById(R.id.label_body)
+            mAuthorComment = (TextView) itemView.findViewById(R.id.author_comment)
+            mDateCreated = (TextView) itemView.findViewById(R.id.date_created)
         }
     }
 
