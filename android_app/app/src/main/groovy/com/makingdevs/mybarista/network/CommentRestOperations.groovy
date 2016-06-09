@@ -13,7 +13,7 @@ public interface CommentRestOperations {
     @GET("comments")
     Call<List<Comment>> getComments(@QueryMap Map<String, String> options)
 
-    @POST("checkins")
+    @POST("comments")
     Call<Comment> createComment(@Body CommentCommand comment)
 
 }
