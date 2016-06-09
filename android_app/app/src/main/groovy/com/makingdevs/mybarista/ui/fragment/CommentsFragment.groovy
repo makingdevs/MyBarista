@@ -31,39 +31,47 @@ import retrofit2.Response
 public class CommentsFragment extends Fragment {
 
     private static final String TAG = "CommentsFragment"
+    private static String ID_CHECKIN
+    String checkinId
     RecyclerView mListComments
     CommentAdapter mCommentsAdapter
     ImageView mSendMessage
     EditText mCommentsText
+    User currentUser
 
     SessionManager mSessionManager = SessionManagerImpl.instance
     CommentManager mCommentManager = CommentManagerImpl.instance
 
-    CommentsFragment(){}
+    CommentsFragment(String id){
+        Bundle args = new Bundle()
+        args.putSerializable(ID_CHECKIN, id)
+        this.arguments = args
+    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_comments,container, false)
+        currentUser =  mSessionManager.getUserSession(getContext())
         mListComments = (RecyclerView) root.findViewById(R.id.list_commnets)
         mSendMessage= (ImageView) root.findViewById(R.id.sendButton)
         mCommentsText = (EditText) root.findViewById(R.id.comment)
         mSendMessage.onClickListener = {
             sendMessage()
         }
+        checkinId = getArguments()?.getSerializable(ID_CHECKIN)
         mListComments.setLayoutManager(new LinearLayoutManager(getActivity()))
         updateUI()
         root
     }
 
     void updateUI() {
-        User currentUser =  mSessionManager.getUserSession(getContext())
         mCommentManager.list([username:currentUser.username],onSuccess(),onError())
     }
 
     void sendMessage(){
         String comment = mCommentsText.getText().toString()
-        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:"1",username:"jorge@makingdevs.com")
+        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:checkinId,username:currentUser.username)
         mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
