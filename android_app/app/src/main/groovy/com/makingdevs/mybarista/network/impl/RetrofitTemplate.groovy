@@ -8,8 +8,10 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.network.CheckinRestOperations
 import com.makingdevs.mybarista.network.CommentRestOperations
 import com.makingdevs.mybarista.network.UserRestOperations
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,7 +24,7 @@ class RetrofitTemplate {
 
     final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl('http://192.168.1.220:3000/')
+            .baseUrl('http://50.16.50.107:3000/')
             .build()
 
     def withRetrofit(Class operations, Closure onSuccess, Closure onError, Closure action){
@@ -53,5 +55,15 @@ class RetrofitTemplate {
                 onFailure : onError
         ]
         model.enqueue(callback as Callback<Comment>)
+    }
+
+    def withRetrofitResponse(Class operations, Closure onSuccess, Closure onError, Closure action){
+        UserRestOperations restOperations = retrofit.create(operations)
+        Call<ResponseBody> model = action(restOperations)
+        def callback = [
+                onResponse :onSuccess,
+                onFailure : onError
+        ]
+        model.enqueue(callback as Callback<ResponseBody>)
     }
 }
