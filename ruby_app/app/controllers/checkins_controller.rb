@@ -41,6 +41,13 @@ class CheckinsController < ApplicationController
     @checkin.destroy
   end
 
+  #GET /checkins/id/comments
+  def comments
+    checkin = Checkin.find(params[:id])
+    comments = Comment.where(:checkin => checkin).all
+    render json:comments
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_checkin
