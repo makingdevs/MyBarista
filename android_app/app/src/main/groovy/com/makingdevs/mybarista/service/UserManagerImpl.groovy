@@ -48,7 +48,7 @@ class UserManagerImpl implements UserManager {
 
             File photoCheckinToUpload = new File(uriFile)
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoCheckinToUpload)
-            MultipartBody.Part body = MultipartBody.Part.createFormData("photo", photoCheckinToUpload.getName(), requestFile)
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", photoCheckinToUpload.getName(), requestFile)
 
             String descriptionFile = "FileToUpload"
             RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionFile)
