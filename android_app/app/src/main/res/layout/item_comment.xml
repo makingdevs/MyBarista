@@ -10,12 +10,32 @@
         android:src="@drawable/ic_user"/>
 
     <TextView
+        android:id="@+id/author_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jorge@makingdevs.com"
+        android:textStyle="bold"
+        android:textSize="10dp"
+        android:textColor="@color/primary"
+        android:layout_toRightOf="@+id/avatar_comment" />
+
+    <TextView
+        android:id="@+id/date_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10-10-1990"
+        android:textStyle="bold"
+        android:textSize="10dp"
+        android:textColor="@color/primary"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
         android:id="@+id/label_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_message"
+        android:text="hola"
         android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/avatar_comment"/>
+        android:layout_toRightOf="@+id/avatar_comment"
+        android:layout_below="@+id/date_created"/>
 
 </RelativeLayout>
