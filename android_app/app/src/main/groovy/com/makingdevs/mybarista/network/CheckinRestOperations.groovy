@@ -23,4 +23,8 @@ public interface CheckinRestOperations {
 
     @GET("circles/{id}")
     Call<CircleFlavor> getCircleFlavor(@Path("id") String id)
+
+    @POST("checkins/{id}")
+    Call<Checkin> setRationgCoffee(@Path("id") String id, @Body String ratingValue)
+
 }
