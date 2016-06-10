@@ -81,6 +81,14 @@
                     android:text="12-12-1990"
                     android:textColor="@color/primary_dark"/>
 
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_moment"
+                    android:layout_alignParentRight="true"
+                    style="?android:attr/ratingBarStyleSmall"
+                    />
+
                 <TextView
                     android:id="@+id/label_price"
                     android:layout_width="match_parent"
