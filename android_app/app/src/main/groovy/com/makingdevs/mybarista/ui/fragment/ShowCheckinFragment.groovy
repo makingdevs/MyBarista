@@ -62,10 +62,8 @@ public class ShowCheckinFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Log.d(TAG,"Antes de enviar...")
-            Uri uriPhoto = getUriPhoto(photoFile)
             Log.d(TAG,"Enviando...")
-            mUserManager.upload(uriPhoto.toString(),onSuccessFile(),onError())
+            mUserManager.upload(photoFile.getPath(),onSuccessFile(),onError())
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
@@ -136,10 +134,6 @@ public class ShowCheckinFragment extends Fragment {
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
         }
-    }
-
-    private Uri getUriPhoto(File photo){
-        Uri.fromFile(photo)
     }
 
     private File createImageFile(){
