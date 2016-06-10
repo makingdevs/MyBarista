@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import groovy.transform.CompileStatic
@@ -24,12 +25,17 @@ import android.support.v4.app.Fragment
 public class RatingCoffeFragment extends Fragment {
 
     private static final String TAG = "RatingCoffeFragment"
+    private static String ID_CHECKIN
     private RatingBar mRatingCoffeBar
     private static Context contextView
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
-    RatingCoffeFragment() {}
+    RatingCoffeFragment(String id) {
+        Bundle args = new Bundle()
+        args.putSerializable(ID_CHECKIN, id)
+        this.arguments = args
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,8 +80,9 @@ public class RatingCoffeFragment extends Fragment {
     }
 
     private void sendRatingCoffeToCheckin() {
-        String id = getActivity().getIntent().getExtras().getString("checkingId")
-        mCheckinManager.saveRating(String.valueOf(mRatingCoffeBar.getRating()),id,onSuccess(),onError())
+        String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
+        CheckinCommand command = new CheckinCommand(rating: String.valueOf(mRatingCoffeBar.getRating()))
+        mCheckinManager.saveRating(checkinId, command,onSuccess(),onError())
     }
 
 }
