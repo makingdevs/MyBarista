@@ -1,3 +1,5 @@
+package com.makingdevs.mybarista.common
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,14 +11,13 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Base64
 import android.webkit.MimeTypeMap
-import groovyjarjarantlr.StringUtils
 
-public class ImageUtils {
+public class ImageUtil {
 
     private static final float STANDARD_ROTATION = 90;
 
     public static String encodeImage(Context context, Uri picturePickedUri) throws IOException {
-        Bitmap bm = ImageUtils.resizePic(context, 200, 200, picturePickedUri);
+        Bitmap bm = ImageUtil.resizePic(context, 200, 200, picturePickedUri);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
@@ -26,7 +27,7 @@ public class ImageUtils {
     }
 
     public static String encodeImage(Context context, String pictureTakedPath) {
-        Bitmap bm = ImageUtils.resizePic(context, 200, 200, pictureTakedPath);
+        Bitmap bm = ImageUtil.resizePic(context, 200, 200, pictureTakedPath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
