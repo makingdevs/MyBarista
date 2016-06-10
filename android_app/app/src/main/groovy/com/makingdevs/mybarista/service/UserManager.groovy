@@ -10,5 +10,6 @@ interface UserManager {
     void login(LoginCommand loginCommand, Closure onSuccess, Closure onError)
     void update(UpdateUserCommand updateUserCommand, Closure onSuccess, Closure onError)
     void getUser(String id, Closure onSuccess, Closure onError)
+    void upload(String uriFile,Closure onSuccess, Closure onError)
 
 }

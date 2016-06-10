@@ -12,17 +12,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.ui.activity.CameraEmptyActivity
-import com.makingdevs.mybarista.ui.activity.CameraSavePictureActivity
+import com.makingdevs.mybarista.service.UserManager
+import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -34,7 +30,6 @@ public class ShowCheckinFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     static final int REQUEST_TAKE_PHOTO = 0
 
-
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
     TextView mOrigin
@@ -45,7 +40,9 @@ public class ShowCheckinFragment extends Fragment {
     Button mButtonCircleFlavor
     View itemView
     ImageButton mButtonCamera
-    ImageView mImageCamera
+    File photoFile
+
+    UserManager mUserManager = UserManagerImpl.instance
 
     ShowCheckinFragment(String id){
         Bundle args = new Bundle()
@@ -65,7 +62,8 @@ public class ShowCheckinFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Bundle extras = data.getExtras()
+            Log.d(TAG,"Enviando...")
+            mUserManager.upload(photoFile.getPath(),onSuccessFile(),onError())
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
@@ -96,7 +94,13 @@ public class ShowCheckinFragment extends Fragment {
     }
 
     private Closure onError(){
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error "+t.message) }
+    }
+
+    private Closure onSuccessFile(){
+        { Call<Checkin> call, Response<Checkin> response ->
+            Log.d(TAG,response.dump().toString())
+        }
     }
 
     private void setCheckinInView(Checkin checkin){
@@ -119,14 +123,14 @@ public class ShowCheckinFragment extends Fragment {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-            File photoFile = null
             try {
                 photoFile = createImageFile()
             } catch (IOException ex) {
                 Log.d(TAG,"Error al crear la foto $ex")
             }
             if (photoFile != null) {
-                takePictureIntent.putExtra("URI", Uri.fromFile(photoFile))
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
+                Log.d(TAG,takePictureIntent.getProperties().toString())
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
         }
@@ -138,5 +142,7 @@ public class ShowCheckinFragment extends Fragment {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         File image = File.createTempFile(imageFileName,".jpg", storageDir)
     }
+
+
 
 }
