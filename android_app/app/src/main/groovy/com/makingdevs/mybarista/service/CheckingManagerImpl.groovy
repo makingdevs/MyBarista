@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.service
 
+import android.util.Log
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.CircleFlavorCommand
 import com.makingdevs.mybarista.network.CheckinRestOperations
@@ -47,9 +48,9 @@ class CheckingManagerImpl implements CheckinManager {
     }
 
     @Override
-    void  saveRating(String id, String rating, Closure onSuccess,Closure onError){
+    void  saveRating(String id, CheckinCommand command, Closure onSuccess,Closure onError){
         RetrofitTemplate.instance.withRetrofit(operations, onSuccess, onError){ CheckinRestOperations restOperations ->
-            restOperations.setRationgCoffee(id,rating)
+            restOperations.setRationgCoffee(id,command)
         }
     }
 }
