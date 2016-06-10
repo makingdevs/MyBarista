@@ -2,6 +2,7 @@ package com.makingdevs.mybarista.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -67,13 +68,41 @@ public class ShowCheckinFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Log.d(TAG,"Enviando...")
-            mUserManager.upload(photoFile.getPath(),onSuccessFile(),onError())
+
             Log.d(TAG,"Galeria...")
             mImageUtil.addPictureToGallery(getContext(),photoFile.getPath())
+            Log.d(TAG,"Resize img...")
+
+            Bitmap img=mImageUtil.resizePic(getContext(),5000,5000,photoFile.getPath())
+            File fileSend = saveBitmapToFile(img,photoFile.getName())
+
+            Log.d(TAG,"Enviando...")
+            mUserManager.upload(fileSend.getPath(),onSuccessFile(),onError())
+/*
+            Log.d(TAG,"Volver a guardar...")
+            mImageUtil.addPictureToGallery(getContext(),photoFile.getName())*/
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private File saveBitmapToFile(Bitmap bitmap,String photoName){
+        String fileName = "test.jpg"
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        File ExternalStorageDirectory = Environment.getExternalStorageDirectory()
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + fileName)
+        FileOutputStream fileOutputStream
+        try {
+            Log.d(TAG,"crear")
+            file.createNewFile()
+            fileOutputStream = new FileOutputStream(file)
+            fileOutputStream.write(bytes.toByteArray())
+            fileOutputStream.close()
+        }catch (Exception e){
+            Log.d(TAG,"Error... "+e.message)
+        }
+        file
     }
 
     @Override
