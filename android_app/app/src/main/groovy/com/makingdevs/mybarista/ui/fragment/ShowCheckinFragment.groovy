@@ -12,8 +12,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
@@ -41,6 +45,7 @@ public class ShowCheckinFragment extends Fragment {
     View itemView
     ImageButton mButtonCamera
     File photoFile
+    ImageUtil mImageUtil
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -64,6 +69,8 @@ public class ShowCheckinFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Log.d(TAG,"Enviando...")
             mUserManager.upload(photoFile.getPath(),onSuccessFile(),onError())
+            Log.d(TAG,"Galeria...")
+            mImageUtil.addPictureToGallery(getContext(),photoFile.getPath())
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
