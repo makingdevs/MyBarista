@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -69,32 +70,34 @@ public class ShowCheckinFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
-            Log.d(TAG,"Galeria...")
-            mImageUtil.addPictureToGallery(getContext(),photoFile.getPath())
             Log.d(TAG,"Resize img...")
-
-            Bitmap img=mImageUtil.resizePic(getContext(),5000,5000,photoFile.getPath())
-            File fileSend = saveBitmapToFile(img,photoFile.getName())
+            Bitmap bitmapResize = resizeBitmapFromFilePath(photoFile.getPath(),2048,1536)
+            File photo = saveBitmapToFile(bitmapResize,photoFile.getName())
 
             Log.d(TAG,"Enviando...")
-            mUserManager.upload(fileSend.getPath(),onSuccessFile(),onError())
-/*
-            Log.d(TAG,"Volver a guardar...")
-            mImageUtil.addPictureToGallery(getContext(),photoFile.getName())*/
+            mUserManager.upload(photo.getPath(),onSuccessFile(),onError())
+
+            Log.d(TAG,"Galeria...")
+            mImageUtil.addPictureToGallery(getContext(),photo.getPath())
+
+
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
     }
 
+    Bitmap resizeBitmapFromFilePath(String pathPhoto,Integer width,Integer height){
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options()
+        Bitmap bitmap = BitmapFactory.decodeFile(pathPhoto,bmOptions)
+        bitmap = Bitmap.createScaledBitmap(bitmap,width,height,true)
+    }
+
     private File saveBitmapToFile(Bitmap bitmap,String photoName){
-        String fileName = "test.jpg"
         ByteArrayOutputStream bytes = new ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        File ExternalStorageDirectory = Environment.getExternalStorageDirectory()
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + fileName)
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + photoName)
         FileOutputStream fileOutputStream
         try {
-            Log.d(TAG,"crear")
             file.createNewFile()
             fileOutputStream = new FileOutputStream(file)
             fileOutputStream.write(bytes.toByteArray())
