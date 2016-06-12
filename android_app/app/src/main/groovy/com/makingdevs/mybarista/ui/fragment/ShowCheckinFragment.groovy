@@ -21,8 +21,12 @@ import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.command.UserCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
@@ -48,6 +52,8 @@ public class ShowCheckinFragment extends Fragment {
     ImageButton mButtonCamera
     File photoFile
     ImageUtil mImageUtil
+    SessionManager mSessionManager = SessionManagerImpl.instance
+    User currentUser
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -74,12 +80,14 @@ public class ShowCheckinFragment extends Fragment {
             Bitmap bitmapResize = resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
             File photo = saveBitmapToFile(bitmapResize,photoFile.getName())
 
+            currentUser = mSessionManager.getUserSession(getContext())
+            Log.d(TAG,"Usuario..."+currentUser.dump().toString())
+
             Log.d(TAG,"Enviando...")
-            mUserManager.upload(photo.getPath(),onSuccessFile(),onError())
+            mUserManager.upload(new UserCommand(id:currentUser.id),photo.getPath(),onSuccessFile(),onError())
 
             Log.d(TAG,"Galeria...")
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
-
 
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
