@@ -71,7 +71,7 @@ public class ShowCheckinFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
             Log.d(TAG,"Resize img...")
-            Bitmap bitmapResize = resizeBitmapFromFilePath(photoFile.getPath(),2048,1536)
+            Bitmap bitmapResize = resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
             File photo = saveBitmapToFile(bitmapResize,photoFile.getName())
 
             Log.d(TAG,"Enviando...")
