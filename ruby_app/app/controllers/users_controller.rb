@@ -51,9 +51,20 @@ class UsersController < ApplicationController
   end
 
   def imageProfile
+    Aws.use_bundled_cert!
     s3 = Aws::S3::Resource.new(region:'us-east-1')
-    file_to_upload = s3.bucket('mybarista.com').object("#{Time.now()} #{params['file'].original_filename}")
+    file_to_upload = s3.bucket('mybarista.com').object("#{Time.now()}_#{params['file'].original_filename}")
     file_to_upload.upload_file(params['file'].tempfile)
+    save_image_s3(file_to_upload.public_url,file_to_upload.key,params['user'])
+  end
+
+  def save_image_s3(url_photo_s3,name_photo,user_id)
+    @save_file_s3 = S3Asset.new(url_file:url_photo_s3,name_file:name_photo,user_id:user_id)
+    if @save_file_s3.save
+      render json: @save_file_s3, status: :created
+    else
+      render json: @save_file_s3.errors, status: :unprocessable_entity
+    end
   end
 
   private
