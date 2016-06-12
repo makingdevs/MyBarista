@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.service
 import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
+import com.makingdevs.mybarista.model.command.UserCommand
 import com.makingdevs.mybarista.network.UserRestOperations
 import com.makingdevs.mybarista.network.impl.RetrofitTemplate
 import okhttp3.MediaType
@@ -43,17 +44,16 @@ class UserManagerImpl implements UserManager {
     }
 
     @Override
-    void upload(String uriFile, Closure onSuccess, Closure onError) {
+    void upload(UserCommand user,String uriFile, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofitResponse(operations, onSuccess, onError) { UserRestOperations restOperations ->
 
             File photoCheckinToUpload = new File(uriFile)
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoCheckinToUpload)
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", photoCheckinToUpload.getName(), requestFile)
 
-            String descriptionFile = "FileToUpload"
-            RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionFile)
+            RequestBody currentUSer = RequestBody.create(MediaType.parse("multipart/form-data"), user.id)
 
-            restOperations.uploadImage(description,body)
+            restOperations.uploadImage(currentUSer,body)
         }
     }
 }
