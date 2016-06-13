@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.network
 
+import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
@@ -30,6 +31,6 @@ public interface UserRestOperations {
     Call<ResponseBody> uploadImage(@Part("user") RequestBody user, @Part MultipartBody.Part file)
 
     @GET("/users/photo/{id}")
-    Call<String> getPhotoCheckin(@Path("id") String id)
+    Call<PhotoCheckin> getPhotoCheckin(@Path("id") String id)
 
 }
