@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,24 +15,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.UserCommand
-import com.makingdevs.mybarista.service.CheckinManager
-import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.service.UserManager
-import com.makingdevs.mybarista.service.UserManagerImpl
+import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -57,7 +50,7 @@ public class ShowCheckinFragment extends Fragment {
     ImageUtil mImageUtil
     SessionManager mSessionManager = SessionManagerImpl.instance
     User currentUser
-    ImageView photoFromServer
+    ImageView photoCheckinImageView
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -124,18 +117,13 @@ public class ShowCheckinFragment extends Fragment {
     View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         itemView = root
-        mButtonCircleFlavor = (Button) root.findViewById(R.id.btnCircle_flavor);
-        Log.d(TAG,"Get url...")
-        mUserManager.getPhoto("1",onSuccessGetPhoto(),onError())
+        mButtonCircleFlavor = (Button) root.findViewById(R.id.btnCircle_flavor)
 
-        photoFromServer = (ImageView) root.findViewById(R.id.show_photo_checkin)
-        String imgUrl = "http://mybarista.com.s3.amazonaws.com/2016-06-10%2008%3A21%3A38%20-0500%20Checkin_20160607_221936-1136907731.jpg"
-        Glide.with(getContext()).load(imgUrl)
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(400, 350)
-                .into(photoFromServer)
+        currentUser = mSessionManager.getUserSession(getContext())
+        String photoURL = mUserManager.getPhoto(currentUser.id,onSuccessGetPhoto(),onError())
+
+        photoCheckinImageView = (ImageView) root.findViewById(R.id.show_photo_checkin)
+        setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
 
         mButtonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,8 +155,10 @@ public class ShowCheckinFragment extends Fragment {
     }
 
     private Closure onSuccessGetPhoto(){
-        { Call<String> call, Response<String> response ->
-            Log.d(TAG,"URL..."+response.dump().toString())
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
+            Log.d(TAG,"URL foto..."+response.body().dump().toString())
+            String photoUrl = response.body().url_file
+            setPhotoImageView(getContext(),photoUrl,photoCheckinImageView)
         }
     }
 
@@ -210,6 +200,15 @@ public class ShowCheckinFragment extends Fragment {
         String imageFileName = "Checkin_$timeStamp"
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         File image = File.createTempFile(imageFileName,".jpg", storageDir)
+    }
+
+    void setPhotoImageView(Context context,String photoUrl,ImageView imageViewPhoto){
+        Glide.with(context).load(photoUrl)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(400, 350)
+                .into(imageViewPhoto)
     }
 
 
