@@ -59,7 +59,7 @@ class UserManagerImpl implements UserManager {
 
     @Override
     void getPhoto(String id, Closure onSuccess, Closure onError) {
-        RetrofitTemplate.instance.withRetrofitString(operations, onSuccess, onError) { UserRestOperations restOperations ->
+        RetrofitTemplate.instance.withRetrofitPhotoCheckin(operations, onSuccess, onError) { UserRestOperations restOperations ->
             restOperations.getPhotoCheckin(id)
         }
     }
