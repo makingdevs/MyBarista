@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606054654) do
+ActiveRecord::Schema.define(version: 20160610005559) do
 
   create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "method",                                   null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160606054654) do
     t.datetime "updated_at",                               null: false
     t.integer  "user_id"
     t.integer  "circle_flavor_id"
+    t.string   "rating"
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
   end
