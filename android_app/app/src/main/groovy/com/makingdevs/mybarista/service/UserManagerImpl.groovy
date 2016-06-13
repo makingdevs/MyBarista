@@ -56,4 +56,12 @@ class UserManagerImpl implements UserManager {
             restOperations.uploadImage(currentUSer,body)
         }
     }
+
+    @Override
+    void getPhoto(String id, Closure onSuccess, Closure onError) {
+        RetrofitTemplate.instance.withRetrofitString(operations, onSuccess, onError) { UserRestOperations restOperations ->
+            restOperations.getPhotoCheckin(id)
+        }
+    }
+
 }
