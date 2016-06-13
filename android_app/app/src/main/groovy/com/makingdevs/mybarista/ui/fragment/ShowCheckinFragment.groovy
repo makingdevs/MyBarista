@@ -99,7 +99,7 @@ public class ShowCheckinFragment extends Fragment {
         mButtonCircleFlavor = (Button) root.findViewById(R.id.btnCircle_flavor)
 
         currentUser = mSessionManager.getUserSession(getContext())
-        String photoURL = mUserManager.getPhoto(currentUser.id,onSuccessGetPhoto(),onError())
+        String photoURL = mUserManager.getPhoto(currentUser.id,"1",onSuccessGetPhoto(),onError())
 
         photoCheckinImageView = (ImageView) root.findViewById(R.id.show_photo_checkin)
         mImageUtil1.setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
