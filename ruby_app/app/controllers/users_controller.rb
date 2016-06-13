@@ -52,9 +52,9 @@ class UsersController < ApplicationController
 
   def imageProfile
     Aws.use_bundled_cert!
-    s3 = Aws::S3::Resource.new(region:'us-east-1')
+    s3 = Aws::S3::Resource.new(region: 'us-east-1')
     file_to_upload = s3.bucket('mybarista.com').object("#{Time.now()}_#{params['file'].original_filename}")
-    file_to_upload.upload_file(params['file'].tempfile)
+    file_to_upload.upload_file(params['file'].tempfile, acl:'public-read')
     save_image_s3(file_to_upload.public_url,file_to_upload.key,params['user'])
   end
 
@@ -71,7 +71,8 @@ class UsersController < ApplicationController
     photo_checkin = S3Asset.where(:user_id => params['id']).last()
     if photo_checkin != nil
       puts "Encontro... #{photo_checkin.inspect()}" 
-      return photo_checkin.url_file
+      @photo = photo_checkin
+      render json: @photo
     else
       puts "No se encontro registro..."
     end
