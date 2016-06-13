@@ -12,5 +12,6 @@ interface UserManager {
     void update(UpdateUserCommand updateUserCommand, Closure onSuccess, Closure onError)
     void getUser(String id, Closure onSuccess, Closure onError)
     void upload(UserCommand user,String uriFile,Closure onSuccess, Closure onError)
+    void getPhoto(String id, Closure onSuccess, Closure onError)
 
 }
