@@ -16,8 +16,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
@@ -54,6 +57,7 @@ public class ShowCheckinFragment extends Fragment {
     ImageUtil mImageUtil
     SessionManager mSessionManager = SessionManagerImpl.instance
     User currentUser
+    ImageView photoFromServer
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -121,6 +125,18 @@ public class ShowCheckinFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         itemView = root
         mButtonCircleFlavor = (Button) root.findViewById(R.id.btnCircle_flavor);
+        Log.d(TAG,"Get url...")
+        mUserManager.getPhoto("1",onSuccessGetPhoto(),onError())
+
+        photoFromServer = (ImageView) root.findViewById(R.id.show_photo_checkin)
+        String imgUrl = "http://mybarista.com.s3.amazonaws.com/2016-06-10%2008%3A21%3A38%20-0500%20Checkin_20160607_221936-1136907731.jpg"
+        Glide.with(getContext()).load(imgUrl)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(400, 350)
+                .into(photoFromServer)
+
         mButtonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +163,12 @@ public class ShowCheckinFragment extends Fragment {
     private Closure onSuccessFile(){
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG,response.dump().toString())
+        }
+    }
+
+    private Closure onSuccessGetPhoto(){
+        { Call<String> call, Response<String> response ->
+            Log.d(TAG,"URL..."+response.dump().toString())
         }
     }
 
