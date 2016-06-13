@@ -30,7 +30,7 @@ public interface UserRestOperations {
     @POST("/users/image/profile")
     Call<ResponseBody> uploadImage(@Part("checkin") RequestBody checkin,@Part("user") RequestBody user, @Part MultipartBody.Part file)
 
-    @GET("/users/photo/{id}")
-    Call<PhotoCheckin> getPhotoCheckin(@Path("id") String id)
+    @GET("/users/{id}/checkins/{id}/photo")
+    Call<PhotoCheckin> getPhotoCheckin(@Path("id") String id,@Path("id") String idCheckin)
 
 }
