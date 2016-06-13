@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
@@ -47,6 +48,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
         TextView morigin
         TextView mprice
         TextView mmoment
+        RatingBar mrating
 
         void bindCheckin(Checkin checkin) {
             mCheckin = checkin
@@ -59,6 +61,8 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             //mmoment.text = checkin.created_at.format("dd - MM - yy")
             //mmoment.text = (DateUtils.getRelativeTimeSpanString(checkin.created_at.time)).toString()
             mprice.text = checkin.price
+
+            mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
         }
 
         BrewViewHolder(View itemView) {
@@ -67,6 +71,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             morigin = (TextView) itemView.findViewById(R.id.label_origin)
             mprice = (TextView) itemView.findViewById(R.id.label_price)
             mmoment = (TextView) itemView.findViewById(R.id.label_moment)
+            mrating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
         }
     }
 

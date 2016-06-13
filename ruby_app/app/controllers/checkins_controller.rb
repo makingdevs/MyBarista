@@ -36,6 +36,17 @@ class CheckinsController < ApplicationController
     end
   end
 
+  def setRatingInCheckin
+    puts params.inspect
+    @checkin = Checkin.find(params[:id])
+    @checkin.rating = params[:rating]
+    if @checkin.save
+      render json: @checkin
+    else
+      render json: @checkin.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /checkins/1
   def destroy
     @checkin.destroy
@@ -56,6 +67,6 @@ class CheckinsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def checkin_params
-      params.permit(:method, :origin, :price, :note)
+      params.permit(:method, :origin, :price, :note, :rating)
     end
 end

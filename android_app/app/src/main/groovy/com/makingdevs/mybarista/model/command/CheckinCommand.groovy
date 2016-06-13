@@ -7,4 +7,5 @@ class CheckinCommand {
     String origin
     String price
     String username
+    String rating
 }
