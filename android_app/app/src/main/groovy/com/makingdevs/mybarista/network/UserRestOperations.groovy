@@ -27,6 +27,9 @@ public interface UserRestOperations {
 
     @Multipart
     @POST("/users/image/profile")
-    Call<ResponseBody> uploadImage(@Part("user") RequestBody user, @Part MultipartBody.Part file);
+    Call<ResponseBody> uploadImage(@Part("user") RequestBody user, @Part MultipartBody.Part file)
+
+    @GET("/users/photo/{id}")
+    Call<String> getPhotoCheckin(@Path("id") String id)
 
 }
