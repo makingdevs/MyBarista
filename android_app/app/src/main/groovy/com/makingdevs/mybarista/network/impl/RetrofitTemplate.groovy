@@ -66,4 +66,14 @@ class RetrofitTemplate {
         ]
         model.enqueue(callback as Callback<ResponseBody>)
     }
+
+    def withRetrofitString(Class operations, Closure onSuccess, Closure onError, Closure action){
+        UserRestOperations restOperations = retrofit.create(operations)
+        Call<String> model = action(restOperations)
+        def callback = [
+                onResponse :onSuccess,
+                onFailure : onError
+        ]
+        model.enqueue(callback as Callback<String>)
+    }
 }
