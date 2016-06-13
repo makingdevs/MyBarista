@@ -1,13 +1,10 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -16,13 +13,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.CamaraUtil
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.model.command.UserCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
@@ -51,6 +48,8 @@ public class ShowCheckinFragment extends Fragment {
     SessionManager mSessionManager = SessionManagerImpl.instance
     User currentUser
     ImageView photoCheckinImageView
+    CamaraUtil mCamaraUtil = new CamaraUtil()
+    ImageUtil mImageUtil1 = new ImageUtil()
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -73,17 +72,18 @@ public class ShowCheckinFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
-            Log.d(TAG,"Resize img...")
-            Bitmap bitmapResize = resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
-            File photo = saveBitmapToFile(bitmapResize,photoFile.getName())
+            //Log.d(TAG,"Resize img...")
+            Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
+            File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
 
             currentUser = mSessionManager.getUserSession(getContext())
-            Log.d(TAG,"Usuario..."+currentUser.dump().toString())
+            //Log.d(TAG,"Usuario..."+currentUser.dump().toString())
 
-            Log.d(TAG,"Enviando...")
-            mUserManager.upload(new UserCommand(id:currentUser.id),photo.getPath(),onSuccessFile(),onError())
+            //Log.d(TAG,"Enviando...")
+            String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
+            mUserManager.upload(new UploadCommand(idCheckin: checkinId,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessFile(),onError())
 
-            Log.d(TAG,"Galeria...")
+            //Log.d(TAG,"Galeria...")
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
 
         } else {
@@ -91,27 +91,6 @@ public class ShowCheckinFragment extends Fragment {
         }
     }
 
-    Bitmap resizeBitmapFromFilePath(String pathPhoto,Integer width,Integer height){
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options()
-        Bitmap bitmap = BitmapFactory.decodeFile(pathPhoto,bmOptions)
-        bitmap = Bitmap.createScaledBitmap(bitmap,width,height,true)
-    }
-
-    private File saveBitmapToFile(Bitmap bitmap,String photoName){
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + photoName)
-        FileOutputStream fileOutputStream
-        try {
-            file.createNewFile()
-            fileOutputStream = new FileOutputStream(file)
-            fileOutputStream.write(bytes.toByteArray())
-            fileOutputStream.close()
-        }catch (Exception e){
-            Log.d(TAG,"Error... "+e.message)
-        }
-        file
-    }
 
     @Override
     View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -123,7 +102,7 @@ public class ShowCheckinFragment extends Fragment {
         String photoURL = mUserManager.getPhoto(currentUser.id,onSuccessGetPhoto(),onError())
 
         photoCheckinImageView = (ImageView) root.findViewById(R.id.show_photo_checkin)
-        setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
+        mImageUtil1.setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
 
         mButtonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,9 +135,15 @@ public class ShowCheckinFragment extends Fragment {
 
     private Closure onSuccessGetPhoto(){
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            Log.d(TAG,"URL foto..."+response.body().dump().toString())
-            String photoUrl = response.body().url_file
-            setPhotoImageView(getContext(),photoUrl,photoCheckinImageView)
+
+            if(response.body()!=null){
+                Log.d(TAG,"URL ARCHIVO SERVIDOR... "+response.body().dump().toString())
+                String photoUrl = response.body().url_file
+                mImageUtil1.setPhotoImageView(getContext(),photoUrl,photoCheckinImageView)
+            }
+            else{
+                Log.d(TAG,"NO HAY FOTO")
+            }
         }
     }
 
@@ -183,7 +168,7 @@ public class ShowCheckinFragment extends Fragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
             try {
-                photoFile = createImageFile()
+                photoFile = mCamaraUtil.createImageFile()
             } catch (IOException ex) {
                 Log.d(TAG,"Error al crear la foto $ex")
             }
@@ -194,23 +179,5 @@ public class ShowCheckinFragment extends Fragment {
             }
         }
     }
-
-    private File createImageFile(){
-        String timeStamp = new Date().format("yyyyMMdd_HHmmss")
-        String imageFileName = "Checkin_$timeStamp"
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        File image = File.createTempFile(imageFileName,".jpg", storageDir)
-    }
-
-    void setPhotoImageView(Context context,String photoUrl,ImageView imageViewPhoto){
-        Glide.with(context).load(photoUrl)
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(400, 350)
-                .into(imageViewPhoto)
-    }
-
-
 
 }
