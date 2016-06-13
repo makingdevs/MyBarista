@@ -4,4 +4,5 @@ class UserProfile{
     String username
     String name
     String lastName
+    Integer checkins_count
 }
