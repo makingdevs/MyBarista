@@ -13,6 +13,7 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.MultiFragmentActivity
 import com.makingdevs.mybarista.common.SingleFragmentActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
+import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCircleFlavorFragment
 import groovy.transform.CompileStatic
@@ -36,7 +37,7 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
         String id = getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)
         String idCircleFlavor =  getIntent()?.extras.getSerializable(EXTRA_CIRCLE_FLAVOR_ID)
         if(!id) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
-        [top:new ShowCheckinFragment(id), middle:new ShowCircleFlavorFragment(idCircleFlavor), bottom:new CommentsFragment(id)]
+        [top:new ShowCheckinFragment(id), middleTop:new RatingCoffeFragment(id), middleBootom: new ShowCircleFlavorFragment(idCircleFlavor), bottom:new CommentsFragment(id)]
     }
 
     @Override
