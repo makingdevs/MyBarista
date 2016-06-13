@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.Comment
+import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.network.CheckinRestOperations
 import com.makingdevs.mybarista.network.CommentRestOperations
@@ -67,13 +68,13 @@ class RetrofitTemplate {
         model.enqueue(callback as Callback<ResponseBody>)
     }
 
-    def withRetrofitString(Class operations, Closure onSuccess, Closure onError, Closure action){
+    def withRetrofitPhotoCheckin(Class operations, Closure onSuccess, Closure onError, Closure action){
         UserRestOperations restOperations = retrofit.create(operations)
-        Call<String> model = action(restOperations)
+        Call<PhotoCheckin> model = action(restOperations)
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
         ]
-        model.enqueue(callback as Callback<String>)
+        model.enqueue(callback as Callback<PhotoCheckin>)
     }
 }
