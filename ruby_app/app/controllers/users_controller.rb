@@ -67,6 +67,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def photo_url_s3
+    photo_checkin = S3Asset.where(:user_id => params['id']).last()
+    if photo_checkin != nil
+      puts "Encontro... #{photo_checkin.inspect()}" 
+      return photo_checkin.url_file
+    else
+      puts "No se encontro registro..."
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
