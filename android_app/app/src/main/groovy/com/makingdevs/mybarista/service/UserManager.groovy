@@ -13,6 +13,6 @@ interface UserManager {
     void update(UpdateUserCommand updateUserCommand, Closure onSuccess, Closure onError)
     void getUser(String id, Closure onSuccess, Closure onError)
     void upload(UploadCommand uploadCommand, Closure onSuccess, Closure onError)
-    void getPhoto(String id, Closure onSuccess, Closure onError)
+    void getPhoto(String idUser,String idCheckin, Closure onSuccess, Closure onError)
 
 }
