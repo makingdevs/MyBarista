@@ -12,4 +12,5 @@ class Checkin {
     Date updated_at
     String user_id
     String circle_flavor_id
+    String rating
 }
