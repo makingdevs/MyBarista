@@ -17,7 +17,6 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
 
-@CompileStatic
 class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
     Context mContext
