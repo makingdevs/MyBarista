@@ -14,7 +14,7 @@ Rails.application.routes.draw do
    post 'checkins/:id/circleFlavor', to: 'circles#create', as: 'circleFlavor'
    post '/users/image/profile', to: 'users#imageProfile', as: 's3'
    get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
-   get '/users/:user_id/checkins/:checkin_id/photo', to:'users#photo_url_s3', as: 'photo_s3'
+   get '/users/photo/:checkin_id', to:'users#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
 
 end
