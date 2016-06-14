@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   end
 
   def save_image_s3(url_photo_s3,name_photo,user_id,checkin_id)
-    @save_file_s3 = S3Asset.new(url_file:url_photo_s3,name_file:name_photo,user_id:user_id,checkin_id:checkin_id)
+    @save_file_s3 = S3Asset.new(url_file:url_photo_s3,name_file:name_photo,checkin_id:checkin_id)
     if @save_file_s3.save
       render json: @save_file_s3, status: :created
     else
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   end
 
   def photo_url_s3
-    photo_checkin = S3Asset.where({user_id: params['user_id']}).last()
+    photo_checkin = S3Asset.where({checkin_id: params['checkin_id']}).last()
     if photo_checkin != nil
       puts "Encontro... #{photo_checkin.inspect()}" 
       @photo = photo_checkin
