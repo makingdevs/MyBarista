@@ -8,11 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-<<<<<<< HEAD
 import android.widget.RatingBar
-=======
 import android.widget.ImageView
->>>>>>> 665218b4dec67007314c2627779fc41ec0353a91
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
@@ -84,12 +81,11 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             morigin = (TextView) itemView.findViewById(R.id.label_origin)
             mprice = (TextView) itemView.findViewById(R.id.label_price)
             mmoment = (TextView) itemView.findViewById(R.id.label_moment)
-<<<<<<< HEAD
-            mrating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
-=======
-            photoCheckinImageView = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
 
->>>>>>> 665218b4dec67007314c2627779fc41ec0353a91
+            mrating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
+
+            photoCheckinImageView = (ImageView) itemView.findViewById(R.id.myImageView)
+
         }
     }
 
