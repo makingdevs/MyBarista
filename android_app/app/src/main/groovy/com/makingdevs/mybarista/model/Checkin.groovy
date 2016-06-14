@@ -13,4 +13,9 @@ class Checkin {
     String user_id
     String circle_flavor_id
     String rating
+    S3_asset s3_asset
+
+    class S3_asset{
+        String url_file
+    }
 }

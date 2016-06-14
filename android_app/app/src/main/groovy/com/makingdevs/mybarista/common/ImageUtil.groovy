@@ -11,6 +11,9 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Base64
 import android.webkit.MimeTypeMap
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 public class ImageUtil {
 
@@ -167,5 +170,14 @@ public class ImageUtil {
     private static String getSimpleImageFile(){
         String timeStamp = new Date().format("yyyyMMdd_HHmmss")
         "Checkin_$timeStamp"
+    }
+
+    void setPhotoImageView(Context context, String photoUrl, ImageView imageViewPhoto){
+        Glide.with(context).load(photoUrl)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(400, 350)
+                .into(imageViewPhoto)
     }
 }
