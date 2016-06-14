@@ -21,7 +21,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/middleFragment"
+            android:id="@+id/middleTopFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/topFragment"
@@ -29,10 +29,18 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/middleBottomFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/middleTopFragment"
+            android:padding="16dp">
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/bottomFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/middleFragment"
+            android:layout_below="@+id/middleBottomFragment"
             android:padding="16dp">
         </FrameLayout>
 

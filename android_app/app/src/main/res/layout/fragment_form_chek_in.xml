@@ -43,6 +43,13 @@
             android:hint="@string/placeholderNote"
             />
 
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_coffe_bar"
+            android:progressTint="#FFD700"
+            android:layout_gravity="center_horizontal"/>
+
         <Button
             android:id="@+id/btnCheckIn"
             android:layout_width="match_parent"

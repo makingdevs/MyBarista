@@ -16,6 +16,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import com.makingdevs.mybarista.ui.activity.ProfileActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
+import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCircleFlavorFragment
 import groovy.transform.CompileStatic
@@ -33,7 +34,8 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
         Map fragments = createFragments()
 
         ShowCheckinFragment topFragment= (ShowCheckinFragment) fragments.top
-        ShowCircleFlavorFragment middleFragment= (ShowCircleFlavorFragment) fragments.middle
+        RatingCoffeFragment middleTopFragment= (RatingCoffeFragment) fragments.middleTop
+        ShowCircleFlavorFragment middleBottomFragment= (ShowCircleFlavorFragment) fragments.middleBootom
         CommentsFragment bottomFragment= (CommentsFragment) fragments.bottom
 
         FragmentManager manager=getSupportFragmentManager()
@@ -41,7 +43,8 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
         FragmentTransaction transaction=manager.beginTransaction()
 
         transaction.add(R.id.topFragment, topFragment, "topFragment")
-        transaction.add(R.id.middleFragment, middleFragment, "middleFragment")
+        transaction.add(R.id.middleTopFragment, middleTopFragment, "middleFragment")
+        transaction.add(R.id.middleBottomFragment, middleBottomFragment, "middleFragment")
         transaction.add(R.id.bottomFragment, bottomFragment, "bottomFragment")
 
         transaction.commit()

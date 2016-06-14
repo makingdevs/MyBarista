@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
 import com.makingdevs.mybarista.R
@@ -35,6 +36,7 @@ public class FormCheckinFragment extends Fragment {
     private Spinner methodFieldSprinner
     private Button checkInButton
     private static Context contextView
+    private RatingBar ratingCoffe
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -51,6 +53,7 @@ public class FormCheckinFragment extends Fragment {
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
         contextView = getActivity().getApplicationContext()
+        ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,8 +69,10 @@ public class FormCheckinFragment extends Fragment {
         String price = priceEditText.getText().toString()
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
+        String rating = ratingCoffe.getRating()
+        Log.d(TAG,rating)
         User currentUser =  mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:currentUser.username)
+        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:currentUser.username, rating: rating.toString())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
