@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   end
 
   def photo_url_s3
-    photo_checkin = S3Asset.where(:user_id => params['user_id']).last()
+    photo_checkin = S3Asset.where({user_id: params['user_id']}).last()
     if photo_checkin != nil
       puts "Encontro... #{photo_checkin.inspect()}" 
       @photo = photo_checkin
