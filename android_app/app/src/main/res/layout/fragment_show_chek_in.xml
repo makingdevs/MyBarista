@@ -73,21 +73,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/show_photo_checkin"/>
-    <ImageButton
-        android:id="@+id/button_camera"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_camera"
-        android:background="@color/primary_dark"/>
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/button_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_camera"
+            android:layout_weight="0.5"/>
 
-    <Button
-        android:id="@+id/btnCircle_flavor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/agregar_circulo_del_sabor"
-        android:layout_gravity="center_horizontal"
-        android:padding="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_large"/>
+        <Button
+            android:id="@+id/btnCircle_flavor"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Circulo del sabor"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160612130234) do
     t.datetime "updated_at",                               null: false
     t.integer  "user_id"
     t.integer  "circle_flavor_id"
+    t.string   "rating"
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
   end
