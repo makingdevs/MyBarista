@@ -15,7 +15,9 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
     Context mContext
@@ -66,12 +68,8 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             //mmoment.text = checkin.created_at.format("dd - MM - yy")
             //mmoment.text = (DateUtils.getRelativeTimeSpanString(checkin.created_at.time)).toString()
             mprice.text = checkin.price
-
-
             mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
-
-            //mImageUtil1.setPhotoImageView(this,"http://mybarista.com.s3.amazonaws.com/2016-06-09%2021%3A32%3A55%20%2B0000%20foto.jpg",photoCheckinImageView)
-            //photoCheckinImageView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file ?: "http://mybarista.com.s3.amazonaws.com/coffee.jpg",photoCheckinImageView)
 
         }
 
@@ -81,9 +79,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             morigin = (TextView) itemView.findViewById(R.id.label_origin)
             mprice = (TextView) itemView.findViewById(R.id.label_price)
             mmoment = (TextView) itemView.findViewById(R.id.label_moment)
-
             mrating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
-
             photoCheckinImageView = (ImageView) itemView.findViewById(R.id.myImageView)
 
         }
