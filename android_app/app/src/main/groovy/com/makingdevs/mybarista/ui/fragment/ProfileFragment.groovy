@@ -22,6 +22,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
 import retrofit2.Call
 import retrofit2.Response
 
@@ -52,7 +53,8 @@ class ProfileFragment extends Fragment{
         usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
         checkinsCount.onClickListener = {
-            //some
+            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext())
+            startActivity(intent)
         }
         mButtonProfileConfirm.onClickListener = {
             updateInfoUserProfile()
