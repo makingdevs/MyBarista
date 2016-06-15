@@ -11,10 +11,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import com.makingdevs.mybarista.ui.activity.ProfileActivity
+import com.makingdevs.mybarista.ui.activity.SearchUserActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
 import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
@@ -67,11 +69,17 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
         Integer id = item.getItemId()
 
         if (id == R.id.menu_profile) {
+            User user = mSessionManager.getUserSession(this)
             Intent intent = ProfileActivity.newIntentWithContext(this)
             startActivity(intent)
             finish()
         }
-        else if(id == R.id.menu_logout) {
+        if(id == R.id.menu_search) {
+            Intent intent = SearchUserActivity.newIntentWithContext(this)
+            startActivity(intent)
+            finish()
+        }
+        if(id == R.id.menu_logout) {
             mSessionManager.setLogout(this)
             Intent intent = LoginActivity.newIntentWithContext(this)
             startActivity(intent)
