@@ -5,16 +5,18 @@
 
     <ImageView
         android:id="@+id/avatar_user"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_user"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/avatar"/>
 
     <TextView
         android:id="@+id/user_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hola"
+        android:text="@string/something"
         android:textStyle="bold"
-        android:layout_toRightOf="@+id/avatar_user"/>
+        android:layout_toRightOf="@+id/avatar_user"
+        android:layout_centerVertical="true"/>
+
 
 </RelativeLayout>
