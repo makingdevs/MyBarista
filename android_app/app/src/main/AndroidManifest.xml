@@ -39,6 +39,8 @@
         </activity>
         <activity android:name=".ui.activity.SearchUserActivity">
         </activity>
+        <activity android:name=".ui.activity.ProfilePublicActivity">
+        </activity>
     </application>
 
 </manifest>
