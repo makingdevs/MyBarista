@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
@@ -54,7 +54,7 @@ public class SearchUserFragment extends Fragment {
     }
 
     private Closure onSuccess(){
-        { Call<List<User>> call, Response<List<User>> response ->
+        { Call<List<UserProfile>> call, Response<List<UserProfile>> response ->
             Log.d(TAG, response.body().dump().toString())
             if(!mUserAdapter){
                 mUserAdapter = new UserAdapter(getActivity(), response.body().toList())
@@ -67,6 +67,6 @@ public class SearchUserFragment extends Fragment {
     }
 
     private Closure onError(){
-        { Call<List<User>> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<List<UserProfile>> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
 }
