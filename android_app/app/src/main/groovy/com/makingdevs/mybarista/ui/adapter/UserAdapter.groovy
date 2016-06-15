@@ -1,19 +1,14 @@
 package com.makingdevs.mybarista.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 
 class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
