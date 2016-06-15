@@ -5,6 +5,8 @@ import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,14 @@ public class SearchUserFragment extends Fragment {
         mSearchButton.onClickListener = { searchUsers() }
         mListUsers = (RecyclerView) root.findViewById(R.id.list_users)
         mListUsers.setLayoutManager(new LinearLayoutManager(getActivity()))
+
+        Map textWatcherMethodsForsearch = [
+                beforeTextChanged:{CharSequence s, int start, int count, int after -> },
+                onTextChanged:{CharSequence s, int start, int count, int after -> searchUsers() },
+                afterTextChanged:{ Editable s -> }
+        ]
+        mSearchText.addTextChangedListener( textWatcherMethodsForsearch as TextWatcher )
+
         root
     }
 
@@ -55,7 +65,6 @@ public class SearchUserFragment extends Fragment {
 
     private Closure onSuccess(){
         { Call<List<UserProfile>> call, Response<List<UserProfile>> response ->
-            Log.d(TAG, response.body().dump().toString())
             if(!mUserAdapter){
                 mUserAdapter = new UserAdapter(getActivity(), response.body().toList())
                 mListUsers.adapter = mUserAdapter
@@ -69,4 +78,5 @@ public class SearchUserFragment extends Fragment {
     private Closure onError(){
         { Call<List<UserProfile>> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
+
 }
