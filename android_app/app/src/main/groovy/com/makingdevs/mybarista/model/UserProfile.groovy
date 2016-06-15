@@ -1,6 +1,8 @@
 package com.makingdevs.mybarista.model
 
 class UserProfile{
+
+    String id
     String username
     String name
     String lastName
