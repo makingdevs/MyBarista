@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
+import com.makingdevs.mybarista.ui.activity.ProfileActivity
 
 class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
@@ -48,7 +49,8 @@ class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
         void bindCheckin(UserProfile user) {
             mUser = user
             itemView.onClickListener = {
-                //soomething
+                Intent intent = ProfileActivity.newIntentWithContext(mContext)
+                mContext.startActivity(intent)
             }
             mUserLabel.text = user.visible_name
         }
