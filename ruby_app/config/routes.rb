@@ -16,5 +16,6 @@ Rails.application.routes.draw do
    get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
    get '/users/photo/:checkin_id', to:'users#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
+   get '/search/users', to:'users#search', as: 'searchUsers'
 
 end
