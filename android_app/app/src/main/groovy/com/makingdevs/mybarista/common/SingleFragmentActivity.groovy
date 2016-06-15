@@ -17,6 +17,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import com.makingdevs.mybarista.ui.activity.ProfileActivity
+import com.makingdevs.mybarista.ui.activity.SearchUserActivity
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -50,12 +51,18 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
     public boolean onOptionsItemSelected(MenuItem item) {
         Integer id = item.getItemId()
 
+        //TODO refactor de esto hay una mejor manera
         if (id == R.id.menu_profile) {
             Intent intent = ProfileActivity.newIntentWithContext(this)
             startActivity(intent)
             finish()
         }
-        else if(id == R.id.menu_logout) {
+        if(id == R.id.menu_search) {
+            Intent intent = SearchUserActivity.newIntentWithContext(this)
+            startActivity(intent)
+            finish()
+        }
+        if(id == R.id.menu_logout) {
             mSessionManager.setLogout(this)
             Intent intent = LoginActivity.newIntentWithContext(this)
             startActivity(intent)
