@@ -68,4 +68,11 @@ class UserManagerImpl implements UserManager {
         }
     }
 
+    @Override
+    void seachUsers(Map options, Closure onSuccess, Closure onError) {
+        RetrofitTemplate.instance.withRetrofitUser(operations, onSuccess, onError) { UserRestOperations restOperations ->
+            restOperations.search(options)
+        }
+    }
+
 }
