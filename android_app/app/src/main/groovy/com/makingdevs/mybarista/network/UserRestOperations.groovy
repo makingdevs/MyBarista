@@ -33,4 +33,7 @@ public interface UserRestOperations {
     @GET("/users/photo/{id}")
     Call<PhotoCheckin> getPhotoCheckin(@Path("id") String idCheckin)
 
+    @GET("/search/users")
+    Call<List<User>> search(@QueryMap Map<String, String> options)
+
 }
