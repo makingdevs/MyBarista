@@ -94,7 +94,7 @@ public class ShowCircleFlavorFragment extends Fragment {
 
     private void setProgressInView(RoundCornerProgressBar variable, String value) {
         variable.setProgressColor(Color.parseColor("#00BFFF"));
-        variable.setProgressBackgroundColor(Color.parseColor("#808080"));
+        variable.setProgressBackgroundColor(Color.parseColor("#ECECEC"));
         variable.setMax(10);
         variable.setProgress(value.toFloat());
     }
