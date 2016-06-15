@@ -1,7 +1,9 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -13,6 +15,12 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationListener
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
@@ -27,7 +35,8 @@ import retrofit2.Response
 
 
 @CompileStatic
-public class FormCheckinFragment extends Fragment {
+public class FormCheckinFragment extends Fragment implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final String TAG = "FormCheckinFragment"
     private EditText originEditText
@@ -40,6 +49,11 @@ public class FormCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
+    private Location mLastLocation
+    private GoogleApiClient mGoogleApiClient
+    private LocationRequest mLocationRequest
+    private long UPDATE_INTERVAL = 10000
+    private long FASTEST_INTERVAL = 2000
 
     FormCheckinFragment() {}
 
@@ -64,15 +78,74 @@ public class FormCheckinFragment extends Fragment {
         root
     }
 
-    private CheckinCommand getFormCheckIn(){
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                void onConnected(@Nullable Bundle bundle) {
+                    Log.d(TAG, "GPS conectado....")
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+                    if (mLastLocation != null) {
+                        Log.d(TAG, "Ubicacion previa... " + mLastLocation.toString())
+                    }
+                    startLocationUpdates()
+                }
+
+                @Override
+                void onConnectionSuspended(int i) {
+                    if (i == CAUSE_SERVICE_DISCONNECTED) {
+                        Log.d(TAG, "GPS desconectado....")
+                    } else if (i == CAUSE_NETWORK_LOST) {
+                        Log.d(TAG, "Conexion perdida....")
+                    }
+                }
+            })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+
+                @Override
+                void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                    Log.d(TAG, "Error...." + connectionResult.errorMessage)
+                }
+            })
+                    .addApi(LocationServices.API)
+                    .build()
+        }
+    }
+
+    protected void startLocationUpdates() {
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(UPDATE_INTERVAL)
+                .setFastestInterval(FASTEST_INTERVAL)
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+    }
+
+    void onStart() {
+        mGoogleApiClient.connect()
+        super.onStart()
+    }
+
+    void onStop() {
+        super.onStop()
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect()
+        }
+    }
+
+
+    private CheckinCommand getFormCheckIn() {
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-        Log.d(TAG,rating)
-        User currentUser =  mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method:method,note:note,origin:origin,price:price?.toString(),username:currentUser.username, rating: rating.toString())
+        Log.d(TAG, rating)
+        User currentUser = mSessionManager.getUserSession(getContext())
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -97,10 +170,32 @@ public class FormCheckinFragment extends Fragment {
         }
     }
 
-    private void cleanForm(){
+    private void cleanForm() {
         originEditText.setText("")
         priceEditText.setText("")
         noteEditText.setText("")
     }
 
+
+    @Override
+    void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    void onLocationChanged(Location location) {
+        String latitude = location.getLatitude()
+        String longitud = location.getLongitude()
+        Log.d(TAG, "Ubicaion actual: $latitude $longitud")
+    }
 }
