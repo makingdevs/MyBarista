@@ -72,5 +72,6 @@
     <string name="comment_error_message">Ocurrio un error al comentar</string>
     <string name="template_checkins">100 \n Checkins</string>
     <string name="template_friends">34 \n Friends</string>
+    <string name="menu_search">Search</string>
 
 </resources>
