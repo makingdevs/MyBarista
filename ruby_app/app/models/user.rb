@@ -4,6 +4,14 @@ class User < ApplicationRecord
   has_many :comments
   has_secure_password
 
+  def self.search(search)
+    users = []
+    search.split(" ").each do |parameter|
+      users += where("name LIKE '%#{parameter}%' OR lastName LIKE '%#{parameter}%'")
+      .or(where("username LIKE ?", "%#{parameter}%"))
+    end
+    users.uniq
+  end
 
   def as_json(options={})
     super(
