@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/avatar_user"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_user"/>
+
+    <TextView
+        android:id="@+id/user_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hola"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/avatar_user"/>
+
+</RelativeLayout>
