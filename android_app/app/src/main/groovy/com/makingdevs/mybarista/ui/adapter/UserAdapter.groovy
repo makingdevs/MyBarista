@@ -9,13 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.UserProfile
 
 class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
     Context mContext
-    List<User> mUsers
+    List<UserProfile> mUsers
 
-    UserAdapter(Context context, List<User> UsersList){
+    UserAdapter(Context context, List<UserProfile> UsersList){
         mContext = context
         mUsers = UsersList
     }
@@ -28,7 +29,7 @@ class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
     @Override
     void onBindViewHolder(UserViewHolder holder, int position) {
-        User user = mUsers[position]
+        UserProfile user = mUsers[position]
         holder.bindCheckin(user)
     }
 
@@ -40,16 +41,16 @@ class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
     class UserViewHolder extends RecyclerView.ViewHolder{
 
-        User mUser
+        UserProfile mUser
         TextView mUserLabel
         ImageView mAvatarUser
 
-        void bindCheckin(User user) {
+        void bindCheckin(UserProfile user) {
             mUser = user
             itemView.onClickListener = {
                 //soomething
             }
-            mUserLabel.text = user.username
+            mUserLabel.text = user.visible_name
         }
 
         UserViewHolder(View itemView) {
