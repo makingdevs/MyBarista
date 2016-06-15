@@ -15,8 +15,12 @@ class User < ApplicationRecord
 
   def as_json(options={})
     super(
-      :methods => [:checkins_count]
+      :methods => [:checkins_count,:visible_name]
     )
+  end
+
+  def visible_name
+    name ? "#{name} #{lastName}" : username.split("@").first
   end
 
   def checkins_count
