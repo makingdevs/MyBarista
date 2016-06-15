@@ -1,0 +1,2 @@
+class Baristum < ApplicationRecord
+end
