@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614043317) do
+ActiveRecord::Schema.define(version: 20160616143439) do
+
+  create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "checkin_id"
+    t.index ["checkin_id"], name: "index_barista_on_checkin_id", using: :btree
+  end
 
   create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "method",                                   null: false
@@ -52,6 +60,11 @@ ActiveRecord::Schema.define(version: 20160614043317) do
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
+  create_table "foursquares", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "s3_assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "url_file"
     t.string   "name_file"
@@ -71,6 +84,7 @@ ActiveRecord::Schema.define(version: 20160614043317) do
     t.string   "lastName"
   end
 
+  add_foreign_key "barista", "checkins"
   add_foreign_key "checkins", "circle_flavors"
   add_foreign_key "checkins", "users"
   add_foreign_key "comments", "checkins"
