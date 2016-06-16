@@ -1,0 +1,5 @@
+class AddingBaristaToChecki < ActiveRecord::Migration[5.0]
+  def change
+    add_reference :checkins, :baristum, foreign_key: true
+  end
+end
