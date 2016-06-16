@@ -4,6 +4,13 @@ lock '3.5.0'
 set :application, 'barista'
 set :repo_url, 'git@github.com:makingdevs/MyBarista.git'
 set :rbenv_ruby, '2.2.3'
+set :repo_tree, 'ruby_app'
+# set :project, 'ruby_app'
+# set :deploy_subdir, "ruby_app"
+
+# Set up a strategy to deploy only a project directory (not the whole repo)
+# set :git_strategy, RemoteCacheWithProjectRootStrategy
+# set :project_root, 'ruby_app'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
