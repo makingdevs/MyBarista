@@ -4,7 +4,10 @@ lock '3.5.0'
 set :application, 'barista'
 set :repo_url, 'git@github.com:makingdevs/MyBarista.git'
 set :rbenv_ruby, '2.2.3'
+
 set :repo_tree, 'ruby_app'
+
+# set :repo_tree, 'ruby_app'
 # set :project, 'ruby_app'
 # set :deploy_subdir, "ruby_app"
 
@@ -42,6 +45,8 @@ set :repo_tree, 'ruby_app'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+Rake::Task["deploy:assets:precompile"].clear_actions
+Rake::Task["deploy:assets:backup_manifest"].clear_actions
 
 namespace :deploy do
 
