@@ -12,14 +12,18 @@ import groovy.transform.CompileStatic
 @CompileStatic
 public class ListBrewByUserActivity extends SingleFragmentActivity {
 
-    static Intent newIntentWithContext(Context context){
+    static String EXTRA_USERNAME = "username"
+
+    static Intent newIntentWithContext(Context context, String username){
         Intent intent = new Intent(context, ListBrewByUserActivity)
+        intent.putExtra(EXTRA_USERNAME, username)
         intent
     }
 
     @Override
     Fragment createFragment() {
-        new ListBrewByUserFragment("juan@makingdevs.com")
+        String username = getIntent()?.extras.getSerializable(EXTRA_USERNAME)
+        new ListBrewByUserFragment(username)
     }
 
     @Override
