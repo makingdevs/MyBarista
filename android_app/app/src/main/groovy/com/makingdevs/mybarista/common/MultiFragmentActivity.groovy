@@ -77,7 +77,6 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
         if(id == R.id.menu_search) {
             Intent intent = SearchUserActivity.newIntentWithContext(this)
             startActivity(intent)
-            finish()
         }
         if(id == R.id.menu_logout) {
             mSessionManager.setLogout(this)
