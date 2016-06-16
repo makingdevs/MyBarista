@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
@@ -65,11 +66,12 @@ public class SearchUserFragment extends Fragment {
 
     private Closure onSuccess(){
         { Call<List<UserProfile>> call, Response<List<UserProfile>> response ->
+            List<UserProfile> list = cleanList(response.body().toList())
             if(!mUserAdapter){
-                mUserAdapter = new UserAdapter(getActivity(), response.body().toList())
+                mUserAdapter = new UserAdapter(getActivity(), list)
                 mListUsers.adapter = mUserAdapter
             } else {
-                mUserAdapter.setmUsers(response.body().toList())
+                mUserAdapter.setmUsers(list)
                 mUserAdapter.notifyDataSetChanged()
             }
         }
@@ -77,6 +79,13 @@ public class SearchUserFragment extends Fragment {
 
     private Closure onError(){
         { Call<List<UserProfile>> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    }
+
+    private List<UserProfile> cleanList(List<UserProfile> list){
+        User user = mSessionManager.getUserSession(getContext())
+        UserProfile element = list.find{it.username == user.username}
+        list.remove(element)
+        list
     }
 
 }
