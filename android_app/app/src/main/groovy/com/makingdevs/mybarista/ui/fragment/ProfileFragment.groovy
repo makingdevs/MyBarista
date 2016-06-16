@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -21,6 +22,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
 import retrofit2.Call
 import retrofit2.Response
 
@@ -37,6 +39,7 @@ class ProfileFragment extends Fragment{
     private EditText nameProfileEditText
     private EditText lastNameProfileEditText
     private TextView usernameProfile
+    private Button checkinsCount
     User currentUser
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -48,6 +51,11 @@ class ProfileFragment extends Fragment{
         lastNameProfileEditText = (EditText) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         usernameProfile.text = currentUser.username
+        checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+        checkinsCount.onClickListener = {
+            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext())
+            startActivity(intent)
+        }
         mButtonProfileConfirm.onClickListener = {
             updateInfoUserProfile()
         }
@@ -98,6 +106,7 @@ class ProfileFragment extends Fragment{
         { Call<UserProfile> call, Response<UserProfile> response ->
             nameProfileEditText.text = response.body().name
             lastNameProfileEditText.text = response.body().lastName
+            checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
         }
     }
 }

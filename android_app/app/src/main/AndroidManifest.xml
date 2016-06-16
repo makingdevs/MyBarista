@@ -20,6 +20,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.ListBrewActivity">
         </activity>
+        <activity android:name=".ui.activity.ListBrewByUserActivity">
+        </activity>
         <activity android:name=".ui.activity.CheckinActivity">
         </activity>
         <activity android:name=".ui.activity.ShowCheckinActivity">
@@ -37,9 +39,9 @@
         </activity>
         <activity android:name=".ui.activity.CircleFlavorActivity">
         </activity>
-        <activity android:name=".ui.activity.CameraEmptyActivity">
+        <activity android:name=".ui.activity.SearchUserActivity">
         </activity>
-        <activity android:name=".ui.activity.CameraSavePictureActivity">
+        <activity android:name=".ui.activity.ProfilePublicActivity">
         </activity>
     </application>
 
