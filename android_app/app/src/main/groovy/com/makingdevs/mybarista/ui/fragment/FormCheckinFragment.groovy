@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
@@ -25,8 +26,11 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.CheckinCommand
+import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.FoursquareManager
+import com.makingdevs.mybarista.service.FoursquareManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import groovy.transform.CompileStatic
@@ -52,8 +56,10 @@ public class FormCheckinFragment extends Fragment implements
     private Location mLastLocation
     private GoogleApiClient mGoogleApiClient
     private LocationRequest mLocationRequest
-    private long UPDATE_INTERVAL = 10000
+    private long UPDATE_INTERVAL = 15000
     private long FASTEST_INTERVAL = 2000
+
+    FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
     FormCheckinFragment() {}
 
@@ -68,6 +74,11 @@ public class FormCheckinFragment extends Fragment implements
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
+        /*
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        methodFieldSprinner.adapter = adapter
+        */
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +181,21 @@ public class FormCheckinFragment extends Fragment implements
         }
     }
 
+    private Closure onSuccessGetVenues() {
+        { Call<Checkin> call, Response<Checkin> response ->
+            Log.d(TAG,"Venues... "+ response.body().dump().toString())
+            List venues = response.body() as List
+            Log.d(TAG,venues.dump().toString())
+            Log.d(TAG,"+"*100)
+        }
+    }
+
+    private Closure onErrorGetVenues() {
+        { Call<Checkin> call, Throwable t ->
+            Log.d(TAG,"Error get venues... "+t.message)
+        }
+    }
+
     private void cleanForm() {
         originEditText.setText("")
         priceEditText.setText("")
@@ -197,5 +223,6 @@ public class FormCheckinFragment extends Fragment implements
         String latitude = location.getLatitude()
         String longitud = location.getLongitude()
         Log.d(TAG, "Ubicaion actual: $latitude $longitud")
+        mFoursquareManager.getVenuesNear(new VenueCommand(latitude:latitude,longitude:longitud,query: "coffe"),onSuccessGetVenues(),onErrorGetVenues())
     }
 }
