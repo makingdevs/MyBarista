@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :checkins
   resources :users
   resources :circles
+  resources :barista
 
   resources :users do
     resources :checkins
@@ -18,4 +19,5 @@ Rails.application.routes.draw do
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
    get '/search/users', to:'users#search', as: 'searchUsers'
 
+   post '/barista/:id/save', to: 'barista#create', as: 'saveBarista'
 end

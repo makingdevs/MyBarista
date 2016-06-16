@@ -4,7 +4,7 @@ class Checkin < ApplicationRecord
   belongs_to :user
   belongs_to :circle_flavor, optional: true
   has_one :s3_asset
-
+  has_one :baristum
   def as_json(options={})
     super(
         :include => {
