@@ -22,6 +22,7 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.model.command.UserCommand
 import com.makingdevs.mybarista.service.*
+import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -50,6 +51,7 @@ public class ShowCheckinFragment extends Fragment {
     ImageView photoCheckinImageView
     CamaraUtil mCamaraUtil = new CamaraUtil()
     ImageUtil mImageUtil1 = new ImageUtil()
+    Button mBarista
 
     UserManager mUserManager = UserManagerImpl.instance
 
@@ -101,8 +103,19 @@ public class ShowCheckinFragment extends Fragment {
         String currentCheckin = getArguments()?.getSerializable(ID_CHECKIN)
         String photoURL = mUserManager.getPhoto(currentCheckin,onSuccessGetPhoto(),onError())
 
+        mBarista = (Button) root.findViewById(R.id.btnBarista)
         photoCheckinImageView = (ImageView) root.findViewById(R.id.show_photo_checkin)
         mImageUtil1.setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
+
+        mBarista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
+                Intent intent = BaristaActivity.newIntentWithContext(getContext())
+                intent.putExtra("checkingId",checkinId)
+                startActivity(intent)
+            }
+        });
 
         mButtonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,7 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.Comment
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.network.BaristaRestOperations
 import com.makingdevs.mybarista.network.CheckinRestOperations
 import com.makingdevs.mybarista.network.CommentRestOperations
 import com.makingdevs.mybarista.network.UserRestOperations
@@ -25,7 +26,7 @@ class RetrofitTemplate {
 
     final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl('http://50.16.50.107:3000/')
+            .baseUrl('http://192.168.1.46:3000/')
             .build()
 
     def withRetrofit(Class operations, Closure onSuccess, Closure onError, Closure action){
@@ -71,6 +72,16 @@ class RetrofitTemplate {
     def withRetrofitPhotoCheckin(Class operations, Closure onSuccess, Closure onError, Closure action){
         UserRestOperations restOperations = retrofit.create(operations)
         Call<PhotoCheckin> model = action(restOperations)
+        def callback = [
+                onResponse :onSuccess,
+                onFailure : onError
+        ]
+        model.enqueue(callback as Callback<PhotoCheckin>)
+    }
+
+    def withRetrofitBarista(Class operations, Closure onSuccess, Closure onError, Closure action){
+        BaristaRestOperations restOperations = retrofit.create(operations)
+        Call<Checkin> model = action(restOperations)
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError

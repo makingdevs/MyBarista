@@ -91,6 +91,13 @@
             android:layout_height="50dp"
             android:text="Circulo del sabor"
             android:layout_weight="0.5"/>
+
+        <Button
+            android:id="@+id/btnBarista"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/crear_barista"
+            android:layout_weight="0.5"/>
     </LinearLayout>
 
 

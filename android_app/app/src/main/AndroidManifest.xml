@@ -43,6 +43,8 @@
         </activity>
         <activity android:name=".ui.activity.ProfilePublicActivity">
         </activity>
+        <activity android:name=".ui.activity.BaristaActivity">
+        </activity>
     </application>
 
 </manifest>
