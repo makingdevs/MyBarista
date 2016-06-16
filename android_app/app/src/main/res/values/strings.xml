@@ -74,5 +74,8 @@
     <string name="template_friends">34 \n Friends</string>
     <string name="menu_search">Search</string>
     <string name="something">Something</string>
+    <string name="placeHolderNameBarista">Nombre del Barista</string>
+    <string name="crear_barista">Crear Barista</string>
+    <string name="button_crear_barista_save">Crear Barista</string>
 
 </resources>
