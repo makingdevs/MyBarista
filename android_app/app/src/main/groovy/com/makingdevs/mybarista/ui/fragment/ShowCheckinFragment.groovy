@@ -143,6 +143,9 @@ public class ShowCheckinFragment extends Fragment {
     private Closure onSuccessFile(){
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG,response.dump().toString())
+            String currentCheckin = getArguments()?.getSerializable(ID_CHECKIN)
+            String photoURL = mUserManager.getPhoto(currentCheckin,onSuccessGetPhoto(),onError())
+            mImageUtil1.setPhotoImageView(getContext(),photoURL,photoCheckinImageView)
         }
     }
 
