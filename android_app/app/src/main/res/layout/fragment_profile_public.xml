@@ -14,44 +14,6 @@
             android:layout_height="wrap_content"
             android:background="@color/primary"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/primary"
-                android:gravity="start"
-                android:src="@drawable/ic_back"
-                android:id="@+id/buttonProfileCancel"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/title_profile"
-                android:textSize="22dp"
-                />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/primary"
-                android:src="@drawable/ic_confirm"
-                android:id="@+id/buttonProfileConfirm"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary"
-            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -60,15 +22,6 @@
                 android:maxWidth="170dp"
                 android:minHeight="170dp"
                 android:src="@drawable/ic_user"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_photo"
-                android:text="@string/profile_mesage_add_photo"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:padding="12dp"/>
 
         </LinearLayout>
 
@@ -79,7 +32,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
+            <TextView
                 style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -87,7 +40,7 @@
                 android:padding="16dp"
                 android:id="@+id/inputNameProfile"/>
 
-            <EditText
+            <TextView
                 style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

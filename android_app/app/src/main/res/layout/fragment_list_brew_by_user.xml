@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             style="@style/FrameLayout.withActionBar"
+             tools:context="com.makingdevs.mybarista.ui.fragment.ListBrewByUserFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_brews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>
