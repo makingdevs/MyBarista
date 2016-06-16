@@ -60,7 +60,6 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
         if(id == R.id.menu_search) {
             Intent intent = SearchUserActivity.newIntentWithContext(this)
             startActivity(intent)
-            finish()
         }
         if(id == R.id.menu_logout) {
             mSessionManager.setLogout(this)
