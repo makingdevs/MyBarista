@@ -18,6 +18,6 @@ Rails.application.routes.draw do
    get '/users/photo/:checkin_id', to:'s3_asset#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
    get '/search/users', to:'users#search', as: 'searchUsers'
-
+   get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
    post '/barista/:id/save', to: 'barista#create', as: 'saveBarista'
 end
