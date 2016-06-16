@@ -8,16 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
-import com.makingdevs.mybarista.model.command.UpdateUserCommand
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
 import retrofit2.Call
 import retrofit2.Response
@@ -53,12 +49,7 @@ class ProfilePublicFragment extends Fragment{
         nameProfileEditText = (TextView) root.findViewById(R.id.inputNameProfile)
         lastNameProfileEditText = (TextView) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
-        //usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
-        checkinsCount.onClickListener = {
-            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext())
-            startActivity(intent)
-        }
         loadData()
         root
     }
@@ -77,6 +68,11 @@ class ProfilePublicFragment extends Fragment{
             nameProfileEditText.text = response.body().name
             lastNameProfileEditText.text = response.body().lastName
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
+            usernameProfile.text = response.body().visible_name
+            checkinsCount.onClickListener = {
+                Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),response.body().username)
+                startActivity(intent)
+            }
         }
     }
 }
