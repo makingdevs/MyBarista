@@ -16,6 +16,6 @@ Rails.application.routes.draw do
    get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
    get '/users/photo/:checkin_id', to:'s3_asset#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
-   get '/foursquare/index', to: 'foursquare#index', as: 'api_foursquare_index'
+   get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
 
 end
