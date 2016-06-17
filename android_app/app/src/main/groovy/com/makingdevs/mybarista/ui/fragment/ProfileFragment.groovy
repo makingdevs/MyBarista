@@ -53,7 +53,7 @@ class ProfileFragment extends Fragment{
         usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
         checkinsCount.onClickListener = {
-            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext())
+            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),currentUser.username)
             startActivity(intent)
         }
         mButtonProfileConfirm.onClickListener = {
