@@ -76,6 +76,7 @@ public class ShowCheckinFragment extends Fragment {
     View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         findingElements()
+        currentUser = mSessionManager.getUserSession(getContext())
         mUserManager.getPhoto(mCheckinId,onSuccessPhoto(),onError())
         mCheckinManager.show(mCheckinId,onSuccess(),onError())
         itemView
@@ -95,7 +96,6 @@ public class ShowCheckinFragment extends Fragment {
     }
 
     private void setCheckinInView(Checkin checkin){
-        showElements()
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price
@@ -105,7 +105,10 @@ public class ShowCheckinFragment extends Fragment {
 
     private Closure onSuccess(){
         { Call<Checkin> call, Response<Checkin> response ->
-            setCheckinInView(response.body())
+            Checkin checkin = response.body()
+            setCheckinInView(checkin)
+            if(checkin.author == currentUser.username)
+                showElements()
         }
     }
 
@@ -142,7 +145,6 @@ public class ShowCheckinFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
             File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
-            currentUser = mSessionManager.getUserSession(getContext())
             mUserManager.upload(new UploadCommand(idCheckin: mCheckinId,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
         } else {
