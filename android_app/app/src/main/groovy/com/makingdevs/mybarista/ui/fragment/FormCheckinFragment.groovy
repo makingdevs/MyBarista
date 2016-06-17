@@ -10,33 +10,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
-import com.makingdevs.mybarista.service.CheckinManager
-import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.service.FoursquareManager
-import com.makingdevs.mybarista.service.FoursquareManagerImpl
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
+import com.makingdevs.mybarista.service.*
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
-
 
 @CompileStatic
 public class FormCheckinFragment extends Fragment implements
@@ -50,14 +39,17 @@ public class FormCheckinFragment extends Fragment implements
     private Button checkInButton
     private static Context contextView
     private RatingBar ratingCoffe
+    private Spinner venueSpinner
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
     private Location mLastLocation
     private GoogleApiClient mGoogleApiClient
     private LocationRequest mLocationRequest
-    private long UPDATE_INTERVAL = 15000
+    private long UPDATE_INTERVAL = 10000
     private long FASTEST_INTERVAL = 2000
+
+    List<Venue> venues
 
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
@@ -74,11 +66,7 @@ public class FormCheckinFragment extends Fragment implements
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
-        /*
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        methodFieldSprinner.adapter = adapter
-        */
+        venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +120,8 @@ public class FormCheckinFragment extends Fragment implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL)
+                .setNumUpdates(1)
+
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
     }
 
@@ -184,9 +174,8 @@ public class FormCheckinFragment extends Fragment implements
     private Closure onSuccessGetVenues() {
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG,"Venues... "+ response.body().dump().toString())
-            List venues = response.body() as List
-            Log.d(TAG,venues.dump().toString())
-            Log.d(TAG,"+"*100)
+            venues = response.body() as List
+            setVenuesToSpinner(venueSpinner,venues)
         }
     }
 
@@ -200,6 +189,12 @@ public class FormCheckinFragment extends Fragment implements
         originEditText.setText("")
         priceEditText.setText("")
         noteEditText.setText("")
+    }
+
+    void setVenuesToSpinner(Spinner spinner,List<Venue> venues){
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues.name)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.adapter = adapter
     }
 
 
@@ -221,8 +216,8 @@ public class FormCheckinFragment extends Fragment implements
     @Override
     void onLocationChanged(Location location) {
         String latitude = location.getLatitude()
-        String longitud = location.getLongitude()
-        Log.d(TAG, "Ubicaion actual: $latitude $longitud")
-        mFoursquareManager.getVenuesNear(new VenueCommand(latitude:latitude,longitude:longitud,query: "coffe"),onSuccessGetVenues(),onErrorGetVenues())
+        String longitude = location.getLongitude()
+        Log.d(TAG, "Ubicaion actual: $latitude $longitude")
+        mFoursquareManager.getVenuesNear(new VenueCommand(latitude:latitude,longitude:longitude,query: "coffe"),onSuccessGetVenues(),onErrorGetVenues())
     }
 }
