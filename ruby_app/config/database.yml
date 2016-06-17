@@ -1,7 +1,6 @@
 defaults: &default
   adapter: mysql2
   host: localhost
-  socket: /tmp/mysql.sock
 
 development:
   <<: *default
