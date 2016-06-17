@@ -4,11 +4,12 @@ class Checkin < ApplicationRecord
   belongs_to :user
   belongs_to :circle_flavor, optional: true
   has_one :s3_asset
-  has_one :baristum
+  belongs_to :baristum, optional: true
   def as_json(options={})
     super(
         :include => {
-        :s3_asset => {:only => [:url_file]}
+        :s3_asset => {:only => [:url_file]},
+        :baristum => {:only => [:name]}
       }
     )
   end
