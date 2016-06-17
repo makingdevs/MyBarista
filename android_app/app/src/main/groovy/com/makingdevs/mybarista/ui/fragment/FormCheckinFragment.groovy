@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -29,6 +30,7 @@ import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
+import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -68,13 +70,7 @@ public class FormCheckinFragment extends Fragment implements
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
-        checkInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveCheckIn(getFormCheckIn())
-            }
-        });
-
+        checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
         root
     }
 
@@ -156,8 +152,9 @@ public class FormCheckinFragment extends Fragment implements
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Toast.makeText(contextView, R.string.toastCheckinSuccess, Toast.LENGTH_SHORT).show();
-                cleanForm()
+                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                startActivity(intent)
+                getActivity().finish()
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -169,13 +166,6 @@ public class FormCheckinFragment extends Fragment implements
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void cleanForm() {
-        originEditText.setText("")
-        priceEditText.setText("")
-        noteEditText.setText("")
-    }
-
 
     @Override
     void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
