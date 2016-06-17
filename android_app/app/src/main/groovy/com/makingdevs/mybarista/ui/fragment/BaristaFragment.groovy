@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -16,7 +17,9 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.service.BaristaManager
 import com.makingdevs.mybarista.service.BaristaManagerImpl
+import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
+import groovyjarjarantlr.collections.List
 import retrofit2.Call
 import retrofit2.Response
 
@@ -61,10 +64,10 @@ public class BaristaFragment extends Fragment {
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            if (response.code() == 201) {
-               Log.d(TAG,"Tu mama esta en mi cama")
+            if (response.code() == 200) {
+               showCheckin(response.body())
             } else {
-                Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Errorrrrz")
             }
         }
     }
@@ -73,5 +76,11 @@ public class BaristaFragment extends Fragment {
         { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showCheckin(Checkin checkin){
+        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id, checkin.circle_flavor_id)
+        intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
+        startActivity(intent)
     }
 }
