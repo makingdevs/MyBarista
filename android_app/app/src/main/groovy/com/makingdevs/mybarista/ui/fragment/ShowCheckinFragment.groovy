@@ -115,14 +115,10 @@ public class ShowCheckinFragment extends Fragment {
 
     private Closure onSuccessPhoto(){
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if(response.body()!=null){
-                String photoUrl = response.body().url_file
-                mImageUtil1.setPhotoImageView(getContext(),photoUrl,photoCheckinImageView)
-            }
-            else{
-                //poner image default
-                Log.d(TAG,"NO HAY FOTO")
-            }
+            if(response.body())
+                mImageUtil1.setPhotoImageView(getContext(),response.body().url_file,photoCheckinImageView)
+            else
+                mImageUtil1.setPhotoImageView(getContext(),"http://mybarista.com.s3.amazonaws.com/coffee.jpg",photoCheckinImageView)
         }
     }
 
