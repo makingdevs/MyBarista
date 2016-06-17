@@ -5,6 +5,7 @@ class Checkin < ApplicationRecord
   belongs_to :circle_flavor, optional: true
   has_one :s3_asset
   belongs_to :baristum, optional: true
+  belongs_to :venue, optional: true
   def as_json(options={})
     super(
         :include => {
