@@ -41,6 +41,7 @@ public class ShowCheckinFragment extends Fragment {
     TextView mPrice
     TextView mNote
     TextView mDateCreated
+    TextView mBaristaName
     Button mButtonCircleFlavor
     View itemView
     ImageButton mButtonCamera
@@ -165,6 +166,7 @@ public class ShowCheckinFragment extends Fragment {
         mMethod = (TextView) itemView.findViewById(R.id.method_data)
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
+        mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         mButtonCamera.onClickListener = {
@@ -175,6 +177,7 @@ public class ShowCheckinFragment extends Fragment {
         mMethod.text = checkin.method
         mPrice.text = checkin.price
         mNote.text = checkin.note
+        mBaristaName.text = checkin?.baristum?.name ?: ""
     }
 
     private void dispatchTakePictureIntent() {
