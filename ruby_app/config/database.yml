@@ -1,11 +1,13 @@
+default:
+  adapter: mysql2
+  host: localhost
+  socket: /tmp/mysql.sock
 
 development:
-  adapter: mysql2
+  <<: *default
   database: barista
   username: root
   password:
-  host: localhost
-  socket: /tmp/mysql.sock
 
 production:
   <<: *default
