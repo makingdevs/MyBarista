@@ -33,7 +33,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_crear_barista_save"
+        android:text="@string/baristum"
         android:id="@+id/button_new_barista"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
