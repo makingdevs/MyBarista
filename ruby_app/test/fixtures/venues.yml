@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  venue_id_foursquare: MyString
+  name: MyString
+  formatted_address: MyString
+
+two:
+  venue_id_foursquare: MyString
+  name: MyString
+  formatted_address: MyString
