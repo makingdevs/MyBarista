@@ -180,7 +180,7 @@ DEPENDENCIES
   capistrano3-puma
   foursquare2
   listen (~> 3.0.5)
-  mysql2 (~> 0.4.4)
+  mysql2 (= 0.4.4)
   puma (~> 3.0)
   rails (>= 5.0.0.rc1, < 5.1)
   spring
