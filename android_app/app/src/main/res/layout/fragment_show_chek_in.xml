@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:textColor="#FF9933"
         />
 
     <TextView
@@ -38,6 +39,8 @@
         style="@style/EditText.Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#FF9933"
+
         />
 
     <TextView
@@ -53,6 +56,8 @@
         style="@style/EditText.Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#FF9933"
+
         />
 
     <TextView
@@ -68,7 +73,26 @@
         style="@style/EditText.Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.08"/>
+        android:layout_weight="0.08"
+        android:textColor="#FF9933"
+        />
+    <TextView
+        android:id="@+id/barista_label"
+        style="@style/EditText.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/barista_label"/>
+
+
+    <TextView
+        android:id="@+id/barista_name_data"
+        style="@style/EditText.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF9933"
+        />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
