@@ -84,7 +84,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/barista_label"/>
 
-
     <TextView
         android:id="@+id/barista_name_data"
         style="@style/EditText.Icon"
@@ -97,32 +96,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/show_photo_checkin"/>
-    <LinearLayout
+
+    <ViewStub
+        android:id="@+id/stub_bottons"
+        android:layout="@layout/stub_show_check_in"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/button_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_camera"
-            android:layout_weight="0.5"/>
-
-        <Button
-            android:id="@+id/btnCircle_flavor"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Circulo del sabor"
-            android:layout_weight="0.5"/>
-
-        <Button
-            android:id="@+id/btnBarista"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/baristum"
-            android:layout_weight="0.5"/>
-    </LinearLayout>
-
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
