@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -23,6 +24,13 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.*
+import com.makingdevs.mybarista.service.CheckinManager
+import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.FoursquareManager
+import com.makingdevs.mybarista.service.FoursquareManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
+import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -67,6 +75,12 @@ public class FormCheckinFragment extends Fragment implements
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
+        checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
+        /*
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        methodFieldSprinner.adapter = adapter
+        */
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,8 +171,9 @@ public class FormCheckinFragment extends Fragment implements
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Toast.makeText(contextView, R.string.toastCheckinSuccess, Toast.LENGTH_SHORT).show();
-                cleanForm()
+                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                startActivity(intent)
+                getActivity().finish()
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -196,7 +211,6 @@ public class FormCheckinFragment extends Fragment implements
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
     }
-
 
     @Override
     void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
