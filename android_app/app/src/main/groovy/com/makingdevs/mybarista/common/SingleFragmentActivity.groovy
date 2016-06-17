@@ -39,6 +39,9 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar)
         toolbar.setVisibility(View.VISIBLE)
         setSupportActionBar(toolbar)
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar().setDisplayShowHomeEnabled(true)
+        toolbar.navigationOnClickListener = { finish() }
     }
 
     @Override
