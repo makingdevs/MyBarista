@@ -15,6 +15,7 @@ class Checkin {
     String rating
     S3_asset s3_asset
     Barista baristum
+    String author
 
     class S3_asset{
         String url_file
