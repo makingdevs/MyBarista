@@ -45,14 +45,11 @@ public class ListBrewFragment extends Fragment {
         mListBrew = (RecyclerView) root.findViewById(R.id.list_brews)
         mListBrew.setLayoutManager(new LinearLayoutManager(getActivity()))
 
-        mButtonGoChekin= (FloatingActionButton) root.findViewById(R.id.button_go_chekin);
-        mButtonGoChekin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mButtonGoChekin= (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
+        mButtonGoChekin.onClickListener = {
                 Intent intent = CheckinActivity.newIntentWithContext(getContext())
                 startActivity(intent)
             }
-        });
         updateUI()
         root
     }

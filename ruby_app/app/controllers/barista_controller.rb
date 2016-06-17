@@ -3,13 +3,13 @@ class BaristaController < ApplicationController
 
   def create
     @checkin = Checkin.find(params['id'])
-    puts @checkin
     @baristum = Baristum.new(barista_params)
+    @baristum.save
     @checkin.baristum = @baristum
     if @checkin.save
-      render json: @baristum, status: :created, location: @checkin
+      render :json => @checkin
     else
-      render json: @baristum.errors, status: :unprocessable_entity
+      render json: @checkin.errors, status: :unprocessable_entity
     end
   end
 
