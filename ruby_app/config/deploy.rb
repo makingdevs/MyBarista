@@ -7,6 +7,7 @@ set :rbenv_ruby, '2.2.3'
 
 set :repo_tree, 'ruby_app'
 set :stage, :production
+set :puma_bind, %w(tcp://0.0.0.0:3000)
 
 Rake::Task["deploy:assets:precompile"].clear_actions
 Rake::Task["deploy:assets:backup_manifest"].clear_actions
