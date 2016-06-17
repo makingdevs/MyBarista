@@ -6,6 +6,7 @@ set :repo_url, 'git@github.com:makingdevs/MyBarista.git'
 set :rbenv_ruby, '2.2.3'
 
 set :repo_tree, 'ruby_app'
+set :stage, :production
 
 Rake::Task["deploy:assets:precompile"].clear_actions
 Rake::Task["deploy:assets:backup_manifest"].clear_actions
