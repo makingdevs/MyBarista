@@ -11,14 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616143439) do
+ActiveRecord::Schema.define(version: 20160616172858) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "checkin_id"
-    t.index ["checkin_id"], name: "index_barista_on_checkin_id", using: :btree
   end
 
   create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -31,6 +29,8 @@ ActiveRecord::Schema.define(version: 20160616143439) do
     t.integer  "user_id"
     t.integer  "circle_flavor_id"
     t.string   "rating"
+    t.integer  "baristum_id"
+    t.index ["baristum_id"], name: "index_checkins_on_baristum_id", using: :btree
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
   end
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20160616143439) do
     t.string   "lastName"
   end
 
-  add_foreign_key "barista", "checkins"
+  add_foreign_key "checkins", "barista"
   add_foreign_key "checkins", "circle_flavors"
   add_foreign_key "checkins", "users"
   add_foreign_key "comments", "checkins"
