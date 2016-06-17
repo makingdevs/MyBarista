@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -33,6 +34,7 @@ import com.makingdevs.mybarista.service.FoursquareManager
 import com.makingdevs.mybarista.service.FoursquareManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
+import com.makingdevs.mybarista.ui.activity.ListBrewActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -74,6 +76,7 @@ public class FormCheckinFragment extends Fragment implements
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
+        checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
         /*
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -167,8 +170,9 @@ public class FormCheckinFragment extends Fragment implements
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Toast.makeText(contextView, R.string.toastCheckinSuccess, Toast.LENGTH_SHORT).show();
-                cleanForm()
+                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                startActivity(intent)
+                getActivity().finish()
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -201,7 +205,6 @@ public class FormCheckinFragment extends Fragment implements
         priceEditText.setText("")
         noteEditText.setText("")
     }
-
 
     @Override
     void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
