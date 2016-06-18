@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_user"
             android:drawableStart="@drawable/ic_user"
-            android:hint="@string/userame"/>
+            android:hint="@string/username"/>
 
 
         <EditText
