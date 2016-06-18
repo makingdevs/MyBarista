@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:maxWidth="170dp"
                 android:minHeight="170dp"
-                android:src="@drawable/ic_user"/>
+                android:src="@drawable/ic_profile"/>
 
         </LinearLayout>
 
