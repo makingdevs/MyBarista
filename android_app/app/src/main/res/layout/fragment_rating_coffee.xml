@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/rating_coffe_bar"
         android:progressTint="#FFD700"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:isIndicator="true"/>
 
 </LinearLayout>
