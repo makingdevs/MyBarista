@@ -49,8 +49,13 @@ class CheckinsController < ApplicationController
   end
 
   def save_venue(venue_id)
-    venue_location = venue_id != nil ? search_venue_by_id(venue_id) : ""
-    puts "location: "+venue_location.to_s
+    venue_detail = venue_id != nil ? search_venue_by_id(venue_id) : "venue_id_nil"
+    if venue_detail != "venue_id_nil"
+      @venue = Venue.create(venue_id_foursquare: venue_id, name:venue_detail.name,formatted_address: venue_detail.location.formattedAddress.join(''))
+      if @venue
+        return @venue.id
+      end
+    end
   end
 
   def search_venue_by_id(venue_id)
@@ -60,7 +65,7 @@ class CheckinsController < ApplicationController
       :client_secret => Rails.application.secrets.foursquare_secret)
     venue_detail = @client.venue(venue_id)
     if venue_detail != nil
-      return venue_detail.location.formattedAddress
+      return venue_detail
     end
   end
 
