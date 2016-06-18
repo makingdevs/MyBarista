@@ -12,9 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import groovy.transform.CompileStatic
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import retrofit2.Call
@@ -30,8 +33,10 @@ public class RatingCoffeFragment extends Fragment {
     private RatingBar mRatingCoffeBar
     private TextView mRatingCoffeText
     private static Context contextView
+    private User currentUser
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     RatingCoffeFragment(String id) {
         Bundle args = new Bundle()
@@ -43,7 +48,7 @@ public class RatingCoffeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
-        Log.d(TAG,checkinId)
+        currentUser = mSessionManager.getUserSession(getContext())
         mCheckinManager.show(checkinId,onSuccessShow(),onError())
     }
 
@@ -51,6 +56,7 @@ public class RatingCoffeFragment extends Fragment {
        mRatingCoffeBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
            @Override
            void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+               ratingBar.setIsIndicator(true);
                 sendRatingCoffeToCheckin()
            }
        })
@@ -62,16 +68,17 @@ public class RatingCoffeFragment extends Fragment {
         mRatingCoffeBar = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         mRatingCoffeText = (TextView) root.findViewById(R.id.rating_coffe_text)
         contextView = getActivity().getApplicationContext()
-        addListenerToRatingCoffeBar()
-
     root
     }
 
     private Closure onSuccessShow() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Log.d(TAG,response.dump().toString())
             if (response.code() == 200) {
-                setRatingCoffe(response.body())
+                Checkin checkin = response.body()
+                setRatingCoffe(checkin)
+                addListenerToRatingCoffeBar()
+                if(checkin.author ==  currentUser.username)
+                    mRatingCoffeBar.isIndicator = false
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -81,9 +88,10 @@ public class RatingCoffeFragment extends Fragment {
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG,response.dump().toString())
+            setRatingCoffe(response.body())
+
             if (response.code() == 200) {
                 Log.d(TAG,response.body().toString())
-                setRatingCoffe(response.body())
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
