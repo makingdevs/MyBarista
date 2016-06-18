@@ -7,7 +7,7 @@
         android:id="@+id/avatar_comment"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_user"/>
+        android:src="@drawable/ic_profile"/>
 
     <TextView
         android:id="@+id/author_comment"
