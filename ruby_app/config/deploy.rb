@@ -10,7 +10,8 @@ set :stage, :production
 set :puma_bind, %w(tcp://0.0.0.0:3000)
 set :puma_init_active_record, true
 set :puma_user, fetch(:user)
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
 Rake::Task["deploy:assets:precompile"].clear_actions
 Rake::Task["deploy:assets:backup_manifest"].clear_actions
@@ -50,8 +51,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:stop'
-      invoke 'puma:start'
+      invoke 'puma:restart'
     end
   end
 
