@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
@@ -24,7 +23,7 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+
 import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
 import retrofit2.Call
 import retrofit2.Response
@@ -66,8 +65,6 @@ class ProfileFragment extends Fragment{
             Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),currentUser.username)
             startActivity(intent)
         }
-
-        setupToolbar()
         loadData()
         root
     }
