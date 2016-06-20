@@ -15,8 +15,7 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.LoginActivity
-import com.makingdevs.mybarista.ui.activity.ProfileActivity
-import com.makingdevs.mybarista.ui.activity.SearchUserActivity
+import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
 import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
@@ -73,12 +72,12 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
 
         if (id == R.id.menu_profile) {
             User user = mSessionManager.getUserSession(this)
-            Intent intent = ProfileActivity.newIntentWithContext(this)
+            Intent intent = PrincipalActivity.newIntentWithContext(this)
             startActivity(intent)
             finish()
         }
         if(id == R.id.menu_search) {
-            Intent intent = SearchUserActivity.newIntentWithContext(this)
+            Intent intent = PrincipalActivity.newIntentWithContext(this)
             startActivity(intent)
         }
         if(id == R.id.menu_logout) {
