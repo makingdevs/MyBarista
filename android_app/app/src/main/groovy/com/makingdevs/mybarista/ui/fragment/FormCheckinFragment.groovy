@@ -57,7 +57,7 @@ public class FormCheckinFragment extends Fragment implements
     private long UPDATE_INTERVAL = 10000
     private long FASTEST_INTERVAL = 2000
 
-    List<Venue> venues = [new Venue(id:"", name: "Selecciona lugar")]
+    List<Venue> venues = [new Venue(name: "Selecciona lugar")]
 
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
