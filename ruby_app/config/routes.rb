@@ -20,4 +20,5 @@ Rails.application.routes.draw do
    get '/search/users', to:'users#search', as: 'searchUsers'
    get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
    post '/barista/:id/save', to: 'barista#create', as: 'saveBarista'
+   get '/foursquare/searh_venues_id', to: 'foursquare#search_venue_by_id', as: 'api_foursquare_search_id'
 end

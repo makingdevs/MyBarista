@@ -57,7 +57,7 @@ public class FormCheckinFragment extends Fragment implements
     private long UPDATE_INTERVAL = 10000
     private long FASTEST_INTERVAL = 2000
 
-    List<Venue> venues
+    List<Venue> venues = [new Venue(name: "Selecciona lugar")]
 
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
@@ -76,11 +76,7 @@ public class FormCheckinFragment extends Fragment implements
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
-        /*
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        methodFieldSprinner.adapter = adapter
-        */
+
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,9 +154,10 @@ public class FormCheckinFragment extends Fragment implements
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-        Log.d(TAG, rating)
+        Integer selectIndexvenue = venueSpinner.getSelectedItemPosition()
+        Venue detailVenue = getDetailVenueFromList(selectIndexvenue)
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString())
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(),idVenueFoursquare:detailVenue.id)
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -188,8 +185,8 @@ public class FormCheckinFragment extends Fragment implements
 
     private Closure onSuccessGetVenues() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Log.d(TAG,"Venues... "+ response.body().dump().toString())
-            venues = response.body() as List
+            //Log.d(TAG,"Venues... "+ response.body().dump().toString())
+            venues.addAll(response.body() as List)
             setVenuesToSpinner(venueSpinner,venues)
         }
     }
@@ -210,6 +207,10 @@ public class FormCheckinFragment extends Fragment implements
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
+    }
+
+    Venue getDetailVenueFromList(Integer itemSelectedIndex){
+        Venue detailVenue = venues.getAt(itemSelectedIndex)
     }
 
     @Override
