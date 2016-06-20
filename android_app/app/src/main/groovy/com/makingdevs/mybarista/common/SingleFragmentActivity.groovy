@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.common
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -24,6 +25,7 @@ import groovy.transform.CompileStatic
 abstract class SingleFragmentActivity extends AppCompatActivity implements WithFragment {
 
     SessionManager mSessionManager = SessionManagerImpl.instance
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,45 +35,24 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
         Fragment fragment = fm.findFragmentById(R.id.container)
         if (!fragment)
             fm.beginTransaction().add(R.id.container, createFragment()).commit()
+
+        setToolbar()
+
     }
 
-    void createMenu(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar)
-        toolbar.setVisibility(View.VISIBLE)
-        setSupportActionBar(toolbar)
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true)
-        getSupportActionBar().setDisplayShowHomeEnabled(true)
-        toolbar.navigationOnClickListener = { finish() }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Integer id = item.getItemId()
-
-        //TODO refactor de esto hay una mejor manera
-        if (id == R.id.menu_profile) {
-            Intent intent = ProfileActivity.newIntentWithContext(this)
-            startActivity(intent)
-            finish()
+    def setToolbar(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar)
+        mToolbar.navigationOnClickListener = { onNavigationButtonClicked() }
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar)
         }
-        if(id == R.id.menu_search) {
-            Intent intent = SearchUserActivity.newIntentWithContext(this)
-            startActivity(intent)
-        }
-        if(id == R.id.menu_logout) {
-            mSessionManager.setLogout(this)
-            Intent intent = LoginActivity.newIntentWithContext(this)
-            startActivity(intent)
-            finish()
-        }
-
-        super.onOptionsItemSelected(item)
     }
 
+    def setActivityToolbarVisible(boolean visible){
+        mToolbar.setVisibility(visible? View.VISIBLE :  View.INVISIBLE )
+    }
+
+    def onNavigationButtonClicked() {
+        finish()
+    }
 }
