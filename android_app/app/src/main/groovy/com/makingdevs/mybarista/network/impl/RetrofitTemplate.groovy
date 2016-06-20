@@ -2,6 +2,7 @@ package com.makingdevs.mybarista.network.impl
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.makingdevs.mybarista.BuildConfig
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.Comment
 import com.makingdevs.mybarista.model.PhotoCheckin
@@ -28,7 +29,7 @@ class RetrofitTemplate {
 
     final Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl('http://50.16.50.107:3000/')
+            .baseUrl(BuildConfig.API_SERVER_URL)
             .build()
 
     def withRetrofit(Class operations, Closure onSuccess, Closure onError, Closure action){
