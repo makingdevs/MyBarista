@@ -19,7 +19,7 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.RegistrationActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -56,7 +56,7 @@ class LoginFragment extends Fragment{
 
     private void validateHasUserSession(){
         if (mSessionManager.isUserSession(getContext())){
-            Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+            Intent intent = PrincipalActivity.newIntentWithContext(getContext())
             startActivity(intent)
             getActivity().finish()
         }
@@ -87,7 +87,7 @@ class LoginFragment extends Fragment{
         { Call<User> call, Response<User> response ->
             if(response.code() == 200){
                 mSessionManager.setUserSession(response.body(),getContext())
-                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                Intent intent = PrincipalActivity.newIntentWithContext(getContext())
                 startActivity(intent)
                 getActivity().finish()
             }
