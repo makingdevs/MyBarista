@@ -1,24 +1,15 @@
 package com.makingdevs.mybarista.common
 
-import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
-import com.makingdevs.mybarista.ui.activity.LoginActivity
-import com.makingdevs.mybarista.ui.activity.ProfileActivity
-import com.makingdevs.mybarista.ui.activity.SearchUserActivity
 import groovy.transform.CompileStatic
 
 @CompileStatic
