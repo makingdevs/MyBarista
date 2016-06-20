@@ -23,14 +23,13 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
-import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.service.FoursquareManager
 import com.makingdevs.mybarista.service.FoursquareManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -158,7 +157,6 @@ public class FormCheckinFragment extends Fragment implements
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-        Log.d(TAG, rating)
         User currentUser = mSessionManager.getUserSession(getContext())
         new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString())
     }
@@ -171,7 +169,7 @@ public class FormCheckinFragment extends Fragment implements
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                Intent intent = PrincipalActivity.newIntentWithContext(getContext())
                 startActivity(intent)
                 getActivity().finish()
             } else {
