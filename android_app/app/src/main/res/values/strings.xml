@@ -78,5 +78,6 @@
     <string name="baristum">Agregar Barista</string>
     <string name="barista_label">Barista</string>
     <string name="font_blacksword">Blacksword.otf</string>
+    <string name="menu_accept">Aceptar</string>
 
 </resources>
