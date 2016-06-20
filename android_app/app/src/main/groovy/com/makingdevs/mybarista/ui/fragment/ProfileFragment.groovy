@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -34,38 +37,53 @@ class ProfileFragment extends Fragment{
     SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "ProfileFragment"
-    private ImageButton mButtonProfileConfirm
-    private ImageButton mButtonProfileCancel
     private EditText nameProfileEditText
     private EditText lastNameProfileEditText
     private TextView usernameProfile
     private Button checkinsCount
+    private Toolbar toolbar
+
     User currentUser
+
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_profile, container, false)
         currentUser = mSessionManager.getUserSession(getContext())
-        mButtonProfileConfirm = (ImageButton) root.findViewById(R.id.buttonProfileConfirm)
-        mButtonProfileCancel = (ImageButton) root.findViewById(R.id.buttonProfileCancel)
+
         nameProfileEditText = (EditText) root.findViewById(R.id.inputNameProfile)
         lastNameProfileEditText = (EditText) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+        toolbar = (Toolbar) root.findViewById(R.id.toolbar)
+
         checkinsCount.onClickListener = {
             Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),currentUser.username)
             startActivity(intent)
         }
-        mButtonProfileConfirm.onClickListener = {
-            updateInfoUserProfile()
-        }
-        mButtonProfileCancel.onClickListener = {
-            Intent intent = ListBrewActivity.newIntentWithContext(getContext())
-            startActivity(intent)
-            getActivity().finish()
-        }
+
+        setupToolbar()
         loadData()
         root
+    }
+
+    @Override
+    void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_profile, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private void setupToolbar(){
+        toolbar.setTitle("")
+        getActivity().setSupportActionBar(toolbar)
+        getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true)
+        getActivity().getSupportActionBar().setDisplayShowHomeEnabled(true)
+        toolbar.navigationOnClickListener = { getActivity().finish() }
     }
 
     private void loadData(){
