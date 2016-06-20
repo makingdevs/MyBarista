@@ -40,8 +40,8 @@
     <string name="menu_logout">Logout</string>
     <string name="login_textView_message">¿No tienes cuenta? Registrate!</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="profile_first_name">First Name</string>
-    <string name="profile_last_name">Last Name</string>
+    <string name="profile_first_name">Nombre</string>
+    <string name="profile_last_name">Apellidos</string>
     <string name="profile_username">Username</string>
     <string name="title_profile">Your profile</string>
     <string name="profile_mesage_add_photo">Add a cover Photo</string>
@@ -70,9 +70,9 @@
     <string name="cuerpo_progress_bar">Cuerpo</string>
     <string name="text_message">Text Message</string>
     <string name="comment_error_message">Ocurrio un error al comentar</string>
-    <string name="template_checkins">100 \n Checkins</string>
-    <string name="template_friends">34 \n Friends</string>
-    <string name="menu_search">Search</string>
+    <string name="template_checkins">0 \n Checkins</string>
+    <string name="template_friends">0 \n Amigos</string>
+    <string name="menu_search">Buscar</string>
     <string name="something">Something</string>
     <string name="placeHolderNameBarista">Nombre del Barista</string>
     <string name="baristum">Agregar Barista</string>
