@@ -17,9 +17,14 @@ class CheckinsController < ApplicationController
 
   # POST /checkins
   def create
+    @venue = search_venue(params['idVenueFoursquare'])
+    if @venue == nil
+      @venue = save_venue(params['idVenueFoursquare'])
+    end
     @checkin = Checkin.new(checkin_params)
     user = User.find_by username: params['username']
     @checkin.user = user
+    @checkin.venue = @venue
     if @checkin.save
       render json: @checkin, status: :created, location: @checkin
     else
@@ -44,6 +49,35 @@ class CheckinsController < ApplicationController
       render json: @checkin
     else
       render json: @checkin.errors, status: :unprocessable_entity
+    end
+  end
+
+  def search_venue(venue_id)
+    if venue_id != nil
+      @venue = Venue.find_by venue_id_foursquare: venue_id
+      return @venue
+    end
+  end
+
+  def save_venue(venue_id)
+    venue_detail = venue_id != nil ? search_venue_foursquare_by_id(venue_id) : "venue_id_nil"
+    if venue_detail != "venue_id_nil"
+      @venue = Venue.create(venue_id_foursquare: venue_id, name:venue_detail.name,formatted_address: venue_detail.location.formattedAddress.join(''))
+      if @venue
+        return @venue
+      end
+    end
+  end
+
+  def search_venue_foursquare_by_id(venue_id)
+    current_date = Time.now.strftime("%Y%m%d")
+    @client = Foursquare2::Client.new(:api_version => current_date,
+      :client_id => Rails.application.secrets.foursquare_id, 
+      :client_secret => Rails.application.secrets.foursquare_secret,
+      :ssl => { :verify =>false})
+    venue_detail = @client.venue(venue_id)
+    if venue_detail != nil
+      return venue_detail
     end
   end
 
