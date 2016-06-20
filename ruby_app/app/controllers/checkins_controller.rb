@@ -21,13 +21,15 @@ class CheckinsController < ApplicationController
     if @venue == nil
       @venue = save_venue(params['idVenueFoursquare'])
     end
-    #user = User.find_by username: params['username']
-    #@checkin.user = user
-    #if @checkin.save
-    #  render json: @checkin, status: :created, location: @checkin
-    #else
-    #  render json: @checkin.errors, status: :unprocessable_entity
-    #end
+    @checkin = Checkin.new(checkin_params)
+    user = User.find_by username: params['username']
+    @checkin.user = user
+    @checkin.venue = @venue
+    if @checkin.save
+      render json: @checkin, status: :created, location: @checkin
+    else
+      render json: @checkin.errors, status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /checkins/1
@@ -62,7 +64,7 @@ class CheckinsController < ApplicationController
     if venue_detail != "venue_id_nil"
       @venue = Venue.create(venue_id_foursquare: venue_id, name:venue_detail.name,formatted_address: venue_detail.location.formattedAddress.join(''))
       if @venue
-        return @venue.id
+        return @venue
       end
     end
   end
