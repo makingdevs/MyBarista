@@ -36,6 +36,5 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        createMenu()
     }
 }
