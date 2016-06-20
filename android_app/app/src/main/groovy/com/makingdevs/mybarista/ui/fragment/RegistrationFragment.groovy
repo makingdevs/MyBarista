@@ -18,9 +18,7 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.CheckinActivity
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
-import com.makingdevs.mybarista.ui.activity.LoginActivity
+import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -78,7 +76,7 @@ class RegistrationFragment extends Fragment{
             Log.d(TAG,"Respueta:"+response.code())
             if(response.code() == 201){
                 mSessionManager.setUserSession(response.body(),getContext())
-                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                Intent intent = PrincipalActivity.newIntentWithContext(getContext())
                 startActivity(intent)
                 getActivity().finish()
             }
