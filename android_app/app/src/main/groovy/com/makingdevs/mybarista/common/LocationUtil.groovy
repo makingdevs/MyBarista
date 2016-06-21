@@ -11,7 +11,10 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import groovy.beans.Bindable
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private final String TAG = "LocationUtil"
@@ -21,10 +24,10 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
     private LocationRequest mLocationRequest
     private long UPDATE_INTERVAL = 10000
     private long FASTEST_INTERVAL = 2000
-    String latitude
-    String longitude
+    @Bindable Double latitude
+    @Bindable Double longitude
 
-    void getClientGoogleLocation(Context context){
+    void init(Context context){
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(context)
                     .addConnectionCallbacks(this)
@@ -32,19 +35,6 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
                     .addApi(LocationServices.API)
                     .build()
         }
-    }
-
-    private void startLocationUpdates() {
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL)
-                //.setNumUpdates(1)
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
-    }
-
-    Map getLocation(){
-        ["latitude":latitude,"longitude":longitude]
     }
 
     @Override
@@ -68,14 +58,22 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
 
     @Override
     void onLocationChanged(Location location) {
-        latitude = location.getLatitude()
-        longitude = location.getLongitude()
-        getLocation()
+        this.setLatitude(location.getLatitude()) // Para llamar al event listener
+        this.setLongitude(location.getLongitude())
         Log.d(TAG, "Ubicaion actual: $latitude $longitude")
     }
 
     @Override
     void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "Error...." + connectionResult.errorMessage)
+    }
+
+    private void startLocationUpdates() {
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(UPDATE_INTERVAL)
+                .setFastestInterval(FASTEST_INTERVAL)
+        //.setNumUpdates(1)
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
     }
 }
