@@ -13,6 +13,7 @@ import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
@@ -38,12 +39,11 @@ class FormCheckinFragment extends Fragment {
     Button checkInButton
     RatingBar ratingCoffe
     Spinner venueSpinner
-    LocationUtil mLocationUtil
-    Double latitude
-    Double longitud
+    GPSLocation mGPSLocation
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
+    LocationUtil mLocationUtil = LocationUtil.instance
 
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
 
@@ -64,21 +64,20 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
-        Log.d(TAG, "${mLocationUtil.properties}")
         root
     }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        mLocationUtil = LocationUtil.newInstance()
-        mLocationUtil.addPropertyChangeListener { property ->
-            LocationUtil location = property["source"] as LocationUtil
-            if (location.latitude && location.longitude) {
-                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: location.latitude.toString(), longitude: location.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
+        mGPSLocation = new GPSLocation()
+        mGPSLocation.addPropertyChangeListener { property ->
+            GPSLocation gpsLocation = property["source"] as GPSLocation
+            if (gpsLocation.latitude && gpsLocation.longitude) {
+                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
             }
         }
-        mLocationUtil.init(getActivity())
+        mLocationUtil.init(getActivity(), mGPSLocation)
     }
 
     void onStart() {
