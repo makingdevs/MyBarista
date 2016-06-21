@@ -11,23 +11,24 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import groovy.beans.Bindable
+import com.makingdevs.mybarista.model.GPSLocation
 import groovy.transform.CompileStatic
 
 @CompileStatic
+@Singleton
 class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private final String TAG = "LocationUtil"
 
     Location mLastLocation
     GoogleApiClient mGoogleApiClient
-    private LocationRequest mLocationRequest
-    private long UPDATE_INTERVAL = 10000
-    private long FASTEST_INTERVAL = 2000
-    @Bindable Double latitude
-    @Bindable Double longitude
+    LocationRequest mLocationRequest
+    final long UPDATE_INTERVAL = 10000
+    final long FASTEST_INTERVAL = 2000
+    GPSLocation mGPSLocation
 
-    void init(Context context){
+    void init(Context context, GPSLocation mGPSLocation){
+        this.mGPSLocation = mGPSLocation
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(context)
                     .addConnectionCallbacks(this)
@@ -39,10 +40,10 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
 
     @Override
     void onConnected(@Nullable Bundle bundle) {
-        //Log.d(TAG, "GPS conectado....")
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-        if (mLastLocation != null) {
-            Log.d(TAG, "Ubicacion previa... " + mLastLocation.toString())
+        if (!mLastLocation) {
+            mGPSLocation.setLatitude(mLastLocation.latitude)
+            mGPSLocation.setLongitude(mLastLocation.longitude)
         }
         startLocationUpdates()
     }
@@ -58,9 +59,8 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
 
     @Override
     void onLocationChanged(Location location) {
-        // Llamamos al método Per-se por que queremos usar el fireProperty de  Bindable
-        this.setLatitude(location.getLatitude())
-        this.setLongitude(location.getLongitude())
+        mGPSLocation.setLatitude(location.getLatitude())
+        mGPSLocation.setLongitude(location.getLongitude())
     }
 
     @Override
