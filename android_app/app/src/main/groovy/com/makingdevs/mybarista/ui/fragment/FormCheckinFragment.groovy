@@ -2,9 +2,7 @@ package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -12,49 +10,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.LocationListener
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
-import com.makingdevs.mybarista.service.CheckinManager
-import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.service.FoursquareManager
-import com.makingdevs.mybarista.service.FoursquareManagerImpl
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
+import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
-@CompileStatic
-public class FormCheckinFragment extends Fragment implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+import java.beans.PropertyChangeEvent
+import java.beans.PropertyChangeListener
 
-    private static final String TAG = "FormCheckinFragment"
-    private EditText originEditText
-    private EditText priceEditText
-    private EditText noteEditText
-    private Spinner methodFieldSprinner
-    private Button checkInButton
-    private static Context contextView
-    private RatingBar ratingCoffe
-    private Spinner venueSpinner
+@CompileStatic
+class FormCheckinFragment extends Fragment {
+
+    static final String TAG = "FormCheckinFragment"
+    static Context contextView
+    EditText originEditText
+    EditText priceEditText
+    EditText noteEditText
+    Spinner methodFieldSprinner
+    Button checkInButton
+    RatingBar ratingCoffe
+    Spinner venueSpinner
+    LocationUtil mLocationUtil
+    Double latitude
+    Double longitud
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    private Location mLastLocation
-    private GoogleApiClient mGoogleApiClient
-    private LocationRequest mLocationRequest
-    private long UPDATE_INTERVAL = 10000
-    private long FASTEST_INTERVAL = 2000
 
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
 
@@ -74,76 +63,28 @@ public class FormCheckinFragment extends Fragment implements
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
-        checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
-
-        checkInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveCheckIn(getFormCheckIn())
-            }
-        });
-
+        checkInButton.onClickListener =  { View v -> saveCheckIn(getFormCheckIn()) }
+        Log.d(TAG, "${mLocationUtil.properties}")
         root
     }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                @Override
-                void onConnected(@Nullable Bundle bundle) {
-                    Log.d(TAG, "GPS conectado....")
-                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-                    if (mLastLocation != null) {
-                        Log.d(TAG, "Ubicacion previa... " + mLastLocation.toString())
-                    }
-                    startLocationUpdates()
-                }
-
-                @Override
-                void onConnectionSuspended(int i) {
-                    if (i == CAUSE_SERVICE_DISCONNECTED) {
-                        Log.d(TAG, "GPS desconectado....")
-                    } else if (i == CAUSE_NETWORK_LOST) {
-                        Log.d(TAG, "Conexion perdida....")
-                    }
-                }
-            })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-
-                @Override
-                void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                    Log.d(TAG, "Error...." + connectionResult.errorMessage)
-                }
-            })
-                    .addApi(LocationServices.API)
-                    .build()
-        }
-    }
-
-    protected void startLocationUpdates() {
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL)
-                .setNumUpdates(1)
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+        mLocationUtil = LocationUtil.newInstance()
+        mLocationUtil.addPropertyChangeListener "latitude", { property -> this.latitude = property["newValue"] as Double }
+        mLocationUtil.addPropertyChangeListener "longitude", { property -> this.longitud = property["newValue"] as Double }
+        mLocationUtil.init(getActivity())
     }
 
     void onStart() {
-        mGoogleApiClient.connect()
         super.onStart()
+        mLocationUtil.mGoogleApiClient.connect()
     }
 
     void onStop() {
         super.onStop()
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect()
-        }
+        mLocationUtil.mGoogleApiClient.disconnect()
     }
 
 
@@ -212,26 +153,4 @@ public class FormCheckinFragment extends Fragment implements
         Venue detailVenue = venues.getAt(itemSelectedIndex)
     }
 
-    @Override
-    void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    void onLocationChanged(Location location) {
-        String latitude = location.getLatitude()
-        String longitude = location.getLongitude()
-        Log.d(TAG, "Ubicaion actual: $latitude $longitude")
-        mFoursquareManager.getVenuesNear(new VenueCommand(latitude:latitude,longitude:longitude,query: "coffe"),onSuccessGetVenues(),onErrorGetVenues())
-    }
 }
