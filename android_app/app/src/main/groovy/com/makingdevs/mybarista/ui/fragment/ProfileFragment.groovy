@@ -4,11 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -23,11 +20,10 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
-
 import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
+import com.makingdevs.mybarista.ui.activity.LoginActivity
 import retrofit2.Call
 import retrofit2.Response
-
 
 class ProfileFragment extends Fragment{
 
@@ -40,47 +36,36 @@ class ProfileFragment extends Fragment{
     private EditText lastNameProfileEditText
     private TextView usernameProfile
     private Button checkinsCount
-    private Toolbar toolbar
+    TextView mCloseSession
 
     User currentUser
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_profile, container, false)
         currentUser = mSessionManager.getUserSession(getContext())
-
         nameProfileEditText = (EditText) root.findViewById(R.id.inputNameProfile)
         lastNameProfileEditText = (EditText) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
-        toolbar = (Toolbar) root.findViewById(R.id.toolbar)
-
+        mCloseSession = (TextView) root.findViewById(R.id.close_session)
+        mCloseSession.onClickListener = {
+            mSessionManager.setLogout(getContext())
+            Intent intent = LoginActivity.newIntentWithContext(getContext())
+            startActivity(intent)
+            getActivity().finish()
+        }
         checkinsCount.onClickListener = {
             Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),currentUser.username)
             startActivity(intent)
         }
         loadData()
         root
-    }
-
-    @Override
-    void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_profile, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    private void setupToolbar(){
-        toolbar.setTitle("")
-        getActivity().setSupportActionBar(toolbar)
-        getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true)
-        getActivity().getSupportActionBar().setDisplayShowHomeEnabled(true)
-        toolbar.navigationOnClickListener = { getActivity().finish() }
     }
 
     private void loadData(){
