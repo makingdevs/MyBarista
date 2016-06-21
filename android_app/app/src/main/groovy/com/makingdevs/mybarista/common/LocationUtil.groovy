@@ -58,9 +58,9 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
 
     @Override
     void onLocationChanged(Location location) {
-        this.setLatitude(location.getLatitude()) // Para llamar al event listener
+        // Llamamos al método Per-se por que queremos usar el fireProperty de  Bindable
+        this.setLatitude(location.getLatitude())
         this.setLongitude(location.getLongitude())
-        Log.d(TAG, "Ubicaion actual: $latitude $longitude")
     }
 
     @Override
