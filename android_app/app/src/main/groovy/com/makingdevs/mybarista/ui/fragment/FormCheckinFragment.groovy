@@ -43,6 +43,7 @@ class FormCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
+    // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
 
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
@@ -64,6 +65,7 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
+        Log.d(TAG, "${mGPSLocation}")
         root
     }
 
@@ -77,17 +79,22 @@ class FormCheckinFragment extends Fragment {
                 mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
             }
         }
+        // TODO: Refactor de nombres, diseño y responsabilidad
+        // No sé si es un singleton, y si hay que inicializar con context y objeto al mismo tiempo
         mLocationUtil.init(getActivity(), mGPSLocation)
+        Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStart() {
         super.onStart()
         mLocationUtil.mGoogleApiClient.connect()
+        Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStop() {
         super.onStop()
         mLocationUtil.mGoogleApiClient.disconnect()
+        Log.d(TAG, "${mGPSLocation}")
     }
 
 
