@@ -25,6 +25,8 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
     LocationRequest mLocationRequest
     final long UPDATE_INTERVAL = 10000
     final long FASTEST_INTERVAL = 2000
+    // TODO: Analizar si este objeto debe ser fijo, es decir, que debe de existir
+    // una instancia única, para hacerlo estático y establecer el PropertyChangeListener de forma externa
     GPSLocation mGPSLocation
 
     void init(Context context, GPSLocation mGPSLocation){
