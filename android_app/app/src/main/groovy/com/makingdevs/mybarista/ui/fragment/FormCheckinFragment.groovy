@@ -63,7 +63,7 @@ class FormCheckinFragment extends Fragment {
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
-        checkInButton.onClickListener =  { View v -> saveCheckIn(getFormCheckIn()) }
+        checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
         Log.d(TAG, "${mLocationUtil.properties}")
         root
     }
@@ -72,8 +72,12 @@ class FormCheckinFragment extends Fragment {
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         mLocationUtil = LocationUtil.newInstance()
-        mLocationUtil.addPropertyChangeListener "latitude", { property -> this.latitude = property["newValue"] as Double }
-        mLocationUtil.addPropertyChangeListener "longitude", { property -> this.longitud = property["newValue"] as Double }
+        mLocationUtil.addPropertyChangeListener { property ->
+            LocationUtil location = property["source"] as LocationUtil
+            if (location.latitude && location.longitude) {
+                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: location.latitude.toString(), longitude: location.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
+            }
+        }
         mLocationUtil.init(getActivity())
     }
 
@@ -97,7 +101,7 @@ class FormCheckinFragment extends Fragment {
         Integer selectIndexvenue = venueSpinner.getSelectedItemPosition()
         Venue detailVenue = getDetailVenueFromList(selectIndexvenue)
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(),idVenueFoursquare:detailVenue.id)
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: detailVenue.id)
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -127,13 +131,13 @@ class FormCheckinFragment extends Fragment {
         { Call<Checkin> call, Response<Checkin> response ->
             //Log.d(TAG,"Venues... "+ response.body().dump().toString())
             venues.addAll(response.body() as List)
-            setVenuesToSpinner(venueSpinner,venues)
+            setVenuesToSpinner(venueSpinner, venues)
         }
     }
 
     private Closure onErrorGetVenues() {
         { Call<Checkin> call, Throwable t ->
-            Log.d(TAG,"Error get venues... "+t.message)
+            Log.d(TAG, "Error get venues... " + t.message)
         }
     }
 
@@ -143,13 +147,13 @@ class FormCheckinFragment extends Fragment {
         noteEditText.setText("")
     }
 
-    void setVenuesToSpinner(Spinner spinner,List<Venue> venues){
+    void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
     }
 
-    Venue getDetailVenueFromList(Integer itemSelectedIndex){
+    Venue getDetailVenueFromList(Integer itemSelectedIndex) {
         Venue detailVenue = venues.getAt(itemSelectedIndex)
     }
 
