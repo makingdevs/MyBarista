@@ -64,14 +64,7 @@ class LoginFragment extends Fragment{
 
     private void getFormLogin(){
         LoginCommand loginCommand = new LoginCommand(username:userNameEditText.text.toString(),password:passwordEditText.text.toString())
-        validateForm(loginCommand)
-    }
-
-    private void validateForm(LoginCommand loginCommand){
-        if(loginCommand.validateCommand())
-            mUserManager.login(loginCommand,onSuccess(),OnError())
-        else
-            cleanForm()
+        mUserManager.login(loginCommand,onSuccess(),OnError())
     }
 
     private void cleanForm(){
