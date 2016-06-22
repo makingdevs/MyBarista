@@ -79,5 +79,7 @@
     <string name="barista_label">Barista</string>
     <string name="font_blacksword">Blacksword.otf</string>
     <string name="menu_accept">Aceptar</string>
+    <string name="venue_detail">Lugar</string>
+    <string name="add_venue">Agregar ubicacion</string>
 
 </resources>
