@@ -3,20 +3,11 @@ package com.makingdevs.mybarista.network.impl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.makingdevs.mybarista.BuildConfig
-import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.model.Comment
-import com.makingdevs.mybarista.model.PhotoCheckin
-import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.model.Venue
-import com.makingdevs.mybarista.network.BaristaRestOperations
-import com.makingdevs.mybarista.network.CheckinRestOperations
-import com.makingdevs.mybarista.network.CommentRestOperations
-import com.makingdevs.mybarista.network.FoursquareRestOperations
-import com.makingdevs.mybarista.network.UserRestOperations
+import com.makingdevs.mybarista.model.*
+import com.makingdevs.mybarista.network.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -49,7 +40,7 @@ class RetrofitTemplate {
                 onResponse :onSuccess,
                 onFailure : onError
         ]
-        model.enqueue(callback as Callback<Checkin>)
+        model.enqueue(callback as Callback<User>)
     }
 
     def withRetrofitComemnt(Class operations, Closure onSuccess, Closure onError, Closure action){
