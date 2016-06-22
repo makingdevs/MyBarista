@@ -206,6 +206,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_large"
             android:padding="@dimen/spacing_normal"
+            android:textColor="@color/white"
             android:text="@string/crear_circulo" />
 
     </LinearLayout>
