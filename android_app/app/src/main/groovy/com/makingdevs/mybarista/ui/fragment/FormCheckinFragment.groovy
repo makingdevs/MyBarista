@@ -20,6 +20,7 @@ import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
+import com.makingdevs.mybarista.ui.activity.SearchVenueFoursquareActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -40,6 +41,7 @@ class FormCheckinFragment extends Fragment {
     RatingBar ratingCoffe
     Spinner venueSpinner
     GPSLocation mGPSLocation
+    Button addVenueButton
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -60,11 +62,16 @@ class FormCheckinFragment extends Fragment {
         priceEditText = (EditText) root.findViewById(R.id.priceField)
         noteEditText = (EditText) root.findViewById(R.id.noteField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
-        checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
+        checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
+        addVenueButton = (Button) root.findViewById(R.id.btnAddVenue)
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
+        addVenueButton.onClickListener = {
+            Intent intent = SearchVenueFoursquareActivity.newIntentWithContext(getContext())
+            startActivity(intent)
+        }
         Log.d(TAG, "${mGPSLocation}")
         root
     }
