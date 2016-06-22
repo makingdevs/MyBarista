@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
-import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.VenueCommand
@@ -70,8 +69,9 @@ class SearchVenueFoursquareFragment extends Fragment {
         mGPSLocation.addPropertyChangeListener { property ->
             GPSLocation gpsLocation = property["source"] as GPSLocation
             Log.d(TAG,"Entrando al listener")
-            while (gpsLocation.latitude && gpsLocation.longitude){
+            if (gpsLocation.latitude && gpsLocation.longitude){
                 Log.d(TAG,"diferente de null")
+                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: ""), onSuccessGetVenues(), onErrorGetVenues())
                 currentLatitude = gpsLocation.latitude
                 currentLongitude = gpsLocation.longitude
             }
@@ -79,19 +79,19 @@ class SearchVenueFoursquareFragment extends Fragment {
         // TODO: Refactor de nombres, diseño y responsabilidad
         // No sé si es un singleton, y si hay que inicializar con context y objeto al mismo tiempo
         mLocationUtil.init(getActivity(), mGPSLocation)
-        Log.d(TAG, "${mGPSLocation}")
+        //Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStart() {
         super.onStart()
         mLocationUtil.mGoogleApiClient.connect()
-        Log.d(TAG, "${mGPSLocation}")
+        //Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStop() {
         super.onStop()
         mLocationUtil.mGoogleApiClient.disconnect()
-        Log.d(TAG, "${mGPSLocation}")
+        //Log.d(TAG, "${mGPSLocation}")
     }
 
     private Closure onSuccessGetVenues() {
@@ -99,10 +99,6 @@ class SearchVenueFoursquareFragment extends Fragment {
             //Log.d(TAG,"Venues... "+ response.body().dump().toString())
             venues.clear()
             venues.addAll(response.body() as List)
-            /*
-            for(Object o in venues){
-                println("datos "+o.dump().toString())
-            }*/
 
             if(!mVenueAdapter){
                 mVenueAdapter = new VenueAdapter(getContext(), venues)
