@@ -23,6 +23,7 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
+import com.makingdevs.mybarista.ui.activity.CameraActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -153,7 +154,11 @@ public class ShowCheckinFragment extends Fragment {
     }
 
     private bindingElements(){
-        mButtonCamera.onClickListener = { dispatchTakePictureIntent() }
+        mButtonCamera.onClickListener = {
+            Intent intent = CameraActivity.newIntentWithContext(getContext())
+            intent.putExtra("checkingId",mCheckinId)
+            startActivity(intent)
+        }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId",mCheckinId)
