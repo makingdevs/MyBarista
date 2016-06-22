@@ -2,9 +2,7 @@ package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -12,52 +10,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.LocationListener
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.*
-import com.makingdevs.mybarista.service.CheckinManager
-import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.service.FoursquareManager
-import com.makingdevs.mybarista.service.FoursquareManagerImpl
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewActivity
+import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
-@CompileStatic
-public class FormCheckinFragment extends Fragment implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+import java.beans.PropertyChangeEvent
+import java.beans.PropertyChangeListener
 
-    private static final String TAG = "FormCheckinFragment"
-    private EditText originEditText
-    private EditText priceEditText
-    private EditText noteEditText
-    private Spinner methodFieldSprinner
-    private Button checkInButton
-    private static Context contextView
-    private RatingBar ratingCoffe
-    private Spinner venueSpinner
+@CompileStatic
+class FormCheckinFragment extends Fragment {
+
+    static final String TAG = "FormCheckinFragment"
+    static Context contextView
+    EditText originEditText
+    EditText priceEditText
+    EditText noteEditText
+    Spinner methodFieldSprinner
+    Button checkInButton
+    RatingBar ratingCoffe
+    Spinner venueSpinner
+    GPSLocation mGPSLocation
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    private Location mLastLocation
-    private GoogleApiClient mGoogleApiClient
-    private LocationRequest mLocationRequest
-    private long UPDATE_INTERVAL = 10000
-    private long FASTEST_INTERVAL = 2000
+    // TODO: Refactor de nombres, diseño y responsabilidad
+    LocationUtil mLocationUtil = LocationUtil.instance
 
-    List<Venue> venues
+    List<Venue> venues = [new Venue(name: "Selecciona lugar")]
 
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
@@ -75,80 +64,37 @@ public class FormCheckinFragment extends Fragment implements
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
-        checkInButton.onClickListener = { saveCheckIn(getFormCheckIn()) }
-        /*
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, new ArrayList<CharSequence>())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        methodFieldSprinner.adapter = adapter
-        */
-        checkInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveCheckIn(getFormCheckIn())
-            }
-        });
-
+        checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
+        Log.d(TAG, "${mGPSLocation}")
         root
     }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                @Override
-                void onConnected(@Nullable Bundle bundle) {
-                    Log.d(TAG, "GPS conectado....")
-                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-                    if (mLastLocation != null) {
-                        Log.d(TAG, "Ubicacion previa... " + mLastLocation.toString())
-                    }
-                    startLocationUpdates()
-                }
-
-                @Override
-                void onConnectionSuspended(int i) {
-                    if (i == CAUSE_SERVICE_DISCONNECTED) {
-                        Log.d(TAG, "GPS desconectado....")
-                    } else if (i == CAUSE_NETWORK_LOST) {
-                        Log.d(TAG, "Conexion perdida....")
-                    }
-                }
-            })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-
-                @Override
-                void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                    Log.d(TAG, "Error...." + connectionResult.errorMessage)
-                }
-            })
-                    .addApi(LocationServices.API)
-                    .build()
+        mGPSLocation = new GPSLocation()
+        mGPSLocation.addPropertyChangeListener { property ->
+            GPSLocation gpsLocation = property["source"] as GPSLocation
+            if (gpsLocation.latitude && gpsLocation.longitude) {
+                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
+            }
         }
-    }
-
-    protected void startLocationUpdates() {
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL)
-                .setNumUpdates(1)
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+        // TODO: Refactor de nombres, diseño y responsabilidad
+        // No sé si es un singleton, y si hay que inicializar con context y objeto al mismo tiempo
+        mLocationUtil.init(getActivity(), mGPSLocation)
+        Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStart() {
-        mGoogleApiClient.connect()
         super.onStart()
+        mLocationUtil.mGoogleApiClient.connect()
+        Log.d(TAG, "${mGPSLocation}")
     }
 
     void onStop() {
         super.onStop()
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect()
-        }
+        mLocationUtil.mGoogleApiClient.disconnect()
+        Log.d(TAG, "${mGPSLocation}")
     }
 
 
@@ -158,9 +104,10 @@ public class FormCheckinFragment extends Fragment implements
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-        Log.d(TAG, rating)
+        Integer selectIndexvenue = venueSpinner.getSelectedItemPosition()
+        Venue detailVenue = getDetailVenueFromList(selectIndexvenue)
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString())
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: detailVenue.id)
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -171,7 +118,7 @@ public class FormCheckinFragment extends Fragment implements
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Intent intent = ListBrewActivity.newIntentWithContext(getContext())
+                Intent intent = PrincipalActivity.newIntentWithContext(getContext())
                 startActivity(intent)
                 getActivity().finish()
             } else {
@@ -188,15 +135,15 @@ public class FormCheckinFragment extends Fragment implements
 
     private Closure onSuccessGetVenues() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Log.d(TAG,"Venues... "+ response.body().dump().toString())
-            venues = response.body() as List
-            setVenuesToSpinner(venueSpinner,venues)
+            //Log.d(TAG,"Venues... "+ response.body().dump().toString())
+            venues.addAll(response.body() as List)
+            setVenuesToSpinner(venueSpinner, venues)
         }
     }
 
     private Closure onErrorGetVenues() {
         { Call<Checkin> call, Throwable t ->
-            Log.d(TAG,"Error get venues... "+t.message)
+            Log.d(TAG, "Error get venues... " + t.message)
         }
     }
 
@@ -206,32 +153,14 @@ public class FormCheckinFragment extends Fragment implements
         noteEditText.setText("")
     }
 
-    void setVenuesToSpinner(Spinner spinner,List<Venue> venues){
+    void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
     }
 
-    @Override
-    void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    Venue getDetailVenueFromList(Integer itemSelectedIndex) {
+        Venue detailVenue = venues.getAt(itemSelectedIndex)
     }
 
-    @Override
-    void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    void onLocationChanged(Location location) {
-        String latitude = location.getLatitude()
-        String longitude = location.getLongitude()
-        Log.d(TAG, "Ubicaion actual: $latitude $longitude")
-        mFoursquareManager.getVenuesNear(new VenueCommand(latitude:latitude,longitude:longitude,query: "coffe"),onSuccessGetVenues(),onErrorGetVenues())
-    }
 }

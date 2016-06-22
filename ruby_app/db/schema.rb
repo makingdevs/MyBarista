@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616172858) do
+ActiveRecord::Schema.define(version: 20160621171034) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
@@ -30,9 +30,11 @@ ActiveRecord::Schema.define(version: 20160616172858) do
     t.integer  "circle_flavor_id"
     t.string   "rating"
     t.integer  "baristum_id"
+    t.integer  "venue_id"
     t.index ["baristum_id"], name: "index_checkins_on_baristum_id", using: :btree
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
+    t.index ["venue_id"], name: "index_checkins_on_venue_id", using: :btree
   end
 
   create_table "circle_flavors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -60,11 +62,6 @@ ActiveRecord::Schema.define(version: 20160616172858) do
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
-  create_table "foursquares", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "s3_assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "url_file"
     t.string   "name_file"
@@ -82,11 +79,21 @@ ActiveRecord::Schema.define(version: 20160616172858) do
     t.string   "password_digest"
     t.string   "name"
     t.string   "lastName"
+    t.string   "email"
+  end
+
+  create_table "venues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "venue_id_foursquare"
+    t.string   "name"
+    t.string   "formatted_address"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   add_foreign_key "checkins", "barista"
   add_foreign_key "checkins", "circle_flavors"
   add_foreign_key "checkins", "users"
+  add_foreign_key "checkins", "venues"
   add_foreign_key "comments", "checkins"
   add_foreign_key "comments", "users"
   add_foreign_key "s3_assets", "checkins"

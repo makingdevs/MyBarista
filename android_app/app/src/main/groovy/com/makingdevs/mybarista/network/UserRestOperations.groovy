@@ -5,10 +5,8 @@ import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
-import com.makingdevs.mybarista.model.command.UserCommand
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 

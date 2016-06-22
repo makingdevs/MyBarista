@@ -8,4 +8,5 @@ class CheckinCommand {
     String price
     String username
     String rating
+    String idVenueFoursquare
 }
