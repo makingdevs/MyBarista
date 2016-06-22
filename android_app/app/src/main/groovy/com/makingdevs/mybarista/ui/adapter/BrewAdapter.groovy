@@ -68,7 +68,8 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             //mmoment.text = (DateUtils.getRelativeTimeSpanString(checkin.created_at.time)).toString()
             mprice.text = checkin.price
             mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
-            mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file ?: "http://mybarista.com.s3.amazonaws.com/coffee.jpg",photoCheckinImageView)
+            if(mCheckin.s3_asset?.url_file)
+                mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file,photoCheckinImageView)
 
         }
 
