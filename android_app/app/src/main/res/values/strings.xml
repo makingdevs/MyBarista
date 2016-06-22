@@ -27,19 +27,19 @@
 
     <string name="user_layout">Username:</string>
     <string name="password_layout">Password:</string>
-    <string name="confirm_password_layout">Confirm password:</string>
-    <string name="button_registration">Registration</string>
+    <string name="confirm_password_layout">Confirmar contraseña</string>
+    <string name="button_registration">Registrate</string>
     <string name="button_login">Login</string>
     <string name="toastLoginSuccess">Username and Password correct!</string>
     <string name="toastLoginFail">Username or Password incorrect!</string>
     <string name="toastRegistrationSuccess">Username and Password correct!</string>
-    <string name="toastRegistrationFail">Username or Password incorrect!</string>
+    <string name="toastRegistrationFail">Correo o contraseña inválidos</string>
     <string name="username">Userame</string>
-    <string name="password">Password</string>
+    <string name="password">Contraseña</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
     <string name="login_textView_message">¿No tienes cuenta? Registrate!</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password">Confirmar contraseña</string>
     <string name="profile_first_name">Nombre</string>
     <string name="profile_last_name">Apellidos</string>
     <string name="profile_username">Username</string>
@@ -79,5 +79,7 @@
     <string name="barista_label">Barista</string>
     <string name="font_blacksword">Blacksword.otf</string>
     <string name="menu_accept">Aceptar</string>
+    <string name="close_session">Cerrar sesión</string>
+    <string name="email">Correo</string>
 
 </resources>

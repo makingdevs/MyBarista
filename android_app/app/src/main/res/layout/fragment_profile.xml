@@ -107,6 +107,14 @@
             android:padding="16dp"/>
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/close_session"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/close_session"
+            android:gravity="center"
+            android:padding="16dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

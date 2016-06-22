@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.gson.Gson
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
@@ -34,6 +35,7 @@ class RegistrationFragment extends Fragment{
     private EditText passwordEditText
     private EditText confirmPasswordEditText
     private Button mButtonRegistration
+    EditText mEmailEditText
 
     RegistrationFragment(){}
 
@@ -44,6 +46,7 @@ class RegistrationFragment extends Fragment{
         passwordEditText = (EditText) root.findViewById(R.id.password)
         confirmPasswordEditText = (EditText) root.findViewById(R.id.confirm_password)
         mButtonRegistration = (Button) root.findViewById(R.id.btnRegistration)
+        mEmailEditText = (EditText) root.findViewById(R.id.email)
         mButtonRegistration.onClickListener = {  getFormRegistration() }
         root
     }
@@ -52,7 +55,8 @@ class RegistrationFragment extends Fragment{
         String username = userNameEditText.text
         String password = passwordEditText.text
         String confirmPassword = confirmPasswordEditText.text
-        RegistrationCommand registrationCommand = new RegistrationCommand(username:username,password:password,confirmPassword:confirmPassword)
+        String email = mEmailEditText.text
+        RegistrationCommand registrationCommand = new RegistrationCommand(username:username,password:password,confirmPassword:confirmPassword,email:email)
         validateRegistration(registrationCommand)
     }
 
@@ -73,15 +77,17 @@ class RegistrationFragment extends Fragment{
 
     private Closure onSuccess() {
         { Call<User> call, Response<User> response ->
-            Log.d(TAG,"Respueta:"+response.code())
-            if(response.code() == 201){
+            if(response.isSuccessful()){
                 mSessionManager.setUserSession(response.body(),getContext())
                 Intent intent = PrincipalActivity.newIntentWithContext(getContext())
                 startActivity(intent)
                 getActivity().finish()
-            }
-            else {
-                Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+            }else {
+                Map<String, List<String>> errorMessages = new Gson().fromJson(response.errorBody().string(), Map)
+                List message = errorMessages.collect{k,v ->
+                    " El ${k} ${v[0]}"
+                }
+                Toast.makeText(getContext(),message.join(","), Toast.LENGTH_LONG).show()
             }
 
         }

@@ -22,17 +22,16 @@
         <activity android:name=".ui.activity.CheckinActivity"/>
         <activity android:name=".ui.activity.ShowCheckinActivity"/>
         <activity android:name=".ui.activity.RegistrationActivity"/>
-        <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.CircleFlavorActivity"/>
-        <activity android:name=".ui.activity.ProfilePublicActivity"/>
-        <activity android:name=".ui.activity.BaristaActivity"/>
-        <activity android:name=".ui.activity.PrincipalActivity"
-            android:autoRemoveFromRecents="true">
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.CircleFlavorActivity"/>
+        <activity android:name=".ui.activity.ProfilePublicActivity"/>
+        <activity android:name=".ui.activity.BaristaActivity"/>
+        <activity android:name=".ui.activity.PrincipalActivity"/>
     </application>
 
 </manifest>
