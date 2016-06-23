@@ -107,7 +107,7 @@ class FormCheckinFragment extends Fragment {
         Integer selectIndexvenue = venueSpinner.getSelectedItemPosition()
         Venue detailVenue = getDetailVenueFromList(selectIndexvenue)
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: detailVenue.id)
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: detailVenue.id, created_at:new Date())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
