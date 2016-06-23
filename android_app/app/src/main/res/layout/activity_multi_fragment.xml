@@ -39,5 +39,13 @@
             android:padding="16dp">
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/bottomEmptyFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bottomFragment"
+            android:padding="16dp">
+        </FrameLayout>
+
     </RelativeLayout>
 </ScrollView>

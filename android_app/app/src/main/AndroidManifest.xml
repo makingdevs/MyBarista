@@ -35,6 +35,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d33994ba306ba33f1b147bf996196b8a479081fd" />
+        <activity android:name=".ui.activity.CameraActivity" />
     </application>
 
 </manifest>

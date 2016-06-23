@@ -1,11 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -15,12 +11,10 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.*
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.common.CamaraUtil
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
@@ -35,11 +29,9 @@ public class ShowCheckinFragment extends Fragment {
     SessionManager mSessionManager = SessionManagerImpl.instance
     UserManager mUserManager = UserManagerImpl.instance
 
-    static final int REQUEST_TAKE_PHOTO = 0
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
 
-    CamaraUtil mCamaraUtil = new CamaraUtil()
     ImageUtil mImageUtil1 = new ImageUtil()
 
     TextView mOrigin
@@ -51,14 +43,14 @@ public class ShowCheckinFragment extends Fragment {
     Button mButtonCircleFlavor
     View itemView
     ImageButton mButtonCamera
-    File photoFile
-    ImageUtil mImageUtil
     User currentUser
     ImageView photoCheckinImageView
     Button mBarista
-    String mCheckinId
 
-    ShowCheckinFragment(String id){
+    String mCheckinId
+    Checkin checkin
+
+    ShowCheckinFragment(String id) {
         Bundle args = new Bundle()
         args.putSerializable(ID_CHECKIN, id)
         this.arguments = args
@@ -67,22 +59,24 @@ public class ShowCheckinFragment extends Fragment {
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        if(!getArguments() || !getArguments()?.getSerializable(ID_CHECKIN))
+        if (!getArguments() || !getArguments()?.getSerializable(ID_CHECKIN))
             throw new IllegalArgumentException("No arguments $ID_CHECKIN")
         mCheckinId = getArguments()?.getSerializable(ID_CHECKIN)
     }
 
+
     @Override
-    View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         findingElements()
         currentUser = mSessionManager.getUserSession(getContext())
-        mUserManager.getPhoto(mCheckinId,onSuccessPhoto(),onError())
-        mCheckinManager.show(mCheckinId,onSuccess(),onError())
+        mUserManager.getPhoto(mCheckinId, onSuccessPhoto(), onError())
+        mCheckinManager.show(mCheckinId, onSuccess(), onError())
         itemView
     }
 
-    private void findingElements(){
+    private void findingElements() {
         mButtonCircleFlavor = (Button) itemView.findViewById(R.id.btnCircle_flavor)
         mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mOrigin = (TextView) itemView.findViewById(R.id.origin_data)
@@ -95,7 +89,7 @@ public class ShowCheckinFragment extends Fragment {
         //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
     }
 
-    private void setCheckinInView(Checkin checkin){
+    private void setCheckinInView(Checkin checkin) {
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price
@@ -103,70 +97,56 @@ public class ShowCheckinFragment extends Fragment {
         mBaristaName.text = checkin?.baristum?.name ?: ""
     }
 
-    private Closure onSuccess(){
+    private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Checkin checkin = response.body()
+            checkin = response.body()
+            checkin.addPropertyChangeListener { property ->
+                def s3Asset = property["newValue"]
+                mImageUtil1.setPhotoImageView(getContext(), s3Asset['url_file'] as String, photoCheckinImageView)
+            }
             setCheckinInView(checkin)
-            if(checkin.author == currentUser.username)
+            if (checkin.author == currentUser.username)
                 showElements()
         }
     }
-
-    private Closure onError(){
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error "+t.message) }
-    }
-
-    private Closure onSuccessPhoto(){
+    private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if(response.body())
-                mImageUtil1.setPhotoImageView(getContext(),response.body().url_file,photoCheckinImageView)
+            if (response.body())
+                mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, photoCheckinImageView)
             else
-                mImageUtil1.setPhotoImageView(getContext(),"http://mybarista.com.s3.amazonaws.com/coffee.jpg",photoCheckinImageView)
+                mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", photoCheckinImageView)
         }
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-            try {
-                photoFile = mCamaraUtil.createImageFile()
-            } catch (IOException ex) {
-                Log.d(TAG,"Error al crear la foto $ex")
-            }
-            if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-            }
-        }
+    private Closure onError() {
+        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
-            File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
-            mUserManager.upload(new UploadCommand(idCheckin: mCheckinId,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
-            mImageUtil.addPictureToGallery(getContext(),photo.getPath())
-        } else {
-            Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-        }
-    }
+    private bindingElements() {
+        mButtonCamera.onClickListener = {
+            Log.d("tu abuelita","tu mama")
+            Fragment cameraFragment = new CameraFragment()
+            cameraFragment.setmCheckin(checkin)
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.bottomEmptyFragment, cameraFragment)
+                    .addToBackStack(null).commit()
 
-    private bindingElements(){
-        mButtonCamera.onClickListener = { dispatchTakePictureIntent() }
+        }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
-            intent.putExtra("checkingId",mCheckinId)
+            intent.putExtra("checkingId", mCheckinId)
             startActivity(intent)
         }
         mButtonCircleFlavor.onClickListener = {
             Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
-            intent.putExtra("checkingId",mCheckinId)
+            intent.putExtra("checkingId", mCheckinId)
             startActivity(intent)
         }
+
     }
 
-    private void showElements(){
+    private void showElements() {
         ViewStub stub = (ViewStub) itemView.findViewById(R.id.stub_bottons)
         stub.inflate()
         findingElements()
