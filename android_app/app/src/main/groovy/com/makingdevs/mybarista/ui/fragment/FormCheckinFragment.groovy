@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -61,8 +62,10 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
         addVenueButton.onClickListener = {
-            Intent intent = SearchVenueFoursquareActivity.newIntentWithContext(getContext())
-            startActivity(intent)
+            FragmentTransaction ft = getFragmentManager().beginTransaction()
+            ft.replace(R.id.container,new SearchVenueFoursquareFragment())
+            ft.addToBackStack(null)
+            ft.commit()
         }
         Log.d(TAG, "${mGPSLocation}")
         root
