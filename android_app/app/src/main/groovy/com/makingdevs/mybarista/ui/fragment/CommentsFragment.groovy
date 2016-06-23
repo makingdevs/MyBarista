@@ -71,7 +71,7 @@ public class CommentsFragment extends Fragment {
 
     void sendMessage(){
         String comment = mCommentsText.getText().toString()
-        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:checkinId,username:currentUser.username)
+        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:checkinId,username:currentUser.username,created_at:new Date())
         mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
