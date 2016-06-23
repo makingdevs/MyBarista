@@ -12,9 +12,15 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+<<<<<<< HEAD
 
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+||||||| merged common ancestors
+=======
+
+        vectorDrawables.useSupportLibrary = true
+>>>>>>> origin/feature/117
     }
     buildTypes {
         release {
@@ -26,6 +32,7 @@ android {
             buildConfigField 'String', 'API_SERVER_URL', urlApiServer
         }
     }
+<<<<<<< HEAD
     lintOptions {
         disable 'InvalidPackage'
         abortOnError false
@@ -36,6 +43,10 @@ android {
 repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
+||||||| merged common ancestors
+=======
+
+>>>>>>> origin/feature/117
 }
 
 dependencies {
@@ -50,6 +61,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+<<<<<<< HEAD
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.google.android.gms:play-services-location:9.0.2'
     compile 'com.aurelhubert:ahbottomnavigation:1.3.0'
@@ -60,4 +72,13 @@ dependencies {
 }
 
 def API_SERVER_URL = '"'+ urlApiServer +'"' ?:'"Define una url"'
+||||||| merged common ancestors
+=======
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.android.gms:play-services-location:9.0.2'
+    compile 'com.aurelhubert:ahbottomnavigation:1.3.0'
+}
+
+def API_SERVER_URL = '"'+ urlApiServer +'"' ?:'"Define una url"'
+>>>>>>> origin/feature/117
 
