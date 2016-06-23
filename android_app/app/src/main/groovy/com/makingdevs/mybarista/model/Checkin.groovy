@@ -1,5 +1,7 @@
 package  com.makingdevs.mybarista.model
 
+import groovy.beans.Bindable
+
 class Checkin {
 
     Date created_at
@@ -13,13 +15,10 @@ class Checkin {
     String user_id
     String circle_flavor_id
     String rating
-    S3_asset s3_asset
+    @Bindable S3_Asset s3_asset
     Barista baristum
     String author
 
-    class S3_asset{
-        String url_file
-    }
 
     class Barista{
         String name
