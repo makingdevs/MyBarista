@@ -5,4 +5,5 @@ class CommentCommand {
     String body
     String checkin_id
     String username
+    Date created_at
 }
