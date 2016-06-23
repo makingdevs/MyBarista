@@ -13,10 +13,12 @@ import android.util.Log
 import android.view.KeyEvent
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.crashlytics.android.Crashlytics
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.ui.fragment.ListBrewFragment
 import com.makingdevs.mybarista.ui.fragment.ProfileFragment
 import com.makingdevs.mybarista.ui.fragment.SearchUserFragment
+import io.fabric.sdk.android.Fabric
 
 class PrincipalActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ class PrincipalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_principal)
 
         FragmentManager fm = getSupportFragmentManager()
