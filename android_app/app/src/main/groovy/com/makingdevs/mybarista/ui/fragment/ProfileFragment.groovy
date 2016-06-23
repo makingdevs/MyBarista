@@ -60,10 +60,6 @@ class ProfileFragment extends Fragment{
             startActivity(intent)
             getActivity().finish()
         }
-        checkinsCount.onClickListener = {
-            Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),currentUser.username)
-            startActivity(intent)
-        }
         loadData()
         root
     }
