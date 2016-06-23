@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -64,8 +65,8 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             }
             mtitle.text = checkin.method
             morigin.text = checkin.origin
-            //mmoment.text = checkin.created_at.format("dd - MM - yy")
-            //mmoment.text = (DateUtils.getRelativeTimeSpanString(checkin.created_at.time)).toString()
+            String fecha = DateUtils.getRelativeTimeSpanString(mCheckin.created_at.time, new Date().time, 0).toString()
+            mmoment.text = fecha
             mprice.text = checkin.price
             mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
             if(mCheckin.s3_asset?.url_file)
