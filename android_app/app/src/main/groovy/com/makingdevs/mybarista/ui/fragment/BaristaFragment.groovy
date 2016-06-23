@@ -82,5 +82,6 @@ public class BaristaFragment extends Fragment {
         Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id, checkin.circle_flavor_id)
         intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
         startActivity(intent)
+        getActivity().finish()
     }
 }

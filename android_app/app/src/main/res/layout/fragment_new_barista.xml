@@ -26,7 +26,7 @@
             android:id="@+id/button_foursquare"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:src="@drawable/ic_foursquar"
+            android:src="@drawable/ic_location_white"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
@@ -35,5 +35,6 @@
         android:layout_height="wrap_content"
         android:text="@string/baristum"
         android:id="@+id/button_new_barista"
+        android:textColor="@color/white"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

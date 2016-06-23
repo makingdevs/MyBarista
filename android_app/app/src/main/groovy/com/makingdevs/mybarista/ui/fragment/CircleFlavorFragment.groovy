@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,8 @@ public class CircleFlavorFragment extends Fragment {
 
 
     @Override
-    View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_circle_flavor, container, false)
         seekProcessSweetnessText = (TextView) root.findViewById(R.id.seekProcessSweetnessText)
         seekProcessSweetness = (SeekBar) root.findViewById(R.id.seekSweetness)
@@ -90,11 +92,11 @@ public class CircleFlavorFragment extends Fragment {
         generedSeekBody()
         generedSeekCleaning()
         buttonCircleFlavor = (Button) root.findViewById(R.id.btnCircle)
-        buttonCircleFlavor.setOnClickListener(new View.OnClickListener(){
+        buttonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
             void onClick(View v) {
                 String id = getActivity().getIntent().getExtras().getString("checkingId")
-                saveCircleFlavor(id,getCircleFlavor())
+                saveCircleFlavor(id, getCircleFlavor())
             }
         })
 
@@ -103,127 +105,137 @@ public class CircleFlavorFragment extends Fragment {
     }
 
     private void generedSeekSweetness() {
-        seekProcessSweetness.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessSweetnessText.setText("Dulzura "+progress);
+        seekProcessSweetness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessSweetnessText.setText("Dulzura " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekAcidity() {
-        seekProcessAcidity.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessAcidityText.setText("Acidez "+progress);
+        seekProcessAcidity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessAcidityText.setText("Acidez " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekFlowery() {
-        seekProcessFlowery.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessFloweryText.setText("Floral "+progress);
+        seekProcessFlowery.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessFloweryText.setText("Floral " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekSpicy() {
-        seekProcessSpicy.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessSpicyText.setText("Especiado  "+progress);
+        seekProcessSpicy.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessSpicyText.setText("Especiado  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekSalty() {
-        seekProcessSalty.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessSaltyText.setText("Salado  "+progress);
+        seekProcessSalty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessSaltyText.setText("Salado  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekBerries() {
-        seekProcessBerries.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessBerriesText.setText("Frutos Rojos  "+progress);
+        seekProcessBerries.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessBerriesText.setText("Frutos Rojos  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekChocolate() {
-        seekProcessChocolate.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessChocolateText.setText("Chocolate  "+progress);
+        seekProcessChocolate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessChocolateText.setText("Chocolate  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekCandy() {
-        seekProcessCandy.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessCandyText.setText("Caramelo  "+progress);
+        seekProcessCandy.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessCandyText.setText("Caramelo  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekBody() {
-        seekProcessBody.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessBodyText.setText("Cuerpo  "+progress);
+        seekProcessBody.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessBodyText.setText("Cuerpo  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     private void generedSeekCleaning() {
-        seekProcessCleaning.setOnSeekBarChangeListener(new  SeekBar.OnSeekBarChangeListener() {
-            public  void  onProgressChanged(SeekBar seekBar, int  progress,
-                                            boolean  fromUser) {
-                seekProcessCleaningText.setText("Limpieza  "+progress);
+        seekProcessCleaning.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekProcessCleaningText.setText("Limpieza  " + progress);
             }
 
-            public  void  onStartTrackingTouch(SeekBar seekBar) {}
-            public  void  onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
-    private void saveCircleFlavor(String id,CircleFlavorCommand circleFlavorCommand) {
-        mCheckinManager.saveCircle(id,circleFlavorCommand, onSuccess(), onError())
+    private void saveCircleFlavor(String id, CircleFlavorCommand circleFlavorCommand) {
+        mCheckinManager.saveCircle(id, circleFlavorCommand, onSuccess(), onError())
     }
 
     private CircleFlavorCommand getCircleFlavor() {
@@ -237,7 +249,7 @@ public class CircleFlavorFragment extends Fragment {
         String candy = seekProcessChocolate.getProgress()
         String body = seekProcessBody.getProgress()
         String cleaning = seekProcessCleaning.getProgress()
-        new CircleFlavorCommand(sweetness:sweetness,acidity:acidity,flowery:flowery,spicy:spicy,salty:salty,berries:berries,chocolate:chocolate,candy:candy,body:body,cleaning:cleaning)
+        new CircleFlavorCommand(sweetness: sweetness, acidity: acidity, flowery: flowery, spicy: spicy, salty: salty, berries: berries, chocolate: chocolate, candy: candy, body: body, cleaning: cleaning)
     }
 
     private Closure onSuccess() {
@@ -256,9 +268,10 @@ public class CircleFlavorFragment extends Fragment {
         }
     }
 
-    private void showCheckin(Checkin checkin){
-        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id, checkin.circle_flavor_id)
-        intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
+    private void showCheckin(Checkin checkin) {
+        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(), checkin.id, checkin.circle_flavor_id)
+        intent.putExtra("circle_flavor_id", checkin.circle_flavor_id)
         startActivity(intent)
+        getActivity().finish()
     }
 }
