@@ -9,4 +9,5 @@
     <dimen name="size_login_logo">124dp</dimen>
     <dimen name="height_profile_info">246dp</dimen>
     <dimen name="size_image_profile">82dp</dimen>
+    <dimen name="size_image_profile_public">160dp</dimen>
 </resources>
