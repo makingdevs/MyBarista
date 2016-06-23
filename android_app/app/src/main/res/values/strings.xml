@@ -81,5 +81,6 @@
     <string name="menu_accept">Aceptar</string>
     <string name="close_session">Cerrar sesión</string>
     <string name="email">Correo</string>
+    <string name="save_profile">Actualizar perfil</string>
 
 </resources>
