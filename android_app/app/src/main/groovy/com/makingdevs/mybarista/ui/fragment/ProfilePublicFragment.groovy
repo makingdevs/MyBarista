@@ -24,8 +24,7 @@ class ProfilePublicFragment extends Fragment{
 
     private static final String TAG = "ProfileFragment"
     private static String USER_ID
-    private TextView nameProfileEditText
-    private TextView lastNameProfileEditText
+    private TextView fullNameEditText
     private TextView usernameProfile
     private Button checkinsCount
     String userId
@@ -46,10 +45,10 @@ class ProfilePublicFragment extends Fragment{
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_profile_public, container, false)
-        nameProfileEditText = (TextView) root.findViewById(R.id.inputNameProfile)
-        lastNameProfileEditText = (TextView) root.findViewById(R.id.inputLastNameProfile)
+        fullNameEditText = (TextView) root.findViewById(R.id.full_name)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+
         loadData()
         root
     }
@@ -65,10 +64,10 @@ class ProfilePublicFragment extends Fragment{
 
     private Closure onSuccessUser() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            nameProfileEditText.text = response.body().name
-            lastNameProfileEditText.text = response.body().lastName
+            fullNameEditText.text = "${response.body().name ?: ""} ${response.body().lastName ?: ""}"
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
-            usernameProfile.text = response.body().visible_name
+            usernameProfile.text = response.body().username
+
             checkinsCount.onClickListener = {
                 Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),response.body().username)
                 startActivity(intent)
