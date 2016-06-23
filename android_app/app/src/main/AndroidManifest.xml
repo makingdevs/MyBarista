@@ -2,12 +2,11 @@
 <manifest package="com.makingdevs.mybarista"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true"/>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>​
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,7 +16,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="android.support.multidex.MultiDexApplication">
         <activity android:name=".ui.activity.ListBrewByUserActivity"/>
         <activity android:name=".ui.activity.CheckinActivity"/>
         <activity android:name=".ui.activity.ShowCheckinActivity"/>
@@ -32,6 +32,9 @@
         <activity android:name=".ui.activity.ProfilePublicActivity"/>
         <activity android:name=".ui.activity.BaristaActivity"/>
         <activity android:name=".ui.activity.PrincipalActivity"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d33994ba306ba33f1b147bf996196b8a479081fd" />
     </application>
 
 </manifest>
