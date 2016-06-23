@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,12 +16,14 @@ import com.makingdevs.mybarista.common.CamaraUtil
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
+import com.makingdevs.mybarista.model.S3_Asset
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
+import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -29,26 +32,34 @@ import retrofit2.Response
 public class CameraFragment extends Fragment {
 
     private static final String TAG = "CameraFragment"
+    private static Context contextView
+    private static String CHECKIN = "checkin"
+
     static final int REQUEST_TAKE_PHOTO = 0
+
 
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
 
     CamaraUtil mCamaraUtil = new CamaraUtil()
-    ImageUtil mImageUtil1 = new ImageUtil()
     File photoFile
     ImageUtil mImageUtil
-    ImageView photoCheckinImageView
-    String mCheckinId
+    Checkin mCheckin
     User currentUser
 
-    CameraFragment(){ }
+
+    CameraFragment(){
+    }
+
+    void setmCheckin(Checkin mCheckin) {
+        this.mCheckin = mCheckin
+    }
 
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         currentUser = mSessionManager.getUserSession(getContext())
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkingId")
+        contextView = getActivity().getApplicationContext()
         dispatchTakePictureIntent()
     }
 
@@ -72,8 +83,9 @@ public class CameraFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
             File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
-            mUserManager.upload(new UploadCommand(idCheckin: mCheckinId,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
+            mUserManager.upload(new UploadCommand(idCheckin: mCheckin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
+
         } else {
             Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
         }
@@ -85,10 +97,11 @@ public class CameraFragment extends Fragment {
 
     private Closure onSuccessPhoto(){
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-                Log.d(TAG,response.body().dump())
-            /*    mImageUtil1.setPhotoImageView(getContext(),response.body().url_file,photoCheckinImageView)
-            else
-                mImageUtil1.setPhotoImageView(getContext(),"http://mybarista.com.s3.amazonaws.com/coffee.jpg",photoCheckinImageView)*/
+            if (response.body()) {
+                mCheckin.setS3_asset(new S3_Asset(url_file: response.body().url_file))
+            } else {
+                mCheckin.setS3_asset(new S3_Asset(url_file: "http://mybarista.com.s3.amazonaws.com/coffee.jpg"))
+            }
         }
     }
 
