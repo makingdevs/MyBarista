@@ -58,14 +58,6 @@
                         android:layout_weight=".5"
                         android:text="@string/template_checkins"
                         android:textColor="@color/white"/>
-
-                    <Button
-                        android:id="@+id/friendsList"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:text="@string/template_friends"
-                        android:textColor="@color/white"/>
                 </LinearLayout>
 
 
