@@ -36,6 +36,7 @@ class ProfileFragment extends Fragment{
     private EditText lastNameProfileEditText
     private TextView usernameProfile
     private Button checkinsCount
+    private Button mSaveProfile
     TextView mCloseSession
 
     User currentUser
@@ -53,7 +54,11 @@ class ProfileFragment extends Fragment{
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         usernameProfile.text = currentUser.username
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+        mSaveProfile = (Button) root.findViewById(R.id.save_profile)
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
+        mSaveProfile.onClickListener = {
+            updateInfoUserProfile()
+        }
         mCloseSession.onClickListener = {
             mSessionManager.setLogout(getContext())
             Intent intent = LoginActivity.newIntentWithContext(getContext())
