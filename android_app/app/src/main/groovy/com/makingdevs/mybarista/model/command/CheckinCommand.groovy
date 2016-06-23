@@ -9,4 +9,5 @@ class CheckinCommand {
     String username
     String rating
     String idVenueFoursquare
+    Date created_at
 }
