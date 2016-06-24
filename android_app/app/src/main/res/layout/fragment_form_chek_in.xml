@@ -45,11 +45,14 @@
         android:inputType="textMultiLine"
         />
 
-    <Spinner
-        android:id="@+id/spinner_venue"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:text="@string/add_venue"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:id="@+id/btnAddVenue"
+        android:padding="15dp"/>
 
     <RatingBar
         android:id="@+id/rating_coffe_bar"

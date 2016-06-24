@@ -82,5 +82,7 @@
     <string name="close_session">Cerrar sesión</string>
     <string name="email">Correo</string>
     <string name="save_profile">Actualizar perfil</string>
+    <string name="venue_detail">Lugar</string>
+    <string name="add_venue">Agregar ubicacion</string>
 
 </resources>

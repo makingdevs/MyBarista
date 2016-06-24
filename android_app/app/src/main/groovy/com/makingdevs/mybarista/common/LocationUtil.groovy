@@ -43,6 +43,7 @@ class LocationUtil implements GoogleApiClient.ConnectionCallbacks, GoogleApiClie
     @Override
     void onConnected(@Nullable Bundle bundle) {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+
         if (mLastLocation) {
             mGPSLocation.setLatitude(mLastLocation.latitude)
             mGPSLocation.setLongitude(mLastLocation.longitude)

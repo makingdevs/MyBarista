@@ -6,4 +6,9 @@ import groovy.transform.CompileStatic
 class Venue {
     String id
     String name
+    LocationVenue location
+
+    class LocationVenue{
+        List<String> formattedAddress
+    }
 }
