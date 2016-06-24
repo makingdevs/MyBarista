@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.ui.fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -15,6 +16,7 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.Venue
+import com.makingdevs.mybarista.model.VenueDetailBindable
 import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.FoursquareManager
 import com.makingdevs.mybarista.service.FoursquareManagerImpl
@@ -43,6 +45,8 @@ class SearchVenueFoursquareFragment extends Fragment {
     EditText searchVenueFoursquareEditText
     RecyclerView mListVenues
     VenueAdapter mVenueAdapter
+    VenueDetailBindable mVenueDetailBindable
+    Bundle mBundle
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_search_venue_foursquare, container, false)
@@ -68,9 +72,7 @@ class SearchVenueFoursquareFragment extends Fragment {
         mGPSLocation = new GPSLocation()
         mGPSLocation.addPropertyChangeListener { property ->
             GPSLocation gpsLocation = property["source"] as GPSLocation
-            Log.d(TAG,"Entrando al listener")
             if (gpsLocation.latitude && gpsLocation.longitude){
-                Log.d(TAG,"diferente de null")
                 mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: ""), onSuccessGetVenues(), onErrorGetVenues())
                 currentLatitude = gpsLocation.latitude
                 currentLongitude = gpsLocation.longitude
@@ -86,6 +88,8 @@ class SearchVenueFoursquareFragment extends Fragment {
         super.onStart()
         mLocationUtil.mGoogleApiClient.connect()
         //Log.d(TAG, "${mGPSLocation}")
+        mBundle = new Bundle()
+        mBundle = getArguments()
     }
 
     void onStop() {
@@ -100,8 +104,21 @@ class SearchVenueFoursquareFragment extends Fragment {
             venues.clear()
             venues.addAll(response.body() as List)
 
+            mVenueDetailBindable = new VenueDetailBindable()
+            mVenueDetailBindable.addPropertyChangeListener { property ->
+                VenueDetailBindable venueDetailBindable = property["source"] as VenueDetailBindable
+                FormCheckinFragment formCheckinFragment = new FormCheckinFragment()
+                mBundle.putString("VENUE_NAME",venueDetailBindable.venueName)
+                mBundle.putString("VENUE_ID",venueDetailBindable.venueID)
+                formCheckinFragment.setArguments(mBundle)
+                FragmentTransaction ft = getFragmentManager().beginTransaction()
+                ft.replace(R.id.container,formCheckinFragment)
+                ft.addToBackStack(null)
+                ft.commit()
+            }
+
             if(!mVenueAdapter){
-                mVenueAdapter = new VenueAdapter(getContext(), venues)
+                mVenueAdapter = new VenueAdapter(getContext(), venues, mVenueDetailBindable)
                 mListVenues.adapter = mVenueAdapter
             } else {
                 mVenueAdapter.setmVenues(venues)
