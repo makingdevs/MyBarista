@@ -43,7 +43,7 @@
                     android:singleLine="true"
                     android:textSize="20sp"
                     android:textAlignment="center"
-                    android:background="@color/primary_dark"
+                    android:background="@color/accent"
                     android:alpha="0.4"/>
 
                 <TextView

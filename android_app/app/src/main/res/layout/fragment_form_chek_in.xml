@@ -63,6 +63,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/spacing_large"
         android:padding="@dimen/spacing_normal"
-        android:text="@string/button_checkin"/>
+        android:text="@string/button_checkin"
+        android:textColor="@color/white"/>
 </LinearLayout>
 
