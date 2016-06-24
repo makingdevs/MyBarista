@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Singleton
+@CompileStatic
 class RetrofitTemplate {
 
     final Gson gson = new GsonBuilder()
@@ -81,7 +82,7 @@ class RetrofitTemplate {
                 onResponse :onSuccess,
                 onFailure : onError
         ]
-        model.enqueue(callback as Callback<PhotoCheckin>)
+        model.enqueue(callback as Callback<Checkin>)
     }
 
     def withRetrofitVenue(Class operations, Closure onSuccess, Closure onError, Closure action){
