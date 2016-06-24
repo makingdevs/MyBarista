@@ -5,20 +5,29 @@ class S3AssetController < ApplicationController
     @bucket_name = Rails.application.secrets.aws_bucket_name
   end
 
-	def imageProfile
+	def upload_image_to_s3(params)
     Aws.use_bundled_cert!
     s3 = Aws::S3::Resource.new(region: @bucket_region)
     file_to_upload = s3.bucket(@bucket_name).object("#{Time.now()}_#{params['file'].original_filename}")
     file_to_upload.upload_file(params['file'].tempfile, acl:'public-read')
-    save_image_s3(file_to_upload.public_url,file_to_upload.key,params['user'],params['checkin'])
+    file_to_upload
   end
 
-  def save_image_s3(url_photo_s3,name_photo,user_id,checkin_id)
-    @save_file_s3 = S3Asset.new(url_file:url_photo_s3,name_file:name_photo,checkin_id:checkin_id)
-    if @save_file_s3.save
-      render json: @save_file_s3, status: :created
+  def save_image_s3_asset(url_photo_s3,name_photo)
+    @save_file_s3 = S3Asset.new(url_file:url_photo_s3,name_file:name_photo)
+    @save_file_s3.save
+    @save_file_s3
+  end
+
+  def save_photo_by_checkin
+    result_file = upload_image_to_s3(params)
+    s3_asset_result = save_image_s3_asset(result_file.public_url, result_file.key)
+    @checkin = Checkin.find(params[:checkin])
+    @checkin.s3_asset = s3_asset_result
+    if @checkin.save
+      render json: @checkin, status: :created
     else
-      render json: @save_file_s3.errors, status: :unprocessable_entity
+       render json: @checkin.errors, status: :unprocessable_entity
     end
   end
 
