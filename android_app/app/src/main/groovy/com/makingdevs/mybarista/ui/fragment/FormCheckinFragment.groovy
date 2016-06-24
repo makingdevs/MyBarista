@@ -20,7 +20,6 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
-import com.makingdevs.mybarista.ui.activity.SearchVenueFoursquareActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -42,6 +41,7 @@ class FormCheckinFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
+    String venueID
 
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
@@ -62,12 +62,9 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
         addVenueButton.onClickListener = {
-            FragmentTransaction ft = getFragmentManager().beginTransaction()
-            ft.replace(R.id.container,new SearchVenueFoursquareFragment())
-            ft.addToBackStack(null)
-            ft.commit()
+            callNewFragmentWithData(new SearchVenueFoursquareFragment())
+            //SearchVenueFoursquareFragment searchVenueFoursquareFragmen = new SearchVenueFoursquareFragment()
         }
-        Log.d(TAG, "${mGPSLocation}")
         root
     }
 
@@ -77,9 +74,8 @@ class FormCheckinFragment extends Fragment {
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: "id")
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: venueID)
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -105,19 +101,6 @@ class FormCheckinFragment extends Fragment {
         }
     }
 
-    private Closure onSuccessGetVenues() {
-        { Call<Checkin> call, Response<Checkin> response ->
-            //Log.d(TAG,"Venues... "+ response.body().dump().toString())
-            venues.addAll(response.body() as List)
-        }
-    }
-
-    private Closure onErrorGetVenues() {
-        { Call<Checkin> call, Throwable t ->
-            Log.d(TAG, "Error get venues... " + t.message)
-        }
-    }
-
     private void cleanForm() {
         originEditText.setText("")
         priceEditText.setText("")
@@ -130,5 +113,38 @@ class FormCheckinFragment extends Fragment {
         spinner.adapter = adapter
     }
 
+    @Override
+    void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState)
+        Bundle mBundle = new Bundle()
+        mBundle = getArguments()
+        if(mBundle){
+            populateFormWithBundle(mBundle)
+        }
 
+    }
+
+    void populateFormWithBundle(Bundle bundle){
+        originEditText.text = bundle.getString("ORIGEN")
+        priceEditText.text = bundle.getString("PRECIO")
+        noteEditText.text = bundle.getString("NOTAS")
+        methodFieldSprinner.setSelection(new Integer(bundle.getString("METODO")))
+        ratingCoffe.rating = new Float(bundle.getString("RATING"))
+        addVenueButton.text = bundle.getString("VENUE_NAME")
+        venueID = bundle.getString("VENUE_ID")
+    }
+
+    void callNewFragmentWithData(Fragment fragment){
+        Bundle bundle = new Bundle()
+        bundle.putString("ORIGEN", originEditText.text.toString())
+        bundle.putString("PRECIO", priceEditText.text.toString())
+        bundle.putString("NOTAS", noteEditText.text.toString())
+        bundle.putString("METODO", methodFieldSprinner.selectedItemPosition as String)
+        bundle.putString("RATING", ratingCoffe.getRating() as String)
+        FragmentTransaction ft = getFragmentManager().beginTransaction()
+        fragment.setArguments(bundle)
+        ft.replace(R.id.container,fragment)
+        ft.addToBackStack(null)
+        ft.commit()
+    }
 }
