@@ -11,10 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.command.BaristaCommand
+import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.BaristaManager
 import com.makingdevs.mybarista.service.BaristaManagerImpl
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
@@ -30,7 +33,11 @@ public class BaristaFragment extends Fragment {
     private EditText mNameBarista
     private Button  mButtonCreateBarista
     private static Context contextView
+    private ImageView mPhotoBarista
+    private Button mButtonPhotoBarista
+    private String mCheckinId
 
+    ImageUtil mImageUtil1 = new ImageUtil()
 
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
 
@@ -38,17 +45,15 @@ public class BaristaFragment extends Fragment {
 
     View onCreateView(LayoutInflater inflater,
                        @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String id = getActivity().getIntent().getExtras().getString("checkingId")
-        Log.d(TAG,id)
+        mCheckinId = getActivity().getIntent().getExtras().getString("checkingId")
         View root = inflater.inflate(R.layout.fragment_new_barista,container, false)
         mNameBarista = (EditText) root.findViewById(R.id.name_barista_field)
         mButtonCreateBarista = (Button) root.findViewById(R.id.button_new_barista)
-        mButtonCreateBarista.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-               saveBarista(getPropertiesOfBarista(), id)
-            }
-        })
+        mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
+        mButtonPhotoBarista = (Button) root.findViewById(R.id.button_camera)
+        mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", mPhotoBarista)
+        bindingElements()
+
         root
 
     }
@@ -56,6 +61,25 @@ public class BaristaFragment extends Fragment {
     private BaristaCommand getPropertiesOfBarista() {
         String name = mNameBarista.getText().toString()
         new BaristaCommand(name:  name)
+    }
+
+    private void bindingElements() {
+        mButtonCreateBarista.onClickListener = {
+            saveBarista(getPropertiesOfBarista(), mCheckinId)
+        }
+        mButtonPhotoBarista.onClickListener = {
+            Fragment cameraFragment = new CameraFragment()
+            cameraFragment.setSuccessActionOnPhoto { File photo ->
+
+            }
+            cameraFragment.setErrorActionOnPhoto {
+                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+            }
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.bottomEmptyFragment, cameraFragment)
+                    .addToBackStack(null).commit()
+        }
     }
 
     private void saveBarista(BaristaCommand command, String id) {
