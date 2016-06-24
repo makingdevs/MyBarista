@@ -22,8 +22,8 @@ class FoursquareController < ApplicationController
   def searh_venues
   	current_date = Time.now.strftime("%Y%m%d")
   	client = Foursquare2::Client.new(:api_version => current_date,
-  		:client_id => Rails.application.secrets.foursquare_id, 
-  		:client_secret => Rails.application.secrets.foursquare_secret)
+  		:client_id => Rails.application.secrets.foursquare_app_id, 
+  		:client_secret => Rails.application.secrets.foursquare_app_secret)
   	venues_near = client.search_venues(:ll => "#{params[:latitude]},#{params[:longitude]}", :query => params[:query]) 
   	#p "#{venues_near.venues.first.id}"
     render :json => venues_near.venues

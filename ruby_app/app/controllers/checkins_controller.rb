@@ -72,8 +72,8 @@ class CheckinsController < ApplicationController
   def search_venue_foursquare_by_id(venue_id)
     current_date = Time.now.strftime("%Y%m%d")
     @client = Foursquare2::Client.new(:api_version => current_date,
-      :client_id => Rails.application.secrets.foursquare_id, 
-      :client_secret => Rails.application.secrets.foursquare_secret,
+      :client_id => Rails.application.secrets.foursquare_app_id, 
+      :client_secret => Rails.application.secrets.foursquare_app_secret,
       :ssl => { :verify =>false})
     venue_detail = @client.venue(venue_id)
     if venue_detail != nil
