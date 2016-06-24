@@ -36,7 +36,7 @@ class FormCheckinFragment extends Fragment {
     Button checkInButton
     RatingBar ratingCoffe
     GPSLocation mGPSLocation
-    Button addVenueButton
+    TextView addVenueButton
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -57,7 +57,7 @@ class FormCheckinFragment extends Fragment {
         noteEditText = (EditText) root.findViewById(R.id.noteField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
-        addVenueButton = (Button) root.findViewById(R.id.btnAddVenue)
+        addVenueButton = (TextView) root.findViewById(R.id.btnAddVenue)
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }

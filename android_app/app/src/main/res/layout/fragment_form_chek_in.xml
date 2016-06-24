@@ -45,10 +45,12 @@
         android:inputType="textMultiLine"
         />
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_venue"
+        android:textSize="20dp"
+        android:textAlignment="center"
         android:id="@+id/btnAddVenue"/>
 
     <RatingBar
