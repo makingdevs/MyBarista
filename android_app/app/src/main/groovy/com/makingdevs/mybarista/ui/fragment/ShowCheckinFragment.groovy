@@ -15,6 +15,7 @@ import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
+import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
@@ -100,10 +101,6 @@ public class ShowCheckinFragment extends Fragment {
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
-            checkin.addPropertyChangeListener { property ->
-                def s3Asset = property["newValue"]
-                mImageUtil1.setPhotoImageView(getContext(), s3Asset['url_file'] as String, photoCheckinImageView)
-            }
             setCheckinInView(checkin)
             if (checkin.author == currentUser.username)
                 showElements()
@@ -124,9 +121,13 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            Log.d("tu abuelita","tu mama")
             Fragment cameraFragment = new CameraFragment()
-            cameraFragment.setmCheckin(checkin)
+            cameraFragment.setSuccessActionOnPhoto { File photo ->
+                mUserManager.upload(new UploadCommand(idCheckin: checkin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
+            }
+            cameraFragment.setErrorActionOnPhoto {
+                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+            }
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.bottomEmptyFragment, cameraFragment)
