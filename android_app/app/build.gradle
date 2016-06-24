@@ -55,7 +55,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'org.codehaus.groovy:groovy:2.4.6:grooid'
+    compile 'org.codehaus.groovy:groovy:2.4.7:grooid'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
