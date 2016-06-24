@@ -33,32 +33,19 @@ public class CameraFragment extends Fragment {
 
     private static final String TAG = "CameraFragment"
     private static Context contextView
-    private static String CHECKIN = "checkin"
 
     static final int REQUEST_TAKE_PHOTO = 0
-
-
-    UserManager mUserManager = UserManagerImpl.instance
-    SessionManager mSessionManager = SessionManagerImpl.instance
-
 
     CamaraUtil mCamaraUtil = new CamaraUtil()
     File photoFile
     ImageUtil mImageUtil
-    Checkin mCheckin
-    User currentUser
+    Closure successActionOnPhoto
+    Closure errorActionOnPhoto
 
-
-    CameraFragment(){
-    }
-
-    void setmCheckin(Checkin mCheckin) {
-        this.mCheckin = mCheckin
-    }
+    CameraFragment(){ }
 
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        currentUser = mSessionManager.getUserSession(getContext())
         contextView = getActivity().getApplicationContext()
         dispatchTakePictureIntent()
     }
@@ -83,25 +70,10 @@ public class CameraFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
             File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
-            mUserManager.upload(new UploadCommand(idCheckin: mCheckin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
-
+            successActionOnPhoto(photo)
         } else {
-            Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private Closure onError(){
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error "+t.message) }
-    }
-
-    private Closure onSuccessPhoto(){
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (response.body()) {
-                mCheckin.setS3_asset(new S3_Asset(url_file: response.body().url_file))
-            } else {
-                mCheckin.setS3_asset(new S3_Asset(url_file: "http://mybarista.com.s3.amazonaws.com/coffee.jpg"))
-            }
+            errorActionOnPhoto()
         }
     }
 
