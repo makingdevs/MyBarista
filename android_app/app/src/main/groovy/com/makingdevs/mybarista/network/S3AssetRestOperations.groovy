@@ -9,7 +9,7 @@ import retrofit2.http.*
 public interface S3AssetRestOperations {
 
     @Multipart
-    @POST("/users/image/profile")
+    @POST("/checkin/photo/save")
     Call<PhotoCheckin> uploadImage(@Part("checkin") RequestBody checkin, @Part("user") RequestBody user, @Part MultipartBody.Part file)
 
 }
