@@ -24,12 +24,6 @@ public interface UserRestOperations {
     @PUT("users/{id}")
     Call<UserProfile> updateUser(@Path("id") String id, @Body UpdateUserCommand updateUserCommand)
 
-    @Multipart
-    @POST("/users/image/profile")
-    Call<PhotoCheckin> uploadImage(@Part("checkin") RequestBody checkin,@Part("user") RequestBody user, @Part MultipartBody.Part file)
-
-    @GET("/users/photo/{id}")
-    Call<PhotoCheckin> getPhotoCheckin(@Path("id") String idCheckin)
 
     @GET("/search/users")
     Call<List<UserProfile>> search(@QueryMap Map<String, String> options)
