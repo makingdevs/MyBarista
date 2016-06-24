@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
    get '/login/user/', to: 'users#login', as: 'login'
    post 'checkins/:id/circleFlavor', to: 'circles#create', as: 'circleFlavor'
-   post '/users/image/profile', to: 's3_asset#imageProfile', as: 's3'
+   post '/checkin/photo/save', to: 's3_asset#save_photo_by_checkin', as: 's3'
    get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
    get '/users/photo/:checkin_id', to:'s3_asset#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
@@ -21,4 +21,5 @@ Rails.application.routes.draw do
    get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
    post '/barista/:id/save', to: 'barista#create', as: 'saveBarista'
    get '/foursquare/searh_venues_id', to: 'foursquare#search_venue_by_id', as: 'api_foursquare_search_id'
+   post '/barista/photo/:checkin_id', to: 's3_asset#photo_barista_s3', as: 'photoBarista'
 end
