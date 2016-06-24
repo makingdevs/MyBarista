@@ -28,7 +28,7 @@ class RetrofitTemplate {
 
     def withRetrofit(Class operations, Closure onSuccess, Closure onError, Closure action){
         CheckinRestOperations restOperations = retrofit.create(operations) as CheckinRestOperations
-        Call<Checkin> model = action(restOperations)
+        Call<Checkin> model = action(restOperations) as Call<Checkin>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -38,7 +38,7 @@ class RetrofitTemplate {
 
     def withRetrofitUser(Class operations, Closure onSuccess, Closure onError, Closure action){
         UserRestOperations restOperations = retrofit.create(operations) as UserRestOperations
-        Call<User> model = action(restOperations)
+        Call<User> model = action(restOperations) as Call<User>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -48,7 +48,7 @@ class RetrofitTemplate {
 
     def withRetrofitComemnt(Class operations, Closure onSuccess, Closure onError, Closure action){
         CommentRestOperations restOperations = retrofit.create(operations) as CommentRestOperations
-        Call<Comment> model = action(restOperations)
+        Call<Comment> model = action(restOperations) as Call<Comment>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -58,7 +58,7 @@ class RetrofitTemplate {
 
     def withRetrofitResponse(Class operations, Closure onSuccess, Closure onError, Closure action){
         UserRestOperations restOperations = retrofit.create(operations) as UserRestOperations
-        Call<ResponseBody> model = action(restOperations)
+        Call<ResponseBody> model = action(restOperations) as Call<ResponseBody>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -68,7 +68,7 @@ class RetrofitTemplate {
 
     def withRetrofitPhotoCheckin(Class operations, Closure onSuccess, Closure onError, Closure action){
         UserRestOperations restOperations = retrofit.create(operations) as UserRestOperations
-        Call<PhotoCheckin> model = action(restOperations)
+        Call<PhotoCheckin> model = action(restOperations) as Call<PhotoCheckin>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -78,7 +78,7 @@ class RetrofitTemplate {
 
     def withRetrofitBarista(Class operations, Closure onSuccess, Closure onError, Closure action){
         BaristaRestOperations restOperations = retrofit.create(operations) as BaristaRestOperations
-        Call<Checkin> model = action(restOperations)
+        Call<Checkin> model = action(restOperations) as Call<Checkin>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
@@ -88,7 +88,7 @@ class RetrofitTemplate {
 
     def withRetrofitVenue(Class operations, Closure onSuccess, Closure onError, Closure action){
         FoursquareRestOperations restOperations = retrofit.create(operations) as FoursquareRestOperations
-        Call<Venue> model = action(restOperations)
+        Call<Venue> model = action(restOperations) as Call<Venue>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
