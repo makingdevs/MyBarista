@@ -28,7 +28,7 @@ public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    UserManager mUserManager = UserManagerImpl.instance
+    S3assetManager mS3Manager = S3assetManagerImpl.instance
 
     private static final String TAG = "ShowCheckinFragment"
     private static String ID_CHECKIN
@@ -72,7 +72,6 @@ public class ShowCheckinFragment extends Fragment {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         findingElements()
         currentUser = mSessionManager.getUserSession(getContext())
-        mUserManager.getPhoto(mCheckinId, onSuccessPhoto(), onError())
         mCheckinManager.show(mCheckinId, onSuccess(), onError())
         itemView
     }
@@ -96,6 +95,9 @@ public class ShowCheckinFragment extends Fragment {
         mPrice.text = checkin.price
         mNote.text = checkin.note
         mBaristaName.text = checkin?.baristum?.name ?: ""
+        def url_image = checkin?.s3_asset?.url_file
+        if (url_image)
+            mImageUtil1.setPhotoImageView(getContext(),url_image  , photoCheckinImageView)
     }
 
     private Closure onSuccess() {
@@ -123,7 +125,7 @@ public class ShowCheckinFragment extends Fragment {
         mButtonCamera.onClickListener = {
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mUserManager.upload(new UploadCommand(idCheckin: checkin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
+                mS3Manager.upload(new UploadCommand(idCheckin: checkin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
