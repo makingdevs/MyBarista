@@ -3,7 +3,7 @@ class Checkin < ApplicationRecord
   has_many :comments
   belongs_to :user
   belongs_to :circle_flavor, optional: true
-  has_one :s3_asset
+  belongs_to :s3_asset, optional:true
   belongs_to :baristum, optional: true
   belongs_to :venue, optional: true
 

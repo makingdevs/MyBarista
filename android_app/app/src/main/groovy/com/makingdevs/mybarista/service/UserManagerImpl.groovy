@@ -46,29 +46,6 @@ class UserManagerImpl implements UserManager {
     }
 
     @Override
-    void upload(UploadCommand uploadCommand, Closure onSuccess, Closure onError) {
-        RetrofitTemplate.instance.withRetrofitResponse(operations, onSuccess, onError) { UserRestOperations restOperations ->
-
-            File photoCheckinToUpload = new File(uploadCommand.pathFile)
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoCheckinToUpload)
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", photoCheckinToUpload.getName(), requestFile)
-
-            RequestBody currentUSer = RequestBody.create(MediaType.parse("multipart/form-data"), uploadCommand.idUser)
-
-            RequestBody currentCheckin = RequestBody.create(MediaType.parse("multipart/form-data"),uploadCommand.idCheckin )
-
-            restOperations.uploadImage(currentCheckin,currentUSer,body)
-        }
-    }
-
-    @Override
-    void getPhoto(String idCheckin, Closure onSuccess, Closure onError) {
-        RetrofitTemplate.instance.withRetrofitPhotoCheckin(operations, onSuccess, onError) { UserRestOperations restOperations ->
-            restOperations.getPhotoCheckin(idCheckin)
-        }
-    }
-
-    @Override
     void seachUsers(Map options, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofitUser(operations, onSuccess, onError) { UserRestOperations restOperations ->
             restOperations.search(options)
