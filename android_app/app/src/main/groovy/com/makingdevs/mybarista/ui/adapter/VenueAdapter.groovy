@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Venue
+import com.makingdevs.mybarista.model.VenueDetailBindable
 
 class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder>{
 
     Context mContext
     List<Venue> mVenues
+    VenueDetailBindable mVenueDetailBindable
 
-    VenueAdapter(Context context, List<Venue> venueList){
+    VenueAdapter(Context context, List<Venue> venueList, VenueDetailBindable venueDetailBindable){
         mContext = context
         mVenues = venueList
+        mVenueDetailBindable = venueDetailBindable
     }
 
     @Override
@@ -47,9 +50,8 @@ class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder>{
 
         void bindVenue(Venue venue) {
             itemView.onClickListener = {
-                //Intent intent = ProfilePublicActivity.newIntentWithContext(mContext,mUser.id)
-                //mContext.startActivity(intent)
-                println("Venue "+venue.id)
+                mVenueDetailBindable.venueID = venue.id
+                mVenueDetailBindable.venueName = venue.name
             }
             venueItemLabel.text = venue.name+"\n"+venue.location.formattedAddress.join("")+"\n"
         }
