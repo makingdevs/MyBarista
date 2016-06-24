@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20160617202539) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -31,8 +32,10 @@ ActiveRecord::Schema.define(version: 20160617202539) do
     t.string   "rating"
     t.integer  "baristum_id"
     t.integer  "venue_id"
+    t.integer  "s3_asset_id"
     t.index ["baristum_id"], name: "index_checkins_on_baristum_id", using: :btree
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
+    t.index ["s3_asset_id"], name: "index_checkins_on_s3_asset_id", using: :btree
     t.index ["user_id"], name: "index_checkins_on_user_id", using: :btree
     t.index ["venue_id"], name: "index_checkins_on_venue_id", using: :btree
   end
@@ -67,8 +70,6 @@ ActiveRecord::Schema.define(version: 20160617202539) do
     t.string   "name_file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "checkin_id"
-    t.index ["checkin_id"], name: "index_s3_assets_on_checkin_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -91,9 +92,9 @@ ActiveRecord::Schema.define(version: 20160617202539) do
 
   add_foreign_key "checkins", "barista"
   add_foreign_key "checkins", "circle_flavors"
+  add_foreign_key "checkins", "s3_assets"
   add_foreign_key "checkins", "users"
   add_foreign_key "checkins", "venues"
   add_foreign_key "comments", "checkins"
   add_foreign_key "comments", "users"
-  add_foreign_key "s3_assets", "checkins"
 end
