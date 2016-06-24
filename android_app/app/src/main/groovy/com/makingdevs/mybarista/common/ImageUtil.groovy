@@ -22,7 +22,7 @@ public class ImageUtil {
     private static final float STANDARD_ROTATION = 90;
 
     public static String encodeImage(Context context, Uri picturePickedUri) throws IOException {
-        Bitmap bm = ImageUtil.resizePic(context, 200, 200, picturePickedUri);
+        Bitmap bm = this.resizePic(context, 200, 200, picturePickedUri.toString())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
@@ -61,7 +61,7 @@ public class ImageUtil {
         }
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / width, photoH / height);
+        int scaleFactor = Math.min(new Integer(photoW.intValue() / width.intValue() as int), new Integer(photoH.intValue() / height.intValue() as int))
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -88,46 +88,6 @@ public class ImageUtil {
         return ThumbnailUtils.extractThumbnail(bitmap, dimension, dimension);
     }
 
-    public
-    static Bitmap resizePic(Context context, int width, int height, Uri uri) throws IOException {
-
-        InputStream is = context.getContentResolver().openInputStream(uri);
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeStream(is, null, bmOptions);
-        if (is != null)
-            is.close();
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / width, photoH / height);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        is = context.getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(is, null, bmOptions);
-        if (is != null)
-            is.close();
-
-
-        int dimension;
-
-        if (bitmap.getWidth() >= bitmap.getHeight())
-            dimension = bitmap.getHeight();
-        else
-            dimension = bitmap.getWidth();
-
-        return ThumbnailUtils.extractThumbnail(bitmap, dimension, dimension);
-    }
 
     public static void addPictureToGallery(Context context, String picturePath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
