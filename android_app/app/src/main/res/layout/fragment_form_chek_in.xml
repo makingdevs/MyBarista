@@ -24,7 +24,8 @@
         style="@style/EditText.Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/placeholderOrigin"/>
+        android:hint="@string/placeholderOrigin"
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/priceField"
@@ -32,7 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/placeholderPrice"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/noteField"
