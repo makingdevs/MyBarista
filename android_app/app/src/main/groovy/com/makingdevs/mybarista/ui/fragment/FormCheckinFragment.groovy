@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,15 +18,11 @@ import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
-import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
-
-import java.beans.PropertyChangeEvent
-import java.beans.PropertyChangeListener
 
 @CompileStatic
 class FormCheckinFragment extends Fragment {
@@ -38,17 +35,16 @@ class FormCheckinFragment extends Fragment {
     Spinner methodFieldSprinner
     Button checkInButton
     RatingBar ratingCoffe
-    Spinner venueSpinner
     GPSLocation mGPSLocation
-
+    Button addVenueButton
+    List<Venue> venues = [new Venue(name: "Selecciona lugar")]
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
+    FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
+    String venueID
+
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
-
-    List<Venue> venues = [new Venue(name: "Selecciona lugar")]
-
-    FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
 
     FormCheckinFragment() {}
 
@@ -60,43 +56,17 @@ class FormCheckinFragment extends Fragment {
         priceEditText = (EditText) root.findViewById(R.id.priceField)
         noteEditText = (EditText) root.findViewById(R.id.noteField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
-        checkInButton = (Button) root.findViewById(R.id.btnCheckIn);
+        checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
+        addVenueButton = (Button) root.findViewById(R.id.btnAddVenue)
         contextView = getActivity().getApplicationContext()
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
-        venueSpinner = (Spinner) root.findViewById(R.id.spinner_venue)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
-        Log.d(TAG, "${mGPSLocation}")
+        addVenueButton.onClickListener = {
+            callNewFragmentWithData(new SearchVenueFoursquareFragment())
+            //SearchVenueFoursquareFragment searchVenueFoursquareFragmen = new SearchVenueFoursquareFragment()
+        }
         root
     }
-
-    @Override
-    void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
-        mGPSLocation = new GPSLocation()
-        mGPSLocation.addPropertyChangeListener { property ->
-            GPSLocation gpsLocation = property["source"] as GPSLocation
-            if (gpsLocation.latitude && gpsLocation.longitude) {
-                mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: "cafe,coffee"), onSuccessGetVenues(), onErrorGetVenues())
-            }
-        }
-        // TODO: Refactor de nombres, diseño y responsabilidad
-        // No sé si es un singleton, y si hay que inicializar con context y objeto al mismo tiempo
-        mLocationUtil.init(getActivity(), mGPSLocation)
-        Log.d(TAG, "${mGPSLocation}")
-    }
-
-    void onStart() {
-        super.onStart()
-        mLocationUtil.mGoogleApiClient.connect()
-        Log.d(TAG, "${mGPSLocation}")
-    }
-
-    void onStop() {
-        super.onStop()
-        mLocationUtil.mGoogleApiClient.disconnect()
-        Log.d(TAG, "${mGPSLocation}")
-    }
-
 
     private CheckinCommand getFormCheckIn() {
         String origin = originEditText.getText().toString()
@@ -104,10 +74,8 @@ class FormCheckinFragment extends Fragment {
         String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
-        Integer selectIndexvenue = venueSpinner.getSelectedItemPosition()
-        Venue detailVenue = getDetailVenueFromList(selectIndexvenue)
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: detailVenue.id, created_at:new Date())
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: venueID, created_at:new Date())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -133,20 +101,6 @@ class FormCheckinFragment extends Fragment {
         }
     }
 
-    private Closure onSuccessGetVenues() {
-        { Call<Checkin> call, Response<Checkin> response ->
-            //Log.d(TAG,"Venues... "+ response.body().dump().toString())
-            venues.addAll(response.body() as List)
-            setVenuesToSpinner(venueSpinner, venues)
-        }
-    }
-
-    private Closure onErrorGetVenues() {
-        { Call<Checkin> call, Throwable t ->
-            Log.d(TAG, "Error get venues... " + t.message)
-        }
-    }
-
     private void cleanForm() {
         originEditText.setText("")
         priceEditText.setText("")
@@ -159,8 +113,38 @@ class FormCheckinFragment extends Fragment {
         spinner.adapter = adapter
     }
 
-    Venue getDetailVenueFromList(Integer itemSelectedIndex) {
-        Venue detailVenue = venues.getAt(itemSelectedIndex)
+    @Override
+    void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState)
+        Bundle mBundle = new Bundle()
+        mBundle = getArguments()
+        if(mBundle){
+            populateFormWithBundle(mBundle)
+        }
+
     }
 
+    void populateFormWithBundle(Bundle bundle){
+        originEditText.text = bundle.getString("ORIGEN")
+        priceEditText.text = bundle.getString("PRECIO")
+        noteEditText.text = bundle.getString("NOTAS")
+        methodFieldSprinner.setSelection(new Integer(bundle.getString("METODO")))
+        ratingCoffe.rating = new Float(bundle.getString("RATING"))
+        addVenueButton.text = bundle.getString("VENUE_NAME")
+        venueID = bundle.getString("VENUE_ID")
+    }
+
+    void callNewFragmentWithData(Fragment fragment){
+        Bundle bundle = new Bundle()
+        bundle.putString("ORIGEN", originEditText.text.toString())
+        bundle.putString("PRECIO", priceEditText.text.toString())
+        bundle.putString("NOTAS", noteEditText.text.toString())
+        bundle.putString("METODO", methodFieldSprinner.selectedItemPosition as String)
+        bundle.putString("RATING", ratingCoffe.getRating() as String)
+        FragmentTransaction ft = getFragmentManager().beginTransaction()
+        fragment.setArguments(bundle)
+        ft.replace(R.id.container,fragment)
+        ft.addToBackStack(null)
+        ft.commit()
+    }
 }
