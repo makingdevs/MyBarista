@@ -51,7 +51,12 @@
         android:text="@string/add_venue"
         android:textSize="20dp"
         android:textAlignment="center"
-        android:id="@+id/btnAddVenue"/>
+        android:id="@+id/btnAddVenue"
+<<<<<<< Updated upstream
+        android:padding="@dimen/spacing_normal"/>
+=======
+        android:padding="15dp"/>
+>>>>>>> Stashed changes
 
     <RatingBar
         android:id="@+id/rating_coffe_bar"
