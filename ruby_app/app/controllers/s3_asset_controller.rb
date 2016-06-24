@@ -25,7 +25,7 @@ class S3AssetController < ApplicationController
     @checkin = Checkin.find(params[:checkin])
     @checkin.s3_asset = s3_asset_result
     if @checkin.save
-      render json: @checkin, status: :created
+      render json: s3_asset_result, status: :created
     else
        render json: @checkin.errors, status: :unprocessable_entity
     end
