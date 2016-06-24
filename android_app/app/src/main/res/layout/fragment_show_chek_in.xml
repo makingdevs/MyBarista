@@ -3,105 +3,102 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
-              android:orientation="vertical"
-              android:padding="16dp">
-    <ImageView
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/show_photo_checkin"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/coffee"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/method_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/show_photo_checkin"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:background="@color/accent"
+            android:alpha="0.4"/>
+
+        <TextView
+            android:id="@+id/method_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/show_photo_checkin"
+            android:singleLine="true"
+            android:text="Expreso"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/cardview_light_background"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/show_photo_captured_camera"/>
+        android:padding="16dp"
+        android:background="@color/white">
 
-    <TextView
-        android:id="@+id/method_label"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/label_method"/>
+        <TextView
+            android:id="@+id/origin_data"
+            style="@style/EditText.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Veracruz"/>
 
-    <TextView
-        android:id="@+id/method_data"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#FF9933"
-        />
+        <TextView
+            android:id="@+id/label_created"
+            style="@style/EditText.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="12-12-1990"
+            android:textColor="@color/primary_dark"/>
 
-    <TextView
-        android:id="@+id/origin_label"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/label_origin"/>
+        <TextView
+            android:id="@+id/barista_name_data"
+            style="@style/EditText.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/origin_data"
+            android:text="Barista JJ"/>
 
-    <TextView
-        android:id="@+id/origin_data"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF9933"
+        <TextView
+            android:id="@+id/price_data"
+            style="@style/EditText.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_created"
+            android:layout_alignParentRight="true"
+            android:text="10.50"
+            android:textStyle="bold"/>
 
-        />
+        <TextView
+            android:id="@+id/note_data"
+            style="@style/EditText.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.08"
+            android:layout_below="@+id/barista_name_data"
+            android:text="Notas"
+            android:textStyle="italic"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/price_label"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/label_price"/>
+        <ViewStub
+            android:id="@+id/stub_bottons"
+            android:layout="@layout/stub_show_check_in"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/note_data"/>
 
-    <TextView
-        android:id="@+id/price_data"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF9933"
-
-        />
-
-    <TextView
-        android:id="@+id/note_label"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/label_note"/>
-
-    <TextView
-        android:id="@+id/note_data"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.08"
-        android:textColor="#FF9933"
-        />
-    <TextView
-        android:id="@+id/barista_label"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/barista_label"/>
-
-    <TextView
-        android:id="@+id/barista_name_data"
-        style="@style/EditText.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF9933"
-        />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/show_photo_checkin"/>
-
-    <ViewStub
-        android:id="@+id/stub_bottons"
-        android:layout="@layout/stub_show_check_in"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    </RelativeLayout>
 
 </LinearLayout>
