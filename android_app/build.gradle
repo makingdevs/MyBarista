@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
@@ -8,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
-        classpath 'org.codehaus.groovy:gradle-groovy-android-plugin:0.3.10'
+        classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.0.0'
         classpath 'io.fabric.tools:gradle:1.+'
 
         // NOTE: Do not place your application dependencies here; they belong
