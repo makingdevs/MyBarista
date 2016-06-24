@@ -3,6 +3,7 @@ package com.makingdevs.mybarista.service
 import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.network.BaristaRestOperations
 import com.makingdevs.mybarista.network.impl.RetrofitTemplate
+import groovy.transform.CompileStatic
 
 @Singleton
 class BaristaManagerImpl implements BaristaManager {

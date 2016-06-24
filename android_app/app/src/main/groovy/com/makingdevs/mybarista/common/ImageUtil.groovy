@@ -14,7 +14,9 @@ import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import groovy.transform.CompileStatic
 
+@CompileStatic
 public class ImageUtil {
 
     private static final float STANDARD_ROTATION = 90;

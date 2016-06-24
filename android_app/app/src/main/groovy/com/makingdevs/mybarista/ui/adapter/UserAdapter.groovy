@@ -11,7 +11,9 @@ import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.ui.activity.ProfilePublicActivity
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
     Context mContext

@@ -5,7 +5,9 @@ import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.model.command.UserCommand
+import groovy.transform.CompileStatic
 
+@CompileStatic
 interface UserManager {
 
     void save(RegistrationCommand registrationCommand, Closure onSuccess, Closure onError)

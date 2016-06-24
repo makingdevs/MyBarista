@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.makingdevs.mybarista.BuildConfig
 import com.makingdevs.mybarista.model.*
 import com.makingdevs.mybarista.network.*
+import groovy.transform.CompileStatic
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

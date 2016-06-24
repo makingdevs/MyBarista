@@ -4,7 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Log
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class CamaraUtil{
 
     private static final String TAG = "CamaraUtil"
