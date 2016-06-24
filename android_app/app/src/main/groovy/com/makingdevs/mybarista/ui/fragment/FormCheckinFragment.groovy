@@ -154,7 +154,7 @@ class FormCheckinFragment extends Fragment {
     }
 
     void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues.name)
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues?.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
     }

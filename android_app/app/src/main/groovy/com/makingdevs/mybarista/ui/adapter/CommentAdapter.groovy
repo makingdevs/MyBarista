@@ -12,7 +12,6 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Comment
 import groovy.transform.CompileStatic
 
-@CompileStatic
 class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder>{
 
     Context mContext
