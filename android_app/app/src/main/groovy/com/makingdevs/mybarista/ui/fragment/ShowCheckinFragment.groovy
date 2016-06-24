@@ -86,15 +86,16 @@ public class ShowCheckinFragment extends Fragment {
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         photoCheckinImageView = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
-        //mDateCreated  = (TextView) itemView.findViewById(R.id._data)
+        mDateCreated  = (TextView) itemView.findViewById(R.id.label_created)
     }
 
     private void setCheckinInView(Checkin checkin) {
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
-        mPrice.text = checkin.price
-        mNote.text = checkin.note
-        mBaristaName.text = checkin?.baristum?.name ?: ""
+        mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
+        mNote.text = checkin.note ? """ "${checkin.note}" """ : ""
+        mBaristaName.text = checkin?.baristum ? "Preparado por ${checkin?.baristum?.name}" : ""
+        mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
     }
 
     private Closure onSuccess() {
@@ -113,8 +114,6 @@ public class ShowCheckinFragment extends Fragment {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
             if (response.body())
                 mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, photoCheckinImageView)
-            else
-                mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", photoCheckinImageView)
         }
     }
 
