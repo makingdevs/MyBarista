@@ -4,9 +4,11 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
+import groovy.transform.CompileStatic
 
 import static com.makingdevs.mybarista.database.BaristaDbSchema.*
 
+@CompileStatic
 class BaristaOpenHelper extends SQLiteOpenHelper{
 
     static final String DATABASE_NAME = "barista.db"

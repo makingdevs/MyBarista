@@ -24,7 +24,6 @@ import retrofit2.Call
 import retrofit2.Response
 import android.support.v4.app.Fragment
 
-
 @CompileStatic
 public class RatingCoffeFragment extends Fragment {
 

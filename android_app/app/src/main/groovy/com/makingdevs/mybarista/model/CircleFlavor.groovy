@@ -1,5 +1,8 @@
 package com.makingdevs.mybarista.model
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class CircleFlavor {
 
     String sweetness

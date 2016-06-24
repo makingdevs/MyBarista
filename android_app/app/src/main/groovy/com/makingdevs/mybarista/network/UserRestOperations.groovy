@@ -5,12 +5,14 @@ import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
+import groovy.transform.CompileStatic
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
-public interface UserRestOperations {
+@CompileStatic
+interface UserRestOperations {
 
     @POST("users")
     Call<User> registrationUser(@Body RegistrationCommand registration)

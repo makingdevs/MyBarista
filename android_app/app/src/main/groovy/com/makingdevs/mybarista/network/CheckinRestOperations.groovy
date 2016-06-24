@@ -4,10 +4,12 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.CircleFlavor
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.CircleFlavorCommand
+import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.http.*
 
-public interface CheckinRestOperations {
+@CompileStatic
+interface CheckinRestOperations {
 
     @GET("checkins")
     Call<List<Checkin>> getCheckins(@QueryMap Map<String, String> options)

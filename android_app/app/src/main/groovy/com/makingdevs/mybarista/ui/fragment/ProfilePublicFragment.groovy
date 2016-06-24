@@ -15,9 +15,11 @@ import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
+import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
+@CompileStatic
 class ProfilePublicFragment extends Fragment{
 
     UserManager mUserManager = UserManagerImpl.instance

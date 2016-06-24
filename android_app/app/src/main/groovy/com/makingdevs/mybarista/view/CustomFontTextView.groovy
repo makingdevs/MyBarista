@@ -5,9 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView
-import com.makingdevs.mybarista.R;
+import com.makingdevs.mybarista.R
+import groovy.transform.CompileStatic;
 
-
+@CompileStatic
 public class CustomFontTextView extends TextView{
 
     private String mFont;

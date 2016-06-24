@@ -18,8 +18,10 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.ui.fragment.ListBrewFragment
 import com.makingdevs.mybarista.ui.fragment.ProfileFragment
 import com.makingdevs.mybarista.ui.fragment.SearchUserFragment
+import groovy.transform.CompileStatic
 import io.fabric.sdk.android.Fabric
 
+@CompileStatic
 class PrincipalActivity extends AppCompatActivity {
 
     static Intent newIntentWithContext(Context context) {

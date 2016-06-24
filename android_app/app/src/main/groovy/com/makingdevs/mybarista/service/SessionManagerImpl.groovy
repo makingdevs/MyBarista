@@ -3,8 +3,10 @@ package com.makingdevs.mybarista.service
 import android.content.Context
 import android.content.SharedPreferences
 import com.makingdevs.mybarista.model.User
+import groovy.transform.CompileStatic
 
 @Singleton
+@CompileStatic
 class SessionManagerImpl implements SessionManager{
 
     void setUserSession(User user, Context context) {
