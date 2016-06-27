@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621171034) do
+ActiveRecord::Schema.define(version: 20160627203745) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "s3_asset_id"
+    t.index ["s3_asset_id"], name: "index_barista_on_s3_asset_id", using: :btree
   end
 
   create_table "checkins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -90,6 +92,7 @@ ActiveRecord::Schema.define(version: 20160621171034) do
     t.datetime "updated_at",          null: false
   end
 
+  add_foreign_key "barista", "s3_assets"
   add_foreign_key "checkins", "barista"
   add_foreign_key "checkins", "circle_flavors"
   add_foreign_key "checkins", "s3_assets"
