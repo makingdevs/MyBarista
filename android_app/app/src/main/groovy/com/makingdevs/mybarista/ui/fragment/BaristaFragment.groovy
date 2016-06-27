@@ -74,7 +74,7 @@ class BaristaFragment extends Fragment {
         mButtonPhotoBarista.onClickListener = {
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.uploadPhotoBarista(new UploadPhotoBaristaCommand(idBarista: "1", pathFile:photo.getPath()),onSuccessPhoto(),onErrorPhoto())
+                mS3Manager.uploadPhotoBarista(new UploadPhotoBaristaCommand(idBarista: idBarista, pathFile:photo.getPath()),onSuccessPhoto(),onErrorPhoto())
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
