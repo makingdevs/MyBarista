@@ -11,7 +11,7 @@ class Checkin < ApplicationRecord
     super(
       :include => {
         :s3_asset => {:only => [:url_file]},
-        :baristum => {:only => [:name]}
+        :baristum => {:only => [:name,:id]}
       },
       :methods => [:author]
     )
