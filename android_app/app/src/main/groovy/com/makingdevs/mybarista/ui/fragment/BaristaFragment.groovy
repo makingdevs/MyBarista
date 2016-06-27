@@ -18,6 +18,8 @@ import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.model.command.UploadPhotoBaristaCommand
 import com.makingdevs.mybarista.service.BaristaManager
 import com.makingdevs.mybarista.service.BaristaManagerImpl
+import com.makingdevs.mybarista.service.CheckinManager
+import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
@@ -41,8 +43,8 @@ class BaristaFragment extends Fragment {
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
-
-
+    CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    String idBarista
 
     View onCreateView(LayoutInflater inflater,
                        @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ class BaristaFragment extends Fragment {
         mImageButtonFoursquare = (ImageButton) root.findViewById(R.id.button_foursquare)
         mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", mPhotoBarista)
         bindingElements()
-
+        getBarista()
         root
 
     }
@@ -89,6 +91,17 @@ class BaristaFragment extends Fragment {
 
     private void saveBarista(BaristaCommand command, String id) {
         mBaristaManager.save(command,id,onSuccess(), onError())
+    }
+
+    void getBarista(){
+        mCheckinManager.show(mCheckinId, onSuccessGetBarista(), onError())
+    }
+
+    private Closure onSuccessGetBarista() {
+        { Call<Checkin> call, Response<Checkin> response ->
+            mNameBarista.text = response.body()?.baristum?.name?.toString()
+            idBarista = response.body()?.baristum?.id?.toString()
+        }
     }
 
     private Closure onSuccess() {
