@@ -57,7 +57,7 @@ class RetrofitTemplate {
     }
 
     def withRetrofitResponse(Class operations, Closure onSuccess, Closure onError, Closure action){
-        UserRestOperations restOperations = retrofit.create(operations) as UserRestOperations
+        S3AssetRestOperations restOperations = retrofit.create(operations) as S3AssetRestOperations
         Call<ResponseBody> model = action(restOperations) as Call<ResponseBody>
         def callback = [
                 onResponse :onSuccess,
@@ -67,7 +67,7 @@ class RetrofitTemplate {
     }
 
     def withRetrofitPhotoCheckin(Class operations, Closure onSuccess, Closure onError, Closure action){
-        UserRestOperations restOperations = retrofit.create(operations) as UserRestOperations
+        S3AssetRestOperations restOperations = retrofit.create(operations) as S3AssetRestOperations
         Call<PhotoCheckin> model = action(restOperations) as Call<PhotoCheckin>
         def callback = [
                 onResponse :onSuccess,
