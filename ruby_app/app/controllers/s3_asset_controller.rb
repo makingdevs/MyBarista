@@ -35,7 +35,7 @@ class S3AssetController < ApplicationController
     result_file = upload_image_to_s3(params)
     s3_asset_result = save_image_s3_asset(result_file.public_url, result_file.key)
     @barista = Baristum.find(params[:barista])
-    #@barista.s3_asset = s3_asset_result
+    @barista.s3_asset = s3_asset_result
     if @barista.save
       render json: s3_asset_result, status: :created
     else
