@@ -21,5 +21,7 @@ Rails.application.routes.draw do
    get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
    post '/barista/:id/save', to: 'barista#create', as: 'saveBarista'
    get '/foursquare/searh_venues_id', to: 'foursquare#search_venue_by_id', as: 'api_foursquare_search_id'
-   post '/barista/photo/:checkin_id', to: 's3_asset#photo_barista_s3', as: 'photoBarista'
+   #post '/barista/photo/:checkin_id', to: 's3_asset#photo_barista_s3', as: 'photoBarista'
+   post '/barista/photo/save_photo', to: 's3_asset#save_photo_by_barista', as: 's3_barista'
+
 end

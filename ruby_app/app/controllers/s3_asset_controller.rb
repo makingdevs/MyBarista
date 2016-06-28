@@ -31,6 +31,12 @@ class S3AssetController < ApplicationController
     end
   end
 
+  def save_photo_by_barista
+    result_file = upload_image_to_s3(params)
+    s3_asset_result = save_image_s3_asset(result_file.public_url, result_file.key)
+    render json: s3_asset_result
+  end
+
   def photo_url_s3
     photo_checkin = S3Asset.where({checkin_id: params['checkin_id']}).last()
     if photo_checkin != nil
