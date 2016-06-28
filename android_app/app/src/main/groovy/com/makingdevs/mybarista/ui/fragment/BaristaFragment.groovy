@@ -15,7 +15,8 @@ import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
-import com.makingdevs.mybarista.model.command.UploadPhotoBaristaCommand
+import com.makingdevs.mybarista.model.command.UploadCommand
+
 import com.makingdevs.mybarista.service.BaristaManager
 import com.makingdevs.mybarista.service.BaristaManagerImpl
 import com.makingdevs.mybarista.service.CheckinManager
@@ -33,7 +34,7 @@ class BaristaFragment extends Fragment {
 
     private static final String TAG = "BaristaFragment"
     private EditText mNameBarista
-    private Button  mButtonCreateBarista
+    private Button mButtonCreateBarista
     private static Context contextView
     private ImageView mPhotoBarista
     private ImageButton mButtonPhotoBarista
@@ -43,13 +44,13 @@ class BaristaFragment extends Fragment {
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
+    Bundle bundle
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
-    String idBarista
 
     View onCreateView(LayoutInflater inflater,
-                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mCheckinId = getActivity().getIntent().getExtras().getString("checkingId")
-        View root = inflater.inflate(R.layout.fragment_new_barista,container, false)
+        View root = inflater.inflate(R.layout.fragment_new_barista, container, false)
         mNameBarista = (EditText) root.findViewById(R.id.name_barista_field)
         mButtonCreateBarista = (Button) root.findViewById(R.id.button_new_barista)
         mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
@@ -59,12 +60,13 @@ class BaristaFragment extends Fragment {
         bindingElements()
         getBarista()
         root
-
     }
 
     private BaristaCommand getPropertiesOfBarista() {
+        bundle = getArguments()
+        String s3_asset = bundle?.get("S3ASSET")
         String name = mNameBarista.getText().toString()
-        new BaristaCommand(name:  name)
+        new BaristaCommand(name: name, s3_asset: s3_asset)
     }
 
     private void bindingElements() {
@@ -74,7 +76,7 @@ class BaristaFragment extends Fragment {
         mButtonPhotoBarista.onClickListener = {
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.uploadPhotoBarista(new UploadPhotoBaristaCommand(idBarista: idBarista, pathFile:photo.getPath()),onSuccessPhoto(),onErrorPhoto())
+                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onErrorPhoto())
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
@@ -90,24 +92,25 @@ class BaristaFragment extends Fragment {
     }
 
     private void saveBarista(BaristaCommand command, String id) {
-        mBaristaManager.save(command,id,onSuccess(), onError())
+        mBaristaManager.save(command, id, onSuccess(), onError())
     }
 
-    void getBarista(){
+    void getBarista() {
         mCheckinManager.show(mCheckinId, onSuccessGetBarista(), onError())
+
     }
 
     private Closure onSuccessGetBarista() {
         { Call<Checkin> call, Response<Checkin> response ->
             mNameBarista.text = response.body()?.baristum?.name?.toString()
-            idBarista = response.body()?.baristum?.id?.toString()
         }
     }
+
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             if (response.code() == 200) {
-               showCheckin(response.body())
+                showCheckin(response.body())
             } else {
                 Log.d(TAG, "Errorrrrz")
             }
@@ -122,9 +125,14 @@ class BaristaFragment extends Fragment {
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            println("EXITO...")
-            //if (response.body())
-            //    mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, photoCheckinImageView)
+            Bundle bundle = new Bundle()
+            bundle.putString("S3ASSET", response?.body()?.id?.toString())
+            BaristaFragment baristaFragment = new BaristaFragment()
+            baristaFragment.setArguments(bundle)
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, baristaFragment)
+                    .addToBackStack(null).commit()
         }
     }
 
@@ -132,10 +140,11 @@ class BaristaFragment extends Fragment {
         { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
     }
 
-    private void showCheckin(Checkin checkin){
-        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(),checkin.id, checkin.circle_flavor_id)
-        intent.putExtra("circle_flavor_id",checkin.circle_flavor_id)
+    private void showCheckin(Checkin checkin) {
+        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(), checkin.id, checkin.circle_flavor_id)
+        intent.putExtra("circle_flavor_id", checkin.circle_flavor_id)
         startActivity(intent)
         getActivity().finish()
     }
+
 }
