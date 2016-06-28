@@ -34,13 +34,7 @@ class S3AssetController < ApplicationController
   def save_photo_by_barista
     result_file = upload_image_to_s3(params)
     s3_asset_result = save_image_s3_asset(result_file.public_url, result_file.key)
-    @barista = Baristum.find(params[:barista])
-    @barista.s3_asset = s3_asset_result
-    if @barista.save
-      render json: s3_asset_result, status: :created
-    else
-       render json: @barista.errors, status: :unprocessable_entity
-    end
+    render json: s3_asset_result
   end
 
   def photo_url_s3
