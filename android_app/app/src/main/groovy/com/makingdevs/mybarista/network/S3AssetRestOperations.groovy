@@ -1,6 +1,6 @@
 package com.makingdevs.mybarista.network
 
-import com.makingdevs.mybarista.model.PhotoBarista
+
 import com.makingdevs.mybarista.model.PhotoCheckin
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -15,5 +15,5 @@ public interface S3AssetRestOperations {
 
     @Multipart
     @POST("/barista/photo/save_photo")
-    Call<PhotoBarista> uploadImageBarista(@Part("barista") RequestBody barista, @Part MultipartBody.Part file)
+    Call<PhotoCheckin> uploadImageBarista(@Part MultipartBody.Part file)
 }
