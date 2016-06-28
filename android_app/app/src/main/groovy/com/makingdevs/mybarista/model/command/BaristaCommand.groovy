@@ -6,5 +6,6 @@ import groovy.transform.CompileStatic
 class BaristaCommand {
 
     String name
+    String s3_asset
 
 }
