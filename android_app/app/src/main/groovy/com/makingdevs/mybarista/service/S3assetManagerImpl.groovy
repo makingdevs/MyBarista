@@ -39,5 +39,19 @@ class S3assetManagerImpl implements S3assetManager {
             restOperations.uploadImageBarista(body)
         }
     }
+    @Override
+    void uploadPhotoUser(UploadCommand uploadCommand, Closure onSuccess, Closure onError){
+        RetrofitTemplate.instance.withRetrofitResponse(operations, onSuccess, onError) { S3AssetRestOperations restOperations ->
+
+            File photoToUpload = new File(uploadCommand.pathFile)
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoToUpload)
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", photoToUpload.getName(), requestFile)
+
+            RequestBody user = RequestBody.create(MediaType.parse("multipart/form-data"), uploadCommand.idUser)
+
+            restOperations.uploadImageProfile(user,body)
+        }
+    }
+
 
 }
