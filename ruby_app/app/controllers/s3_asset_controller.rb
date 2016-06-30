@@ -37,6 +37,18 @@ class S3AssetController < ApplicationController
     render json: s3_asset_result
   end
 
+  def save_photo_by_user
+    result_file = upload_image_to_s3(params)
+    s3_asset_result = save_image_s3_asset(result_file.public_url, result_file.key)
+    @user = User.find_by id: params["user"]
+    @user.s3_asset = s3_asset_result
+    if @user.save
+      render json: s3_asset_result, status: :created
+    else
+       render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   def photo_url_s3
     photo_checkin = S3Asset.where({checkin_id: params['checkin_id']}).last()
     if photo_checkin != nil
