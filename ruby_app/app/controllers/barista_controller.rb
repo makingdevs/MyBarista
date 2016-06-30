@@ -19,6 +19,8 @@ class BaristaController < ApplicationController
     render json: @baristum
   end
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+
   private
     def set_barista
       @baristum = Baristum.find(params[:id])
@@ -28,5 +30,8 @@ class BaristaController < ApplicationController
       params.permit(:name)
     end
 
+    def record_not_found
+      render :json => "Not Found", :status => 404
+    end
 
 end
