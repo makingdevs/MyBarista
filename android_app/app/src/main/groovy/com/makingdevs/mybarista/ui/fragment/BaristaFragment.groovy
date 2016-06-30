@@ -40,6 +40,8 @@ class BaristaFragment extends Fragment {
     private ImageButton mButtonPhotoBarista
     private String mCheckinId
     ImageButton mImageButtonFoursquare
+    ImageButton mButtonShowBarista
+    String idBarista
 
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
@@ -56,6 +58,7 @@ class BaristaFragment extends Fragment {
         mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mImageButtonFoursquare = (ImageButton) root.findViewById(R.id.button_foursquare)
+        mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
         mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", mPhotoBarista)
         bindingElements()
         getBarista()
@@ -89,6 +92,17 @@ class BaristaFragment extends Fragment {
         mImageButtonFoursquare.onClickListener = {
 
         }
+        mButtonShowBarista.onClickListener = {
+            ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
+            Bundle bundle = new Bundle()
+            bundle.putString("ID_BARISTA", idBarista)
+            showBaristaFragment.setArguments(bundle)
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, showBaristaFragment)
+                    .addToBackStack(null).commit()
+
+        }
     }
 
     private void saveBarista(BaristaCommand command, String id) {
@@ -103,6 +117,7 @@ class BaristaFragment extends Fragment {
     private Closure onSuccessGetBarista() {
         { Call<Checkin> call, Response<Checkin> response ->
             mNameBarista.text = response.body()?.baristum?.name?.toString()
+            idBarista = response.body()?.baristum?.id?.toString()
         }
     }
 
