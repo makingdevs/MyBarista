@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :checkins
   has_many :comments
   has_secure_password
+  belongs_to :s3_asset, optional:true
 
   def self.search(search)
     users = []
