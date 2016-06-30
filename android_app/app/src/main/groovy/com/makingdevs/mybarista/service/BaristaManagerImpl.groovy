@@ -17,4 +17,12 @@ class BaristaManagerImpl implements BaristaManager {
             restOperations.registrationBarista(baristaCommand,CheckinId)
         }
     }
+
+    @Override
+    void show(String id, Closure onSuccess, Closure onError){
+        RetrofitTemplate.instance.withRetrofitBarista(operations as Class, onSuccess, onError) { BaristaRestOperations restOperations ->
+            restOperations.getBarista(id)
+        }
+    }
+
 }
