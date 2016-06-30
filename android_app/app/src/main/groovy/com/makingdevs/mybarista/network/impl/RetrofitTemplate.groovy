@@ -78,12 +78,12 @@ class RetrofitTemplate {
 
     def withRetrofitBarista(Class operations, Closure onSuccess, Closure onError, Closure action){
         BaristaRestOperations restOperations = retrofit.create(operations) as BaristaRestOperations
-        Call<Checkin> model = action(restOperations) as Call<Checkin>
+        Call<Barista> model = action(restOperations) as Call<Barista>
         def callback = [
                 onResponse :onSuccess,
                 onFailure : onError
         ]
-        model.enqueue(callback as Callback<Checkin>)
+        model.enqueue(callback as Callback<Barista>)
     }
 
     def withRetrofitVenue(Class operations, Closure onSuccess, Closure onError, Closure action){
