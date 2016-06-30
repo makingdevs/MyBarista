@@ -17,13 +17,8 @@ class Checkin {
     String user_id
     String circle_flavor_id
     String rating
-    @Bindable S3_Asset s3_asset
+    @Bindable S3Asset s3_asset
     Barista baristum
     String author
-
-
-    class Barista{
-        String name
-        String id
-    }
+    
 }

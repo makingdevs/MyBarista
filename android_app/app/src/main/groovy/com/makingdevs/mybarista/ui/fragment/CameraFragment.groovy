@@ -10,23 +10,9 @@ import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import com.makingdevs.mybarista.common.CamaraUtil
 import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.model.PhotoCheckin
-import com.makingdevs.mybarista.model.S3_Asset
-import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.model.command.UploadCommand
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.service.UserManager
-import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
-import retrofit2.Call
-import retrofit2.Response
 
 @CompileStatic
 public class CameraFragment extends Fragment {

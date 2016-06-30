@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.model.Barista
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
@@ -40,6 +41,8 @@ class BaristaFragment extends Fragment {
     private ImageButton mButtonPhotoBarista
     private String mCheckinId
     ImageButton mImageButtonFoursquare
+    ImageButton mButtonShowBarista
+    String idBarista
 
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
@@ -56,6 +59,7 @@ class BaristaFragment extends Fragment {
         mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mImageButtonFoursquare = (ImageButton) root.findViewById(R.id.button_foursquare)
+        mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
         mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", mPhotoBarista)
         bindingElements()
         getBarista()
@@ -89,6 +93,17 @@ class BaristaFragment extends Fragment {
         mImageButtonFoursquare.onClickListener = {
 
         }
+        mButtonShowBarista.onClickListener = {
+            ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
+            Bundle bundle = new Bundle()
+            bundle.putString("ID_BARISTA", idBarista)
+            showBaristaFragment.setArguments(bundle)
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, showBaristaFragment)
+                    .addToBackStack(null).commit()
+
+        }
     }
 
     private void saveBarista(BaristaCommand command, String id) {
@@ -97,12 +112,14 @@ class BaristaFragment extends Fragment {
 
     void getBarista() {
         mCheckinManager.show(mCheckinId, onSuccessGetBarista(), onError())
-
     }
 
     private Closure onSuccessGetBarista() {
         { Call<Checkin> call, Response<Checkin> response ->
             mNameBarista.text = response.body()?.baristum?.name?.toString()
+            idBarista = response.body()?.baristum?.id?.toString()
+            mBaristaManager.show(idBarista,onSuccessShow(),onError())
+
         }
     }
 
@@ -117,9 +134,18 @@ class BaristaFragment extends Fragment {
         }
     }
 
+    Closure onSuccessShow() {
+        { Call<Barista> call, Response<Barista> response ->
+            String url_image = response?.body()?.s3_asset?.url_file
+            if (url_image){
+                mImageUtil1.setPhotoImageView(getContext(),url_image, mPhotoBarista)
+            }
+        }
+    }
+
     private Closure onError() {
         { Call<Checkin> call, Throwable t ->
-            Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"Error ${t.message}")
         }
     }
 

@@ -10,10 +10,10 @@ import com.makingdevs.mybarista.ui.fragment.FormCheckinFragment
 import groovy.transform.CompileStatic
 
 @CompileStatic
-public class CheckinActivity extends SingleFragmentActivity {
+public class CheckInActivity extends SingleFragmentActivity {
 
     static Intent newIntentWithContext(Context context){
-        Intent intent = new Intent(context, CheckinActivity)
+        Intent intent = new Intent(context, CheckInActivity)
         intent
     }
 
