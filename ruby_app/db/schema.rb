@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627203745) do
+ActiveRecord::Schema.define(version: 20160630184959) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 20160627203745) do
     t.string   "name"
     t.string   "lastName"
     t.string   "email"
+    t.integer  "s3_asset_id"
+    t.index ["s3_asset_id"], name: "index_users_on_s3_asset_id", using: :btree
   end
 
   create_table "venues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -100,4 +102,5 @@ ActiveRecord::Schema.define(version: 20160627203745) do
   add_foreign_key "checkins", "venues"
   add_foreign_key "comments", "checkins"
   add_foreign_key "comments", "users"
+  add_foreign_key "users", "s3_assets"
 end
