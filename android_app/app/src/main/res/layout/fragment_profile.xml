@@ -39,7 +39,8 @@
                     <ImageView
                         android:layout_width="@dimen/size_image_profile"
                         android:layout_height="@dimen/size_image_profile"
-                        app:srcCompat="@drawable/ic_profile"/>
+                        app:srcCompat="@drawable/ic_profile"
+                        android:id="@+id/photo_profile_user"/>
 
                     <TextView
                         android:id="@+id/usernameProfile"
