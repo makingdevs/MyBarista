@@ -14,12 +14,11 @@ import android.view.ViewGroup
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.model.repository.UserRepository
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.ui.activity.CheckinActivity
+import com.makingdevs.mybarista.ui.activity.CheckInActivity
 import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -47,7 +46,7 @@ public class ListBrewFragment extends Fragment {
 
         mButtonGoChekin= (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
         mButtonGoChekin.onClickListener = {
-                Intent intent = CheckinActivity.newIntentWithContext(getContext())
+                Intent intent = CheckInActivity.newIntentWithContext(getContext())
                 startActivity(intent)
             }
         updateUI()
