@@ -16,4 +16,8 @@ public interface S3AssetRestOperations {
     @Multipart
     @POST("/barista/photo/save_photo")
     Call<PhotoCheckin> uploadImageBarista(@Part MultipartBody.Part file)
+
+    @Multipart
+    @POST("/users/photo/save")
+    Call<PhotoCheckin> uploadImageProfile(@Part("user") RequestBody user,@Part MultipartBody.Part file)
 }
