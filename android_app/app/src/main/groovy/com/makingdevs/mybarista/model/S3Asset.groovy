@@ -6,7 +6,7 @@ import groovy.transform.EqualsAndHashCode
 
 @CompileStatic
 @EqualsAndHashCode
-class S3_Asset{
+class S3Asset {
 
     @Bindable String url_file
 
