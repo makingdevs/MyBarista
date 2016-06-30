@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.model.Barista
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
@@ -111,13 +112,14 @@ class BaristaFragment extends Fragment {
 
     void getBarista() {
         mCheckinManager.show(mCheckinId, onSuccessGetBarista(), onError())
-
     }
 
     private Closure onSuccessGetBarista() {
         { Call<Checkin> call, Response<Checkin> response ->
             mNameBarista.text = response.body()?.baristum?.name?.toString()
             idBarista = response.body()?.baristum?.id?.toString()
+            mBaristaManager.show(idBarista,onSuccessShow(),onError())
+
         }
     }
 
@@ -132,9 +134,18 @@ class BaristaFragment extends Fragment {
         }
     }
 
+    Closure onSuccessShow() {
+        { Call<Barista> call, Response<Barista> response ->
+            String url_image = response?.body()?.s3_asset?.url_file
+            if (url_image){
+                mImageUtil1.setPhotoImageView(getContext(),url_image, mPhotoBarista)
+            }
+        }
+    }
+
     private Closure onError() {
         { Call<Checkin> call, Throwable t ->
-            Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"Error ${t.message}")
         }
     }
 
