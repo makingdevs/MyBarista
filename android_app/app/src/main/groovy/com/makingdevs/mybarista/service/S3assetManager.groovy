@@ -6,5 +6,6 @@ interface S3assetManager {
 
     void upload(UploadCommand uploadCommand, Closure onSuccess, Closure onError)
     void uploadPhotoBarista(UploadCommand uploadCommand, Closure onSuccess, Closure onError)
+    void uploadPhotoUser(UploadCommand uploadCommand, Closure onSuccess, Closure onError)
 
 }
