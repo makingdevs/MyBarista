@@ -8,19 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
-import com.makingdevs.mybarista.service.SessionManager
-import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.service.UserManager
-import com.makingdevs.mybarista.service.UserManagerImpl
-import com.makingdevs.mybarista.ui.activity.ListBrewByUserActivity
+import com.makingdevs.mybarista.model.command.UploadCommand
+import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import retrofit2.Call
 import retrofit2.Response
@@ -30,6 +27,9 @@ class ProfileFragment extends Fragment{
     ProfileFragment(){}
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
+    S3assetManager mS3Manager = S3assetManagerImpl.instance
+    ImageUtil mImageUtil1 = new ImageUtil()
+    User currentUser
 
     private static final String TAG = "ProfileFragment"
     private EditText nameProfileEditText
@@ -38,8 +38,7 @@ class ProfileFragment extends Fragment{
     private Button checkinsCount
     private Button mSaveProfile
     TextView mCloseSession
-
-    User currentUser
+    ImageView mImageViewCamera
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +55,8 @@ class ProfileFragment extends Fragment{
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
         mSaveProfile = (Button) root.findViewById(R.id.save_profile)
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
+        mImageViewCamera = (ImageView) root.findViewById(R.id.photo_profile_user)
+        //mImageUtil1.setPhotoImageView(getContext(),"http://mybarista.com.s3.amazonaws.com/coffee.jpg", mImageViewCamera)
         mSaveProfile.onClickListener = {
             updateInfoUserProfile()
         }
@@ -64,6 +65,19 @@ class ProfileFragment extends Fragment{
             Intent intent = LoginActivity.newIntentWithContext(getContext())
             startActivity(intent)
             getActivity().finish()
+        }
+        mImageViewCamera.onClickListener = {
+            Fragment cameraFragment = new CameraFragment()
+            cameraFragment.setSuccessActionOnPhoto { File photo ->
+                mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser.id , pathFile: photo.getPath()), onSuccessPhoto(), onErrorPhoto())
+            }
+            cameraFragment.setErrorActionOnPhoto {
+                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+            }
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, cameraFragment)
+                    .addToBackStack(null).commit()
         }
         loadData()
         root
@@ -109,5 +123,23 @@ class ProfileFragment extends Fragment{
             lastNameProfileEditText.text = response.body().lastName
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
         }
+    }
+
+    private Closure onSuccessPhoto() {
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
+            println("FOTO... "+response?.body()?.dump().toString())
+            /*Bundle bundle = new Bundle()
+            bundle.putString("S3ASSET", response?.body()?.id?.toString())*/
+            ProfileFragment profileFragment = new ProfileFragment()
+            //profileFragment.setArguments(bundle)
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, profileFragment)
+                    .addToBackStack(null).commit()
+        }
+    }
+
+    private Closure onErrorPhoto() {
+        { Call<Checkin> call, Throwable t -> Log.d("Error ${t.message}") }
     }
 }
