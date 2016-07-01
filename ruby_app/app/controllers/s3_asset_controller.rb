@@ -50,10 +50,7 @@ class S3AssetController < ApplicationController
   end
 
   def photo_url_s3
-    photo_checkin = S3Asset.where({checkin_id: params['checkin_id']}).last()
-    if photo_checkin != nil
-      @photo = photo_checkin
-      render json: @photo
-    end
+    photo_checkin = S3Asset.find_by id: params["s3_asset"]
+    render json: photo_checkin
   end
 end
