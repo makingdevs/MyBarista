@@ -11,4 +11,6 @@ class UserProfile{
     String lastName
     Integer checkins_count
     String visible_name
+    S3Asset s3_asset
+
 }
