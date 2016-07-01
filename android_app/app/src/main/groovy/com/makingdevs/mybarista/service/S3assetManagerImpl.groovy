@@ -53,5 +53,10 @@ class S3assetManagerImpl implements S3assetManager {
         }
     }
 
-
+    @Override
+    void getAsset(String id, Closure onSuccess, Closure onError) {
+       RetrofitTemplate.instance.withRetrofitResponse(operations as Class, onSuccess, onError) { S3AssetRestOperations restOperations ->
+                restOperations.getS3(id)
+       }
+    }
 }
