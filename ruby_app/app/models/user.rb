@@ -17,6 +17,9 @@ class User < ApplicationRecord
 
   def as_json(options={})
     super(
+      :include => {
+        :s3_asset => {:only => [:url_file]}
+      },
       :methods => [:checkins_count,:visible_name]
     )
   end
