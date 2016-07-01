@@ -15,7 +15,7 @@ Rails.application.routes.draw do
    post 'checkins/:id/circleFlavor', to: 'circles#create', as: 'circleFlavor'
    post '/checkin/photo/save', to: 's3_asset#save_photo_by_checkin', as: 's3'
    get '/checkins/:id/comments', to: 'checkins#comments', as: 'checkinsComments'
-   get '/users/photo/:checkin_id', to:'s3_asset#photo_url_s3', as: 'photo_s3'
+   get '/s3asset/:s3_asset', to:'s3_asset#photo_url_s3', as: 'photo_s3'
    post '/checkins/:id/setRating', to: 'checkins#setRatingInCheckin', as: 'saveRating'
    get '/search/users', to:'users#search', as: 'searchUsers'
    get '/foursquare/searh_venues', to: 'foursquare#searh_venues', as: 'api_foursquare_index'
