@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.service.UserManager
 import com.makingdevs.mybarista.service.UserManagerImpl
@@ -30,6 +32,8 @@ class ProfilePublicFragment extends Fragment{
     private TextView usernameProfile
     private Button checkinsCount
     String userId
+    ImageView mImageViewProfilePublic
+    ImageUtil mImageUtil1 = new ImageUtil()
 
     ProfilePublicFragment(String id){
         Bundle args = new Bundle()
@@ -50,6 +54,7 @@ class ProfilePublicFragment extends Fragment{
         fullNameEditText = (TextView) root.findViewById(R.id.full_name)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+        mImageViewProfilePublic = (ImageView) root.findViewById(R.id.photo_public_profile)
 
         loadData()
         root
@@ -69,6 +74,10 @@ class ProfilePublicFragment extends Fragment{
             fullNameEditText.text = "${response.body().name ?: ""} ${response.body().lastName ?: ""}"
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
             usernameProfile.text = response.body().username
+            String url_image = response?.body()?.s3_asset?.url_file
+            if (url_image){
+                mImageUtil1.setPhotoImageView(getContext(),url_image, mImageViewProfilePublic)
+            }
 
             checkinsCount.onClickListener = {
                 Intent intent = ListBrewByUserActivity.newIntentWithContext(getContext(),response.body().username)
