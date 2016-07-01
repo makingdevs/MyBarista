@@ -40,14 +40,14 @@ class BaristaFragment extends Fragment {
     private ImageView mPhotoBarista
     private ImageButton mButtonPhotoBarista
     private String mCheckinId
-    ImageButton mImageButtonFoursquare
     ImageButton mButtonShowBarista
     String idBarista
+    String s3_asset
 
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
-    Bundle bundle
+    Bundle mbundle
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
     View onCreateView(LayoutInflater inflater,
@@ -58,7 +58,6 @@ class BaristaFragment extends Fragment {
         mButtonCreateBarista = (Button) root.findViewById(R.id.button_new_barista)
         mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
-        mImageButtonFoursquare = (ImageButton) root.findViewById(R.id.button_foursquare)
         mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
         mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg", mPhotoBarista)
         bindingElements()
@@ -66,9 +65,14 @@ class BaristaFragment extends Fragment {
         root
     }
 
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        mbundle = getArguments()
+    }
+
     private BaristaCommand getPropertiesOfBarista() {
-        bundle = getArguments()
-        String s3_asset = bundle?.get("S3ASSET")
+        s3_asset = mbundle?.get("S3ASSET")
         String name = mNameBarista.getText().toString()
         new BaristaCommand(name: name, s3_asset: s3_asset)
     }
@@ -84,24 +88,16 @@ class BaristaFragment extends Fragment {
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+                changeFragment(new BaristaFragment())
             }
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, cameraFragment)
-                    .addToBackStack(null).commit()
-        }
-        mImageButtonFoursquare.onClickListener = {
-
+            changeFragment(cameraFragment)
         }
         mButtonShowBarista.onClickListener = {
             ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
             Bundle bundle = new Bundle()
             bundle.putString("ID_BARISTA", idBarista)
             showBaristaFragment.setArguments(bundle)
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, showBaristaFragment)
-                    .addToBackStack(null).commit()
+            changeFragment(showBaristaFragment)
 
         }
     }
@@ -155,10 +151,7 @@ class BaristaFragment extends Fragment {
             bundle.putString("S3ASSET", response?.body()?.id?.toString())
             BaristaFragment baristaFragment = new BaristaFragment()
             baristaFragment.setArguments(bundle)
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, baristaFragment)
-                    .addToBackStack(null).commit()
+            changeFragment(baristaFragment)
         }
     }
 
@@ -171,6 +164,13 @@ class BaristaFragment extends Fragment {
         intent.putExtra("circle_flavor_id", checkin.circle_flavor_id)
         startActivity(intent)
         getActivity().finish()
+    }
+
+    void changeFragment(Fragment fragment){
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
 }
