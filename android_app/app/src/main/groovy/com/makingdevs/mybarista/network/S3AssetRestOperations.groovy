@@ -20,4 +20,8 @@ public interface S3AssetRestOperations {
     @Multipart
     @POST("/users/photo/save")
     Call<PhotoCheckin> uploadImageProfile(@Part("user") RequestBody user,@Part MultipartBody.Part file)
+
+    @GET("/s3asset/{id}")
+    Call<PhotoCheckin> getS3(@Path("id") String id)
+
 }
