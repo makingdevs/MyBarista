@@ -39,6 +39,7 @@ class ProfileFragment extends Fragment{
     private Button mSaveProfile
     TextView mCloseSession
     ImageView mImageViewCamera
+    ImageView mImageViewPhotoUser
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ class ProfileFragment extends Fragment{
         mSaveProfile = (Button) root.findViewById(R.id.save_profile)
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
         mImageViewCamera = (ImageView) root.findViewById(R.id.photo_profile_user)
-        //mImageUtil1.setPhotoImageView(getContext(),"http://mybarista.com.s3.amazonaws.com/coffee.jpg", mImageViewCamera)
+        mImageViewPhotoUser = (ImageView) root.findViewById(R.id.photo_current_user)
         mSaveProfile.onClickListener = {
             updateInfoUserProfile()
         }
@@ -73,11 +74,9 @@ class ProfileFragment extends Fragment{
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+                changeFragment(new ProfileFragment())
             }
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, cameraFragment)
-                    .addToBackStack(null).commit()
+            changeFragment(cameraFragment)
         }
         loadData()
         root
@@ -122,24 +121,31 @@ class ProfileFragment extends Fragment{
             nameProfileEditText.text = response.body().name
             lastNameProfileEditText.text = response.body().lastName
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
+            String urlFile = response?.body()?.s3_asset?.url_file
+            if (urlFile){
+                mImageUtil1.setPhotoImageView(getContext(),urlFile, mImageViewCamera)
+                //mImageUtil1.setPhotoImageView(getContext(),urlFile, mImageViewPhotoUser)
+            }
         }
     }
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            println("FOTO... "+response?.body()?.dump().toString())
-            /*Bundle bundle = new Bundle()
-            bundle.putString("S3ASSET", response?.body()?.id?.toString())*/
-            ProfileFragment profileFragment = new ProfileFragment()
-            //profileFragment.setArguments(bundle)
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, profileFragment)
-                    .addToBackStack(null).commit()
+            changeFragment(new ProfileFragment())
         }
     }
 
     private Closure onErrorPhoto() {
-        { Call<Checkin> call, Throwable t -> Log.d("Error ${t.message}") }
+        { Call<Checkin> call, Throwable t ->
+            Log.d("Error ${t.message}")
+            changeFragment(new ProfileFragment())
+        }
+    }
+
+    void changeFragment(Fragment fragment){
+            getFragmentManager().beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
