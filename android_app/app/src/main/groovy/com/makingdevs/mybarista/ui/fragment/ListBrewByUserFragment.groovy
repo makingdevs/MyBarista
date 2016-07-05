@@ -34,9 +34,9 @@ public class ListBrewByUserFragment extends Fragment {
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(!getArguments() || !getArguments()?.getSerializable(USERNAME))
-            throw new IllegalArgumentException("No arguments $USERNAME")
         username = getActivity().getIntent().getExtras().getString("username")
+        if(!username)
+            throw new IllegalArgumentException("No arguments $USERNAME")
         View root = inflater.inflate(R.layout.fragment_list_brew_by_user,container, false)
         mListBrew = (RecyclerView) root.findViewById(R.id.list_brews)
         mListBrew.setLayoutManager(new LinearLayoutManager(getActivity()))
