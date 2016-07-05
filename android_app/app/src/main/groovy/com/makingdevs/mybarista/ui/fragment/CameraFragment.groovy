@@ -54,7 +54,7 @@ public class CameraFragment extends Fragment {
     @Override
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1280,960)
+            Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),1024,720)
             File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
             mImageUtil.addPictureToGallery(getContext(),photo.getPath())
             successActionOnPhoto(photo)

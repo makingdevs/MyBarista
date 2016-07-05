@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.makingdevs.mybarista.BuildConfig
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.service.SessionManager
@@ -24,8 +25,8 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.environment == "Production")
-            Fabric.with(this, new Crashlytics());
+        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
+        Fabric.with(this, new Crashlytics.Builder().core(core).build())
         setContentView(R.layout.activity_container)
         FragmentManager fm = getSupportFragmentManager()
         Fragment fragment = fm.findFragmentById(R.id.container)
