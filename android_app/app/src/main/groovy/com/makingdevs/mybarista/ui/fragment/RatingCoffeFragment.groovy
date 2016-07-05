@@ -28,11 +28,11 @@ import android.support.v4.app.Fragment
 public class RatingCoffeFragment extends Fragment {
 
     private static final String TAG = "RatingCoffeFragment"
-    private static String ID_CHECKIN
     private RatingBar mRatingCoffeBar
     private TextView mRatingCoffeText
     private static Context contextView
     private User currentUser
+    private String mCheckinId
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -42,9 +42,9 @@ public class RatingCoffeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        String checkinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
         currentUser = mSessionManager.getUserSession(getContext())
-        mCheckinManager.show(checkinId,onSuccessShow(),onError())
+        mCheckinManager.show(mCheckinId,onSuccessShow(),onError())
     }
 
     private void addListenerToRatingCoffeBar() {
@@ -100,9 +100,8 @@ public class RatingCoffeFragment extends Fragment {
     }
 
     private void sendRatingCoffeToCheckin() {
-        String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
         CheckinCommand command = new CheckinCommand(rating: String.valueOf(mRatingCoffeBar.getRating()))
-        mCheckinManager.saveRating(checkinId, command,onSuccess(),onError())
+        mCheckinManager.saveRating(mCheckinId, command,onSuccess(),onError())
     }
 
     private void setRatingCoffe(Checkin checkin) {
