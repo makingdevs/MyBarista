@@ -35,7 +35,7 @@ public class ListBrewFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
-    ListBrewFragment(){}
+    ListBrewFragment() { super() }
 
     @Override
     View onCreateView(LayoutInflater inflater,
