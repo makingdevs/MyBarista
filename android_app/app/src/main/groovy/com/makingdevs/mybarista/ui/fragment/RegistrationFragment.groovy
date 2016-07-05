@@ -37,7 +37,7 @@ class RegistrationFragment extends Fragment{
     private Button mButtonRegistration
     EditText mEmailEditText
 
-    RegistrationFragment(){}
+    RegistrationFragment() { super() }
 
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
