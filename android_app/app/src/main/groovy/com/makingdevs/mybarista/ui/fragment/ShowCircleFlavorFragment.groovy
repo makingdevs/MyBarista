@@ -39,10 +39,7 @@ public class ShowCircleFlavorFragment extends Fragment {
     RoundCornerProgressBar bodyBar
     RoundCornerProgressBar cleaningBar
 
-
-
-    ShowCircleFlavorFragment(){ super() }
-
+    ShowCircleFlavorFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {

@@ -11,6 +11,7 @@ import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCircleFlavorFragment
 import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
 
 @CompileStatic
 public class ShowCheckinActivity extends MultiFragmentActivity {
@@ -27,6 +28,7 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
         intent
     }
 
+    @TypeChecked
     Map createFragments(){
         if(!getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
         //TODO: cambiar a meotodo newInstance en los frgamentos utilizados
