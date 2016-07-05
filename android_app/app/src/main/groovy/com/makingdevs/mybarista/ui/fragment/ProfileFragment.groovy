@@ -24,7 +24,6 @@ import retrofit2.Response
 
 class ProfileFragment extends Fragment{
 
-    ProfileFragment(){}
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
@@ -40,6 +39,8 @@ class ProfileFragment extends Fragment{
     TextView mCloseSession
     ImageView mImageViewCamera
     ImageView mImageViewPhotoUser
+
+    ProfileFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
