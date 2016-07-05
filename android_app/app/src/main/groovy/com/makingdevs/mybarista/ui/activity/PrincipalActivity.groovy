@@ -57,6 +57,7 @@ class PrincipalActivity extends AppCompatActivity {
         bottomNavigation.setInactiveColor(Color.parseColor("#727272"))
 
         bottomNavigation.onTabSelectedListener = { int position, boolean wasSelected ->
+            //TODO: cambiar a meotodo newInstance en todos los fragmentos invocados
             if (position == 0 && !wasSelected){
                 changeFragment(new ListBrewFragment())
             }

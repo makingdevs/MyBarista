@@ -17,6 +17,7 @@ public class CircleFlavorActivity extends SingleFragmentActivity {
 
     @Override
     Fragment createFragment() {
+        //TODO: cambiar a meotodo newInstance
         new CircleFlavorFragment()
     }
 

@@ -17,6 +17,7 @@ class CameraActivity extends SingleFragmentActivity{
 
     @Override
     Fragment createFragment() {
+        //TODO: cambiar a meotodo newInstance
         new CameraFragment()
     }
 }

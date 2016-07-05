@@ -17,6 +17,7 @@ class SearchVenueFoursquareActivity  extends SingleFragmentActivity{
 
     @Override
     Fragment createFragment() {
+        //TODO: cambiar a meotodo newInstance
         new SearchVenueFoursquareFragment()
     }
 }

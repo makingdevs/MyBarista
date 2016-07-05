@@ -29,6 +29,7 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
 
     Map createFragments(){
         if(!getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
+        //TODO: cambiar a meotodo newInstance en los frgamentos utilizados
         [top:new ShowCheckinFragment(), middleTop:new RatingCoffeFragment(), middleBootom: new ShowCircleFlavorFragment(), bottom:new CommentsFragment()]
     }
 
