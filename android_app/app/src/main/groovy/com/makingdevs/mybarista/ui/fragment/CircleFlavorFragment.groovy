@@ -54,7 +54,7 @@ public class CircleFlavorFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
-    CircleFlavorFragment() {}
+    CircleFlavorFragment() { super() }
 
 
     @Override
