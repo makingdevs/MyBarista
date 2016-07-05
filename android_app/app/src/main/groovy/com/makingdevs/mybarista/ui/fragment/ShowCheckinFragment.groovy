@@ -51,18 +51,14 @@ public class ShowCheckinFragment extends Fragment {
     String mCheckinId
     Checkin checkin
 
-    ShowCheckinFragment(String id) {
-        Bundle args = new Bundle()
-        args.putSerializable(ID_CHECKIN, id)
-        this.arguments = args
-    }
+    ShowCheckinFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        if (!getArguments() || !getArguments()?.getSerializable(ID_CHECKIN))
-            throw new IllegalArgumentException("No arguments $ID_CHECKIN")
-        mCheckinId = getArguments()?.getSerializable(ID_CHECKIN)
+        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        if (!mCheckinId)
+            throw new IllegalArgumentException("No arguments $mCheckinId")
     }
 
 
@@ -71,6 +67,7 @@ public class ShowCheckinFragment extends Fragment {
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         findingElements()
+        Log.d(TAG,mCheckinId.toString())
         currentUser = mSessionManager.getUserSession(getContext())
         mCheckinManager.show(mCheckinId, onSuccess(), onError())
         itemView
