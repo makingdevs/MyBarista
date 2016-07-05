@@ -46,7 +46,7 @@ class FormCheckinFragment extends Fragment {
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
 
-    FormCheckinFragment() {}
+    FormCheckinFragment() { super() }
 
     @Override
     View onCreateView(LayoutInflater inflater,
