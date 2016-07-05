@@ -37,7 +37,7 @@ class LoginFragment extends Fragment{
     private TextView messageToRegister
     private Button mButtonLogin
 
-    LoginFragment(){}
+    LoginFragment() { super() }
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         validateHasUserSession()
