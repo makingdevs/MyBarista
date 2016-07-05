@@ -28,7 +28,7 @@ public class CameraFragment extends Fragment {
     Closure successActionOnPhoto
     Closure errorActionOnPhoto
 
-    CameraFragment(){ }
+    CameraFragment(){ super() }
 
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
