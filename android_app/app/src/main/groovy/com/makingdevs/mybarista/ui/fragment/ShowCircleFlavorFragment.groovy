@@ -41,16 +41,13 @@ public class ShowCircleFlavorFragment extends Fragment {
 
 
 
-    ShowCircleFlavorFragment(String id){
-        Bundle args = new Bundle()
-        args.putSerializable(ID_CIRCLE_FLAVOR,id)
-        this.arguments = args
-    }
+    ShowCircleFlavorFragment(){ super() }
+
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        String circleFlavorId = getArguments()?.getSerializable(ID_CIRCLE_FLAVOR)
+        String circleFlavorId = getActivity().getIntent().getExtras().getString("circle_flavor_id")
         if(!circleFlavorId) return
         mCheckinManager.showCircleFlavor(circleFlavorId,onSuccess(),onError())
 
