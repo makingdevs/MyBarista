@@ -37,7 +37,7 @@ public class SearchUserFragment extends Fragment {
     SessionManager mSessionManager = SessionManagerImpl.instance
     UserManager mUserManager = UserManagerImpl.instance
 
-    SearchUserFragment(){}
+    SearchUserFragment() { super() }
 
     @Override
     View onCreateView(LayoutInflater inflater,
