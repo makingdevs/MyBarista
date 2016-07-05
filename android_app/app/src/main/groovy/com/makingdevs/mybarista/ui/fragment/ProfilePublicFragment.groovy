@@ -35,18 +35,14 @@ class ProfilePublicFragment extends Fragment{
     ImageView mImageViewProfilePublic
     ImageUtil mImageUtil1 = new ImageUtil()
 
-    ProfilePublicFragment(String id){
-        Bundle args = new Bundle()
-        args.putSerializable(USER_ID, id)
-        this.arguments = args
-    }
+    ProfilePublicFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        if(!getArguments() || !getArguments()?.getSerializable(USER_ID))
+        userId = getActivity().getIntent().getExtras().getString("user_id")
+        if(!userId)
             throw new IllegalArgumentException("No arguments $USER_ID")
-        userId = getArguments()?.getSerializable(USER_ID)
     }
 
     View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
