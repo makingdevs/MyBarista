@@ -20,7 +20,6 @@ class ProfilePublicActivity extends SingleFragmentActivity{
 
     @Override
     Fragment createFragment() {
-        String id = getIntent()?.extras.getSerializable(USER_ID)
-        new ProfilePublicFragment(id)
+        new ProfilePublicFragment()
     }
 }
