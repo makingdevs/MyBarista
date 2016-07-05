@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.util.Log
 import com.makingdevs.mybarista.common.MultiFragmentActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
 import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
@@ -27,10 +28,8 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
     }
 
     Map createFragments(){
-        String id = getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)
-        String idCircleFlavor =  getIntent()?.extras.getSerializable(EXTRA_CIRCLE_FLAVOR_ID)
-        if(!id) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
-        [top:new ShowCheckinFragment(id), middleTop:new RatingCoffeFragment(id), middleBootom: new ShowCircleFlavorFragment(idCircleFlavor), bottom:new CommentsFragment(id)]
+        if(!getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
+        [top:new ShowCheckinFragment(), middleTop:new RatingCoffeFragment(), middleBootom: new ShowCircleFlavorFragment(), bottom:new CommentsFragment()]
     }
 
     @Override
