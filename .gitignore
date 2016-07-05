@@ -1,2 +1,3 @@
 ruby_app/config/secrets.yml
 android_app/app/fabric.properties
+**/.DS_Store
