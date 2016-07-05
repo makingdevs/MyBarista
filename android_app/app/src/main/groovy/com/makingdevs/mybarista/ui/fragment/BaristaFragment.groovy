@@ -51,6 +51,8 @@ class BaristaFragment extends Fragment {
     Bundle mbundle
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
+    BaristaFragment() { super() }
+
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mCheckinId = getActivity().getIntent().getExtras().getString("checkingId")
