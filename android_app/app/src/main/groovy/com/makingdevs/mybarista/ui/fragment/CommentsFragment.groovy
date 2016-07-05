@@ -42,11 +42,7 @@ public class CommentsFragment extends Fragment {
     SessionManager mSessionManager = SessionManagerImpl.instance
     CommentManager mCommentManager = CommentManagerImpl.instance
 
-    CommentsFragment(String id){
-        Bundle args = new Bundle()
-        args.putSerializable(ID_CHECKIN, id)
-        this.arguments = args
-    }
+    CommentsFragment() { super() }
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -59,7 +55,7 @@ public class CommentsFragment extends Fragment {
         mSendMessage.onClickListener = {
             sendMessage()
         }
-        checkinId = getArguments()?.getSerializable(ID_CHECKIN)
+        checkinId = getActivity().getIntent().getExtras().getString("checkin_id")
         mListComments.setLayoutManager(new LinearLayoutManager(getActivity()))
         updateUI()
         root
