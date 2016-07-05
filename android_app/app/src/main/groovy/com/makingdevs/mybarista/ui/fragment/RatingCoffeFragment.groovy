@@ -37,16 +37,12 @@ public class RatingCoffeFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
-    RatingCoffeFragment(String id) {
-        Bundle args = new Bundle()
-        args.putSerializable(ID_CHECKIN, id)
-        this.arguments = args
-    }
+    RatingCoffeFragment() { super() }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        String checkinId = getArguments()?.getSerializable(ID_CHECKIN)
+        String checkinId = getActivity().getIntent().getExtras().getString("checkin_id")
         currentUser = mSessionManager.getUserSession(getContext())
         mCheckinManager.show(checkinId,onSuccessShow(),onError())
     }
