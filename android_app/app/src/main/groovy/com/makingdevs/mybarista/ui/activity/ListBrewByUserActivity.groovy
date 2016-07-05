@@ -22,8 +22,7 @@ public class ListBrewByUserActivity extends SingleFragmentActivity {
 
     @Override
     Fragment createFragment() {
-        String username = getIntent()?.extras.getSerializable(EXTRA_USERNAME)
-        new ListBrewByUserFragment(username)
+        new ListBrewByUserFragment()
     }
 
     @Override
