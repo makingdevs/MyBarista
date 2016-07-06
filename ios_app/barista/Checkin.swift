@@ -16,7 +16,11 @@ class Checkin {
     var price:Float?
     var createdAt:NSDate?
     
-    init(id:NSInteger){
+    init(id:NSInteger, method:String, note:String, origin:String, price:Float){
         self.id = id
+        self.method = method
+        self.note = note
+        self.origin = origin
+        self.price = price
     }
 }
