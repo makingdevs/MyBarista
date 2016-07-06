@@ -14,13 +14,15 @@ class Checkin {
     var note:String?
     var origin:String?
     var price:Float?
+    var urlPhoto:String?
     var createdAt:NSDate?
     
-    init(id:NSInteger, method:String, note:String, origin:String, price:Float){
+    init(id:NSInteger, method:String, note:String, origin:String, price:Float, urlPhoto:String){
         self.id = id
         self.method = method
         self.note = note
         self.origin = origin
         self.price = price
+        self.urlPhoto = urlPhoto
     }
 }

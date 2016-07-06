@@ -13,9 +13,10 @@
 		4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA161D2D50B1007028B1 /* Assets.xcassets */; };
 		4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */; };
 		4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */; };
-		4B17FA2B1D2D5E86007028B1 /* CheckinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2A1D2D5E86007028B1 /* CheckinsViewController.swift */; };
+		4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */; };
 		4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2C1D2D6004007028B1 /* Checkin.swift */; };
 		4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */; };
+		4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,9 +29,10 @@
 		4B17FA191D2D50B1007028B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B17FA1B1D2D50B1007028B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CheckinsStoryBoard.storyboard; sourceTree = "<group>"; };
-		4B17FA2A1D2D5E86007028B1 /* CheckinsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsViewController.swift; sourceTree = "<group>"; };
+		4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewController.swift; sourceTree = "<group>"; };
 		4B17FA2C1D2D6004007028B1 /* Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkin.swift; sourceTree = "<group>"; };
 		4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinManager.swift; sourceTree = "<group>"; };
+		4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
 		D66AE602CAFECCA888BC7735 /* Pods_barista.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barista.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,7 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA111D2D50B1007028B1 /* ViewController.swift */,
-				4B17FA2A1D2D5E86007028B1 /* CheckinsViewController.swift */,
+				4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */,
+				4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -284,7 +287,8 @@
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
-				4B17FA2B1D2D5E86007028B1 /* CheckinsViewController.swift in Sources */,
+				4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */,
+				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

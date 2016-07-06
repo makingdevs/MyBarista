@@ -21,14 +21,13 @@ class CheckinManager {
                 if let value = response.result.value {
                     let json = JSON(value)
                     for(_, subJson) in json{
-                        print (subJson["method"])
-                        print ("*****************")
                         let checkinId = subJson["id"].intValue
                         let checkinMethod = subJson["method"].stringValue
                         let checkinOrigin = subJson["origin"].stringValue
                         let checkinPrice = subJson["price"].floatValue
                         let checkinNote = subJson["note"].stringValue
-                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, price:checkinPrice)
+                        let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
+                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, price:checkinPrice, urlPhoto: urlPhoto)
                         checkins.append(checkin)
                     }
                 }
