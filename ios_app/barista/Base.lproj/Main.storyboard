@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,11 +17,103 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gug-pE-3eH">
+                                <rect key="frame" x="40" y="177" width="520" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ggD-yZ-XO1">
+                                <rect key="frame" x="40" y="238" width="520" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bty-bW-tjm">
+                                <rect key="frame" x="258" y="285" width="84" height="30"/>
+                                <state key="normal" title="Inicia sesión"/>
+                                <connections>
+                                    <segue destination="zDl-f7-gXc" kind="showDetail" id="eZ1-DK-rOQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-x1-MHe">
+                                <rect key="frame" x="198" y="339" width="205" height="30"/>
+                                <state key="normal" title="¿No tienes cuenta? Regístrate"/>
+                                <connections>
+                                    <segue destination="f75-30-ify" kind="presentation" id="UaM-Jb-LbW"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gug-pE-3eH" firstAttribute="leading" secondItem="ggD-yZ-XO1" secondAttribute="leading" id="1mD-Fj-PYd"/>
+                            <constraint firstItem="gug-pE-3eH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="2bO-0z-GL3"/>
+                            <constraint firstItem="dpa-x1-MHe" firstAttribute="top" secondItem="bty-bW-tjm" secondAttribute="bottom" constant="24" id="7I8-wx-oBy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gug-pE-3eH" secondAttribute="trailing" constant="20" id="Oqv-nK-X8a"/>
+                            <constraint firstItem="gug-pE-3eH" firstAttribute="centerX" secondItem="bty-bW-tjm" secondAttribute="centerX" id="Zg1-Ea-cYa"/>
+                            <constraint firstItem="gug-pE-3eH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="157" id="dyC-xV-0oe"/>
+                            <constraint firstItem="dpa-x1-MHe" firstAttribute="centerX" secondItem="bty-bW-tjm" secondAttribute="centerX" id="h3N-Tx-IAr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ggD-yZ-XO1" secondAttribute="trailing" constant="20" id="lmc-OO-89B"/>
+                            <constraint firstItem="ggD-yZ-XO1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="v8F-0a-8TY"/>
+                            <constraint firstItem="ggD-yZ-XO1" firstAttribute="top" secondItem="gug-pE-3eH" secondAttribute="bottom" constant="31" id="vSC-0M-5qi"/>
+                            <constraint firstItem="bty-bW-tjm" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zqY-lV-gbc"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="245" y="322"/>
+        </scene>
+        <!--CheckinsStoryBoard-->
+        <scene sceneID="M38-gp-ERb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1HU-eV-uV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="948.5" y="98"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="IsI-mq-rWp">
+            <objects>
+                <viewController id="f75-30-ify" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w69-Tc-lbP"/>
+                        <viewControllerLayoutGuide type="bottom" id="uiH-sq-5gw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TBZ-HP-FH3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zWZ-go-die">
+                                <rect key="frame" x="114" y="135" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-gu-qzI">
+                                <rect key="frame" x="114" y="226" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhl-Ng-79L">
+                                <rect key="frame" x="114" y="322" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FRu-R3-FH6">
+                                <rect key="frame" x="114" y="413" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGl-aG-382">
+                                <rect key="frame" x="139" y="491" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ds-pi-tB8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="990" y="872"/>
         </scene>
     </scenes>
 </document>
