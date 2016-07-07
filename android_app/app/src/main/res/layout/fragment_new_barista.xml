@@ -5,9 +5,12 @@
     android:padding="16dp">
 
     <ImageView
+        android:id="@+id/show_photo_barista"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/show_photo_barista"/>
+        android:layout_height="150dp"
+        android:src="@drawable/coffee"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"/>
 
     <EditText
         android:id="@+id/name_barista_field"
