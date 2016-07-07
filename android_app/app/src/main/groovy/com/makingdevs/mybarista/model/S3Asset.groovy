@@ -8,6 +8,7 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class S3Asset {
 
+    String id
     @Bindable String url_file
 
 }
