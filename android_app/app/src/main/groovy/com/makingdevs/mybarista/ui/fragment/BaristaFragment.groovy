@@ -1,6 +1,5 @@
 package com.makingdevs.mybarista.ui.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
@@ -12,18 +11,11 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.model.Barista
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.model.command.UploadCommand
-
-import com.makingdevs.mybarista.service.BaristaManager
-import com.makingdevs.mybarista.service.BaristaManagerImpl
-import com.makingdevs.mybarista.service.CheckinManager
-import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.service.S3assetManager
-import com.makingdevs.mybarista.service.S3assetManagerImpl
+import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -36,19 +28,15 @@ class BaristaFragment extends Fragment {
     private static final String TAG = "BaristaFragment"
     private EditText mNameBarista
     private Button mButtonCreateBarista
-    private static Context contextView
     private ImageView mPhotoBarista
     private ImageButton mButtonPhotoBarista
     private String mCheckinId
     ImageButton mButtonShowBarista
-    String idBarista
-    String s3_asset
-    String url_image
+    Checkin checkin
 
     ImageUtil mImageUtil1 = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
-    Bundle mbundle
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
     BaristaFragment() { super() }
@@ -62,28 +50,24 @@ class BaristaFragment extends Fragment {
         mPhotoBarista = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
-        mImageUtil1.setPhotoImageView(getContext(), "http://mybarista.com.s3.amazonaws.com/coffee.jpg" , mPhotoBarista)
+        mPhotoBarista.setImageResource(R.drawable.coffee)
         bindingElements()
-        getBarista()
+        if (!checkin)
+            mCheckinManager.show(mCheckinId, onSuccessGetCheckin(), onError())
         root
-    }
-
-    @Override
-    void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
     }
 
     @Override
     void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState)
-        if(url_image){
-            mImageUtil1.setPhotoImageView(getContext(), url_image , mPhotoBarista)
+        if(checkin?.baristum?.s3_asset?.url_file){
+            mImageUtil1.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file , mPhotoBarista)
         }
     }
 
     private BaristaCommand getPropertiesOfBarista() {
         String name = mNameBarista.getText().toString()
-        new BaristaCommand(name: name, s3_asset: s3_asset)
+        new BaristaCommand(name: name, s3_asset: checkin.baristum.s3_asset.id)
     }
 
     private void bindingElements() {
@@ -93,7 +77,7 @@ class BaristaFragment extends Fragment {
         mButtonPhotoBarista.onClickListener = {
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onErrorPhoto())
+                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
@@ -106,7 +90,7 @@ class BaristaFragment extends Fragment {
         mButtonShowBarista.onClickListener = {
             ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
             Bundle bundle =  new Bundle()
-            bundle.putString("ID_BARISTA", idBarista)
+            bundle.putString("ID_BARISTA", checkin.baristum.id)
             showBaristaFragment.setArguments(bundle)
             changeFragment(showBaristaFragment)
         }
@@ -116,15 +100,13 @@ class BaristaFragment extends Fragment {
         mBaristaManager.save(command, id, onSuccess(), onError())
     }
 
-    void getBarista() {
-        mCheckinManager.show(mCheckinId, onSuccessGetBarista(), onError())
-    }
-
-    private Closure onSuccessGetBarista() {
+    private Closure onSuccessGetCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
-            mNameBarista.text = response.body()?.baristum?.name?.toString()
-            idBarista = response.body()?.baristum?.id?.toString()
-            mBaristaManager.show(idBarista,onSuccessShow(),onError())
+            checkin = response.body()
+            if (checkin?.baristum?.s3_asset?.url_file){
+                mImageUtil1.setPhotoImageView(getContext(),checkin?.baristum?.s3_asset?.url_file, mPhotoBarista)
+            }
+            mNameBarista.text = checkin?.baristum?.name
         }
     }
 
@@ -139,11 +121,12 @@ class BaristaFragment extends Fragment {
         }
     }
 
-    Closure onSuccessShow() {
-        { Call<Barista> call, Response<Barista> response ->
-            String url_image = response?.body()?.s3_asset?.url_file
-            if (url_image){
-                mImageUtil1.setPhotoImageView(getContext(),url_image, mPhotoBarista)
+    private Closure onSuccessPhoto() {
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
+            if (getFragmentManager().getBackStackEntryCount() > 0){
+                getFragmentManager().popBackStack()
+                checkin.baristum.s3_asset.id = response?.body()?.id
+                checkin.baristum.s3_asset.url_file = response?.body()?.url_file
             }
         }
     }
@@ -152,20 +135,6 @@ class BaristaFragment extends Fragment {
         { Call<Checkin> call, Throwable t ->
             Log.d(TAG,"Error ${t.message}")
         }
-    }
-
-    private Closure onSuccessPhoto() {
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (getFragmentManager().getBackStackEntryCount() > 0){
-                getFragmentManager().popBackStack()
-                s3_asset = response?.body()?.id
-                url_image = response?.body()?.url_file
-            }
-        }
-    }
-
-    private Closure onErrorPhoto() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
     }
 
     private void showCheckin(Checkin checkin) {
