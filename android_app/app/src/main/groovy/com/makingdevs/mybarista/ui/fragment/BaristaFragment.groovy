@@ -103,9 +103,10 @@ class BaristaFragment extends Fragment {
     private Closure onSuccessGetCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
-            if (checkin?.baristum?.s3_asset?.url_file){
+            if (checkin?.baristum?.s3_asset?.url_file)
                 mImageUtil1.setPhotoImageView(getContext(),checkin?.baristum?.s3_asset?.url_file, mPhotoBarista)
-            }
+            if (checkin.baristum.id)
+                mButtonCreateBarista.text = "Actualizar barista"
             mNameBarista.text = checkin?.baristum?.name
         }
     }
