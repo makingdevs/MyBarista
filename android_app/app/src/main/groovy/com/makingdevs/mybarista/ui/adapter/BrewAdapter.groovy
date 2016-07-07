@@ -70,7 +70,9 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             mprice.text = "${checkin.price ? "\$ ${checkin.price}" : ""}"
             mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
             if(mCheckin.s3_asset?.url_file)
-                mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file,photoCheckinImageView)
+                mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file, photoCheckinImageView)
+            else
+                photoCheckinImageView.setImageResource(R.drawable.coffee)
 
         }
 
