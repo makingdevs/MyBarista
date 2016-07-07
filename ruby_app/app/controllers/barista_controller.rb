@@ -1,10 +1,11 @@
 class BaristaController < ApplicationController
   before_action :set_barista, only: [:show]
-
+  
   def create
     @checkin = Checkin.find(params['id'])
+    @baristum = @checkin.baristum || (Baristum.new())
+    @baristum.name = barista_params["name"]
     @s3_asset = S3Asset.find_by id: params["s3_asset"]
-    @baristum = Baristum.new(barista_params)
     @baristum.s3_asset = @s3_asset
     @baristum.save
     @checkin.baristum = @baristum
