@@ -18,7 +18,7 @@ class Checkin {
     String circle_flavor_id
     String rating
     @Bindable S3Asset s3_asset
-    Barista baristum
+    Barista baristum = new Barista()
     String author
     
 }
