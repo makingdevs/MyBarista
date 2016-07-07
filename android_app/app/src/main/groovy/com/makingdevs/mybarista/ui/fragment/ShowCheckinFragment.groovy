@@ -92,7 +92,7 @@ public class ShowCheckinFragment extends Fragment {
 
         mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
         mNote.text = checkin.note ? """ "${checkin.note}" """ : ""
-        mBaristaName.text = checkin?.baristum ? "Preparado por ${checkin?.baristum?.name}" : ""
+        mBaristaName.text = checkin?.baristum.id ? "Preparado por ${checkin?.baristum?.name}" : ""
         mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
 
         def url_image = checkin?.s3_asset?.url_file
