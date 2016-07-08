@@ -239,6 +239,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane
+  supply
 
 BUNDLED WITH
    1.12.3
