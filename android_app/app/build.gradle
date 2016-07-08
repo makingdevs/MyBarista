@@ -95,7 +95,6 @@ def getBuildVersionCode() {
 }
 
 task incrementVersionName << {
-    println versionName
     def gradleFile = file("build.gradle")
     def versionNamePattern = Pattern.compile("versionName\\s*\"(.*?)\"")
     def gradleText = gradleFile.getText()
@@ -104,7 +103,6 @@ task incrementVersionName << {
     def originalVersion = matcher.group(1)
     def finalVersion = versionName ?: "SNAPSHOT"
     System.out.println("Incrementing Version Name: " + originalVersion + " ==> " + finalVersion)
-
     def newGradleContent = gradleText.replaceAll("versionName\\s*\"(.*?)\"", "versionName \"" + finalVersion + "\"")
     gradleFile.write(newGradleContent)
 }
