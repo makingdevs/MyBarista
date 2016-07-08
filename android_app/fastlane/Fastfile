@@ -11,8 +11,16 @@ platform :android do
   lane :increment do |options|
     build_number = number_of_commits
     current_tag = last_git_tag
-    version_list = current_tag.split(".").map{|x| x.to_i}
-    new_version_list = [version_list[0],version_list[1]+(options[:features] || 0).to_i,version_list[2]+(options[:bugfix] || 0).to_i]
+    version_list = current_tag.split(".").map{|x| x.to_i} #1.1.1
+    major_version = version_list[0]
+    minor_version_to_increment = (options[:features] || 0).to_i #1 
+    patch_version = 0 #1
+    if minor_version_to_increment > 0
+      patch_version = (options[:bugfix] || 0).to_i
+    else
+      patch_version = (options[:bugfix] || 0).to_i + version_list[2] 
+    end
+    new_version_list = [major_version, minor_version_to_increment + version_list[1], patch_version]
     new_version = new_version_list.join(".")
     gradle(task: "incrementVersionName", properties: {'versionName' => new_version })
   end
