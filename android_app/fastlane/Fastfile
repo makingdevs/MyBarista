@@ -3,6 +3,9 @@ fastlane_version "1.97.2"
 default_platform :android
 
 platform :android do
+
+  new_version = ""
+
   before_all do
     ENV["SLACK_URL"] ||=  "https://hooks.slack.com/services/..."
   end
@@ -25,25 +28,26 @@ platform :android do
     gradle(task: "incrementVersionName", properties: {'versionName' => new_version })
   end
 
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "assembleRelease")
     crashlytics(
-        groups: ['makingdevs']
-    )
+      groups: ['makingdevs']
+      )
   end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do |options|
     increment(options)
     gradle(task: "assembleRelease")
-    supply
-    #commit tag push
+    #supply
+    git_commit(path: "app/build.gradle",
+      message: "Cambiando a version #{new_version}")
+    add_git_tag( tag: new_version )
+    push_to_git_remote(
+      remote: 'origin',
+      tags: true
+      )
   end
 
   after_all do |lane|
