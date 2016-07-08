@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 23
         versionCode getBuildVersionCode()
-        versionName "SNAPSHOT"
+        versionName "1.4.16"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -95,15 +95,14 @@ def getBuildVersionCode() {
 }
 
 task incrementVersionName << {
-    println versionName ?: "SNAPSHOT"
+    println versionName
     def gradleFile = file("build.gradle")
     def versionNamePattern = Pattern.compile("versionName\\s*\"(.*?)\"")
     def gradleText = gradleFile.getText()
     def matcher = versionNamePattern.matcher(gradleText)
     matcher.find()
     def originalVersion = matcher.group(1)
-    //def finalVersion = versionName ?: "SNAPSHOT"
-    def finalVersion = "SNAPSHOT"
+    def finalVersion = versionName ?: "SNAPSHOT"
     System.out.println("Incrementing Version Name: " + originalVersion + " ==> " + finalVersion)
 
     def newGradleContent = gradleText.replaceAll("versionName\\s*\"(.*?)\"", "versionName \"" + finalVersion + "\"")
