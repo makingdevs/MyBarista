@@ -1,3 +1,5 @@
 ruby_app/config/secrets.yml
 android_app/app/fabric.properties
 **/.DS_Store
+android_app/fastlane/README.md
+android_app/fastlane/report.xml
