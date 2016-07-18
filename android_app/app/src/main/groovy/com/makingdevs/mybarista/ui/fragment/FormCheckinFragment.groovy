@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
+import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.User
@@ -42,6 +43,7 @@ class FormCheckinFragment extends Fragment {
     SessionManager mSessionManager = SessionManagerImpl.instance
     FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
     String venueID
+    RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
@@ -62,6 +64,7 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
         addVenueButton.onClickListener = {
+            requestPermissionAndroid.checkPermission(getActivity(),"location")
             callNewFragmentWithData(new SearchVenueFoursquareFragment())
             //SearchVenueFoursquareFragment searchVenueFoursquareFragmen = new SearchVenueFoursquareFragment()
         }
