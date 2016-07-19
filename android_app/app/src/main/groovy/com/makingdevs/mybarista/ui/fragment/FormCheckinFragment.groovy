@@ -1,11 +1,14 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +54,12 @@ class FormCheckinFragment extends Fragment {
     FormCheckinFragment() { super() }
 
     @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+    @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
@@ -64,8 +73,12 @@ class FormCheckinFragment extends Fragment {
         ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
         addVenueButton.onClickListener = {
-            requestPermissionAndroid.checkPermission(getActivity(),"location")
-            callNewFragmentWithData(new SearchVenueFoursquareFragment())
+            if(checkPermissionLocation()){
+                requestPermissionAndroid.checkPermission(getActivity(),"location")
+            }
+            else {
+                callNewFragmentWithData(new SearchVenueFoursquareFragment())
+            }
             //SearchVenueFoursquareFragment searchVenueFoursquareFragmen = new SearchVenueFoursquareFragment()
         }
         root
@@ -78,7 +91,7 @@ class FormCheckinFragment extends Fragment {
         String method = methodFieldSprinner.getSelectedItem().toString()
         String rating = ratingCoffe.getRating()
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: venueID, created_at:new Date())
+        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: venueID, created_at: new Date())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -121,13 +134,13 @@ class FormCheckinFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState)
         Bundle mBundle = new Bundle()
         mBundle = getArguments()
-        if(mBundle){
+        if (mBundle) {
             populateFormWithBundle(mBundle)
         }
 
     }
 
-    void populateFormWithBundle(Bundle bundle){
+    void populateFormWithBundle(Bundle bundle) {
         originEditText.text = bundle.getString("ORIGEN")
         priceEditText.text = bundle.getString("PRECIO")
         noteEditText.text = bundle.getString("NOTAS")
@@ -137,7 +150,7 @@ class FormCheckinFragment extends Fragment {
         venueID = bundle.getString("VENUE_ID")
     }
 
-    void callNewFragmentWithData(Fragment fragment){
+    void callNewFragmentWithData(Fragment fragment) {
         Bundle bundle = new Bundle()
         bundle.putString("ORIGEN", originEditText.text.toString())
         bundle.putString("PRECIO", priceEditText.text.toString())
@@ -146,8 +159,18 @@ class FormCheckinFragment extends Fragment {
         bundle.putString("RATING", ratingCoffe.getRating() as String)
         FragmentTransaction ft = getFragmentManager().beginTransaction()
         fragment.setArguments(bundle)
-        ft.replace(R.id.container,fragment)
+        ft.replace(R.id.container, fragment)
         ft.addToBackStack(null)
         ft.commit()
+    }
+
+    boolean checkPermissionLocation() {
+        Boolean status
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                && ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            status = true
+        }
+        status
     }
 }
