@@ -124,7 +124,6 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            requestPermissionAndroid.checkPermission(getActivity(),"camera")
             requestPermissionAndroid.checkPermission(getActivity(),"storage")
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
