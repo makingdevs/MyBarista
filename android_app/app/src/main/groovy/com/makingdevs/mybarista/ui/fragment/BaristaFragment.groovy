@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
@@ -38,6 +39,7 @@ class BaristaFragment extends Fragment {
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
     BaristaFragment() { super() }
 
@@ -75,6 +77,7 @@ class BaristaFragment extends Fragment {
             saveBarista(getPropertiesOfBarista(), mCheckinId)
         }
         mButtonPhotoBarista.onClickListener = {
+            requestPermissionAndroid.checkPermission(getActivity(),"storage")
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
                 mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
