@@ -2,6 +2,7 @@ package com.makingdevs.mybarista.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.Nullable
@@ -9,19 +10,22 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.KeyEvent
+import android.widget.Toast
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.makingdevs.mybarista.BuildConfig
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.ui.fragment.ListBrewFragment
 import com.makingdevs.mybarista.ui.fragment.ProfileFragment
 import com.makingdevs.mybarista.ui.fragment.SearchUserFragment
 import groovy.transform.CompileStatic
 import io.fabric.sdk.android.Fabric
+
+import static com.makingdevs.mybarista.common.RequestPermissionAndroid.*
 
 @CompileStatic
 class PrincipalActivity extends AppCompatActivity {
@@ -30,6 +34,8 @@ class PrincipalActivity extends AppCompatActivity {
         Intent intent = new Intent(context, PrincipalActivity)
         intent
     }
+
+    RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +71,7 @@ class PrincipalActivity extends AppCompatActivity {
                 changeFragment(new SearchUserFragment())
             }
             if (position == 2 && !wasSelected){
+                requestPermissionAndroid.checkPermission(this,"storage")
                 changeFragment(new ProfileFragment())
             }
             true
@@ -85,5 +92,33 @@ class PrincipalActivity extends AppCompatActivity {
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    @Override
+    void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CAMERA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+                }
+                return;
+                break
+            case PERMISSIONS_REQUEST_WRITE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+                }
+                return;
+                break
+            case PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+                }
+                return;
+                break
+
+        }
     }
 }
