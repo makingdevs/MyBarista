@@ -1,7 +1,9 @@
 package com.makingdevs.mybarista.common
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -9,6 +11,7 @@ import android.media.ExifInterface
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Base64
 import android.webkit.MimeTypeMap
 import android.widget.ImageView
@@ -141,5 +144,20 @@ public class ImageUtil {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(400, 350)
                 .into(imageViewPhoto)
+    }
+
+    static ArrayList<String> getGalleryPhotos(Activity activity) {
+        Uri uri
+        Cursor cursor
+        Integer indexData
+        ArrayList<String> photosGallery = new ArrayList<String>()
+        uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        String[] projection = [MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME] as String[]
+        cursor = activity.getContentResolver().query(uri, projection, null, null, null)
+        indexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+        while (cursor.moveToNext()) {
+            photosGallery << cursor.getString(indexData)
+        }
+        photosGallery
     }
 }
