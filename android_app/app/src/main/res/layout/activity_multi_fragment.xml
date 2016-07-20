@@ -1,3 +1,8 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/multi_fragment_container">
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -7,7 +12,7 @@
                     xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:context=".MainActivity" android:id="@+id/multi_fragment">
+                    tools:context=".MainActivity">
 
         <FrameLayout
             android:id="@+id/topFragment"
@@ -49,3 +54,4 @@
 
     </RelativeLayout>
 </ScrollView>
+    </FrameLayout>
