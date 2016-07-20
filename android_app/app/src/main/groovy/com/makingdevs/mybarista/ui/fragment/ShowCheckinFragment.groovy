@@ -20,6 +20,7 @@ import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -124,19 +125,8 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            requestPermissionAndroid.checkPermission(getActivity(),"storage")
-            Fragment cameraFragment = new CameraFragment()
-            cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.upload(new UploadCommand(idCheckin: checkin.id,idUser:currentUser.id,pathFile: photo.getPath()),onSuccessPhoto(),onError())
-            }
-            cameraFragment.setErrorActionOnPhoto {
-                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-            }
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.bottomEmptyFragment, cameraFragment)
-                    .addToBackStack(null).commit()
-
+            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+            startActivity(intent)
         }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
