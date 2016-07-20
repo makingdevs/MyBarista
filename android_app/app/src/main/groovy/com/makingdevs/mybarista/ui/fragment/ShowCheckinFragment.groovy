@@ -125,8 +125,10 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
-            startActivity(intent)
+            getActivity().getSupportFragmentManager().beginTransaction()
+            .replace(R.id.multi_fragment_container,new ShowGalleryFragment())
+            .addToBackStack(null)
+            .commit()
         }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
