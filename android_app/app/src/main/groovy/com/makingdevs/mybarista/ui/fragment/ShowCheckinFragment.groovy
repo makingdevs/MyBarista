@@ -132,7 +132,7 @@ public class ShowCheckinFragment extends Fragment {
             fragment.setArguments(bundle)
             getActivity().getSupportFragmentManager().beginTransaction()
             .replace(R.id.multi_fragment_container,fragment)
-            .addToBackStack(null)
+            .addToBackStack("show_gallery_fgm")
             .commit()
         }
         mBarista.onClickListener = {
