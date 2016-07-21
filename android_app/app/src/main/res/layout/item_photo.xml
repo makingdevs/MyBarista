@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/photo_gallery"
         android:background="@color/accent"
         android:layout_width="100dp"
