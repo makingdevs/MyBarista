@@ -39,7 +39,6 @@ class FormCheckinFragment extends Fragment {
     Spinner methodFieldSprinner
     Button checkInButton
     RatingBar ratingCoffe
-    GPSLocation mGPSLocation
     TextView addVenueButton
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
