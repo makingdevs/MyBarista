@@ -125,8 +125,13 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
+            Bundle bundle = new Bundle()
+            bundle.putString("CHECKINID",checkin.id)
+            bundle.putString("USERID",currentUser.id)
+            Fragment fragment = new ShowGalleryFragment()
+            fragment.setArguments(bundle)
             getActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.multi_fragment_container,new ShowGalleryFragment())
+            .replace(R.id.multi_fragment_container,fragment)
             .addToBackStack(null)
             .commit()
         }
