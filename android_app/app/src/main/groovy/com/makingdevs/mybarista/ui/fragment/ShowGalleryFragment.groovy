@@ -1,10 +1,10 @@
 package com.makingdevs.mybarista.ui.fragment
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -21,7 +21,6 @@ import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
-import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.ui.adapter.PhotoAdapter
 import retrofit2.Call
 import retrofit2.Response
@@ -65,8 +64,10 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
                 Fragment cameraFragment = new CameraFragment()
                 cameraFragment.setSuccessActionOnPhoto { File photo ->
+                    if (getFragmentManager().getBackStackEntryCount() > 0) {
+                        getFragmentManager().popBackStack("show_gallery_fgm", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    }
                     uploadPicture(photo)
-                    getActivity().onBackPressed()
                 }
                 cameraFragment.setErrorActionOnPhoto {
                     Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
@@ -96,17 +97,11 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     @Override
     void onItemClicked(PhotoCheckin photoCheckin) {
         mS3Manager.upload(new UploadCommand(idCheckin: checkinId, idUser: currentUser, pathFile: photoCheckin.url_file), onSuccessPhoto(), onError())
-
+        getActivity().onBackPressed()
     }
 
     private Closure onSuccessPhoto() {
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            println("Respuesta " + response.body())
-            if (response.body()){
-                getActivity().onBackPressed()
-            }
-
-        }
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response -> }
     }
 
     private Closure onError() {
