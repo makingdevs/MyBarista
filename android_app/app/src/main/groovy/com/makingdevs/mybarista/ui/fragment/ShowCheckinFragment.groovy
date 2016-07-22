@@ -27,7 +27,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-public class ShowCheckinFragment extends Fragment implements ShowGalleryFragment.OnShowGalleryListener {
+public class ShowCheckinFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -130,7 +130,9 @@ public class ShowCheckinFragment extends Fragment implements ShowGalleryFragment
             bundle.putString("CHECKINID", checkin.id)
             bundle.putString("USERID", currentUser.id)
             Fragment fragment = new ShowGalleryFragment()
-            fragment.setOnShowGalleryListener(this)
+            fragment.onPathPhotoSubmit = { String urlPhoto ->
+                mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
+            }
             fragment.setArguments(bundle)
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.multi_fragment_container, fragment)
@@ -155,10 +157,5 @@ public class ShowCheckinFragment extends Fragment implements ShowGalleryFragment
         stub.inflate()
         findingElements()
         bindingElements()
-    }
-
-    @Override
-    void onPathPhotoSubmit(String urlPhoto) {
-        mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
     }
 }
