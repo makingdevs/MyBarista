@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.FloatingActionButton
@@ -21,7 +22,10 @@ import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
+import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.ui.adapter.PhotoAdapter
+import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
@@ -36,6 +40,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     FloatingActionButton floatingActionButtonCamera
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
+    Closure onPathPhotoSubmit
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -101,11 +106,21 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     private Closure onSuccessPhoto() {
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response -> }
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
+            if(onPathPhotoSubmit)
+                onPathPhotoSubmit(response.body().url_file)
+            else
+                throw new RuntimeException("""\
+                    You must says what should I do when I got the pic....
+                    So, you really needs implements something like:
+                    fragment.onPathPhotoSubmit = { String urlPhoto ->
+                        // your code goes here...
+                    }
+                """)
+        }
     }
 
     private Closure onError() {
         { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
     }
-
 }
