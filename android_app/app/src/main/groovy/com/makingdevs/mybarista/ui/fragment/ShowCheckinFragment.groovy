@@ -9,24 +9,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
-import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-public class ShowCheckinFragment extends Fragment {
+public class ShowCheckinFragment extends Fragment implements ShowGalleryFragment.OnShowGalleryListener {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -64,13 +65,12 @@ public class ShowCheckinFragment extends Fragment {
             throw new IllegalArgumentException("No arguments $mCheckinId")
     }
 
-
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         findingElements()
-        Log.d(TAG,mCheckinId.toString())
+        Log.d(TAG, mCheckinId.toString())
         currentUser = mSessionManager.getUserSession(getContext())
         mCheckinManager.show(mCheckinId, onSuccess(), onError())
         itemView
@@ -86,7 +86,7 @@ public class ShowCheckinFragment extends Fragment {
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
         photoCheckinImageView = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
-        mDateCreated  = (TextView) itemView.findViewById(R.id.label_created)
+        mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
     }
 
     private void setCheckinInView(Checkin checkin) {
@@ -100,7 +100,7 @@ public class ShowCheckinFragment extends Fragment {
 
         def url_image = checkin?.s3_asset?.url_file
         if (url_image)
-            mImageUtil1.setPhotoImageView(getContext(),url_image  , photoCheckinImageView)
+            mImageUtil1.setPhotoImageView(getContext(), url_image, photoCheckinImageView)
 
     }
 
@@ -112,6 +112,7 @@ public class ShowCheckinFragment extends Fragment {
                 showElements()
         }
     }
+
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
             if (response.body())
@@ -126,14 +127,15 @@ public class ShowCheckinFragment extends Fragment {
     private bindingElements() {
         mButtonCamera.onClickListener = {
             Bundle bundle = new Bundle()
-            bundle.putString("CHECKINID",checkin.id)
-            bundle.putString("USERID",currentUser.id)
+            bundle.putString("CHECKINID", checkin.id)
+            bundle.putString("USERID", currentUser.id)
             Fragment fragment = new ShowGalleryFragment()
+            fragment.setOnShowGalleryListener(this)
             fragment.setArguments(bundle)
             getActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.multi_fragment_container,fragment)
-            .addToBackStack("show_gallery_fgm")
-            .commit()
+                    .replace(R.id.multi_fragment_container, fragment)
+                    .addToBackStack("show_gallery_fgm")
+                    .commit()
         }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
@@ -155,4 +157,8 @@ public class ShowCheckinFragment extends Fragment {
         bindingElements()
     }
 
+    @Override
+    void onPathPhotoSubmit(String urlPhoto) {
+        mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
+    }
 }
