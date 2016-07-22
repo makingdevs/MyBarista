@@ -6,7 +6,7 @@ class CheckinsController < ApplicationController
     @user = User.find_by username: params['username']
     @checkins = Checkin.where(:user => @user).all
     puts "GET"
-    render json: @checkins
+    render json: @checkins.reverse()
   end
 
   # GET /checkins/1
