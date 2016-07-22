@@ -1,9 +1,12 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -126,18 +129,22 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            Bundle bundle = new Bundle()
-            bundle.putString("CHECKINID", checkin.id)
-            bundle.putString("USERID", currentUser.id)
-            Fragment fragment = new ShowGalleryFragment()
-            fragment.onPathPhotoSubmit = { String urlPhoto ->
-                mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
+            if (checkPermissionStorage()){
+                requestPermissionAndroid.checkPermission(getActivity(), "storage")
+            }else{
+                Bundle bundle = new Bundle()
+                bundle.putString("CHECKINID", checkin.id)
+                bundle.putString("USERID", currentUser.id)
+                Fragment fragment = new ShowGalleryFragment()
+                fragment.onPathPhotoSubmit = { String urlPhoto ->
+                    mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
+                }
+                fragment.setArguments(bundle)
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.multi_fragment_container, fragment)
+                        .addToBackStack("show_gallery_fgm")
+                        .commit()
             }
-            fragment.setArguments(bundle)
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.multi_fragment_container, fragment)
-                    .addToBackStack("show_gallery_fgm")
-                    .commit()
         }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
@@ -157,5 +164,14 @@ public class ShowCheckinFragment extends Fragment {
         stub.inflate()
         findingElements()
         bindingElements()
+    }
+
+    boolean checkPermissionStorage() {
+        Boolean status
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            status = true
+        }
+        status
     }
 }
