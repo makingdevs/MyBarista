@@ -1,9 +1,12 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,24 +14,25 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
-import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import retrofit2.Call
 import retrofit2.Response
 
-class ProfileFragment extends Fragment{
+class ProfileFragment extends Fragment {
 
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     ImageUtil mImageUtil1 = new ImageUtil()
     User currentUser
+    RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
     private static final String TAG = "ProfileFragment"
     private EditText nameProfileEditText
@@ -47,7 +51,8 @@ class ProfileFragment extends Fragment{
         super.onCreate(savedInstanceState)
     }
 
-    View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false)
         currentUser = mSessionManager.getUserSession(getContext())
         nameProfileEditText = (EditText) root.findViewById(R.id.inputNameProfile)
@@ -69,34 +74,42 @@ class ProfileFragment extends Fragment{
             getActivity().finish()
         }
         mImageViewCamera.onClickListener = {
-            Fragment cameraFragment = new CameraFragment()
-            cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser.id , pathFile: photo.getPath()), onSuccessPhoto(), onErrorPhoto())
+            if (checkPermissionStorage()) {
+                requestPermissionAndroid.checkPermission(getActivity(), "storage")
+            } else {
+                Bundle bundle = new Bundle()
+                bundle.putString("USERID", currentUser.id)
+                bundle.putString("CONTAINER", "profile")
+                Fragment fragment = new ShowGalleryFragment()
+                fragment.setArguments(bundle)
+                fragment.onPathPhotoSubmit = { String urlPhoto ->
+                    mImageUtil1.setPhotoImageView(getContext(), urlPhoto, mImageViewCamera)
+                }
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .addToBackStack("last_fragment")
+                        .commit()
             }
-            cameraFragment.setErrorActionOnPhoto {
-                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-                changeFragment(new ProfileFragment())
-            }
-            changeFragment(cameraFragment)
         }
         loadData()
         root
     }
 
-    private void loadData(){
-        mUserManager.getUser(currentUser.id,onSuccessUser(),onError())
+    private void loadData() {
+        mUserManager.getUser(currentUser.id, onSuccessUser(), onError())
     }
 
     private User updateInfoUserProfile() {
         String name = nameProfileEditText.text
         String lastName = lastNameProfileEditText.text
-        UpdateUserCommand updateUserCommand = new UpdateUserCommand(name:name,lastName:lastName,id:currentUser.id)
+        UpdateUserCommand updateUserCommand = new UpdateUserCommand(name: name, lastName: lastName, id: currentUser.id)
         sendUpdateUserProfile(updateUserCommand)
 
     }
 
     private void sendUpdateUserProfile(UpdateUserCommand updateUserCommand) {
-        mUserManager.update(updateUserCommand, onSuccess(),onError())
+        mUserManager.update(updateUserCommand, onSuccess(), onError())
     }
 
 
@@ -106,11 +119,10 @@ class ProfileFragment extends Fragment{
 
     private Closure onSuccess() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            Log.d(TAG,"Respueta:"+response.code())
-            if(response.code() == 200){
+            Log.d(TAG, "Respueta:" + response.code())
+            if (response.code() == 200) {
                 Toast.makeText(getContext(), "Datos Guardados Exitosamente", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
 
@@ -123,9 +135,8 @@ class ProfileFragment extends Fragment{
             lastNameProfileEditText.text = response.body().lastName
             checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
             String urlFile = response?.body()?.s3_asset?.url_file
-            if (urlFile){
-                mImageUtil1.setPhotoImageView(getContext(),urlFile, mImageViewCamera)
-                //mImageUtil1.setPhotoImageView(getContext(),urlFile, mImageViewPhotoUser)
+            if (urlFile) {
+                mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
             }
         }
     }
@@ -143,10 +154,19 @@ class ProfileFragment extends Fragment{
         }
     }
 
-    void changeFragment(Fragment fragment){
-            getFragmentManager().beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
+    void changeFragment(Fragment fragment) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    boolean checkPermissionStorage() {
+        Boolean status
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            status = true
+        }
+        status
     }
 }
