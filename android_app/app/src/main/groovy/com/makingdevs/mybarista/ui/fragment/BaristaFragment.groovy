@@ -77,6 +77,19 @@ class BaristaFragment extends Fragment {
             saveBarista(getPropertiesOfBarista(), mCheckinId)
         }
         mButtonPhotoBarista.onClickListener = {
+            /*Bundle bundle = new Bundle()
+            bundle.putString("CONTAINER", "barista")
+            Fragment fragment = new ShowGalleryFragment()
+            fragment.setArguments(bundle)
+            fragment.onPathPhotoSubmit = { String urlPhoto ->
+                mImageUtil1.setPhotoImageView(getContext(), urlPhoto, mPhotoBarista)
+            }
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container,fragment)
+                    .addToBackStack("last_fragment")
+                    .commit()
+                    */
             requestPermissionAndroid.checkPermission(getActivity(),"storage")
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
