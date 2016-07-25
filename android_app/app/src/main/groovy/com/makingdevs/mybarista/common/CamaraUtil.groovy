@@ -1,7 +1,9 @@
 package com.makingdevs.mybarista.common
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.os.Environment
 import android.util.Log
 import groovy.transform.CompileStatic
@@ -16,12 +18,6 @@ class CamaraUtil{
         String imageFileName = "Checkin_$timeStamp"
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         File image = File.createTempFile(imageFileName,".jpg", storageDir)
-    }
-
-    Bitmap resizeBitmapFromFilePath(String pathPhoto, Integer width, Integer height){
-        Bitmap bitmap = lessResolution(pathPhoto, width, height)
-        bitmap = Bitmap.createScaledBitmap(bitmap,width,height,false)
-        bitmap
     }
 
     File saveBitmapToFile(Bitmap bitmap,String photoName){
@@ -40,42 +36,34 @@ class CamaraUtil{
         file
     }
 
-    // NOTE: http://stackoverflow.com/questions/17839388/creating-a-scaled-bitmap-with-createscaledbitmap-in-android
-    private Bitmap lessResolution (String filePath, int width, int height) {
-        int reqHeight = height;
-        int reqWidth = width;
-        BitmapFactory.Options options = new BitmapFactory.Options();
+    static Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(path, options)
+        int srcWidth = options.outWidth
+        int srcHeight = options.outHeight
+        int inSampleSize = 6
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            int halfHeight = (srcHeight / 2) as int
+            int halfWidth = (srcWidth / 2) as int
+            while ((halfHeight / inSampleSize) >= srcHeight && (halfWidth / inSampleSize) >= srcWidth) {
+                inSampleSize *= 2
+            }
+        }
+        options = new BitmapFactory.Options()
+        options.inSampleSize = inSampleSize
+        options.inJustDecodeBounds = false
+        BitmapFactory.decodeFile(path, options)
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        BitmapFactory.decodeFile(filePath, options)
     }
 
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight) as Integer
-            final int widthRatio = Math.round((float) width / (float) reqWidth) as Integer
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        inSampleSize
+    static Bitmap getScaledBitmap(String path, Activity activity) {
+        Point size = new Point()
+        activity.getWindowManager()
+                .getDefaultDisplay()
+                .getSize(size)
+        getScaledBitmap(path, size.x, size.y)
     }
 
 }
