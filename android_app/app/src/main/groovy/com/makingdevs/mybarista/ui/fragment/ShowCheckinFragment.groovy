@@ -129,12 +129,13 @@ public class ShowCheckinFragment extends Fragment {
 
     private bindingElements() {
         mButtonCamera.onClickListener = {
-            if (checkPermissionStorage()){
+            if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
-            }else{
+            } else {
                 Bundle bundle = new Bundle()
                 bundle.putString("CHECKINID", checkin.id)
                 bundle.putString("USERID", currentUser.id)
+                bundle.putString("CONTAINER", "checkin")
                 Fragment fragment = new ShowGalleryFragment()
                 fragment.onPathPhotoSubmit = { String urlPhoto ->
                     mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
@@ -142,7 +143,7 @@ public class ShowCheckinFragment extends Fragment {
                 fragment.setArguments(bundle)
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.multi_fragment_container, fragment)
-                        .addToBackStack("show_gallery_fgm")
+                        .addToBackStack("last_fragment")
                         .commit()
             }
         }
@@ -169,7 +170,7 @@ public class ShowCheckinFragment extends Fragment {
     boolean checkPermissionStorage() {
         Boolean status
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
             status = true
         }
         status
