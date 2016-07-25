@@ -1,6 +1,5 @@
 package com.makingdevs.mybarista.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.FloatingActionButton
@@ -22,10 +21,7 @@ import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
-import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
-import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.ui.adapter.PhotoAdapter
-import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
