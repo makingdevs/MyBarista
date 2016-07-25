@@ -56,8 +56,8 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
         recyclerViewPhotos.adapter = photoAdapter
         Bundle bundle = new Bundle()
         bundle = getArguments()
-        currentUser = bundle.getString("USERID")
-        checkinId = bundle.getString("CHECKINID")
+        currentUser = bundle?.getString("USERID")
+        checkinId = bundle?.getString("CHECKINID")
 
         floatingActionButtonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 Fragment cameraFragment = new CameraFragment()
                 cameraFragment.setSuccessActionOnPhoto { File photo ->
                     if (getFragmentManager().getBackStackEntryCount() > 0) {
-                        getFragmentManager().popBackStack("show_gallery_fgm", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                        getFragmentManager().popBackStack("last_fragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
                     uploadPicture(photo)
                 }
@@ -75,14 +75,24 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 }
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.bottomEmptyFragment, cameraFragment)
+                        .replace(((ViewGroup) getView().getParent()).getId(), cameraFragment)
                         .addToBackStack(null).commit()
             }
         })
     }
 
     void uploadPicture(File photo) {
-        mS3Manager.upload(new UploadCommand(idCheckin: checkinId, idUser: currentUser, pathFile: photo.absolutePath), onSuccessPhoto(), onError())
+        switch (getArguments().getString("CONTAINER")) {
+            case "profile":
+                mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser, pathFile: photo.getPath()), onSuccessPhoto(), onError())
+                break
+            case "checkin":
+                mS3Manager.upload(new UploadCommand(idCheckin: checkinId, idUser: currentUser, pathFile: photo.absolutePath), onSuccessPhoto(), onError())
+                break
+            case "barista":
+                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
+                break
+        }
     }
 
     List<PhotoCheckin> populateGallery() {
@@ -103,7 +113,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if(onPathPhotoSubmit)
+            if (onPathPhotoSubmit)
                 onPathPhotoSubmit(response.body().url_file)
             else
                 throw new RuntimeException("""\
