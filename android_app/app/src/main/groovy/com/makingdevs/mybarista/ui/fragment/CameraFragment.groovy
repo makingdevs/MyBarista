@@ -34,6 +34,7 @@ public class CameraFragment extends Fragment {
         super.onCreate(savedInstanceState)
         contextView = getActivity().getApplicationContext()
         dispatchTakePictureIntent()
+
     }
 
     private void dispatchTakePictureIntent() {
@@ -55,7 +56,8 @@ public class CameraFragment extends Fragment {
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             mImageUtil.addPictureToGallery(getContext(),photoFile.getPath())
-            Bitmap bitmapResize = mCamaraUtil.resizeBitmapFromFilePath(photoFile.getPath(),640,480)
+            Bitmap bitmapResize = mCamaraUtil.getScaledBitmap(photoFile.absolutePath, getActivity())
+
             File photo = mCamaraUtil.saveBitmapToFile(bitmapResize,photoFile.getName())
             bitmapResize.recycle()
             successActionOnPhoto(photo)
