@@ -25,6 +25,7 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -132,19 +133,11 @@ public class ShowCheckinFragment extends Fragment {
             if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
             } else {
-                Bundle bundle = new Bundle()
-                bundle.putString("CHECKINID", checkin.id)
-                bundle.putString("USERID", currentUser.id)
-                bundle.putString("CONTAINER", "checkin")
-                Fragment fragment = new ShowGalleryFragment()
-                fragment.onPathPhotoSubmit = { String urlPhoto ->
-                    mImageUtil1.setPhotoImageView(getContext(), urlPhoto, photoCheckinImageView)
-                }
-                fragment.setArguments(bundle)
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.multi_fragment_container, fragment)
-                        .addToBackStack("last_fragment")
-                        .commit()
+                Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+                intent.putExtra("CHECKINID", checkin.id)
+                intent.putExtra("USERID", currentUser.id)
+                intent.putExtra("CONTAINER", "checkin")
+                startActivityForResult(intent, 1)
             }
         }
         mBarista.onClickListener = {
@@ -175,4 +168,16 @@ public class ShowCheckinFragment extends Fragment {
         }
         status
     }
+
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if(resultCode == activity.RESULT_OK){
+                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , photoCheckinImageView)
+            }
+        }
+    }
+
+
 }
