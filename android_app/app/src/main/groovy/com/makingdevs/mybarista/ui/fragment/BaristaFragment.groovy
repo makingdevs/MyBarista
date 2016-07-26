@@ -8,16 +8,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
-import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -35,7 +38,7 @@ class BaristaFragment extends Fragment {
     ImageButton mButtonShowBarista
     Checkin checkin
 
-    ImageUtil mImageUtil1 = new ImageUtil()
+    ImageUtil mImageUtil = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
@@ -63,7 +66,17 @@ class BaristaFragment extends Fragment {
     void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState)
         if(checkin?.baristum?.s3_asset?.url_file){
-            mImageUtil1.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file , mPhotoBarista)
+            mImageUtil.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file , mPhotoBarista)
+        }
+    }
+
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if(resultCode == activity.RESULT_OK){
+                mImageUtil.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , mPhotoBarista)
+            }
         }
     }
 
@@ -77,31 +90,10 @@ class BaristaFragment extends Fragment {
             saveBarista(getPropertiesOfBarista(), mCheckinId)
         }
         mButtonPhotoBarista.onClickListener = {
-            /*Bundle bundle = new Bundle()
-            bundle.putString("CONTAINER", "barista")
-            Fragment fragment = new ShowGalleryFragment()
-            fragment.setArguments(bundle)
-            fragment.onPathPhotoSubmit = { String urlPhoto ->
-                mImageUtil1.setPhotoImageView(getContext(), urlPhoto, mPhotoBarista)
-            }
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container,fragment)
-                    .addToBackStack("last_fragment")
-                    .commit()
-                    */
-            requestPermissionAndroid.checkPermission(getActivity(),"storage")
-            Fragment cameraFragment = new CameraFragment()
-            cameraFragment.setSuccessActionOnPhoto { File photo ->
-                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
-            }
-            cameraFragment.setErrorActionOnPhoto {
-                Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-                if (getFragmentManager().getBackStackEntryCount() > 0) {
-                    getFragmentManager().popBackStack()
-                }
-            }
-            changeFragment(cameraFragment)
+            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+            intent.putExtra("CONTAINER", "barista")
+            startActivityForResult(intent, 1)
+
         }
         mButtonShowBarista.onClickListener = {
             ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
@@ -120,7 +112,7 @@ class BaristaFragment extends Fragment {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
             if (checkin?.baristum?.s3_asset?.url_file)
-                mImageUtil1.setPhotoImageView(getContext(),checkin?.baristum?.s3_asset?.url_file, mPhotoBarista)
+                mImageUtil.setPhotoImageView(getContext(),checkin?.baristum?.s3_asset?.url_file, mPhotoBarista)
             if (checkin.baristum.id)
                 mButtonCreateBarista.text = "Actualizar barista"
             mNameBarista.text = checkin?.baristum?.name
