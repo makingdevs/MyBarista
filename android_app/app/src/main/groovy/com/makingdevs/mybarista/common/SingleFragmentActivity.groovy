@@ -29,9 +29,9 @@ abstract class SingleFragmentActivity extends AppCompatActivity implements WithF
         Fabric.with(this, new Crashlytics.Builder().core(core).build())
         setContentView(R.layout.activity_container)
         FragmentManager fm = getSupportFragmentManager()
-        Fragment fragment = fm.findFragmentById(R.id.container)
+        Fragment fragment = fm.findFragmentById(R.id.single_container)
         if (!fragment)
-            fm.beginTransaction().add(R.id.container, createFragment()).commit()
+            fm.beginTransaction().add(R.id.single_container, createFragment()).commit()
 
         setToolbar()
 
