@@ -98,7 +98,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
         pathPhotos.each { photo ->
             gallery << new PhotoCheckin(url_file: photo)
         }
-        gallery
+        gallery.reverse()
     }
 
     @Override
