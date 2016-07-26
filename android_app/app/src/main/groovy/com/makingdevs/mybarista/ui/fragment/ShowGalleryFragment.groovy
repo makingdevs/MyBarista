@@ -23,9 +23,11 @@ import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
 import com.makingdevs.mybarista.ui.adapter.PhotoAdapter
+import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
+@CompileStatic
 class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoCheckin> {
 
     ShowGalleryFragment() { super() }
@@ -64,10 +66,10 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
                 Fragment cameraFragment = new CameraFragment()
                 cameraFragment.setSuccessActionOnPhoto { File photo ->
-                    uploadPicture(photo)
+                    new ShowGalleryFragment().uploadPicture(photo)
                 }
                 cameraFragment.setErrorActionOnPhoto {
-                    Toast.makeText(getContext(), "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(v.context, "Error al caputar la foto", Toast.LENGTH_SHORT).show()
                 }
                 getFragmentManager()
                         .beginTransaction()
@@ -116,6 +118,8 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
+        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message)
+            getActivity().finish()
+        }
     }
 }
