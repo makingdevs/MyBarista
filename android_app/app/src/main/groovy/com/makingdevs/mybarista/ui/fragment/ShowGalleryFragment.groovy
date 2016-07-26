@@ -1,10 +1,11 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -54,10 +55,8 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
         photoAdapter = new PhotoAdapter(getActivity(), populateGallery())
         photoAdapter.setOnItemClickListener(this)
         recyclerViewPhotos.adapter = photoAdapter
-        Bundle bundle = new Bundle()
-        bundle = getArguments()
-        currentUser = bundle?.getString("USERID")
-        checkinId = bundle?.getString("CHECKINID")
+        currentUser = activity.getIntent().getStringExtra("USERID")
+        checkinId = activity.getIntent().getStringExtra("CHECKINID")
 
         floatingActionButtonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +64,6 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
                 Fragment cameraFragment = new CameraFragment()
                 cameraFragment.setSuccessActionOnPhoto { File photo ->
-                    if (getFragmentManager().getBackStackEntryCount() > 0) {
-                        getFragmentManager().popBackStack("last_fragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                    }
                     uploadPicture(photo)
                 }
                 cameraFragment.setErrorActionOnPhoto {
@@ -82,7 +78,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     void uploadPicture(File photo) {
-        switch (getArguments().getString("CONTAINER")) {
+        switch (activity.getIntent().getStringExtra("CONTAINER")) {
             case "profile":
                 mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser, pathFile: photo.getPath()), onSuccessPhoto(), onError())
                 break
@@ -106,23 +102,16 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     @Override
-    void onItemClicked(PhotoCheckin photoCheckin) {
-        mS3Manager.upload(new UploadCommand(idCheckin: checkinId, idUser: currentUser, pathFile: photoCheckin.url_file), onSuccessPhoto(), onError())
-        getActivity().onBackPressed()
+    void onItemClicked(PhotoCheckin photo) {
+        uploadPicture(new File(photo.url_file))
     }
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (onPathPhotoSubmit)
-                onPathPhotoSubmit(response.body().url_file)
-            else
-                throw new RuntimeException("""\
-                    You must says what should I do when I got the pic....
-                    So, you really needs implements something like:
-                    fragment.onPathPhotoSubmit = { String urlPhoto ->
-                        // your code goes here...
-                    }
-                """)
+            Intent intent = new Intent()
+            intent.putExtra("PATH_PHOTO", response.body().url_file)
+            getActivity().setResult(Activity.RESULT_OK, intent)
+            getActivity().finish()
         }
     }
 
