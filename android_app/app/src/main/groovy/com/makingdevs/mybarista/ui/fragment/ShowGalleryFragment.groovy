@@ -60,23 +60,21 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
         currentUser = activity.getIntent().getStringExtra("USERID")
         checkinId = activity.getIntent().getStringExtra("CHECKINID")
 
-        floatingActionButtonCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            void onClick(View v) {
-                requestPermissionAndroid.checkPermission(getActivity(), "storage")
-                Fragment cameraFragment = new CameraFragment()
-                cameraFragment.setSuccessActionOnPhoto { File photo ->
-                    new ShowGalleryFragment().uploadPicture(photo)
-                }
-                cameraFragment.setErrorActionOnPhoto {
-                    Toast.makeText(v.context, "Error al caputar la foto", Toast.LENGTH_SHORT).show()
-                }
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(((ViewGroup) getView().getParent()).getId(), cameraFragment)
-                        .addToBackStack(null).commit()
+        floatingActionButtonCamera.onClickListener = {
+            requestPermissionAndroid.checkPermission(getActivity(), "storage")
+            Fragment cameraFragment = new CameraFragment()
+            cameraFragment.setSuccessActionOnPhoto { File photo ->
+                uploadPicture(photo)
             }
-        })
+            cameraFragment.setErrorActionOnPhoto {
+                Toast.makeText(context, "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+            }
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(((ViewGroup) getView().getParent()).getId(), cameraFragment)
+                    .addToBackStack(null).commit()
+        }
+
     }
 
     void uploadPicture(File photo) {
