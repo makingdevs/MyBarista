@@ -77,4 +77,5 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
 
         }
     }
+
 }
