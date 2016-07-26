@@ -71,7 +71,6 @@ class PrincipalActivity extends AppCompatActivity {
                 changeFragment(new SearchUserFragment())
             }
             if (position == 2 && !wasSelected){
-                requestPermissionAndroid.checkPermission(this,"storage")
                 changeFragment(new ProfileFragment())
             }
             true
