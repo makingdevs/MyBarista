@@ -155,7 +155,7 @@ class BaristaFragment extends Fragment {
 
     void changeFragment(Fragment fragment){
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
                 .commit()
     }
