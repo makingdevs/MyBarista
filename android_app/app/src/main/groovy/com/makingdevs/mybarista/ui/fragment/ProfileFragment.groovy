@@ -22,6 +22,7 @@ import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.LoginActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import retrofit2.Call
 import retrofit2.Response
 
@@ -77,19 +78,10 @@ class ProfileFragment extends Fragment {
             if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
             } else {
-                Bundle bundle = new Bundle()
-                bundle.putString("USERID", currentUser.id)
-                bundle.putString("CONTAINER", "profile")
-                Fragment fragment = new ShowGalleryFragment()
-                fragment.setArguments(bundle)
-                fragment.onPathPhotoSubmit = { String urlPhoto ->
-                    mImageUtil1.setPhotoImageView(getContext(), urlPhoto, mImageViewCamera)
-                }
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .addToBackStack("last_fragment")
-                        .commit()
+                Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+                intent.putExtra("USERID", currentUser.id)
+                intent.putExtra("CONTAINER", "profile")
+                startActivityForResult(intent, 1)
             }
         }
         loadData()
@@ -168,5 +160,15 @@ class ProfileFragment extends Fragment {
             status = true
         }
         status
+    }
+
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if(resultCode == activity.RESULT_OK){
+                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , mImageViewCamera)
+            }
+        }
     }
 }
