@@ -84,5 +84,6 @@
     <string name="save_profile">Actualizar perfil</string>
     <string name="venue_detail">Lugar</string>
     <string name="add_venue">Agregar ubicacion</string>
+    <string name="message_uploading_photo">Uploading photo...</string>
 
 </resources>
