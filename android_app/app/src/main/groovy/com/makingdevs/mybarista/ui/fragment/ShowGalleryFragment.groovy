@@ -96,7 +96,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     List<PhotoCheckin> populateGallery() {
-        ArrayList<String> pathPhotos = imageUtil.getGalleryPhotos(getActivity())
+        List<String> pathPhotos = imageUtil.getGalleryPhotos(getActivity())
         pathPhotos.reverse().collect { urlPhoto ->
             new PhotoCheckin(url_file: urlPhoto)
         }

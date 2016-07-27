@@ -146,7 +146,7 @@ public class ImageUtil {
                 .into(imageViewPhoto)
     }
 
-    static ArrayList<String> getGalleryPhotos(Activity activity) {
+    static List<String> getGalleryPhotos(Activity activity) {
         List<String> photosGallery = []
         Uri uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         String[] projection = [MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME] as String[]
