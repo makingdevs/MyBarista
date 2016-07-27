@@ -147,14 +147,11 @@ public class ImageUtil {
     }
 
     static ArrayList<String> getGalleryPhotos(Activity activity) {
-        Uri uri
-        Cursor cursor
-        Integer indexData
-        ArrayList<String> photosGallery = new ArrayList<String>()
-        uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        List<String> photosGallery = []
+        Uri uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         String[] projection = [MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME] as String[]
-        cursor = activity.getContentResolver().query(uri, projection, null, null, null)
-        indexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+        Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null)
+        Integer indexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
         while (cursor.moveToNext()) {
             photosGallery << cursor.getString(indexData)
         }
