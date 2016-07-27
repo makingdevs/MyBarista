@@ -64,6 +64,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
             requestPermissionAndroid.checkPermission(getActivity(), "storage")
             Fragment cameraFragment = new CameraFragment()
             cameraFragment.setSuccessActionOnPhoto { File photo ->
+                getActivity().onBackPressed()
                 uploadPicture(photo)
             }
             cameraFragment.setErrorActionOnPhoto {
