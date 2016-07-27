@@ -23,6 +23,7 @@ import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.S3assetManager
 import com.makingdevs.mybarista.service.S3assetManagerImpl
 import com.makingdevs.mybarista.ui.adapter.PhotoAdapter
+import com.makingdevs.mybarista.view.LoadingDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -40,6 +41,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     FloatingActionButton floatingActionButtonCamera
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
     Closure onPathPhotoSubmit
+    LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -79,6 +81,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     void uploadPicture(File photo) {
+        loadingDialog.show(getActivity().getSupportFragmentManager(),"Loading dialog")
         switch (activity.getIntent().getStringExtra("CONTAINER")) {
             case "profile":
                 mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser, pathFile: photo.getPath()), onSuccessPhoto(), onError())
@@ -93,13 +96,10 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     List<PhotoCheckin> populateGallery() {
-        ArrayList<PhotoCheckin> gallery = new ArrayList<PhotoCheckin>()
-        ArrayList<String> pathPhotos = new ArrayList<String>()
-        pathPhotos = imageUtil.getGalleryPhotos(getActivity())
-        pathPhotos.each { photo ->
-            gallery << new PhotoCheckin(url_file: photo)
+        ArrayList<String> pathPhotos = imageUtil.getGalleryPhotos(getActivity())
+        pathPhotos.reverse().collect { urlPhoto ->
+            new PhotoCheckin(url_file: urlPhoto)
         }
-        gallery.reverse()
     }
 
     @Override
@@ -112,12 +112,15 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
             Intent intent = new Intent()
             intent.putExtra("PATH_PHOTO", response.body().url_file)
             getActivity().setResult(Activity.RESULT_OK, intent)
+            loadingDialog.dismiss()
             getActivity().finish()
+
         }
     }
 
     private Closure onError() {
         { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message)
+            loadingDialog.dismiss()
             getActivity().finish()
         }
     }
