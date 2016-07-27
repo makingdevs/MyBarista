@@ -84,6 +84,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.7@aar') {
         transitive = true
     }
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 def API_SERVER_URL = '"'+ urlApiServer +'"' ?:'"Define una url"'
