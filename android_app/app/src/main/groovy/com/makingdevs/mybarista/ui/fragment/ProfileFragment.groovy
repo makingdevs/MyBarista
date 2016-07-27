@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
@@ -26,7 +27,7 @@ import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import retrofit2.Call
 import retrofit2.Response
 
-class ProfileFragment extends Fragment {
+class ProfileFragment extends Fragment implements OnActivityResultGallery {
 
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -43,7 +44,7 @@ class ProfileFragment extends Fragment {
     private Button mSaveProfile
     TextView mCloseSession
     ImageView mImageViewCamera
-    ImageView mImageViewPhotoUser
+
 
     ProfileFragment() { super() }
 
@@ -64,7 +65,7 @@ class ProfileFragment extends Fragment {
         mSaveProfile = (Button) root.findViewById(R.id.save_profile)
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
         mImageViewCamera = (ImageView) root.findViewById(R.id.photo_profile_user)
-        mImageViewPhotoUser = (ImageView) root.findViewById(R.id.photo_current_user)
+        showImage = (ImageView) root.findViewById(R.id.photo_current_user)
         mSaveProfile.onClickListener = {
             updateInfoUserProfile()
         }

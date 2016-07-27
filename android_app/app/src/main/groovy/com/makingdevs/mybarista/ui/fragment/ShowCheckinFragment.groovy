@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
@@ -31,7 +32,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-public class ShowCheckinFragment extends Fragment {
+public class ShowCheckinFragment extends Fragment implements OnActivityResultGallery{
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -52,7 +53,6 @@ public class ShowCheckinFragment extends Fragment {
     View itemView
     ImageButton mButtonCamera
     User currentUser
-    ImageView photoCheckinImageView
     Button mBarista
 
     String mCheckinId
@@ -89,7 +89,7 @@ public class ShowCheckinFragment extends Fragment {
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
         mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
-        photoCheckinImageView = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
+        showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
     }
 
@@ -104,7 +104,7 @@ public class ShowCheckinFragment extends Fragment {
 
         def url_image = checkin?.s3_asset?.url_file
         if (url_image)
-            mImageUtil1.setPhotoImageView(getContext(), url_image, photoCheckinImageView)
+            mImageUtil1.setPhotoImageView(getContext(), url_image, showImage)
 
     }
 
@@ -120,7 +120,7 @@ public class ShowCheckinFragment extends Fragment {
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
             if (response.body())
-                mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, photoCheckinImageView)
+                mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, showImage)
         }
     }
 
@@ -167,16 +167,6 @@ public class ShowCheckinFragment extends Fragment {
             status = true
         }
         status
-    }
-
-    @Override
-    void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            if(resultCode == activity.RESULT_OK){
-                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , photoCheckinImageView)
-            }
-        }
     }
 
 
