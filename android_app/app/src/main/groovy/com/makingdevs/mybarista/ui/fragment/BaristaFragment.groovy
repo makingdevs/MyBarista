@@ -13,8 +13,8 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.ImageUtil
+import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
@@ -22,17 +22,18 @@ import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
+import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
-//@CompileStatic
+
+@CompileStatic
 class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
-
-    private static final String TAG = "BaristaFragment"
-    private EditText mNameBarista
-    private Button mButtonCreateBarista
-    private ImageButton mButtonPhotoBarista
-    private String mCheckinId
+    static final String TAG = "BaristaFragment"
+    EditText mNameBarista
+    Button mButtonCreateBarista
+    ImageButton mButtonPhotoBarista
+    String mCheckinId
     ImageButton mButtonShowBarista
     Checkin checkin
 
@@ -42,10 +43,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
-    BaristaFragment() {
-        super()
-
-    }
+    BaristaFragment() { super() }
 
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,8 +64,8 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     @Override
     void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState)
-        if(checkin?.baristum?.s3_asset?.url_file){
-            mImageUtil.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file , getPhotoImageView())
+        if (checkin?.baristum?.s3_asset?.url_file) {
+            mImageUtil.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file, showImage)
         }
     }
 
@@ -88,7 +86,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         }
         mButtonShowBarista.onClickListener = {
             ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
-            Bundle bundle =  new Bundle()
+            Bundle bundle = new Bundle()
             bundle.putString("ID_BARISTA", checkin.baristum.id)
             showBaristaFragment.setArguments(bundle)
             changeFragment(showBaristaFragment)
@@ -103,7 +101,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
             if (checkin?.baristum?.s3_asset?.url_file)
-                mImageUtil.setPhotoImageView(getContext(),checkin?.baristum?.s3_asset?.url_file, getShowImage())
+                mImageUtil.setPhotoImageView(getContext(), checkin?.baristum?.s3_asset?.url_file, getShowImage())
             if (checkin.baristum.id)
                 mButtonCreateBarista.text = "Actualizar barista"
             mNameBarista.text = checkin?.baristum?.name
@@ -123,7 +121,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (getFragmentManager().getBackStackEntryCount() > 0){
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
                 getFragmentManager().popBackStack()
                 checkin.baristum.s3_asset.id = response?.body()?.id
                 checkin.baristum.s3_asset.url_file = response?.body()?.url_file
@@ -133,18 +131,18 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onError() {
         { Call<Checkin> call, Throwable t ->
-            Log.d(TAG,"Error ${t.message}")
+            Log.d(TAG, "Error ${t.message}")
         }
     }
 
     private void showCheckin(Checkin checkin) {
         Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(), checkin.id, checkin.circle_flavor_id)
-        intent.putExtra("circle_flavor_id", checkin.circle_flavor_id)
+        intent.putExtra("circle_flavor_id", checkin?.circle_flavor_id ?: "")
         startActivity(intent)
         getActivity().finish()
     }
 
-    void changeFragment(Fragment fragment){
+    void changeFragment(Fragment fragment) {
         getFragmentManager().beginTransaction()
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
