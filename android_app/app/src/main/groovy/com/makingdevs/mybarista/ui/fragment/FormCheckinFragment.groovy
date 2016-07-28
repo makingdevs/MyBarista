@@ -18,7 +18,6 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
@@ -158,7 +157,7 @@ class FormCheckinFragment extends Fragment {
         bundle.putString("RATING", ratingCoffe.getRating() as String)
         FragmentTransaction ft = getFragmentManager().beginTransaction()
         fragment.setArguments(bundle)
-        ft.replace(R.id.container, fragment)
+        ft.replace(((ViewGroup) getView().getParent()).getId(), fragment)
         ft.addToBackStack(null)
         ft.commit()
     }
