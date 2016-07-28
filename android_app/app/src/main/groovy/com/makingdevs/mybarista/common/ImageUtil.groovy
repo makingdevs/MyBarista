@@ -132,17 +132,16 @@ public class ImageUtil {
         return orientation;
     }
 
-    private static String getSimpleImageFile(){
+    private static String getSimpleImageFile() {
         String timeStamp = new Date().format("yyyyMMdd_HHmmss")
         "Checkin_$timeStamp"
     }
 
-    void setPhotoImageView(Context context, String photoUrl, ImageView imageViewPhoto){
+    void setPhotoImageView(Context context, String photoUrl, ImageView imageViewPhoto) {
         Glide.with(context).load(photoUrl)
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(400, 350)
+                .thumbnail(0.1f)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageViewPhoto)
     }
 
@@ -157,4 +156,5 @@ public class ImageUtil {
         }
         photosGallery
     }
+
 }
