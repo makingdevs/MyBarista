@@ -9,18 +9,18 @@ import android.util.Log
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class CamaraUtil{
+class CamaraUtil {
 
     private static final String TAG = "CamaraUtil"
 
-    File createImageFile(){
+    File createImageFile() {
         String timeStamp = new Date().format("yyyyMMdd_HHmmss")
         String imageFileName = "Checkin_$timeStamp"
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        File image = File.createTempFile(imageFileName,".jpg", storageDir)
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 
-    File saveBitmapToFile(Bitmap bitmap,String photoName){
+    File saveBitmapToFile(Bitmap bitmap, String photoName) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + photoName)
@@ -30,8 +30,8 @@ class CamaraUtil{
             fileOutputStream = new FileOutputStream(file)
             fileOutputStream.write(bytes.toByteArray())
             fileOutputStream.close()
-        }catch (Exception e){
-            Log.d(TAG,"Error... "+e.message)
+        } catch (Exception e) {
+            Log.d(TAG, "Error... " + e.message)
         }
         file
     }
@@ -65,5 +65,4 @@ class CamaraUtil{
                 .getSize(size)
         getScaledBitmap(path, size.x, size.y)
     }
-
 }
