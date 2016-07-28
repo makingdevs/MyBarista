@@ -112,7 +112,7 @@ class SearchVenueFoursquareFragment extends Fragment {
                 mBundle.putString("VENUE_ID",venueDetailBindable.venueID)
                 formCheckinFragment.setArguments(mBundle)
                 FragmentTransaction ft = getFragmentManager().beginTransaction()
-                ft.replace(R.id.container,formCheckinFragment)
+                ft.replace(((ViewGroup) getView().getParent()).getId(),formCheckinFragment)
                 ft.addToBackStack(null)
                 ft.commit()
             }
