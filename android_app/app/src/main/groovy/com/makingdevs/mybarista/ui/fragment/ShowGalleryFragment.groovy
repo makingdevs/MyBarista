@@ -71,6 +71,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
             }
             cameraFragment.setErrorActionOnPhoto {
                 Toast.makeText(context, "Error al caputar la foto", Toast.LENGTH_SHORT).show()
+                getActivity().onBackPressed()
             }
             getFragmentManager()
                     .beginTransaction()
