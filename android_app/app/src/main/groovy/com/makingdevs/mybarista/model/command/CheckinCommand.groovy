@@ -13,4 +13,6 @@ class CheckinCommand {
     String rating
     String idVenueFoursquare
     Date created_at
+    String idS3asset
+
 }
