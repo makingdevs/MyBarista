@@ -104,7 +104,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     void createCheckin() {
         if (pathPhoto) {
             loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
-            mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
+            mS3Manager.uploadPhoto(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
         } else
             getFormCheckIn("")
     }
@@ -114,6 +114,8 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
+        println("*"*50)
+        println(origin+price+method+currentUser?.dump()+pathPhoto)
         saveCheckIn(new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venueID, created_at: new Date(), idS3asset: assetID)
         )

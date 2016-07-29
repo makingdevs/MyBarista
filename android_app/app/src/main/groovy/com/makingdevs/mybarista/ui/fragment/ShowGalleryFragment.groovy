@@ -97,7 +97,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 mS3Manager.upload(new UploadCommand(idCheckin: checkinId, idUser: currentUser, pathFile: photo.absolutePath), onSuccessPhoto(), onError())
                 break
             case "barista":
-                mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
+                mS3Manager.uploadPhoto(new UploadCommand(pathFile: photo.getPath()), onSuccessPhoto(), onError())
                 break
         }
     }
