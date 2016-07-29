@@ -10,12 +10,16 @@ import groovy.transform.CompileStatic
 trait OnActivityResultGallery {
     ImageView showImage
     ImageUtil mImageUtil1 = new ImageUtil()
+    String pathPhoto
+
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , showImage)
+            if (resultCode == Activity.RESULT_OK) {
+                pathPhoto = data.getStringExtra("PATH_PHOTO")
+                mImageUtil1.setPhotoImageView(getContext(), pathPhoto, showImage)
             }
         }
     }
+
     abstract Context getContext()
 }
