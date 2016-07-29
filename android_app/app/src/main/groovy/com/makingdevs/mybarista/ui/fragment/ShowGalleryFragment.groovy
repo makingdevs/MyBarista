@@ -82,8 +82,14 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     void uploadPicture(File photo) {
-        loadingDialog.show(getActivity().getSupportFragmentManager(),"Loading dialog")
-        switch (activity.getIntent().getStringExtra("CONTAINER")) {
+        String option = activity.getIntent().getStringExtra("CONTAINER")
+        if (option != "new_checkin")
+            loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
+        switch (option) {
+            case "new_checkin":
+                sendResult(photo.absolutePath)
+                getActivity().finish()
+                break
             case "profile":
                 mS3Manager.uploadPhotoUser(new UploadCommand(idUser: currentUser, pathFile: photo.getPath()), onSuccessPhoto(), onError())
                 break
@@ -95,6 +101,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
                 break
         }
     }
+
 
     List<PhotoCheckin> populateGallery() {
         List<String> pathPhotos = imageUtil.getGalleryPhotos(getActivity())
@@ -110,9 +117,7 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
 
     private Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            Intent intent = new Intent()
-            intent.putExtra("PATH_PHOTO", response.body().url_file)
-            getActivity().setResult(Activity.RESULT_OK, intent)
+            sendResult(response.body().url_file)
             loadingDialog.dismiss()
             getActivity().finish()
 
@@ -120,9 +125,16 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     }
 
     private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message)
+        { Call<Checkin> call, Throwable t ->
+            Log.d("ERRORZ", "el error " + t.message)
             loadingDialog.dismiss()
             getActivity().finish()
         }
+    }
+
+    void sendResult(String urlFile) {
+        Intent intent = new Intent()
+        intent.putExtra("PATH_PHOTO", urlFile)
+        getActivity().setResult(Activity.RESULT_OK, intent)
     }
 }
