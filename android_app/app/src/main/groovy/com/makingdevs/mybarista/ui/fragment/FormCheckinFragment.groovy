@@ -20,12 +20,15 @@ import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
+import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
+import com.makingdevs.mybarista.view.LoadingDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -48,6 +51,9 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     ImageView imageViewPhotoCheckin
     ImageView imageViewAddVenue
     ImageUtil imageUtil = new ImageUtil()
+    S3assetManager mS3Manager = S3assetManagerImpl.instance
+    String idS3asset
+    LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
 
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
@@ -70,12 +76,18 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         addVenueButton = (TextView) root.findViewById(R.id.venue_description)
         contextView = getActivity().getApplicationContext()
-        checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
+        checkInButton.onClickListener = { View v -> createCheckin() }
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewPhotoCheckin.onClickListener = {
-            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
-            intent.putExtra("CONTAINER", "new_checkin")
-            startActivityForResult(intent, 1)
+            if(checkPermissionStorage()){
+                requestPermissionAndroid.checkPermission(getActivity(), "storage")
+            }
+            else {
+                Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+                intent.putExtra("CONTAINER", "new_checkin")
+                startActivityForResult(intent, 1)
+            }
+
         }
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
         imageViewAddVenue.onClickListener = {
@@ -88,13 +100,31 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         showImage = (ImageView) root.findViewById(R.id.preview_checkin)
         root
     }
+    //TODO Reestructurar métodos para el checkin
+    void createCheckin() {
+        if (pathPhoto) {
+            loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
+            mS3Manager.uploadPhotoBarista(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
+        } else
+            getFormCheckIn("")
+    }
 
-    private CheckinCommand getFormCheckIn() {
+    private void getFormCheckIn(String assetID) {
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username, idVenueFoursquare: venueID, created_at: new Date())
+        saveCheckIn(new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                        idVenueFoursquare: venueID, created_at: new Date(), idS3asset: assetID)
+        )
+    }
+
+    private Closure onSuccessPhoto() {
+        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
+            idS3asset = response.body().id
+            getFormCheckIn(idS3asset)
+            loadingDialog.dismiss()
+        }
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -117,6 +147,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     private Closure onError() {
         { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+            loadingDialog.dismiss()
         }
     }
 
@@ -139,7 +170,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         if (mBundle) {
             populateFormWithBundle(mBundle)
         }
-
     }
 
     void populateFormWithBundle(Bundle bundle) {
@@ -168,6 +198,15 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         Boolean status
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 && ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            status = true
+        }
+        status
+    }
+
+    boolean checkPermissionStorage() {
+        Boolean status
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             status = true
         }
