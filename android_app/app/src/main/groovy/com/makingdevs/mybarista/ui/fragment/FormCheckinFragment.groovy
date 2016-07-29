@@ -15,7 +15,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.LocationUtil
+import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
@@ -23,28 +25,29 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
+import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-class FormCheckinFragment extends Fragment {
+class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "FormCheckinFragment"
     static Context contextView
     EditText originEditText
     EditText priceEditText
-    EditText noteEditText
     Spinner methodFieldSprinner
     Button checkInButton
-    RatingBar ratingCoffe
     TextView addVenueButton
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    FoursquareManager mFoursquareManager = FoursquareManagerImpl.instance
     String venueID
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
+    ImageView imageViewPhotoCheckin
+    ImageView imageViewAddVenue
+    ImageUtil imageUtil = new ImageUtil()
 
     // TODO: Refactor de nombres, diseño y responsabilidad
     LocationUtil mLocationUtil = LocationUtil.instance
@@ -63,33 +66,35 @@ class FormCheckinFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
         originEditText = (EditText) root.findViewById(R.id.originField)
         priceEditText = (EditText) root.findViewById(R.id.priceField)
-        noteEditText = (EditText) root.findViewById(R.id.noteField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
-        addVenueButton = (TextView) root.findViewById(R.id.btnAddVenue)
+        addVenueButton = (TextView) root.findViewById(R.id.venue_description)
         contextView = getActivity().getApplicationContext()
-        ratingCoffe = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
         checkInButton.onClickListener = { View v -> saveCheckIn(getFormCheckIn()) }
-        addVenueButton.onClickListener = {
-            if(checkPermissionLocation()){
-                requestPermissionAndroid.checkPermission(getActivity(),"location")
-            }
-            else {
+        imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
+        imageViewPhotoCheckin.onClickListener = {
+            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+            intent.putExtra("CONTAINER", "new_checkin")
+            startActivityForResult(intent, 1)
+        }
+        imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
+        imageViewAddVenue.onClickListener = {
+            if (checkPermissionLocation()) {
+                requestPermissionAndroid.checkPermission(getActivity(), "location")
+            } else {
                 callNewFragmentWithData(new SearchVenueFoursquareFragment())
             }
-            //SearchVenueFoursquareFragment searchVenueFoursquareFragmen = new SearchVenueFoursquareFragment()
         }
+        showImage = (ImageView) root.findViewById(R.id.preview_checkin)
         root
     }
 
     private CheckinCommand getFormCheckIn() {
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
-        String note = noteEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
-        String rating = ratingCoffe.getRating()
         User currentUser = mSessionManager.getUserSession(getContext())
-        new CheckinCommand(method: method, note: note, origin: origin, price: price?.toString(), username: currentUser.username, rating: rating.toString(), idVenueFoursquare: venueID, created_at: new Date())
+        new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username, idVenueFoursquare: venueID, created_at: new Date())
     }
 
     private void saveCheckIn(CheckinCommand checkin) {
@@ -118,7 +123,6 @@ class FormCheckinFragment extends Fragment {
     private void cleanForm() {
         originEditText.setText("")
         priceEditText.setText("")
-        noteEditText.setText("")
     }
 
     void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
@@ -141,20 +145,18 @@ class FormCheckinFragment extends Fragment {
     void populateFormWithBundle(Bundle bundle) {
         originEditText.text = bundle.getString("ORIGEN")
         priceEditText.text = bundle.getString("PRECIO")
-        noteEditText.text = bundle.getString("NOTAS")
         methodFieldSprinner.setSelection(new Integer(bundle.getString("METODO")))
-        ratingCoffe.rating = new Float(bundle.getString("RATING"))
         addVenueButton.text = bundle.getString("VENUE_NAME")
         venueID = bundle.getString("VENUE_ID")
+        imageUtil.setPhotoImageView(getContext(), bundle?.getString("PREVIEW_PHOTO") ?: "", showImage)
     }
 
     void callNewFragmentWithData(Fragment fragment) {
         Bundle bundle = new Bundle()
         bundle.putString("ORIGEN", originEditText.text.toString())
         bundle.putString("PRECIO", priceEditText.text.toString())
-        bundle.putString("NOTAS", noteEditText.text.toString())
         bundle.putString("METODO", methodFieldSprinner.selectedItemPosition as String)
-        bundle.putString("RATING", ratingCoffe.getRating() as String)
+        bundle.putString("PREVIEW_PHOTO", pathPhoto)
         FragmentTransaction ft = getFragmentManager().beginTransaction()
         fragment.setArguments(bundle)
         ft.replace(((ViewGroup) getView().getParent()).getId(), fragment)
@@ -166,7 +168,7 @@ class FormCheckinFragment extends Fragment {
         Boolean status
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 && ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
             status = true
         }
         status
