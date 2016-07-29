@@ -21,10 +21,12 @@ class CheckinsController < ApplicationController
     if @venue == nil
       @venue = save_venue(params['idVenueFoursquare'])
     end
+    @s3_asset = search_s3asset(params['idS3asset'])
     @checkin = Checkin.new(checkin_params)
     user = User.find_by username: params['username']
     @checkin.user = user
     @checkin.venue = @venue
+    @checkin.s3_asset = @s3_asset
     if @checkin.save
       render json: @checkin, status: :created, location: @checkin
     else
@@ -78,6 +80,13 @@ class CheckinsController < ApplicationController
     venue_detail = @client.venue(venue_id)
     if venue_detail != nil
       return venue_detail
+    end
+  end
+
+  def search_s3asset(s3_asset_id)
+    @s3_asset = S3Asset.find_by id: s3_asset_id
+    if  @s3_asset
+      return @s3_asset
     end
   end
 
