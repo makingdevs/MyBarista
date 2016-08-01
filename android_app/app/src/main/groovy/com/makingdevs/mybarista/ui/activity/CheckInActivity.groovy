@@ -12,6 +12,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 public class CheckInActivity extends SingleFragmentActivity {
 
+    private Bundle mMainFragmentArgs;
+
     static Intent newIntentWithContext(Context context){
         Intent intent = new Intent(context, CheckInActivity)
         intent
@@ -26,5 +28,13 @@ public class CheckInActivity extends SingleFragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
+    }
+
+    public void saveMainFragmentState(Bundle args) {
+        mMainFragmentArgs = args;
+    }
+
+    public Bundle getSavedMainFragmentState() {
+        return mMainFragmentArgs;
     }
 }
