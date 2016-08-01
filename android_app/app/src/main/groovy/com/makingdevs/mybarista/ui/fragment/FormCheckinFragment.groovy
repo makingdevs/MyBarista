@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
@@ -26,6 +24,7 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
+import com.makingdevs.mybarista.ui.activity.CheckInActivity
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.view.LoadingDialog
@@ -34,7 +33,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
+class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
 
     static final String TAG = "FormCheckinFragment"
     static Context contextView
@@ -42,7 +41,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     EditText priceEditText
     Spinner methodFieldSprinner
     Button checkInButton
-    TextView addVenueButton
+    TextView venueDescription
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -54,17 +53,11 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     String idS3asset
     LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
-
-    // TODO: Refactor de nombres, diseño y responsabilidad
-    LocationUtil mLocationUtil = LocationUtil.instance
+    //ImageView showImage
+    //String pathPhoto
+    ImageUtil mImageUtil1 = new ImageUtil()
 
     FormCheckinFragment() { super() }
-
-    @Override
-    void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -74,15 +67,14 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         priceEditText = (EditText) root.findViewById(R.id.priceField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
-        addVenueButton = (TextView) root.findViewById(R.id.venue_description)
+        venueDescription = (TextView) root.findViewById(R.id.venue_description)
         contextView = getActivity().getApplicationContext()
         checkInButton.onClickListener = { View v -> createCheckin() }
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewPhotoCheckin.onClickListener = {
-            if(checkPermissionStorage()){
+            if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
-            }
-            else {
+            } else {
                 Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
                 intent.putExtra("CONTAINER", "new_checkin")
                 startActivityForResult(intent, 1)
@@ -94,13 +86,41 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
             if (checkPermissionLocation()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "location")
             } else {
-                callNewFragmentWithData(new SearchVenueFoursquareFragment())
+                showSearchVenueFragment()
             }
         }
         showImage = (ImageView) root.findViewById(R.id.preview_checkin)
+
         root
     }
-    //TODO Reestructurar métodos para el checkin
+
+    @Override
+    void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState)
+
+        Bundle args = ((CheckInActivity) getActivity()).getSavedMainFragmentState();
+
+        if (args != null) {
+            // Restore from backstack
+            pathPhoto = args.getString("PREVIEW_PHOTO")
+            mImageUtil1.setPhotoImageView(getContext(), pathPhoto, showImage)
+        }
+    }
+
+    @Override
+    void onDestroyView() {
+        super.onDestroyView()
+        Bundle args = new Bundle();
+        saveInstance(args);
+        ((CheckInActivity) getActivity()).saveMainFragmentState(args);
+    }
+
+    private void saveInstance(Bundle data) {
+        data.putString("PREVIEW_PHOTO", pathPhoto)
+    }
+
+
+//TODO Reestructurar métodos para el checkin
     void createCheckin() {
         if (pathPhoto) {
             loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
@@ -114,10 +134,8 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
-        println("*"*50)
-        println(origin+price+method+currentUser?.dump()+pathPhoto)
         saveCheckIn(new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
-                        idVenueFoursquare: venueID, created_at: new Date(), idS3asset: assetID)
+                idVenueFoursquare: venueID, created_at: new Date(), idS3asset: assetID)
         )
     }
 
@@ -164,36 +182,13 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         spinner.adapter = adapter
     }
 
-    @Override
-    void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState)
-        Bundle mBundle = new Bundle()
-        mBundle = getArguments()
-        if (mBundle) {
-            populateFormWithBundle(mBundle)
-        }
-    }
-
-    void populateFormWithBundle(Bundle bundle) {
-        originEditText.text = bundle.getString("ORIGEN")
-        priceEditText.text = bundle.getString("PRECIO")
-        methodFieldSprinner.setSelection(new Integer(bundle.getString("METODO")))
-        addVenueButton.text = bundle.getString("VENUE_NAME")
-        venueID = bundle.getString("VENUE_ID")
-        imageUtil.setPhotoImageView(getContext(), bundle?.getString("PREVIEW_PHOTO") ?: "", showImage)
-    }
-
-    void callNewFragmentWithData(Fragment fragment) {
-        Bundle bundle = new Bundle()
-        bundle.putString("ORIGEN", originEditText.text.toString())
-        bundle.putString("PRECIO", priceEditText.text.toString())
-        bundle.putString("METODO", methodFieldSprinner.selectedItemPosition as String)
-        bundle.putString("PREVIEW_PHOTO", pathPhoto)
-        FragmentTransaction ft = getFragmentManager().beginTransaction()
-        fragment.setArguments(bundle)
-        ft.replace(((ViewGroup) getView().getParent()).getId(), fragment)
-        ft.addToBackStack(null)
-        ft.commit()
+    void showSearchVenueFragment() {
+        Fragment venueFragment = new SearchVenueFoursquareFragment()
+        getFragmentManager()
+                .beginTransaction()
+                .replace(((ViewGroup) getView().getParent()).getId(), venueFragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     boolean checkPermissionLocation() {
