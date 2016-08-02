@@ -3,7 +3,10 @@
     <string name="checkin_title">Elige tu cafe</string>
     <string name="button_checkin">Check-in!</string>
 
+
+    <string name="label_title_spinner">Metodo de preparación</string>
     <string-array name="methods_arrays">
+        <item>Método de preparación</item>
         <item>Expresso</item>
         <item>Americano</item>
         <item>Goteo</item>
@@ -11,17 +14,15 @@
         <item>Sifón</item>
         <item>Otro</item>
     </string-array>
-    <string name="select_one">Seleccióna metodo</string>
+    <string name="label_title_checkin">Cuéntanos sobre tu café</string>
     <string name="placeholderOrigin">Origen</string>
     <string name="placeholderPrice">Precio</string>
     <string name="placeholderNote">Notas</string>labelMethod
-    <string name="labelMethod">Método de Preparación</string>
     <string name="toastCheckinSuccess">Check-in Relizado!!!</string>
     <string name="toastCheckinFail">Ups!! ocurrio un error</string>
     <string name="title_activity_my_check_ins">MyCheckInsActivity</string>
 
     <string name="label_origin">Origen:</string>
-    <string name="label_method">Metodo de preparación:</string>
     <string name="label_price">Precio:</string>
     <string name="label_note">Notas:</string>
 
