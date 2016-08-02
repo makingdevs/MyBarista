@@ -8,18 +8,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Venue
-import com.makingdevs.mybarista.model.VenueDetailBindable
 
-class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder>{
+class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder> {
 
     Context mContext
     List<Venue> mVenues
-    VenueDetailBindable mVenueDetailBindable
+    Closure onItemSelected
 
-    VenueAdapter(Context context, List<Venue> venueList, VenueDetailBindable venueDetailBindable){
+    VenueAdapter(Context context, List<Venue> venueList) {
         mContext = context
         mVenues = venueList
-        mVenueDetailBindable = venueDetailBindable
     }
 
     @Override
@@ -39,7 +37,7 @@ class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder>{
         mVenues.size()
     }
 
-    class VenueViewHolder extends RecyclerView.ViewHolder{
+    class VenueViewHolder extends RecyclerView.ViewHolder {
 
         TextView venueItemLabel
 
@@ -50,10 +48,9 @@ class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder>{
 
         void bindVenue(Venue venue) {
             itemView.onClickListener = {
-                mVenueDetailBindable.venueID = venue.id
-                mVenueDetailBindable.venueName = venue.name
+                onItemSelected(venue)
             }
-            venueItemLabel.text = venue.name+"\n"+venue.location.formattedAddress.join("")+"\n"
+            venueItemLabel.text = venue.name + "\n" + venue.location.formattedAddress.join("") + "\n"
         }
 
 
