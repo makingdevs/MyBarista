@@ -1,18 +1,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/fgm_checkin_container"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/preview_checkin"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/coffee" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_margin="16dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -20,7 +26,8 @@
                 android:id="@+id/textView"
                 android:layout_width="260dp"
                 android:layout_height="34dp"
-                android:text="@string/labelMethod"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/label_title_checkin"
                 android:textSize="20dp" />
 
             <Spinner
@@ -28,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/methods_arrays"
-                android:prompt="@string/select_one"
+                android:prompt="@string/label_title_spinner"
                 android:spinnerMode="dropdown" />
 
             <EditText
@@ -48,26 +55,24 @@
                 android:inputType="numberDecimal"
                 android:singleLine="true" />
 
-
-            <ImageView
-                android:id="@+id/preview_checkin"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:scaleType="centerCrop" />
-
             <TextView
                 android:id="@+id/venue_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:textSize="20dp" />
+                android:drawableLeft="@drawable/ic_checkin_venue"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginLeft="@dimen/spacing_large"
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_large"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -83,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
-                android:src="@drawable/ic_checkin_venue" />
+                android:src="@drawable/ic_get_venue" />
 
             <Button
                 android:id="@+id/btnCheckIn"
