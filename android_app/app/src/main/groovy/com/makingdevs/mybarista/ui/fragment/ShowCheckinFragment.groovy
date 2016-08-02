@@ -26,13 +26,13 @@ import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
-import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
+import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-public class ShowCheckinFragment extends Fragment implements OnActivityResultGallery{
+public class ShowCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -51,7 +51,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     TextView mBaristaName
     Button mButtonCircleFlavor
     View itemView
-    ImageButton mButtonCamera
+    ImageButton mButtonNote
     User currentUser
     Button mBarista
 
@@ -88,7 +88,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
-        mButtonCamera = (ImageButton) itemView.findViewById(R.id.button_camera)
+        mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
     }
@@ -129,7 +129,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     }
 
     private bindingElements() {
-        mButtonCamera.onClickListener = {
+        /*mButtonNote.onClickListener = {
             if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
             } else {
@@ -139,7 +139,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
                 intent.putExtra("CONTAINER", "checkin")
                 startActivityForResult(intent, 1)
             }
+        }*/
+
+        mButtonNote.onClickListener = {
+            NoteDialog noteDialog = NoteDialog.newInstance("")
+            noteDialog.show(fragmentManager, "note_dialog")
         }
+
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId", mCheckinId)
