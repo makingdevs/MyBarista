@@ -65,19 +65,22 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         venueDescription = (TextView) root.findViewById(R.id.venue_description)
+        venueDescription.setVisibility(View.GONE)
         contextView = getActivity().getApplicationContext()
         showImage = (ImageView) root.findViewById(R.id.preview_checkin)
-
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
-        imageViewPhotoCheckin.onClickListener = {
-            if (checkPermissionStorage()) {
-                requestPermissionAndroid.checkPermission(getActivity(), "storage")
-            } else {
-                showGalleryActivity()
-            }
-        }
-
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
+
+        /**
+         * Select a picture from the preview image
+         */
+        showImage.onClickListener = { chooseCheckInImage() }
+
+        /**
+         * Select a picture from the camera icon
+         */
+        imageViewPhotoCheckin.onClickListener = { chooseCheckInImage() }
+
         imageViewAddVenue.onClickListener = {
             if (checkPermissionLocation()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "location")
@@ -89,6 +92,13 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         checkInButton.onClickListener = { View v -> createCheckin() }
 
         root
+    }
+
+    void chooseCheckInImage() {
+        if (checkPermissionStorage())
+            requestPermissionAndroid.checkPermission(getActivity(), "storage")
+        else
+            showGalleryActivity()
     }
 
     void showGalleryActivity() {
@@ -103,6 +113,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
             this.venue.name = venue.name
             this.venue.id = venue.id
             this.venueDescription.text = venue.name
+            this.venueDescription.setVisibility(View.VISIBLE)
         }
         getFragmentManager()
                 .beginTransaction()
