@@ -24,7 +24,6 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
-import com.makingdevs.mybarista.ui.activity.CheckInActivity
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.view.LoadingDialog
@@ -33,7 +32,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
+class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "FormCheckinFragment"
     static Context contextView
@@ -43,18 +42,15 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
     Button checkInButton
     TextView venueDescription
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
+    Venue venue
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    String venueID
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
     ImageView imageViewPhotoCheckin
     ImageView imageViewAddVenue
-    ImageUtil imageUtil = new ImageUtil()
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     String idS3asset
     LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
-    //ImageView showImage
-    //String pathPhoto
     ImageUtil mImageUtil1 = new ImageUtil()
 
     FormCheckinFragment() { super() }
@@ -63,24 +59,24 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
+        venue = new Venue()
         originEditText = (EditText) root.findViewById(R.id.originField)
         priceEditText = (EditText) root.findViewById(R.id.priceField)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         venueDescription = (TextView) root.findViewById(R.id.venue_description)
         contextView = getActivity().getApplicationContext()
-        checkInButton.onClickListener = { View v -> createCheckin() }
+        showImage = (ImageView) root.findViewById(R.id.preview_checkin)
+
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewPhotoCheckin.onClickListener = {
             if (checkPermissionStorage()) {
                 requestPermissionAndroid.checkPermission(getActivity(), "storage")
             } else {
-                Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
-                intent.putExtra("CONTAINER", "new_checkin")
-                startActivityForResult(intent, 1)
+                showGalleryActivity()
             }
-
         }
+
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
         imageViewAddVenue.onClickListener = {
             if (checkPermissionLocation()) {
@@ -89,38 +85,33 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
                 showSearchVenueFragment()
             }
         }
-        showImage = (ImageView) root.findViewById(R.id.preview_checkin)
+
+        checkInButton.onClickListener = { View v -> createCheckin() }
 
         root
     }
 
-    @Override
-    void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState)
+    void showGalleryActivity() {
+        Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+        intent.putExtra("CONTAINER", "new_checkin")
+        startActivityForResult(intent, 1)
+    }
 
-        Bundle args = ((CheckInActivity) getActivity()).getSavedMainFragmentState();
-
-        if (args != null) {
-            // Restore from backstack
-            pathPhoto = args.getString("PREVIEW_PHOTO")
-            mImageUtil1.setPhotoImageView(getContext(), pathPhoto, showImage)
+    void showSearchVenueFragment() {
+        Fragment venueFragment = new SearchVenueFoursquareFragment()
+        venueFragment.onVenueSelectedWithFragmentManagerControl = { Venue venue ->
+            this.venue.name = venue.name
+            this.venue.id = venue.id
+            this.venueDescription.text = venue.name
         }
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fgm_checkin_container, venueFragment)
+                .addToBackStack(null)
+                .commit()
     }
 
-    @Override
-    void onDestroyView() {
-        super.onDestroyView()
-        Bundle args = new Bundle();
-        saveInstance(args);
-        ((CheckInActivity) getActivity()).saveMainFragmentState(args);
-    }
-
-    private void saveInstance(Bundle data) {
-        data.putString("PREVIEW_PHOTO", pathPhoto)
-    }
-
-
-//TODO Reestructurar métodos para el checkin
+    //TODO: Reestructurar métodos para el checkin
     void createCheckin() {
         if (pathPhoto) {
             loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
@@ -135,7 +126,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
         saveCheckIn(new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
-                idVenueFoursquare: venueID, created_at: new Date(), idS3asset: assetID)
+                idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
         )
     }
 
@@ -171,24 +162,10 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery{
         }
     }
 
-    private void cleanForm() {
-        originEditText.setText("")
-        priceEditText.setText("")
-    }
-
     void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues?.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
-    }
-
-    void showSearchVenueFragment() {
-        Fragment venueFragment = new SearchVenueFoursquareFragment()
-        getFragmentManager()
-                .beginTransaction()
-                .replace(((ViewGroup) getView().getParent()).getId(), venueFragment)
-                .addToBackStack(null)
-                .commit()
     }
 
     boolean checkPermissionLocation() {
