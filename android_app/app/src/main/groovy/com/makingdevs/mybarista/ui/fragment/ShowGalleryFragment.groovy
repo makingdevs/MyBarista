@@ -40,7 +40,6 @@ class ShowGalleryFragment extends Fragment implements OnItemClickListener<PhotoC
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     FloatingActionButton floatingActionButtonCamera
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
-    Closure onPathPhotoSubmit
     LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
 
     @Override
