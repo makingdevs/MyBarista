@@ -86,5 +86,7 @@
     <string name="venue_detail">Lugar</string>
     <string name="add_venue">Agregar ubicacion</string>
     <string name="message_uploading_photo">Uploading photo...</string>
+    <string name="label_title_note_dialog">Describe tu experiencia</string>
+    <string name="hint_note_dialog">Deja una nota...</string>
 
 </resources>
