@@ -3,7 +3,6 @@ package com.makingdevs.mybarista.ui.fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -16,7 +15,6 @@ import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.LocationUtil
 import com.makingdevs.mybarista.model.GPSLocation
 import com.makingdevs.mybarista.model.Venue
-import com.makingdevs.mybarista.model.VenueDetailBindable
 import com.makingdevs.mybarista.model.command.VenueCommand
 import com.makingdevs.mybarista.service.FoursquareManager
 import com.makingdevs.mybarista.service.FoursquareManagerImpl
@@ -28,7 +26,7 @@ import retrofit2.Response
 @CompileStatic
 class SearchVenueFoursquareFragment extends Fragment {
 
-    SearchVenueFoursquareFragment(){}
+    SearchVenueFoursquareFragment() {}
 
     private static final String TAG = "SearchVenueFoursquareFragment"
 
@@ -45,22 +43,22 @@ class SearchVenueFoursquareFragment extends Fragment {
     EditText searchVenueFoursquareEditText
     RecyclerView mListVenues
     VenueAdapter mVenueAdapter
-    VenueDetailBindable mVenueDetailBindable
-    Bundle mBundle
+    Closure onVenueSelectedWithFragmentManagerControl
 
-    View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search_venue_foursquare, container, false)
         searchVenueFoursquareButton = (ImageButton) root.findViewById(R.id.btnSearchVenueFoursquare)
         searchVenueFoursquareEditText = (EditText) root.findViewById(R.id.search_venue_foursquare)
         mListVenues = (RecyclerView) root.findViewById(R.id.list_venues_recicler_view)
         mListVenues.setLayoutManager(new LinearLayoutManager(getActivity()))
         searchVenueFoursquareButton.onClickListener = {
-           if (currentLatitude) {
+            if (currentLatitude) {
                 query = searchVenueFoursquareEditText.text
                 println("Foursquare..." + query + currentLatitude + currentLongitude)
                 mFoursquareManager.getVenuesNear(new VenueCommand(latitude: currentLatitude, longitude: currentLongitude, query: query), onSuccessGetVenues(), onErrorGetVenues())
-            }else {
-                Log.d(TAG,"Huesos")
+            } else {
+                Log.d(TAG, "Huesos")
             }
         }
         root
@@ -72,7 +70,7 @@ class SearchVenueFoursquareFragment extends Fragment {
         mGPSLocation = new GPSLocation()
         mGPSLocation.addPropertyChangeListener { property ->
             GPSLocation gpsLocation = property["source"] as GPSLocation
-            if (gpsLocation.latitude && gpsLocation.longitude){
+            if (gpsLocation.latitude && gpsLocation.longitude) {
                 mFoursquareManager.getVenuesNear(new VenueCommand(latitude: gpsLocation.latitude.toString(), longitude: gpsLocation.longitude.toString(), query: ""), onSuccessGetVenues(), onErrorGetVenues())
                 currentLatitude = gpsLocation.latitude
                 currentLongitude = gpsLocation.longitude
@@ -88,8 +86,6 @@ class SearchVenueFoursquareFragment extends Fragment {
         super.onStart()
         mLocationUtil.mGoogleApiClient.connect()
         //Log.d(TAG, "${mGPSLocation}")
-        mBundle = new Bundle()
-        mBundle = getArguments()
     }
 
     void onStop() {
@@ -104,27 +100,17 @@ class SearchVenueFoursquareFragment extends Fragment {
             venues.clear()
             venues.addAll(response.body() as List)
 
-            mVenueDetailBindable = new VenueDetailBindable()
-            mVenueDetailBindable.addPropertyChangeListener { property ->
-                VenueDetailBindable venueDetailBindable = property["source"] as VenueDetailBindable
-                FormCheckinFragment formCheckinFragment = new FormCheckinFragment()
-                mBundle.putString("VENUE_NAME",venueDetailBindable.venueName)
-                mBundle.putString("VENUE_ID",venueDetailBindable.venueID)
-                formCheckinFragment.setArguments(mBundle)
-                FragmentTransaction ft = getFragmentManager().beginTransaction()
-                ft.replace(((ViewGroup) getView().getParent()).getId(),formCheckinFragment)
-                ft.addToBackStack(null)
-                ft.commit()
-            }
-
-            if(!mVenueAdapter){
-                mVenueAdapter = new VenueAdapter(getContext(), venues, mVenueDetailBindable)
+            if (!mVenueAdapter) {
+                mVenueAdapter = new VenueAdapter(getContext(), venues)
+                mVenueAdapter.onItemSelected = { Venue venue ->
+                    onVenueSelectedWithFragmentManagerControl.call(venue)
+                    fragmentManager.popBackStack()
+                }
                 mListVenues.adapter = mVenueAdapter
             } else {
                 mVenueAdapter.setmVenues(venues)
                 mVenueAdapter.notifyDataSetChanged()
             }
-
         }
     }
 
@@ -133,5 +119,4 @@ class SearchVenueFoursquareFragment extends Fragment {
             Log.d(TAG, "Error get venues... " + t.message)
         }
     }
-
 }
