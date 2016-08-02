@@ -1,10 +1,9 @@
 package com.makingdevs.mybarista.model
 
-import groovy.beans.Bindable
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class VenueDetailBindable {
-    @Bindable
     String venueID
-    @Bindable
     String venueName
 }
