@@ -18,6 +18,8 @@ class NoteDialog extends DialogFragment {
 
     static final String NOTE = "message_res_id"
     EditText previewNote
+    Closure onNoteSubmit
+    String textNote
 
     static NoteDialog newInstance(String message) {
         Bundle args = new Bundle()
@@ -35,8 +37,9 @@ class NoteDialog extends DialogFragment {
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_note, null)
 
+        textNote = arguments.getString(NOTE)
         previewNote = (EditText) view.findViewById(R.id.previewNote)
-        previewNote.text = getMessage()
+        previewNote.text = textNote
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
         builder.setView(view)
@@ -44,6 +47,8 @@ class NoteDialog extends DialogFragment {
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             void onClick(DialogInterface dialog, int which) {
+                textNote = previewNote.text
+                onNoteSubmit.call(textNote)
                 dialog.dismiss()
             }
         })
@@ -51,14 +56,10 @@ class NoteDialog extends DialogFragment {
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss()
+                dialog.cancel()
             }
         })
 
         builder.create()
-    }
-
-    String getMessage() {
-        arguments.getString(NOTE)
     }
 }
