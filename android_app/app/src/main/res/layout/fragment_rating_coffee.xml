@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:gravity="center"
+    android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/rating_coffe_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_large"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#DAA520"
-        android:id="@+id/rating_coffe_text"
-        android:textSize="50dp"
-        android:gravity="center"
-        android:layout_weight="0.55" />
+        android:textSize="50dp" />
 
     <RatingBar
+        android:id="@+id/rating_coffe_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rating_coffe_bar"
-        android:progressTint="#FFD700"
-        android:layout_gravity="center_horizontal"
-        android:isIndicator="true"/>
+        android:isIndicator="true"
+        android:progressTint="#FFD700" />
 
 </LinearLayout>
