@@ -20,7 +20,6 @@ import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.service.*
-import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -111,11 +110,8 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            if (response.code() == 200) {
-                showCheckin(response.body())
-            } else {
-                Log.d(TAG, "Errorrrrz")
-            }
+            if (response.code() == 200)
+                getActivity().finish()
         }
     }
 
@@ -135,18 +131,10 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
-    private void showCheckin(Checkin checkin) {
-        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(), checkin.id, checkin.circle_flavor_id)
-        intent.putExtra("circle_flavor_id", checkin?.circle_flavor_id ?: "")
-        startActivity(intent)
-        getActivity().finish()
-    }
-
     void changeFragment(Fragment fragment) {
         getFragmentManager().beginTransaction()
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
                 .commit()
     }
-
 }
