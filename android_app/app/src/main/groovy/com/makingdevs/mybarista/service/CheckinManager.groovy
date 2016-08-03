@@ -12,4 +12,5 @@ interface CheckinManager {
     void saveCircle(String id,CircleFlavorCommand circleFlavorCommand,Closure onSuccess, Closure onError)
     void showCircleFlavor(String id, Closure onSuccess, Closure onError)
     void saveRating(String id, CheckinCommand checkinCommand, Closure onSuccess,Closure onError)
+    void saveNote(String id, CheckinCommand checkinCommand, Closure onSucces, Closure onError)
 }
