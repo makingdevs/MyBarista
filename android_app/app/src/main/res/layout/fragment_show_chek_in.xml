@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,19 +13,19 @@
             android:id="@+id/show_photo_checkin"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@drawable/coffee"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/coffee" />
 
         <TextView
             android:id="@+id/method_shadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/show_photo_checkin"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textAlignment="center"
+            android:alpha="0.4"
             android:background="@color/accent"
-            android:alpha="0.4"/>
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/method_data"
@@ -33,26 +33,24 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/show_photo_checkin"
             android:singleLine="true"
-            android:text="Expreso"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textAlignment="center"
             android:textColor="@color/cardview_light_background"
-            android:textAlignment="center"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/origin_data"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Veracruz"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/label_created"
@@ -61,43 +59,40 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="12-12-1990"
-            android:textColor="@color/primary_dark"/>
+            android:textColor="@color/primary_dark" />
 
         <TextView
             android:id="@+id/barista_name_data"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/origin_data"
-            android:text="Barista JJ"/>
+            android:layout_below="@+id/origin_data" />
 
         <TextView
             android:id="@+id/price_data"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_created"
             android:layout_alignParentRight="true"
-            android:text="10.50"
-            android:textStyle="bold"/>
+            android:layout_below="@id/label_created"
+            android:text="$0.00"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/note_data"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.08"
             android:layout_below="@+id/barista_name_data"
-            android:text="Notas"
-            android:textStyle="italic"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:textStyle="italic" />
 
         <ViewStub
             android:id="@+id/stub_bottons"
-            android:layout="@layout/stub_show_check_in"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/note_data"/>
+            android:layout_below="@+id/note_data"
+            android:layout="@layout/stub_show_check_in" />
 
     </RelativeLayout>
 
