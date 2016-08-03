@@ -142,7 +142,11 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         }*/
 
         mButtonNote.onClickListener = {
-            NoteDialog noteDialog = NoteDialog.newInstance("")
+            checkin.note = mNote.text.toString()
+            NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
+            noteDialog.onNoteSubmit = { String note ->
+                this.mNote.text= note
+            }
             noteDialog.show(fragmentManager, "note_dialog")
         }
 
