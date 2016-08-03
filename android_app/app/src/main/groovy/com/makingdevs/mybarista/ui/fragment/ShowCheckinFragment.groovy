@@ -113,6 +113,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId", mCheckinId)
             startActivity(intent)
+            getActivity().finish()
         }
 
     }
