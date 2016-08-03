@@ -1,12 +1,9 @@
 package com.makingdevs.mybarista.ui.fragment
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +16,13 @@ import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
-import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
-import com.makingdevs.mybarista.service.*
+import com.makingdevs.mybarista.model.command.CheckinCommand
+import com.makingdevs.mybarista.service.CheckinManager
+import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import com.makingdevs.mybarista.view.NoteDialog
@@ -36,10 +35,8 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    S3assetManager mS3Manager = S3assetManagerImpl.instance
 
     private static final String TAG = "ShowCheckinFragment"
-    private static String ID_CHECKIN
 
     ImageUtil mImageUtil1 = new ImageUtil()
 
@@ -54,30 +51,36 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     ImageButton mButtonNote
     User currentUser
     Button mBarista
-
     String mCheckinId
     Checkin checkin
-    RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
     ShowCheckinFragment() { super() }
-
-    @Override
-    void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
-        if (!mCheckinId)
-            throw new IllegalArgumentException("No arguments $mCheckinId")
-    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
-        findingElements()
-        Log.d(TAG, mCheckinId.toString())
+
+        //Current User
         currentUser = mSessionManager.getUserSession(getContext())
-        mCheckinManager.show(mCheckinId, onSuccess(), onError())
+
+        //Current Checkin
+        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        if (!mCheckinId)
+            throw new IllegalArgumentException("No arguments $mCheckinId")
+
+        ViewStub stub = (ViewStub) itemView.findViewById(R.id.stub_bottons)
+        stub.inflate()
+
+        findingElements()
+        bindingElements()
         itemView
+    }
+
+    @Override
+    void onResume() {
+        super.onResume()
+        mCheckinManager.show(mCheckinId, onSuccess(), onError())
     }
 
     private void findingElements() {
@@ -93,63 +96,14 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
     }
 
-    private void setCheckinInView(Checkin checkin) {
-        mOrigin.text = checkin.origin
-        mMethod.text = checkin.method
-
-        mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
-        mNote.text = checkin.note ? """ "${checkin.note}" """ : ""
-        mBaristaName.text = checkin?.baristum.id ? "Preparado por ${checkin?.baristum?.name}" : ""
-        mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
-
-        def url_image = checkin?.s3_asset?.url_file
-        if (url_image)
-            mImageUtil1.setPhotoImageView(getContext(), url_image, showImage)
-
-    }
-
-    private Closure onSuccess() {
-        { Call<Checkin> call, Response<Checkin> response ->
-            checkin = response.body()
-            setCheckinInView(checkin)
-            if (checkin.author == currentUser.username)
-                showElements()
-        }
-    }
-
-    private Closure onSuccessPhoto() {
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (response.body())
-                mImageUtil1.setPhotoImageView(getContext(), response.body().url_file, showImage)
-        }
-    }
-
-    private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
-    }
-
     private bindingElements() {
-        /*mButtonNote.onClickListener = {
-            if (checkPermissionStorage()) {
-                requestPermissionAndroid.checkPermission(getActivity(), "storage")
-            } else {
-                Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
-                intent.putExtra("CHECKINID", checkin.id)
-                intent.putExtra("USERID", currentUser.id)
-                intent.putExtra("CONTAINER", "checkin")
-                startActivityForResult(intent, 1)
-            }
-        }*/
-
         mButtonNote.onClickListener = {
-            checkin.note = mNote.text.toString()
             NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
             noteDialog.onNoteSubmit = { String note ->
-                this.mNote.text= note
+                updateNoteInCheckin(note)
             }
             noteDialog.show(fragmentManager, "note_dialog")
         }
-
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId", mCheckinId)
@@ -163,21 +117,33 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
     }
 
-    private void showElements() {
-        ViewStub stub = (ViewStub) itemView.findViewById(R.id.stub_bottons)
-        stub.inflate()
-        findingElements()
-        bindingElements()
+    void updateNoteInCheckin(String currentNote) {
+        CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
+        mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
     }
 
-    boolean checkPermissionStorage() {
-        Boolean status
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            status = true
+    private void setCheckinInView(Checkin checkin) {
+        mOrigin.text = checkin.origin
+        mMethod.text = checkin.method
+        mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
+        mNote.text = checkin.note ? " \"${checkin.note}\" " : ""
+        mBaristaName.text = checkin?.baristum.id ? "Preparado por ${checkin?.baristum?.name}" : ""
+        mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
+
+        def url_image = checkin?.s3_asset?.url_file
+        if (url_image)
+            mImageUtil1.setPhotoImageView(getContext(), url_image, showImage)
+
+    }
+
+    private Closure onSuccess() {
+        { Call<Checkin> call, Response<Checkin> response ->
+            checkin = response.body()
+            setCheckinInView(checkin)
         }
-        status
     }
 
-
+    private Closure onError() {
+        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
+    }
 }
