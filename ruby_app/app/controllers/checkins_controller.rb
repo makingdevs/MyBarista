@@ -54,6 +54,18 @@ class CheckinsController < ApplicationController
     end
   end
 
+  def setNoteInCheckin
+    puts params.inspect
+    @checkin = Checkin.find(params[:id])
+    @checkin.note = params[:note]
+    if @checkin.save
+      render json: @checkin
+    else
+      render json: @checkin.errors, status: :unprocessable_entity
+  end
+    
+  end
+
   def search_venue(venue_id)
     if venue_id != nil
       @venue = Venue.find_by venue_id_foursquare: venue_id
