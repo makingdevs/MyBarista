@@ -29,4 +29,7 @@ interface CheckinRestOperations {
     @POST("checkins/{id}/setRating")
     Call<Checkin> setRationgCoffee(@Path("id") String id, @Body CheckinCommand command)
 
+    @POST("checkins/{id}/setNote")
+    Call<Checkin> setNoteInCheckin(@Path("id") String id, @Body CheckinCommand command)
+
 }
