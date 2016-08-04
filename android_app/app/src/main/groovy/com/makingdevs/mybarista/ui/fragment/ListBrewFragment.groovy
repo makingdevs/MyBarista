@@ -47,6 +47,7 @@ public class ListBrewFragment extends Fragment {
         mButtonGoChekin= (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
         mButtonGoChekin.onClickListener = {
                 Intent intent = CheckInActivity.newIntentWithContext(getContext())
+                intent.putExtra("UPDATE_CHECKIN", 0)
                 startActivity(intent)
             }
         updateUI()
