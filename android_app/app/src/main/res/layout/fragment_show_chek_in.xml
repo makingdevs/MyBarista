@@ -7,19 +7,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp">
 
         <ImageView
             android:id="@+id/show_photo_checkin"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/coffee" />
 
         <TextView
             android:id="@+id/method_shadow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignBottom="@id/show_photo_checkin"
             android:alpha="0.4"
             android:background="@color/accent"
@@ -27,11 +27,22 @@
             android:textAlignment="center"
             android:textSize="20sp" />
 
+        <ImageButton
+            android:id="@+id/edit_checkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:background="@drawable/ic_mode_edit_white_24dp" />
+
         <TextView
             android:id="@+id/method_data"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignBottom="@id/show_photo_checkin"
+            android:gravity="center"
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@color/cardview_light_background"
