@@ -24,6 +24,7 @@ import com.makingdevs.mybarista.service.CheckingManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
+import com.makingdevs.mybarista.ui.activity.CheckInActivity
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
@@ -53,7 +54,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     Button mBarista
     String mCheckinId
     Checkin checkin
-
+    ImageButton mButtonEditCheckin
     ShowCheckinFragment() { super() }
 
     @Override
@@ -94,6 +95,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
+        mButtonEditCheckin = (ImageButton)itemView.findViewById(R.id.edit_checkin)
     }
 
     private bindingElements() {
@@ -114,6 +116,16 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             intent.putExtra("checkingId", mCheckinId)
             startActivity(intent)
             getActivity().finish()
+        }
+
+        mButtonEditCheckin.onClickListener={
+            Intent intent = CheckInActivity.newIntentWithContext(getContext())
+            intent.putExtra("CHECKIN_ID", checkin.id)
+            intent.putExtra("PATH_PHOTO", pathPhoto)
+            intent.putExtra("METHOD", checkin.method)
+            intent.putExtra("PRICE", checkin.price)
+            intent.putExtra("UPDATE_CHECKIN", 1)
+            startActivity(intent)
         }
 
     }
