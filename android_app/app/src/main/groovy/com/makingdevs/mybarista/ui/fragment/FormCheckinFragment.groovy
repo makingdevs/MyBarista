@@ -35,6 +35,8 @@ import retrofit2.Response
 class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "FormCheckinFragment"
+    Integer CHECKIN_STATUS = 0
+
     static Context contextView
     EditText originEditText
     EditText priceEditText
@@ -54,6 +56,12 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     ImageUtil mImageUtil1 = new ImageUtil()
 
     FormCheckinFragment() { super() }
+
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt("UPDATE_CHECKIN")
+    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -91,6 +99,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
         checkInButton.onClickListener = { View v -> createCheckin() }
 
+
         root
     }
 
@@ -124,11 +133,21 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     //TODO: Reestructurar métodos para el checkin
     void createCheckin() {
-        if (pathPhoto) {
-            loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
-            mS3Manager.uploadPhoto(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
-        } else
-            getFormCheckIn("")
+
+        switch (CHECKIN_STATUS) {
+            case 0:
+                if (pathPhoto) {
+                    loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
+                    mS3Manager.uploadPhoto(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
+                } else
+                    getFormCheckIn("")
+
+                break
+
+            case 1:
+                //TODO: Add the update method
+                break
+        }
     }
 
     private void getFormCheckIn(String assetID) {
