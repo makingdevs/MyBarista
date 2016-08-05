@@ -28,6 +28,8 @@ import retrofit2.Response
 public class ListBrewFragment extends Fragment {
 
     private static final String TAG = "ListBrewFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String ACTION_CHECK_IN = "action_check_in"
     RecyclerView mListBrew
     BrewAdapter mBrewAdapter
     FloatingActionButton mButtonGoChekin
@@ -40,34 +42,35 @@ public class ListBrewFragment extends Fragment {
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_list_brew,container, false)
+        View root = inflater.inflate(R.layout.fragment_list_brew, container, false)
         mListBrew = (RecyclerView) root.findViewById(R.id.list_brews)
         mListBrew.setLayoutManager(new LinearLayoutManager(getActivity()))
 
-        mButtonGoChekin= (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
+        mButtonGoChekin = (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
         mButtonGoChekin.onClickListener = {
-                Intent intent = CheckInActivity.newIntentWithContext(getContext())
-                intent.putExtra("UPDATE_CHECKIN", 0)
-                startActivity(intent)
-            }
+            Intent intent = CheckInActivity.newIntentWithContext(getContext())
+            intent.putExtra(ACTION_CHECK_IN, 0)
+            intent.putExtra(CURRENT_CHECK_IN, new Checkin())
+            startActivity(intent)
+        }
         updateUI()
         root
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume()
         updateUI()
     }
 
     void updateUI() {
-        User currentUser =  mSessionManager.getUserSession(getContext())
-        mCheckinManager.list([username:currentUser.username],onSuccess(),onError())
+        User currentUser = mSessionManager.getUserSession(getContext())
+        mCheckinManager.list([username: currentUser.username], onSuccess(), onError())
     }
 
-    private Closure onSuccess(){
-        {Call<List<Checkin>> call, Response<List<Checkin>> response ->
-            if(!mBrewAdapter){
+    private Closure onSuccess() {
+        { Call<List<Checkin>> call, Response<List<Checkin>> response ->
+            if (!mBrewAdapter) {
                 mBrewAdapter = new BrewAdapter(getActivity(), response.body().toList())
                 mListBrew.adapter = mBrewAdapter
             } else {
@@ -77,7 +80,7 @@ public class ListBrewFragment extends Fragment {
         }
     }
 
-    private Closure onError(){
-        {Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    private Closure onError() {
+        { Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
     }
 }
