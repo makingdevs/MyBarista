@@ -1,9 +1,9 @@
-package  com.makingdevs.mybarista.model
+package com.makingdevs.mybarista.model
 
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Barista{
+class Barista implements Serializable {
 
     String name
     String id
