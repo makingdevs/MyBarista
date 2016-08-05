@@ -38,6 +38,8 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "ShowCheckinFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String ACTION_CHECK_IN = "action_check_in"
 
     ImageUtil mImageUtil1 = new ImageUtil()
 
@@ -55,6 +57,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     String mCheckinId
     Checkin checkin
     ImageButton mButtonEditCheckin
+
     ShowCheckinFragment() { super() }
 
     @Override
@@ -95,7 +98,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
-        mButtonEditCheckin = (ImageButton)itemView.findViewById(R.id.edit_checkin)
+        mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
     }
 
     private bindingElements() {
@@ -118,13 +121,10 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             getActivity().finish()
         }
 
-        mButtonEditCheckin.onClickListener={
+        mButtonEditCheckin.onClickListener = {
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
-            intent.putExtra("CHECKIN_ID", checkin.id)
-            intent.putExtra("PATH_PHOTO", pathPhoto)
-            intent.putExtra("METHOD", checkin.method)
-            intent.putExtra("PRICE", checkin.price)
-            intent.putExtra("UPDATE_CHECKIN", 1)
+            intent.putExtra(ACTION_CHECK_IN, 1)
+            intent.putExtra(CURRENT_CHECK_IN, checkin)
             startActivity(intent)
         }
 
