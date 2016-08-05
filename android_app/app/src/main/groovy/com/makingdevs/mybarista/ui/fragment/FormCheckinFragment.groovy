@@ -24,7 +24,6 @@ import com.makingdevs.mybarista.model.Venue
 import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
-import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
 import com.makingdevs.mybarista.view.LoadingDialog
 import groovy.transform.CompileStatic
@@ -211,8 +210,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
-                Intent intent = PrincipalActivity.newIntentWithContext(getContext())
-                startActivity(intent)
                 getActivity().finish()
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
