@@ -20,6 +20,9 @@ interface CheckinRestOperations {
     @GET("checkins/{id}")
     Call<Checkin> getCheckin(@Path("id") String id)
 
+    @POST("checkins/{id}/updateCheckin")
+    Call<Checkin> updateCheckin(@Path("id") String id, @Body CheckinCommand checkin)
+
     @POST("checkins/{id}/circleFlavor")
     Call<Checkin> createCircleFlavor(@Path("id") String id,@Body CircleFlavorCommand circleFlavorCommand)
 
