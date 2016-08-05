@@ -36,6 +36,9 @@ class CheckinsController < ApplicationController
 
   # PATCH/PUT /checkins/1
   def update
+    # TODO: Esto tiene que ir todo junto
+    @s3_asset = search_s3asset(params['idS3asset'])
+    @checkin.s3_asset = @s3_asset
     if @checkin.update(checkin_params)
       render json: @checkin
     else
@@ -122,6 +125,6 @@ class CheckinsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def checkin_params
-      params.permit(:method, :origin, :price, :note, :rating, :created_at)
+      params.permit(:method, :origin, :price, :note, :rating, :created_at, :s3_asset)
     end
 end
