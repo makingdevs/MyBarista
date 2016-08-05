@@ -72,6 +72,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt(ACTION_CHECK_IN)
         currentCheckin = new Checkin()
         currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
+        currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
     }
 
     @Override
@@ -131,6 +132,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     }
 
     ArrayAdapter<String> getSpinnerAdapter() {
+        // TODO: Check this out!!!!
         String[] methods = ["Método de preparación", "Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, methods)
         adapter
@@ -166,31 +168,35 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     //TODO: Reestructurar métodos para el checkin
     void createCheckin() {
-
-        switch (CHECKIN_STATUS) {
-            case 0:
-                if (pathPhoto) {
-                    loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
-                    mS3Manager.uploadPhoto(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onError())
-                } else
-                    getFormCheckIn("")
-
-                break
-
-            case 1:
-                //TODO: Add the update method
-                break
-        }
+        if (pathPhoto) {
+            loadingDialog.show(getActivity().getSupportFragmentManager(), "Loading dialog")
+            mS3Manager.uploadPhoto(new UploadCommand(pathFile: pathPhoto), onSuccessPhoto(), onErrorCreateCheckin())
+        } else
+            getFormCheckIn(currentCheckin?.s3_asset?.id)
     }
 
     private void getFormCheckIn(String assetID) {
+        CheckinCommand checkinCommand
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
-        saveCheckIn(new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
-                idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
-        )
+
+        switch (CHECKIN_STATUS) {
+            case CREATE_CHECK_IN:
+                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                        idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
+
+                mCheckinManager.save(checkinCommand, onSuccessCreateCheckin(), onErrorCreateCheckin())
+                break
+
+            case UPDATE_CHECK_IN:
+                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                        idVenueFoursquare: venue.id, created_at: currentCheckin.created_at, idS3asset: assetID)
+
+                mCheckinManager.update(currentCheckin.id, checkinCommand, onSuccessUpdateCheckin(), onErrorUpdateCheckin())
+                break
+        }
     }
 
     private Closure onSuccessPhoto() {
@@ -201,11 +207,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
-    private void saveCheckIn(CheckinCommand checkin) {
-        mCheckinManager.save(checkin, onSuccess(), onError())
-    }
-
-    private Closure onSuccess() {
+    private Closure onSuccessCreateCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
             Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
@@ -218,10 +220,22 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
-    private Closure onError() {
+    private Closure onErrorCreateCheckin() {
         { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             loadingDialog.dismiss()
+        }
+    }
+
+    private Closure onSuccessUpdateCheckin() {
+        { Call<Checkin> call, Response<Checkin> response ->
+            getActivity().finish()
+        }
+    }
+
+    private Closure onErrorUpdateCheckin() {
+        { Call<Checkin> call, Throwable t ->
+            Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -229,6 +243,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues?.name)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.adapter = adapter
+
     }
 
     boolean checkPermissionLocation() {
