@@ -35,32 +35,43 @@ import retrofit2.Response
 class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "FormCheckinFragment"
-    Integer CHECKIN_STATUS = 0
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String ACTION_CHECK_IN = "action_check_in"
+    private static final int CREATE_CHECK_IN = 0
+    private static final int UPDATE_CHECK_IN = 1
+    int CHECKIN_STATUS = 0
 
     static Context contextView
-    EditText originEditText
-    EditText priceEditText
-    Spinner methodFieldSprinner
     Button checkInButton
-    TextView venueDescription
     List<Venue> venues = [new Venue(name: "Selecciona lugar")]
-    Venue venue
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
-    ImageView imageViewPhotoCheckin
     ImageView imageViewAddVenue
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     String idS3asset
     LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
-    ImageUtil mImageUtil1 = new ImageUtil()
+    ImageUtil mImageUtil = new ImageUtil()
+    TextView venueDescription
+    ImageView imageViewPhotoCheckin
+    Checkin currentCheckin
+    Venue venue
+
+    /**
+     * Elementos por setear
+     */
+    Spinner methodFieldSprinner
+    EditText originEditText
+    EditText priceEditText
 
     FormCheckinFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt("UPDATE_CHECKIN")
+        CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt(ACTION_CHECK_IN)
+        currentCheckin = new Checkin()
+        currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
     }
 
     @Override
@@ -68,16 +79,18 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
         venue = new Venue()
-        originEditText = (EditText) root.findViewById(R.id.originField)
-        priceEditText = (EditText) root.findViewById(R.id.priceField)
-        methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
+
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         venueDescription = (TextView) root.findViewById(R.id.venue_description)
         venueDescription.setVisibility(View.GONE)
         contextView = getActivity().getApplicationContext()
-        showImage = (ImageView) root.findViewById(R.id.preview_checkin)
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
+
+        showImage = (ImageView) root.findViewById(R.id.preview_checkin)
+        methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
+        originEditText = (EditText) root.findViewById(R.id.originField)
+        priceEditText = (EditText) root.findViewById(R.id.priceField)
 
         /**
          * Select a picture from the preview image
@@ -101,6 +114,26 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
 
         root
+    }
+
+    @Override
+    void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState)
+        if (currentCheckin)
+            if (currentCheckin.s3_asset)
+                mImageUtil.setPhotoImageView(getContext(), currentCheckin.s3_asset.url_file, showImage)
+
+        originEditText.setText(currentCheckin.origin)
+        priceEditText.setText(currentCheckin.price)
+
+        methodFieldSprinner.setAdapter(getSpinnerAdapter())
+        methodFieldSprinner.setSelection(getSpinnerAdapter().getPosition(currentCheckin.method))
+    }
+
+    ArrayAdapter<String> getSpinnerAdapter() {
+        String[] methods = ["Método de preparación", "Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, methods)
+        adapter
     }
 
     void chooseCheckInImage() {
