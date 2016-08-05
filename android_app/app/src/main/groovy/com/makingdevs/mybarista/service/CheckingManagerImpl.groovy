@@ -35,6 +35,13 @@ class CheckingManagerImpl implements CheckinManager {
     }
 
     @Override
+    void update(String id, CheckinCommand checkinCommand, Closure onSuccess, Closure onError) {
+        RetrofitTemplate.instance.withRetrofit(operations as Class, onSuccess, onError) { CheckinRestOperations restOperations ->
+            restOperations.updateCheckin(id, checkinCommand)
+        }
+    }
+
+    @Override
     void saveCircle(String id, CircleFlavorCommand circleFlavorCommand, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofit(operations as Class, onSuccess, onError) { CheckinRestOperations restOperations ->
             restOperations.createCircleFlavor(id, circleFlavorCommand)
