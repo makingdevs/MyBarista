@@ -10,7 +10,7 @@ class Checkin < ApplicationRecord
   def as_json(options={})
     super(
       :include => {
-        :s3_asset => {:only => [:url_file]},
+        :s3_asset => {:only => [:id, :url_file]},
         :baristum => {:only => [:name,:id],
           :include => {
             :s3_asset => {:only => [:id,:url_file]}
