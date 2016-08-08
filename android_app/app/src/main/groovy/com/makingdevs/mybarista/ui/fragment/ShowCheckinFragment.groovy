@@ -40,6 +40,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private static final String TAG = "ShowCheckinFragment"
     private static final String CURRENT_CHECK_IN = "check_in"
     private static final String ACTION_CHECK_IN = "action_check_in"
+    private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
 
     ImageUtil mImageUtil1 = new ImageUtil()
 
@@ -72,6 +73,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
+
 
         ViewStub stub = (ViewStub) itemView.findViewById(R.id.stub_bottons)
         stub.inflate()
@@ -117,6 +119,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonCircleFlavor.onClickListener = {
             Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId", mCheckinId)
+            intent.putExtra(CURRENT_CIRCLE_FLAVOR, checkin.circle_flavor_id)
             startActivity(intent)
             getActivity().finish()
         }
