@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
+import com.makingdevs.mybarista.model.CircleFlavor
 import com.makingdevs.mybarista.model.command.CircleFlavorCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
@@ -26,6 +27,7 @@ import retrofit2.Response
 public class CircleFlavorFragment extends Fragment {
 
     private static final String TAG = "CircleFlavorFragment"
+    private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
     private static Context contextView
     private SeekBar seekProcessSweetness
     private TextView seekProcessSweetnessText
@@ -48,6 +50,7 @@ public class CircleFlavorFragment extends Fragment {
     private SeekBar seekProcessCleaning
     private TextView seekProcessCleaningText
     private Button buttonCircleFlavor
+    private String currentCircleFlavor
 
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
@@ -99,7 +102,34 @@ public class CircleFlavorFragment extends Fragment {
         })
 
         contextView = getActivity().getApplicationContext()
+
+        /**
+         * Get current circle flavor
+         */
+        currentCircleFlavor = activity.intent.extras.getString(CURRENT_CIRCLE_FLAVOR)
+
         root
+    }
+
+    @Override
+    void onResume() {
+        super.onResume()
+        mCheckinManager.showCircleFlavor(currentCircleFlavor, onSuccessCircleFlavor(), onErrorCircleFlavor())
+    }
+
+    private Closure onSuccessCircleFlavor() {
+        { Call<CircleFlavor> call, Response<CircleFlavor> response ->
+            seekProcessSweetness.setProgress(response.body().sweetness as int)
+            seekProcessAcidity.setProgress(response.body().acidity as int)
+            seekProcessFlowery.setProgress(response.body().flowery as int)
+            seekProcessSpicy.setProgress(response.body().spicy as int)
+            seekProcessSalty.setProgress(response.body().salty as int)
+            seekProcessBerries.setProgress(response.body().berries as int)
+            seekProcessChocolate.setProgress(response.body().chocolate as int)
+            seekProcessCandy.setProgress(response.body().candy as int)
+            seekProcessBody.setProgress(response.body().body as int)
+            seekProcessCleaning.setProgress(response.body().cleaning as int)
+        }
     }
 
     private void generedSeekSweetness() {
@@ -263,6 +293,12 @@ public class CircleFlavorFragment extends Fragment {
     private Closure onError() {
         { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Closure onErrorCircleFlavor() {
+        { Call<Checkin> call, Throwable t ->
+            //TODO: Show a message
         }
     }
 
