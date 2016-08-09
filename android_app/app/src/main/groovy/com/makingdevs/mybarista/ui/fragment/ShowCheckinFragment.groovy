@@ -25,7 +25,6 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CheckInActivity
-import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -50,7 +49,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     TextView mNote
     TextView mDateCreated
     TextView mBaristaName
-    Button mButtonCircleFlavor
     View itemView
     ImageButton mButtonNote
     User currentUser
@@ -90,7 +88,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     }
 
     private void findingElements() {
-        mButtonCircleFlavor = (Button) itemView.findViewById(R.id.btnCircle_flavor)
         mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mOrigin = (TextView) itemView.findViewById(R.id.origin_data)
         mMethod = (TextView) itemView.findViewById(R.id.method_data)
@@ -115,13 +112,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
             intent.putExtra("checkingId", mCheckinId)
             startActivity(intent)
-        }
-        mButtonCircleFlavor.onClickListener = {
-            Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
-            intent.putExtra("checkingId", mCheckinId)
-            intent.putExtra(CURRENT_CIRCLE_FLAVOR, checkin.circle_flavor_id)
-            startActivity(intent)
-            getActivity().finish()
         }
 
         mButtonEditCheckin.onClickListener = {
