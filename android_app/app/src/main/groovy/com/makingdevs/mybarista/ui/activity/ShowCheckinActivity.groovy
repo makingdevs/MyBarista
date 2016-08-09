@@ -4,16 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.annotation.Nullable
-import android.support.v4.app.Fragment
-import android.util.Log
 import android.widget.Toast
-import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.MultiFragmentActivity
-import com.makingdevs.mybarista.common.RequestPermissionAndroid
-import com.makingdevs.mybarista.model.command.UploadCommand
-import com.makingdevs.mybarista.ui.fragment.CameraFragment
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
 import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
@@ -78,4 +71,11 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+        supportFragmentManager?.fragments?.each {
+            it?.onActivityResult(requestCode, resultCode, data)
+        }
+    }
 }
