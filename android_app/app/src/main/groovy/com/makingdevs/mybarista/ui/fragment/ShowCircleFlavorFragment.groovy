@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,9 +10,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.CircleFlavor
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
@@ -20,14 +21,15 @@ import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
 
-
 @CompileStatic
 public class ShowCircleFlavorFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
 
     private static final String TAG = "ShowCircleFlavorFragment"
-    private static String ID_CIRCLE_FLAVOR
+    static String CURRENT_CHECKIN = "checkin_id"
+    static String CURRENT_CIRCLE_FLAVOR = "circle_flavor_id"
+
     RoundCornerProgressBar sweetnessBar
     RoundCornerProgressBar acidityBar
     RoundCornerProgressBar floweryBar
@@ -38,19 +40,25 @@ public class ShowCircleFlavorFragment extends Fragment {
     RoundCornerProgressBar candyBar
     RoundCornerProgressBar bodyBar
     RoundCornerProgressBar cleaningBar
+    Checkin currentCheckin
+    CircleFlavor currentCircleFlavor
 
     ShowCircleFlavorFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        String circleFlavorId = getActivity().getIntent().getExtras().getString("circle_flavor_id")
-        if(!circleFlavorId) return
-        mCheckinManager.showCircleFlavor(circleFlavorId,onSuccess(),onError())
+        currentCheckin = new Checkin()
+        currentCircleFlavor = new CircleFlavor()
+        currentCheckin.id = activity.intent.extras.getString(CURRENT_CHECKIN)
+        currentCheckin.circle_flavor_id = activity.intent.extras.getString(CURRENT_CIRCLE_FLAVOR)
+        if (!currentCheckin.circle_flavor_id) return
+        mCheckinManager.showCircleFlavor(currentCheckin.circle_flavor_id, onSuccess(), onError())
 
     }
 
-    View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_circle_flavor_grafic, container, false)
         sweetnessBar = (RoundCornerProgressBar) root.findViewById(R.id.sweetnessBar)
         acidityBar = (RoundCornerProgressBar) root.findViewById(R.id.acidityBar)
@@ -62,18 +70,26 @@ public class ShowCircleFlavorFragment extends Fragment {
         candyBar = (RoundCornerProgressBar) root.findViewById(R.id.candyBar)
         bodyBar = (RoundCornerProgressBar) root.findViewById(R.id.bodyBar)
         cleaningBar = (RoundCornerProgressBar) root.findViewById(R.id.cleaningBar)
+        Closure action = {
+            Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
+            intent.putExtra(CURRENT_CHECKIN, currentCheckin.id)
+            intent.putExtra(CURRENT_CIRCLE_FLAVOR, currentCircleFlavor)
+            startActivityForResult(intent, 1)
+        }
+        [sweetnessBar, acidityBar, floweryBar, spicyBar, saltyBar, berriesBar, chocolateBar, candyBar, bodyBar, cleaningBar]*.setOnClickListener(action)
         root
     }
 
-    private Closure onSuccess(){
+    private Closure onSuccess() {
         { Call<CircleFlavor> call, Response<CircleFlavor> response ->
+            currentCircleFlavor = response.body()
             setCircleFlavorView(response.body())
         }
     }
 
     private void setCircleFlavorView(CircleFlavor circleFlavor) {
-        Log.d(TAG,circleFlavor.dump().toString())
-        setProgressInView(sweetnessBar,circleFlavor.sweetness)
+        Log.d(TAG, circleFlavor.dump().toString())
+        setProgressInView(sweetnessBar, circleFlavor.sweetness)
         setProgressInView(sweetnessBar, circleFlavor.sweetness)
         setProgressInView(acidityBar, circleFlavor.acidity)
         setProgressInView(floweryBar, circleFlavor.flowery)
@@ -93,7 +109,21 @@ public class ShowCircleFlavorFragment extends Fragment {
         variable.setProgress(value.toFloat());
     }
 
-    private Closure onError(){
+    private Closure onError() {
         { Call<CircleFlavor> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    }
+
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                CircleFlavor circleUpdated = new CircleFlavor()
+                circleUpdated = data.getExtras().getSerializable(CURRENT_CIRCLE_FLAVOR) as CircleFlavor
+                currentCircleFlavor = circleUpdated
+                setCircleFlavorView(circleUpdated)
+            }
+        }
     }
 }
