@@ -108,6 +108,7 @@ public class CircleFlavorFragment extends Fragment {
         /**
          * Get current circle flavor
          */
+
         currentCircleFlavor = activity.intent.extras.getSerializable(CURRENT_CIRCLE_FLAVOR) as CircleFlavor
 
 
@@ -117,16 +118,18 @@ public class CircleFlavorFragment extends Fragment {
     @Override
     void onResume() {
         super.onResume()
-        seekProcessSweetness.setProgress(currentCircleFlavor.sweetness as int)
-        seekProcessAcidity.setProgress(currentCircleFlavor.acidity as int)
-        seekProcessFlowery.setProgress(currentCircleFlavor.flowery as int)
-        seekProcessSpicy.setProgress(currentCircleFlavor.spicy as int)
-        seekProcessSalty.setProgress(currentCircleFlavor.salty as int)
-        seekProcessBerries.setProgress(currentCircleFlavor.berries as int)
-        seekProcessChocolate.setProgress(currentCircleFlavor.chocolate as int)
-        seekProcessCandy.setProgress(currentCircleFlavor.candy as int)
-        seekProcessBody.setProgress(currentCircleFlavor.body as int)
-        seekProcessCleaning.setProgress(currentCircleFlavor.cleaning as int)
+        if (currentCircleFlavor.sweetness) {
+            seekProcessSweetness.setProgress(currentCircleFlavor.sweetness as int)
+            seekProcessAcidity.setProgress(currentCircleFlavor.acidity as int)
+            seekProcessFlowery.setProgress(currentCircleFlavor.flowery as int)
+            seekProcessSpicy.setProgress(currentCircleFlavor.spicy as int)
+            seekProcessSalty.setProgress(currentCircleFlavor.salty as int)
+            seekProcessBerries.setProgress(currentCircleFlavor.berries as int)
+            seekProcessChocolate.setProgress(currentCircleFlavor.chocolate as int)
+            seekProcessCandy.setProgress(currentCircleFlavor.candy as int)
+            seekProcessBody.setProgress(currentCircleFlavor.body as int)
+            seekProcessCleaning.setProgress(currentCircleFlavor.cleaning as int)
+        }
     }
 
     private void generedSeekSweetness() {
