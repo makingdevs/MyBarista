@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +19,6 @@ import com.makingdevs.mybarista.model.CircleFlavor
 import com.makingdevs.mybarista.model.command.CircleFlavorCommand
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
-import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
@@ -27,7 +27,9 @@ import retrofit2.Response
 public class CircleFlavorFragment extends Fragment {
 
     private static final String TAG = "CircleFlavorFragment"
-    private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
+    static String CURRENT_CHECKIN = "checkin_id"
+    static String CURRENT_CIRCLE_FLAVOR = "circle_flavor_id"
+
     private static Context contextView
     private SeekBar seekProcessSweetness
     private TextView seekProcessSweetnessText
@@ -50,7 +52,7 @@ public class CircleFlavorFragment extends Fragment {
     private SeekBar seekProcessCleaning
     private TextView seekProcessCleaningText
     private Button buttonCircleFlavor
-    private String currentCircleFlavor
+    private CircleFlavor currentCircleFlavor
 
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
@@ -96,7 +98,7 @@ public class CircleFlavorFragment extends Fragment {
         buttonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
             void onClick(View v) {
-                String id = getActivity().getIntent().getExtras().getString("checkingId")
+                String id = getActivity().getIntent().getExtras().getString(CURRENT_CHECKIN)
                 saveCircleFlavor(id, getCircleFlavor())
             }
         })
@@ -106,7 +108,8 @@ public class CircleFlavorFragment extends Fragment {
         /**
          * Get current circle flavor
          */
-        currentCircleFlavor = activity.intent.extras.getString(CURRENT_CIRCLE_FLAVOR)
+        currentCircleFlavor = activity.intent.extras.getSerializable(CURRENT_CIRCLE_FLAVOR) as CircleFlavor
+
 
         root
     }
@@ -114,22 +117,16 @@ public class CircleFlavorFragment extends Fragment {
     @Override
     void onResume() {
         super.onResume()
-        mCheckinManager.showCircleFlavor(currentCircleFlavor, onSuccessCircleFlavor(), onErrorCircleFlavor())
-    }
-
-    private Closure onSuccessCircleFlavor() {
-        { Call<CircleFlavor> call, Response<CircleFlavor> response ->
-            seekProcessSweetness.setProgress(response.body().sweetness as int)
-            seekProcessAcidity.setProgress(response.body().acidity as int)
-            seekProcessFlowery.setProgress(response.body().flowery as int)
-            seekProcessSpicy.setProgress(response.body().spicy as int)
-            seekProcessSalty.setProgress(response.body().salty as int)
-            seekProcessBerries.setProgress(response.body().berries as int)
-            seekProcessChocolate.setProgress(response.body().chocolate as int)
-            seekProcessCandy.setProgress(response.body().candy as int)
-            seekProcessBody.setProgress(response.body().body as int)
-            seekProcessCleaning.setProgress(response.body().cleaning as int)
-        }
+        seekProcessSweetness.setProgress(currentCircleFlavor.sweetness as int)
+        seekProcessAcidity.setProgress(currentCircleFlavor.acidity as int)
+        seekProcessFlowery.setProgress(currentCircleFlavor.flowery as int)
+        seekProcessSpicy.setProgress(currentCircleFlavor.spicy as int)
+        seekProcessSalty.setProgress(currentCircleFlavor.salty as int)
+        seekProcessBerries.setProgress(currentCircleFlavor.berries as int)
+        seekProcessChocolate.setProgress(currentCircleFlavor.chocolate as int)
+        seekProcessCandy.setProgress(currentCircleFlavor.candy as int)
+        seekProcessBody.setProgress(currentCircleFlavor.body as int)
+        seekProcessCleaning.setProgress(currentCircleFlavor.cleaning as int)
     }
 
     private void generedSeekSweetness() {
@@ -274,7 +271,7 @@ public class CircleFlavorFragment extends Fragment {
         String salty = seekProcessSalty.getProgress()
         String berries = seekProcessBerries.getProgress()
         String chocolate = seekProcessChocolate.getProgress()
-        String candy = seekProcessChocolate.getProgress()
+        String candy = seekProcessCandy.getProgress()
         String body = seekProcessBody.getProgress()
         String cleaning = seekProcessCleaning.getProgress()
         new CircleFlavorCommand(sweetness: sweetness, acidity: acidity, flowery: flowery, spicy: spicy, salty: salty, berries: berries, chocolate: chocolate, candy: candy, body: body, cleaning: cleaning)
@@ -283,11 +280,25 @@ public class CircleFlavorFragment extends Fragment {
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             if (response.code() == 201) {
-                showCheckin(response.body())
+                showCheckin(getCurrentCircleFlavor())
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    CircleFlavor getCurrentCircleFlavor() {
+        String sweetness = seekProcessSweetness.getProgress()
+        String acidity = seekProcessAcidity.getProgress()
+        String flowery = seekProcessFlowery.getProgress()
+        String spicy = seekProcessSpicy.getProgress()
+        String salty = seekProcessSalty.getProgress()
+        String berries = seekProcessBerries.getProgress()
+        String chocolate = seekProcessChocolate.getProgress()
+        String candy = seekProcessCandy.getProgress()
+        String body = seekProcessBody.getProgress()
+        String cleaning = seekProcessCleaning.getProgress()
+        new CircleFlavor(sweetness: sweetness, acidity: acidity, flowery: flowery, spicy: spicy, salty: salty, berries: berries, chocolate: chocolate, candy: candy, body: body, cleaning: cleaning)
     }
 
     private Closure onError() {
@@ -296,16 +307,10 @@ public class CircleFlavorFragment extends Fragment {
         }
     }
 
-    private Closure onErrorCircleFlavor() {
-        { Call<Checkin> call, Throwable t ->
-            //TODO: Show a message
-        }
-    }
-
-    private void showCheckin(Checkin checkin) {
-        Intent intent = ShowCheckinActivity.newIntentWithContext(getContext(), checkin.id, checkin.circle_flavor_id)
-        intent.putExtra("circle_flavor_id", checkin.circle_flavor_id)
-        startActivity(intent)
+    private void showCheckin(CircleFlavor circleFlavor) {
+        Intent intent = new Intent()
+        intent.putExtra(CURRENT_CIRCLE_FLAVOR, circleFlavor)
+        getActivity().setResult(Activity.RESULT_OK, intent)
         getActivity().finish()
     }
 }
