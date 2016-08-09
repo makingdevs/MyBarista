@@ -3,7 +3,7 @@ package com.makingdevs.mybarista.model
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class CircleFlavor {
+class CircleFlavor implements Serializable{
 
     String sweetness
     String acidity
