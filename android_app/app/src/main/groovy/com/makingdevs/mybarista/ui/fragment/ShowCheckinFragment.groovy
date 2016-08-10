@@ -78,8 +78,10 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
         findingElements()
         bindingElements()
+
         itemView
     }
+
 
     @Override
     void onResume() {
@@ -145,7 +147,16 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
+            validateCheckinAuthor()
             setCheckinInView(checkin)
+        }
+    }
+
+    private void validateCheckinAuthor(){
+        if(checkin.author != currentUser.username){
+            mButtonEditCheckin.setVisibility(View.GONE)
+            mButtonNote.setVisibility(View.GONE)
+            mBarista.setVisibility(View.GONE)
         }
     }
 
