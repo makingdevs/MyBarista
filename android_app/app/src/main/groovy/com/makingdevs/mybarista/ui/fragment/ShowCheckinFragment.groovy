@@ -56,6 +56,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     String mCheckinId
     Checkin checkin
     ImageButton mButtonEditCheckin
+    ViewStub userActionsView
 
     ShowCheckinFragment() { super() }
 
@@ -72,12 +73,8 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
 
-
-        ViewStub stub = (ViewStub) itemView.findViewById(R.id.stub_bottons)
-        stub.inflate()
-
-        findingElements()
-        bindingElements()
+        bindingViews()
+        setUserActions()
 
         itemView
     }
@@ -89,20 +86,29 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mCheckinManager.show(mCheckinId, onSuccess(), onError())
     }
 
-    private void findingElements() {
-        mBarista = (Button) itemView.findViewById(R.id.btnBarista)
+    private void bindingViews() {
+        userActionsView = (ViewStub) itemView.findViewById(R.id.stub_bottons)
+        userActionsView.inflate()
         mOrigin = (TextView) itemView.findViewById(R.id.origin_data)
         mMethod = (TextView) itemView.findViewById(R.id.method_data)
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
-        mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
+        mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
+        mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
+
+        /**
+         * Hiding Views
+         */
+        mButtonEditCheckin.setVisibility(View.GONE)
+        mButtonNote.setVisibility(View.GONE)
+        mBarista.setVisibility(View.GONE)
     }
 
-    private bindingElements() {
+    private setUserActions() {
         mButtonNote.onClickListener = {
             NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
             noteDialog.onNoteSubmit = { String note ->
@@ -123,11 +129,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             startActivity(intent)
         }
 
-    }
-
-    void updateNoteInCheckin(String currentNote) {
-        CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
-        mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
     }
 
     private void setCheckinInView(Checkin checkin) {
@@ -152,15 +153,20 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         }
     }
 
+    private Closure onError() {
+        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
+    }
+
     private void validateCheckinAuthor(){
-        if(checkin.author != currentUser.username){
-            mButtonEditCheckin.setVisibility(View.GONE)
-            mButtonNote.setVisibility(View.GONE)
-            mBarista.setVisibility(View.GONE)
+        if(checkin.author == currentUser.username){
+            mButtonEditCheckin.setVisibility(View.VISIBLE)
+            mBarista.setVisibility(View.VISIBLE)
+            mButtonNote.setVisibility(View.VISIBLE)
         }
     }
 
-    private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
+    void updateNoteInCheckin(String currentNote) {
+        CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
+        mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
     }
 }
