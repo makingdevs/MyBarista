@@ -14,8 +14,11 @@ import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.CircleFlavor
+import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.service.CheckinManager
 import com.makingdevs.mybarista.service.CheckingManagerImpl
+import com.makingdevs.mybarista.service.SessionManager
+import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.CircleFlavorActivity
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -25,10 +28,12 @@ import retrofit2.Response
 public class ShowCircleFlavorFragment extends Fragment {
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "ShowCircleFlavorFragment"
-    static String CURRENT_CHECKIN = "checkin_id"
+    static String CURRENT_CHECKIN_ID = "checkin_id"
     static String CURRENT_CIRCLE_FLAVOR = "circle_flavor_id"
+    static String CURRENT_CHECKIN = "checkin"
 
     RoundCornerProgressBar sweetnessBar
     RoundCornerProgressBar acidityBar
@@ -42,18 +47,19 @@ public class ShowCircleFlavorFragment extends Fragment {
     RoundCornerProgressBar cleaningBar
     Checkin currentCheckin
     CircleFlavor currentCircleFlavor
+    User currentUser
 
     ShowCircleFlavorFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        currentCheckin = new Checkin()
         currentCircleFlavor = new CircleFlavor()
-        currentCheckin.id = activity.intent.extras.getString(CURRENT_CHECKIN)
-        currentCheckin.circle_flavor_id = activity.intent.extras.getString(CURRENT_CIRCLE_FLAVOR)
+        currentUser = mSessionManager.getUserSession(getContext())
+        currentCheckin = getActivity().intent.extras.getSerializable(CURRENT_CHECKIN) as Checkin
         if (!currentCheckin.circle_flavor_id) return
         mCheckinManager.showCircleFlavor(currentCheckin.circle_flavor_id, onSuccess(), onError())
+
 
     }
 
@@ -70,14 +76,20 @@ public class ShowCircleFlavorFragment extends Fragment {
         candyBar = (RoundCornerProgressBar) root.findViewById(R.id.candyBar)
         bodyBar = (RoundCornerProgressBar) root.findViewById(R.id.bodyBar)
         cleaningBar = (RoundCornerProgressBar) root.findViewById(R.id.cleaningBar)
-        Closure action = {
-            Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
-            intent.putExtra(CURRENT_CHECKIN, currentCheckin.id)
-            intent.putExtra(CURRENT_CIRCLE_FLAVOR, currentCircleFlavor)
-            startActivityForResult(intent, 1)
-        }
-        [sweetnessBar, acidityBar, floweryBar, spicyBar, saltyBar, berriesBar, chocolateBar, candyBar, bodyBar, cleaningBar]*.setOnClickListener(action)
+        validateCheckinAuthor()
         root
+    }
+
+    private void validateCheckinAuthor(){
+        if(currentCheckin.author == currentUser.username){
+            Closure action = {
+                Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
+                intent.putExtra(CURRENT_CHECKIN_ID, currentCheckin.id)
+                intent.putExtra(CURRENT_CIRCLE_FLAVOR, currentCircleFlavor)
+                startActivityForResult(intent, 1)
+            }
+            [sweetnessBar, acidityBar, floweryBar, spicyBar, saltyBar, berriesBar, chocolateBar, candyBar, bodyBar, cleaningBar]*.setOnClickListener(action)
+        }
     }
 
     private Closure onSuccess() {
