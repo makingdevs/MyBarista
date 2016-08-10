@@ -2,21 +2,18 @@ package com.makingdevs.mybarista.ui.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
-import groovy.transform.CompileStatic
 
 class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
 
@@ -60,7 +57,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
         void bindCheckin(Checkin checkin) {
             mCheckin = checkin
             itemView.onClickListener = {
-                Intent intent = ShowCheckinActivity.newIntentWithContext(mContext,mCheckin.id,mCheckin.circle_flavor_id)
+                Intent intent = ShowCheckinActivity.newIntentWithContext(mContext, mCheckin)
                 mContext.startActivity(intent)
             }
             mtitle.text = checkin.method
