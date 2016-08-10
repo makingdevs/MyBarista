@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.annotation.Nullable
 import android.widget.Toast
 import com.makingdevs.mybarista.common.MultiFragmentActivity
+import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
 import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
@@ -21,19 +22,20 @@ public class ShowCheckinActivity extends MultiFragmentActivity {
 
     static String EXTRA_CHECKIN_ID = "checkin_id"
     static String EXTRA_CIRCLE_FLAVOR_ID = "circle_flavor_id"
+    static String EXTRA_CURRENT_CHECKIN = "checkin"
     private static final String TAG = "ShowCheckinActivity"
 
-
-    static Intent newIntentWithContext(Context context, String id, String idCircleFlavor) {
+    static Intent newIntentWithContext(Context context, Checkin checkin) {
         Intent intent = new Intent(context, ShowCheckinActivity)
-        intent.putExtra(EXTRA_CHECKIN_ID, id)
-        intent.putExtra(EXTRA_CIRCLE_FLAVOR_ID, idCircleFlavor)
+        intent.putExtra(EXTRA_CHECKIN_ID, checkin.id)
+        intent.putExtra(EXTRA_CIRCLE_FLAVOR_ID, checkin.circle_flavor_id)
+        intent.putExtra(EXTRA_CURRENT_CHECKIN, checkin)
         intent
     }
 
     @TypeChecked
     Map createFragments() {
-        if (!getIntent()?.extras.getSerializable(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
+        if (!getIntent().extras.getString(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
         //TODO: cambiar a meotodo newInstance en los frgamentos utilizados
         [top: new ShowCheckinFragment(), middleTop: new RatingCoffeFragment(), middleBootom: new ShowCircleFlavorFragment(), bottom: new CommentsFragment()]
     }
