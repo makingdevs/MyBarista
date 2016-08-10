@@ -37,9 +37,11 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "ShowCheckinFragment"
-    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String CURRENT_CHECKIN = "checkin"
+    private static final String CURRENT_CHECK_IN_ID = "check_in"
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
+
 
     ImageUtil mImageUtil1 = new ImageUtil()
 
@@ -69,14 +71,25 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         currentUser = mSessionManager.getUserSession(getContext())
 
         //Current Checkin
+        checkin = getActivity().intent.extras.getSerializable(CURRENT_CHECKIN) as Checkin
+
         mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
 
         bindingViews()
+        validateCheckinAuthor()
         setUserActions()
 
         itemView
+    }
+
+    private void validateCheckinAuthor(){
+        if(checkin.author != currentUser.username){
+            mButtonEditCheckin.setVisibility(View.GONE)
+            mBarista.setVisibility(View.GONE)
+            mButtonNote.setVisibility(View.GONE)
+        }
     }
 
 
@@ -99,13 +112,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
-
-        /**
-         * Hiding Views
-         */
-        mButtonEditCheckin.setVisibility(View.GONE)
-        mButtonNote.setVisibility(View.GONE)
-        mBarista.setVisibility(View.GONE)
     }
 
     private setUserActions() {
@@ -125,7 +131,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonEditCheckin.onClickListener = {
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
             intent.putExtra(ACTION_CHECK_IN, 1)
-            intent.putExtra(CURRENT_CHECK_IN, checkin)
+            intent.putExtra(CURRENT_CHECK_IN_ID, checkin)
             startActivity(intent)
         }
 
@@ -148,21 +154,12 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
-            validateCheckinAuthor()
             setCheckinInView(checkin)
         }
     }
 
     private Closure onError() {
         { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
-    }
-
-    private void validateCheckinAuthor(){
-        if(checkin.author == currentUser.username){
-            mButtonEditCheckin.setVisibility(View.VISIBLE)
-            mBarista.setVisibility(View.VISIBLE)
-            mButtonNote.setVisibility(View.VISIBLE)
-        }
     }
 
     void updateNoteInCheckin(String currentNote) {
