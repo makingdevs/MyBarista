@@ -47,7 +47,7 @@ navigation =
                     ]
               , div [ class "navigation__text" ]
                     [ p []
-                          [ text "Instagram"]
+                          [ text "Barista"]
                     ]
               ]
         , div [ class "navigation__search-box .col-xs-6 .col-sm-4" ]
@@ -61,7 +61,7 @@ navigation =
                     , li [] [ text "Log in" ]
                     ]
               ]
-        , div [] [  hr [ class "navigation__divider"] [] ]
+        , div [] [  hr [ class "navigation__divider"] [] 
         ]
 
 profile =
