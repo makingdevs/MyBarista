@@ -137,4 +137,8 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
                 .addToBackStack(null)
                 .commit()
     }
+
+    private void muestraCarlo(){
+        
+    }
 }
