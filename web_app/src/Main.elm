@@ -61,7 +61,7 @@ navigation =
                     , li [] [ text "Log in" ]
                     ]
               ]
-        , div [] [  hr [ class "navigation__divider"] [] 
+        , div [] [  hr [ class "navigation__divider"] [] ]
         ]
 
 profile =
