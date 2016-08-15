@@ -43,6 +43,8 @@
                 style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_maps"
+                android:drawablePadding="4dp"
                 android:hint="@string/placeholderOrigin"
                 android:singleLine="true" />
 
@@ -51,6 +53,8 @@
                 style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_price"
+                android:drawablePadding="4dp"
                 android:hint="@string/placeholderPrice"
                 android:inputType="numberDecimal"
                 android:singleLine="true" />
@@ -63,6 +67,8 @@
                 android:drawableLeft="@drawable/ic_checkin_venue"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical" />
+
+
         </LinearLayout>
 
         <LinearLayout
