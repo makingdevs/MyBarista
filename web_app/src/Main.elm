@@ -43,7 +43,7 @@ navigation =
     div[ class "navigation-main row" ]
         [ div [ class "navigation__brand col-xs-6 col-sm-4 col-md-4" ]
               [ div [ class "navigation__brand-container" ]
-                    [ img [ src "#", class "navigation_image"] []
+                    [ img [ src "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png", class "navigation__image"] []
                     ]
               , div [ class "navigation__text col-sm-4 col-md-4" ]
                     [ p []
