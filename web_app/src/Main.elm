@@ -65,21 +65,20 @@ navigation =
 
 profile =
     div [ class "profile-page row" ]
-        [ div [ class "profile-page__divier-container" ]
-              [ hr [ class "profile-page__divider" ] []
-              ]
-        , div [ class "profile-page__container row" ]
-              [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                    [ img [ src "#", class "profile-page__avatar" ] []
-                    ]
-              , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
-                    [ div [ class "profile-page__username" ]
-                          [ p []
-                                [ text "@username" ]
+        [ div [ class "profile-page__header"]
+              [ div [ class "profile-page__author-container row" ]
+                    [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
+                          [ img [ src "#", class "profile-page__avatar img-circle" ] []
                           ]
-                    , div [ class "profile-page__statistics" ]
-                          [ p []
-                                [ text "128 checkins" ]
+                    , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
+                          [ div [ class "profile-page__username" ]
+                                [ p []
+                                      [ text "@username" ]
+                                ]
+                          , div [ class "profile-page__statistics" ]
+                                [ p []
+                                      [ text "128 checkins" ]
+                                ]
                           ]
                     ]
               ]
@@ -120,11 +119,17 @@ footer =
 
 view : Model -> Html Msg
 view model =
-  div [ class "shell-main" ]
-      [ navigation
-      , profile
-      , grid
-      , footer
+  div [ class "shell" ]
+      [ div [class "shell__nav"]
+            [ navigation
+            ]
+      , div [class "shell__content"]
+            [ profile
+            , grid
+            ]
+      , div [class "shell__footer"]
+            [ footer
+            ]
       ]
 
 -- SUBSCRIPTIONS
