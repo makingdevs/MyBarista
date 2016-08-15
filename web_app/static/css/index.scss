@@ -14,7 +14,10 @@ body {
 }
 
 .shell__nav {
+    width: 100%;
     border-bottom: 1px solid #edeeee;
+    display: flex;
+    justify-content: center;
 }
 
 .shell__content {
@@ -27,11 +30,16 @@ body {
 
 /* Navigation */
 .navigation-main {
+    width: 70%;
 }
 .navigation__brand, .navigation__search-box
 , .navigation__href-session {
     display:flex;
     justify-content: center;
+    align-items: center;
+}
+.navigation__image {
+    width: 50px;
 }
 .navigation__session-items {
     display: flex;
