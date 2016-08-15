@@ -39,6 +39,7 @@ update msg model =
 
 -- CHILD VIEWS
 
+navigation : Html.Html Msg
 navigation =
     div[ class "navigation-main row" ]
         [ div [ class "navigation__brand col-xs-6 col-sm-4 col-md-4" ]
@@ -62,6 +63,7 @@ navigation =
               ]
         ]
 
+profile : Html.Html Msg
 profile =
     div [ class "profile-page row" ]
         [ div [ class "profile-page__header"]
@@ -83,6 +85,7 @@ profile =
               ]
         ]
 
+grid : Html.Html Msg
 grid =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items row"]
@@ -101,7 +104,7 @@ grid =
                        [ text "Cargar más" ]
               ]
         ]
-
+footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
         [ div [ class "footer-nav" ]
