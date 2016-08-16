@@ -97,25 +97,29 @@ profile model =
               ]
         ]
 
-grid : Html.Html Msg
-grid =
+-- Grid
+renderCheckin : Checkin -> Html.Html Msg
+renderCheckin checkin =
+  li [ class "post-grid__item"] [ text <| checkin.s3_asset ]
+
+renderCheckins : List Checkin -> Html.Html Msg
+renderCheckins checkins =
+  let
+    items = List.map renderCheckin checkins
+  in
+    ul [ class "post-grid__items"] items
+
+grid : Model -> Html.Html Msg
+grid model =
     div [ class "post-grid" ]
-        [ div [ class "post-grid__items row"]
-              [ div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              , div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              , div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              ]
+        [ div [ class "post-grid__items-container"]
+              [ renderCheckins model.checkins ]
         , div [ class "post-grid__get-items" ]
               [ button []
                        [ text "Cargar más" ]
               ]
         ]
+
 footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
@@ -139,7 +143,7 @@ view model =
             ]
       , div [class "shell__content"]
             [ profile model
-            , grid
+            , grid model
             ]
       , div [class "shell__footer"]
             [ footer
