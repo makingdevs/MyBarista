@@ -27,9 +27,9 @@ init : (Model, Cmd Msg)
 init =
   (
    Model
-       "User"
+       ""
        "@username"
-       "http://barist.coffee.s3.amazonaws.com/avatar.png"
+       ""
        []
        0
   , Cmd.none
@@ -50,7 +50,20 @@ update msg model =
     NoOp ->
       (model, Cmd.none)
     SearchUser username ->
-        ({model | username = username}, Cmd.none)
+        ( { model
+              | name = "User"
+              , username = username
+              , s3_asset = "http://barist.coffee.s3.amazonaws.com/avatar.png"
+              , checkins = [ { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           ]
+              , checkins_count = 90
+          }
+        , Cmd.none )
 
 -- CHILD VIEWS
 
@@ -106,7 +119,7 @@ profile model =
 -- Grid
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
-  li [ class "post-grid__item"] [ text <| checkin.s3_asset ]
+  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset] [] ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
