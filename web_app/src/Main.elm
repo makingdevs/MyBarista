@@ -31,7 +31,7 @@ init =
        "@username"
        "http://barist.coffee.s3.amazonaws.com/avatar.png"
        []
-       120
+       0
   , Cmd.none
   )
 
@@ -41,7 +41,7 @@ init =
 
 type Msg
   = NoOp
-    | SearchUser
+    | SearchUser String
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -49,8 +49,8 @@ update msg model =
   case msg of
     NoOp ->
       (model, Cmd.none)
-    SearchUser ->
-        ({model | name = "Ariana"}, Cmd.none)
+    SearchUser username ->
+        ({model | username = username}, Cmd.none)
 
 -- CHILD VIEWS
 
@@ -70,6 +70,7 @@ navigation =
         , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
               [ input [ type' "text"
                       , placeholder "Buscar"
+                      , onInput SearchUser
                       ] []
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
@@ -119,10 +120,6 @@ grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
               [ renderCheckins model.checkins ]
-        , div [ class "post-grid__get-items" ]
-              [ button []
-                       [ text "Cargar más" ]
-              ]
         ]
 
 -- Footer
