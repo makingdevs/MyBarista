@@ -10,16 +10,28 @@ import Html.Events exposing (..)
 
 -- MODEL
 
+type alias Checkin =
+    { s3_asset : String
+    , author : String
+    }
 
 type alias Model =
-  {
+  { name : String
+  , username : String
+  , s3_asset : String
+  , checkins : List Checkin
+  , checkins_count : Int
   }
-
 
 init : (Model, Cmd Msg)
 init =
-  ( {
-    }
+  (
+   Model
+       "User"
+       "@username"
+       "http://barist.coffee.s3.amazonaws.com/avatar.png"
+       []
+       120
   , Cmd.none
   )
 
@@ -63,22 +75,22 @@ navigation =
               ]
         ]
 
-profile : Html.Html Msg
-profile =
+profile : Model -> Html.Html Msg
+profile model =
     div [ class "profile-page row" ]
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src "#", class "profile-page__avatar img-circle" ] []
+                          [ img [ src model.s3_asset, class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
                                 [ p []
-                                      [ text "@username" ]
+                                      [ text model.username ]
                                 ]
                           , div [ class "profile-page__statistics" ]
                                 [ p []
-                                      [ text "128 checkins" ]
+                                      [ text ( (toString model.checkins_count) ++ " checkins") ]
                                 ]
                           ]
                     ]
@@ -126,7 +138,7 @@ view model =
             [ navigation
             ]
       , div [class "shell__content"]
-            [ profile
+            [ profile model
             , grid
             ]
       , div [class "shell__footer"]
