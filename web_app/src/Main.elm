@@ -51,6 +51,7 @@ update msg model =
 
 -- CHILD VIEWS
 
+-- Navigation
 navigation : Html.Html Msg
 navigation =
     div[ class "navigation-main row" ]
@@ -75,6 +76,7 @@ navigation =
               ]
         ]
 
+-- Profile
 profile : Model -> Html.Html Msg
 profile model =
     div [ class "profile-page row" ]
@@ -120,6 +122,7 @@ grid model =
               ]
         ]
 
+-- Footer
 footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
