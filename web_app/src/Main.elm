@@ -41,6 +41,7 @@ init =
 
 type Msg
   = NoOp
+    | SearchUser
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -48,6 +49,8 @@ update msg model =
   case msg of
     NoOp ->
       (model, Cmd.none)
+    SearchUser ->
+        ({model | name = "Ariana"}, Cmd.none)
 
 -- CHILD VIEWS
 
