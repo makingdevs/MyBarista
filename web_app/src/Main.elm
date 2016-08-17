@@ -6,6 +6,9 @@ import Html exposing (..)
 import Html.App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
+import Task exposing (Task)
+import Json.Decode as Decode
 
 
 -- MODEL
@@ -38,10 +41,19 @@ init =
 
 -- UPDATE
 
+api : String
+api =
+    "http://localhost:3000"
+
+userUrl : String
+userUrl =
+    api ++ "users/1"
+
 
 type Msg
   = NoOp
     | SearchUser String
+    | SearchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -49,21 +61,10 @@ update msg model =
   case msg of
     NoOp ->
       (model, Cmd.none)
-    SearchUser username ->
-        ( { model
-              | name = "User"
-              , username = username
-              , s3_asset = "http://barist.coffee.s3.amazonaws.com/avatar.png"
-              , checkins = [ { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           ]
-              , checkins_count = 90
-          }
-        , Cmd.none )
+    SearchUser user ->
+        ( { model | user = user} , Cmd.none )
+    SearchUserError error ->
+        ( model, Cmd.none)
 
 -- CHILD VIEWS
 
