@@ -8,7 +8,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Task exposing (Task)
-import Json.Decode as Decode
+import Json.Decode as Decode exposing ((:=))
 
 
 -- MODEL
@@ -28,14 +28,13 @@ type alias Model =
 
 init : (Model, Cmd Msg)
 init =
-  (
-   Model
-       ""
-       "@username"
-       ""
-       []
-       0
-  , Cmd.none
+  ( Model
+        ""
+        "@username"
+        ""
+        []
+        0
+  , fetchUserCmd
   )
 
 
@@ -43,11 +42,35 @@ init =
 
 api : String
 api =
-    "http://localhost:3000"
+    "http://192.168.1.21:3000/"
 
 userUrl : String
 userUrl =
     api ++ "users/1"
+
+fetchUserCmd : Cmd Msg
+fetchUserCmd =
+    Http.get userDecoder userUrl
+        |> Task.perform FetchUserError FetchUserSuccess
+
+userDecoder : Decode.Decoder Model
+userDecoder =
+    Decode.object5 Model
+        ("name" := Decode.string)
+        ("username" := Decode.string)
+        ("s3_asset" := Decode.string)
+        ("checkins" := checkinsDecoder)
+        ("checkins_count" := Decode.int)
+
+checkinsDecoder : Decode.Decoder (List Checkin)
+checkinsDecoder =
+    Decode.list checkinDecoder
+
+checkinDecoder : Decode.Decoder Checkin
+checkinDecoder =
+    Decode.object2 Checkin
+        ("s3_asset" := Decode.string)
+        ("author" := Decode.string)
 
 
 type Msg
