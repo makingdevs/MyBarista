@@ -51,19 +51,20 @@ userUrl =
 
 
 type Msg
-  = NoOp
-    | SearchUser String
-    | SearchUserError Http.Error
+  = FetchUser
+    | FetchUserSuccess Model
+    | FetchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    NoOp ->
-      (model, Cmd.none)
-    SearchUser user ->
-        ( { model | user = user} , Cmd.none )
-    SearchUserError error ->
+    FetchUser ->
+        ( model
+        , Cmd.none)
+    FetchUserSuccess user ->
+        ( user, Cmd.none)
+    FetchUserError error ->
         ( model, Cmd.none)
 
 -- CHILD VIEWS
@@ -84,7 +85,7 @@ navigation =
         , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
               [ input [ type' "text"
                       , placeholder "Buscar"
-                      , onInput SearchUser
+--                      , onInput SearchUser
                       ] []
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
