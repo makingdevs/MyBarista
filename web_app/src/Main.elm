@@ -39,20 +39,23 @@ init =
 
 
 -- UPDATE
-
+-- Base url
 api : String
 api =
     "http://192.168.1.21:3000/"
 
+-- User endpoint
 userUrl : String
 userUrl =
     api ++ "users/1"
 
+-- User command
 fetchUserCmd : Cmd Msg
 fetchUserCmd =
     Http.get userDecoder userUrl
         |> Task.perform FetchUserError FetchUserSuccess
 
+-- User decoder
 userDecoder : Decode.Decoder Model
 userDecoder =
     Decode.object5 Model
@@ -62,6 +65,7 @@ userDecoder =
         ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
 
+-- Checkin and List Checkin decoder
 checkinsDecoder : Decode.Decoder (List Checkin)
 checkinsDecoder =
     Decode.list checkinDecoder
@@ -88,7 +92,7 @@ update msg model =
     FetchUserSuccess user ->
         ( user, Cmd.none)
     FetchUserError error ->
-        ( model, Cmd.none)
+        ( {model | username = "Ups! user not found!"}, Cmd.none) -- Showing the error
 
 -- CHILD VIEWS
 
