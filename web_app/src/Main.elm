@@ -18,11 +18,14 @@ type alias Checkin =
     , author : String
     }
 
+type alias S3Assset =
+    { url_file : String }
+
 type alias Model =
-  { name : String
+  { id : String
+  , name : String
   , username : String
-  , s3_asset : String
-  , checkins : List Checkin
+  , s3_asset : S3Assset
   , checkins_count : Int
   }
 
@@ -30,9 +33,9 @@ init : (Model, Cmd Msg)
 init =
   ( Model
         ""
-        "@username"
         ""
-        []
+        ""
+        { url_file = "" }
         0
   , fetchUserCmd
   )
@@ -59,11 +62,17 @@ fetchUserCmd =
 userDecoder : Decode.Decoder Model
 userDecoder =
     Decode.object5 Model
+        ("id" := Decode.string)
         ("name" := Decode.string)
         ("username" := Decode.string)
-        ("s3_asset" := Decode.string)
-        ("checkins" := checkinsDecoder)
+        ("s3_asset" := s3AssetDecoder)
         ("checkins_count" := Decode.int)
+
+-- S3Asset decoder
+s3AssetDecoder : Decode.Decoder S3Assset
+s3AssetDecoder =
+    Decode.object1 S3Assset
+        ("url_file" := Decode.string)
 
 -- Checkin and List Checkin decoder
 checkinsDecoder : Decode.Decoder (List Checkin)
@@ -90,9 +99,9 @@ update msg model =
         ( model
         , Cmd.none)
     FetchUserSuccess user ->
-        ( user, Cmd.none)
+        ( {user | username = user.username}, Cmd.none)
     FetchUserError error ->
-        ( {model | username = "Ups! user not found!"}, Cmd.none) -- Showing the error
+        ( model, Cmd.none)
 
 -- CHILD VIEWS
 
@@ -129,7 +138,7 @@ profile model =
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src model.s3_asset, class "profile-page__avatar img-circle" ] []
+                          [ img [ src model.s3_asset.url_file, class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
@@ -161,7 +170,7 @@ grid : Model -> Html.Html Msg
 grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
-              [ renderCheckins model.checkins ]
+              [ {-renderCheckins model.checkins-} ]
         ]
 
 -- Footer
