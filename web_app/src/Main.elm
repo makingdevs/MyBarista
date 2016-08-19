@@ -18,24 +18,24 @@ type alias Checkin =
     , author : String
     }
 
-type alias S3Assset =
+type alias S3Asset =
     { url_file : String }
 
 type alias Model =
-  { id : String
+  { id : Int
   , name : String
   , username : String
-  , s3_asset : S3Assset
+  , s3_asset : S3Asset
   , checkins_count : Int
   }
 
 init : (Model, Cmd Msg)
 init =
   ( Model
+        0
         ""
-        ""
-        ""
-        { url_file = "" }
+        "@username"
+        { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
         0
   , fetchUserCmd
   )
@@ -62,16 +62,16 @@ fetchUserCmd =
 userDecoder : Decode.Decoder Model
 userDecoder =
     Decode.object5 Model
-        ("id" := Decode.string)
+        ("id" := Decode.int)
         ("name" := Decode.string)
         ("username" := Decode.string)
         ("s3_asset" := s3AssetDecoder)
         ("checkins_count" := Decode.int)
 
 -- S3Asset decoder
-s3AssetDecoder : Decode.Decoder S3Assset
+s3AssetDecoder : Decode.Decoder S3Asset
 s3AssetDecoder =
-    Decode.object1 S3Assset
+    Decode.object1 S3Asset
         ("url_file" := Decode.string)
 
 -- Checkin and List Checkin decoder
@@ -99,7 +99,11 @@ update msg model =
         ( model
         , Cmd.none)
     FetchUserSuccess user ->
-        ( {user | username = user.username}, Cmd.none)
+        ( { model | username = user.username
+          , s3_asset = user.s3_asset
+          , checkins_count = user.checkins_count
+          }
+        , Cmd.none)
     FetchUserError error ->
         ( model, Cmd.none)
 
