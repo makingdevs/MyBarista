@@ -6,6 +6,9 @@ import Html exposing (..)
 import Html.App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
+import Task exposing (Task)
+import Json.Decode as Decode exposing ((:=))
 
 
 -- MODEL
@@ -15,55 +18,94 @@ type alias Checkin =
     , author : String
     }
 
+type alias S3Asset =
+    { url_file : String }
+
 type alias Model =
-  { name : String
+  { id : Int
+  , name : String
   , username : String
-  , s3_asset : String
-  , checkins : List Checkin
+  , s3_asset : S3Asset
   , checkins_count : Int
   }
 
 init : (Model, Cmd Msg)
 init =
-  (
-   Model
-       ""
-       "@username"
-       ""
-       []
-       0
-  , Cmd.none
+  ( Model
+        0
+        ""
+        "@username"
+        { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
+        0
+  , fetchUserCmd
   )
 
 
 -- UPDATE
+-- Base url
+api : String
+api =
+    "http://192.168.1.21:3000/"
+
+-- User endpoint
+userUrl : String
+userUrl =
+    api ++ "users/1"
+
+-- User command
+fetchUserCmd : Cmd Msg
+fetchUserCmd =
+    Http.get userDecoder userUrl
+        |> Task.perform FetchUserError FetchUserSuccess
+
+-- User decoder
+userDecoder : Decode.Decoder Model
+userDecoder =
+    Decode.object5 Model
+        ("id" := Decode.int)
+        ("name" := Decode.string)
+        ("username" := Decode.string)
+        ("s3_asset" := s3AssetDecoder)
+        ("checkins_count" := Decode.int)
+
+-- S3Asset decoder
+s3AssetDecoder : Decode.Decoder S3Asset
+s3AssetDecoder =
+    Decode.object1 S3Asset
+        ("url_file" := Decode.string)
+
+-- Checkin and List Checkin decoder
+checkinsDecoder : Decode.Decoder (List Checkin)
+checkinsDecoder =
+    Decode.list checkinDecoder
+
+checkinDecoder : Decode.Decoder Checkin
+checkinDecoder =
+    Decode.object2 Checkin
+        ("s3_asset" := Decode.string)
+        ("author" := Decode.string)
 
 
 type Msg
-  = NoOp
-    | SearchUser String
+  = FetchUser
+    | FetchUserSuccess Model
+    | FetchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    NoOp ->
-      (model, Cmd.none)
-    SearchUser username ->
-        ( { model
-              | name = "User"
-              , username = username
-              , s3_asset = "http://barist.coffee.s3.amazonaws.com/avatar.png"
-              , checkins = [ { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
-                           ]
-              , checkins_count = 90
+    FetchUser ->
+        ( model
+        , Cmd.none)
+    FetchUserSuccess user ->
+        ( { model | username = user.username
+          , s3_asset = user.s3_asset
+          , checkins_count = user.checkins_count
           }
-        , Cmd.none )
+        , Cmd.none)
+    FetchUserError error ->
+        ( model, Cmd.none)
 
 -- CHILD VIEWS
 
@@ -83,7 +125,7 @@ navigation =
         , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
               [ input [ type' "text"
                       , placeholder "Buscar"
-                      , onInput SearchUser
+--                      , onInput SearchUser
                       ] []
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
@@ -100,7 +142,7 @@ profile model =
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src model.s3_asset, class "profile-page__avatar img-circle" ] []
+                          [ img [ src model.s3_asset.url_file, class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
@@ -132,7 +174,7 @@ grid : Model -> Html.Html Msg
 grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
-              [ renderCheckins model.checkins ]
+              [ {-renderCheckins model.checkins-} ]
         ]
 
 -- Footer
