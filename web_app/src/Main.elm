@@ -10,16 +10,28 @@ import Html.Events exposing (..)
 
 -- MODEL
 
+type alias Checkin =
+    { s3_asset : String
+    , author : String
+    }
 
 type alias Model =
-  {
+  { name : String
+  , username : String
+  , s3_asset : String
+  , checkins : List Checkin
+  , checkins_count : Int
   }
-
 
 init : (Model, Cmd Msg)
 init =
-  ( {
-    }
+  (
+   Model
+       ""
+       "@username"
+       ""
+       []
+       0
   , Cmd.none
   )
 
@@ -29,6 +41,7 @@ init =
 
 type Msg
   = NoOp
+    | SearchUser String
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -36,9 +49,25 @@ update msg model =
   case msg of
     NoOp ->
       (model, Cmd.none)
+    SearchUser username ->
+        ( { model
+              | name = "User"
+              , username = username
+              , s3_asset = "http://barist.coffee.s3.amazonaws.com/avatar.png"
+              , checkins = [ { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           , { s3_asset = "http://barist.coffee.s3.amazonaws.com/coffee.jpg", author = "User" }
+                           ]
+              , checkins_count = 90
+          }
+        , Cmd.none )
 
 -- CHILD VIEWS
 
+-- Navigation
 navigation : Html.Html Msg
 navigation =
     div[ class "navigation-main row" ]
@@ -54,6 +83,7 @@ navigation =
         , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
               [ input [ type' "text"
                       , placeholder "Buscar"
+                      , onInput SearchUser
                       ] []
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
@@ -63,47 +93,49 @@ navigation =
               ]
         ]
 
-profile : Html.Html Msg
-profile =
+-- Profile
+profile : Model -> Html.Html Msg
+profile model =
     div [ class "profile-page row" ]
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src "#", class "profile-page__avatar img-circle" ] []
+                          [ img [ src model.s3_asset, class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
                                 [ p []
-                                      [ text "@username" ]
+                                      [ text model.username ]
                                 ]
                           , div [ class "profile-page__statistics" ]
                                 [ p []
-                                      [ text "128 checkins" ]
+                                      [ text ( (toString model.checkins_count) ++ " checkins") ]
                                 ]
                           ]
                     ]
               ]
         ]
 
-grid : Html.Html Msg
-grid =
+-- Grid
+renderCheckin : Checkin -> Html.Html Msg
+renderCheckin checkin =
+  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset] [] ]
+
+renderCheckins : List Checkin -> Html.Html Msg
+renderCheckins checkins =
+  let
+    items = List.map renderCheckin checkins
+  in
+    ul [ class "post-grid__items"] items
+
+grid : Model -> Html.Html Msg
+grid model =
     div [ class "post-grid" ]
-        [ div [ class "post-grid__items row"]
-              [ div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              , div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              , div [ class "post-grid__item" ]
-                    [ img [ src "#", class "post-grid__item-image col-xs-4 col-sm-4 col-md-4"] []
-                    ]
-              ]
-        , div [ class "post-grid__get-items" ]
-              [ button []
-                       [ text "Cargar más" ]
-              ]
+        [ div [ class "post-grid__items-container"]
+              [ renderCheckins model.checkins ]
         ]
+
+-- Footer
 footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
@@ -126,8 +158,8 @@ view model =
             [ navigation
             ]
       , div [class "shell__content"]
-            [ profile
-            , grid
+            [ profile model
+            , grid model
             ]
       , div [class "shell__footer"]
             [ footer
