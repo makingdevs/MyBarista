@@ -138,7 +138,4 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
                 .commit()
     }
 
-    private void muestraCarlo(){
-        int edad=19
-    }
 }
