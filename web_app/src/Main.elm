@@ -14,9 +14,14 @@ import Json.Decode as Decode exposing ((:=))
 -- MODEL
 
 type alias Checkin =
-    { s3_asset : String
-    , author : String
+    { author : String
+    , id : Int
+    , s3_asset : CheckinS3Asset
     }
+
+type alias CheckinS3Asset =
+    { id : Int
+    , url_file : String }
 
 type alias S3Asset =
     { url_file : String }
@@ -26,6 +31,7 @@ type alias Model =
   , name : String
   , username : String
   , s3_asset : S3Asset
+  , checkins : List Checkin
   , checkins_count : Int
   }
 
@@ -36,16 +42,19 @@ init =
         ""
         "@username"
         { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
+        []
         0
   , fetchUserCmd
   )
+
+
 
 
 -- UPDATE
 -- Base url
 api : String
 api =
-    "http://192.168.1.21:3000/"
+    "http://192.168.1.22:3000/"
 
 -- User endpoint
 userUrl : String
@@ -61,12 +70,20 @@ fetchUserCmd =
 -- User decoder
 userDecoder : Decode.Decoder Model
 userDecoder =
-    Decode.object5 Model
+    Decode.object6 Model
         ("id" := Decode.int)
         ("name" := Decode.string)
         ("username" := Decode.string)
         ("s3_asset" := s3AssetDecoder)
+        ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
+
+-- Checkin S3Asset decoder
+checkinAssetDecoder : Decode.Decoder CheckinS3Asset
+checkinAssetDecoder =
+    Decode.object2 CheckinS3Asset
+        ("id" := Decode.int)
+        ("url_file" := Decode.string)
 
 -- S3Asset decoder
 s3AssetDecoder : Decode.Decoder S3Asset
@@ -81,9 +98,10 @@ checkinsDecoder =
 
 checkinDecoder : Decode.Decoder Checkin
 checkinDecoder =
-    Decode.object2 Checkin
-        ("s3_asset" := Decode.string)
+    Decode.object3 Checkin
         ("author" := Decode.string)
+        ("id" := Decode.int)
+        ("s3_asset" := checkinAssetDecoder)
 
 
 type Msg
@@ -101,11 +119,13 @@ update msg model =
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
+          , checkins = user.checkins
           , checkins_count = user.checkins_count
           }
         , Cmd.none)
     FetchUserError error ->
-        ( model, Cmd.none)
+        ( {model | username = toString error}, Cmd.none)
+
 
 -- CHILD VIEWS
 
@@ -161,7 +181,7 @@ profile model =
 -- Grid
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
-  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset] [] ]
+  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset.url_file] [] ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
@@ -174,7 +194,7 @@ grid : Model -> Html.Html Msg
 grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
-              [ {-renderCheckins model.checkins-} ]
+              [ renderCheckins model.checkins ]
         ]
 
 -- Footer
