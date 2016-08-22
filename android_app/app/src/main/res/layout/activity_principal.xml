@@ -10,4 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"/>
 
+    <!--pertenecia solo a fragment_list_brew.xml. Cambia linea layout_margin-->
+    <!--android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_go_chekin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_check_in"/-->
+
 </android.support.design.widget.CoordinatorLayout>
