@@ -23,6 +23,8 @@ import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import groovy.transform.CompileStatic
 import retrofit2.Call
 import retrofit2.Response
+import android.widget.Toast
+import android.view.Gravity
 
 @CompileStatic
 public class ListBrewFragment extends Fragment {
@@ -76,6 +78,12 @@ public class ListBrewFragment extends Fragment {
             } else {
                 mBrewAdapter.setmCheckins(response.body().toList())
                 mBrewAdapter.notifyDataSetChanged()
+            }
+
+            if ((response.body().toList()).isEmpty()) {
+                Toast start_dialog = Toast.makeText(getContext(), R.string.toastInit, Toast.LENGTH_SHORT);
+                start_dialog.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                start_dialog.show();
             }
         }
     }
