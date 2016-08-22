@@ -35,6 +35,7 @@
     <string name="toastLoginFail">Username or Password incorrect!</string>
     <string name="toastRegistrationSuccess">Username and Password correct!</string>
     <string name="toastRegistrationFail">Correo o contraseña inválidos</string>
+    <string name="toastInit">Presiona el botón café para hacer el primer check-in</string>
     <string name="username">Userame</string>
     <string name="password">Contraseña</string>
     <string name="menu_profile">Profile</string>
