@@ -9,7 +9,38 @@ import Html.Events exposing (..)
 import Http
 import Task exposing (Task)
 import Json.Decode as Decode exposing ((:=))
+import Navigation
+import UrlParser exposing (..)
+import String
 
+{- Routing -}
+
+type Route
+    = UserRoute
+      | UserNotfound
+
+matchers : Parser ( Route -> a ) a
+matchers =
+           oneOf
+               [ format UserRoute ( "users" </> {- type -} ) ]
+
+hashParser : Navigation.Location -> Result String Route
+hashParser location =
+    location.hash
+        |> String.dropLeft {- #chars -}
+        |> parse identity matchers
+
+parser : Navigation.Parser (Result String Route)
+parser =
+    Navigation.makeParser hashParser
+
+resultRoute : Result String Route -> Route
+resultRoute result =
+    case result of
+        Ok route ->
+            route
+        Err string ->
+            UserNotfound
 
 -- MODEL
 
@@ -46,8 +77,6 @@ init =
         0
   , fetchUserCmd
   )
-
-
 
 
 -- UPDATE
