@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
@@ -35,6 +37,7 @@ public class ListBrewFragment extends Fragment {
     RecyclerView mListBrew
     BrewAdapter mBrewAdapter
     FloatingActionButton mButtonGoChekin
+    LinearLayout mFirstTime
 
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -47,7 +50,7 @@ public class ListBrewFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_list_brew, container, false)
         mListBrew = (RecyclerView) root.findViewById(R.id.list_brews)
         mListBrew.setLayoutManager(new LinearLayoutManager(getActivity()))
-
+        mFirstTime = (LinearLayout) root.findViewById(R.id.first_checkin)
         mButtonGoChekin = (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
         mButtonGoChekin.onClickListener = {
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
@@ -81,9 +84,9 @@ public class ListBrewFragment extends Fragment {
             }
 
             if ((response.body().toList()).isEmpty()) {
-                Toast start_dialog = Toast.makeText(getContext(), R.string.toastInit, Toast.LENGTH_SHORT);
-                start_dialog.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                start_dialog.show();
+                mFirstTime.setVisibility(View.VISIBLE)
+            }else{
+                mFirstTime.setVisibility(View.GONE)
             }
         }
     }
