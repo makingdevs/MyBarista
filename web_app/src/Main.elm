@@ -15,18 +15,23 @@ import String
 {- Routing -}
 
 type Route
-    = UserRoute
+    = MyBarista
+      | Users
+      | User
       | UserNotfound
 
 matchers : Parser ( Route -> a ) a
 matchers =
            oneOf
-               [ format UserRoute ( UrlParser.s "user" </> UrlParser.s "ariana" ) ]
+               {- El orden de los matchers importa -}
+               [ format MyBarista ( UrlParser.s "" )
+               , format Users ( UrlParser.s "users")
+               , format User ( UrlParser.s "user" </> UrlParser.s "ariana" ) ]
 
 hashParser : Navigation.Location -> Result String Route
 hashParser location =
     location.hash
-        |> String.dropLeft 1
+        |> String.dropLeft 2
         |> parse identity matchers
 
 parser : Navigation.Parser (Result String Route)
@@ -37,7 +42,7 @@ urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
         Ok route ->
-            ({ model | username = toString route }, Cmd.none)
+            ({ model | username = toString route }, fetchUserCmd)
         Err error ->
             ({ model | username = toString error }, Cmd.none)
 
