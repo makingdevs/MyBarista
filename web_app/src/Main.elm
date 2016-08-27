@@ -3,7 +3,6 @@ module Main exposing (..)
 
 -- Elm Core
 import Html exposing (..)
-import Html.App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
@@ -22,27 +21,28 @@ type Route
 matchers : Parser ( Route -> a ) a
 matchers =
            oneOf
-               [ format UserRoute ( "users" </> {- type -} ) ]
+               [ format UserRoute ( UrlParser.s "user" </> UrlParser.s "ariana" ) ]
 
 hashParser : Navigation.Location -> Result String Route
 hashParser location =
     location.hash
-        |> String.dropLeft {- #chars -}
+        |> String.dropLeft 1
         |> parse identity matchers
 
 parser : Navigation.Parser (Result String Route)
 parser =
     Navigation.makeParser hashParser
 
-resultRoute : Result String Route -> Route
-resultRoute result =
+urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
+urlUpdate result model =
     case result of
         Ok route ->
-            route
-        Err string ->
-            UserNotfound
+            ({ model | username = toString route }, Cmd.none)
+        Err error ->
+            ({ model | username = toString error }, Cmd.none)
 
 -- MODEL
+
 
 type alias Checkin =
     { author : String
@@ -66,20 +66,19 @@ type alias Model =
   , checkins_count : Int
   }
 
-init : (Model, Cmd Msg)
-init =
-  ( Model
-        0
-        ""
-        "@username"
-        { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
-        []
-        0
-  , fetchUserCmd
-  )
-
+init : Result String Route -> (Model, Cmd Msg)
+init result =
+    urlUpdate result ( { id = 0
+                         , name = ""
+                         , username = ""
+                         , s3_asset = { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
+                         , checkins = []
+                         , checkins_count = 0 }
+                       )
 
 -- UPDATE
+
+
 -- Base url
 api : String
 api =
@@ -267,9 +266,10 @@ subscriptions model =
 
 main : Program Never
 main =
-  Html.App.program
+  Navigation.program parser
     { init = init
     , update = update
     , view = view
+    , urlUpdate = urlUpdate
     , subscriptions = subscriptions
     }
