@@ -13,32 +13,30 @@ import UrlParser exposing (..)
 import String
 
 {- Routing -}
-
-type Route
+-- Ruta deseada /user/username
+type UserProfile
     = MyBarista
-      | Users
-      | User
-      | UserNotfound
+    | User String
+    | UserNotfound
 
-matchers : Parser ( Route -> a ) a
+matchers : Parser ( UserProfile -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format MyBarista ( UrlParser.s "" )
-               , format Users ( UrlParser.s "users")
-               , format User ( UrlParser.s "user" </> UrlParser.s "ariana" ) ]
+               , format User ( UrlParser.s "user" </> string ) ]
 
-hashParser : Navigation.Location -> Result String Route
+hashParser : Navigation.Location -> Result String UserProfile
 hashParser location =
     location.hash
         |> String.dropLeft 2
         |> parse identity matchers
 
-parser : Navigation.Parser (Result String Route)
+parser : Navigation.Parser (Result String UserProfile)
 parser =
     Navigation.makeParser hashParser
 
-urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
+urlUpdate : Result String UserProfile -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
         Ok route ->
@@ -71,7 +69,7 @@ type alias Model =
   , checkins_count : Int
   }
 
-init : Result String Route -> (Model, Cmd Msg)
+init : Result String UserProfile -> (Model, Cmd Msg)
 init result =
     urlUpdate result ( { id = 0
                          , name = ""
