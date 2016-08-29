@@ -13,36 +13,31 @@ import UrlParser exposing (..)
 import String
 
 {- Routing -}
--- Ruta deseada /user/username
-type UserProfile
-    = MyBarista
-    | User String
-    | UserNotfound
-
-matchers : Parser ( UserProfile -> a ) a
+-- Ruta deseada: /user/username
+matchers : Parser ( Msg -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format MyBarista ( UrlParser.s "" )
                , format User ( UrlParser.s "user" </> string ) ]
 
-hashParser : Navigation.Location -> Result String UserProfile
+hashParser : Navigation.Location -> Result String Msg
 hashParser location =
     location.hash
         |> String.dropLeft 2
         |> parse identity matchers
 
-parser : Navigation.Parser (Result String UserProfile)
+parser : Navigation.Parser (Result String Msg)
 parser =
     Navigation.makeParser hashParser
 
-urlUpdate : Result String UserProfile -> Model -> (Model, Cmd Msg)
+urlUpdate : Result String Msg -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
-        Ok route ->
-            ({ model | username = toString route }, fetchUserCmd)
-        Err error ->
-            ({ model | username = toString error }, Cmd.none)
+       Ok route ->
+           ( { model | username = toString route }, Cmd.none)
+       Err error ->
+           ( { model | username = toString error }, Cmd.none)
 
 -- MODEL
 
@@ -69,7 +64,7 @@ type alias Model =
   , checkins_count : Int
   }
 
-init : Result String UserProfile -> (Model, Cmd Msg)
+init : Result String Msg -> (Model, Cmd Msg)
 init result =
     urlUpdate result ( { id = 0
                          , name = ""
@@ -85,7 +80,7 @@ init result =
 -- Base url
 api : String
 api =
-    "http://192.168.1.22:3000/"
+    "http://192.168.1.21:3000/"
 
 -- User endpoint
 userUrl : String
@@ -136,7 +131,9 @@ checkinDecoder =
 
 
 type Msg
-  = FetchUser
+  = MyBarista
+    | User String
+    | UserNotFound
     | FetchUserSuccess Model
     | FetchUserError Http.Error
 
@@ -144,9 +141,12 @@ type Msg
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    FetchUser ->
-        ( model
-        , Cmd.none)
+    MyBarista ->
+        ( model, Cmd.none )
+    User username ->
+        ( { model | username = username }, fetchUserCmd )
+    UserNotFound ->
+        ( model, Cmd.none )
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
