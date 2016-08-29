@@ -14,30 +14,38 @@ import String
 
 {- Routing -}
 -- Ruta deseada: /user/username
-matchers : Parser ( Msg -> a ) a
+type UserProfile
+    = MyBarista
+    | User String
+
+matchers : Parser ( UserProfile -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format MyBarista ( UrlParser.s "" )
                , format User ( UrlParser.s "user" </> string ) ]
 
-hashParser : Navigation.Location -> Result String Msg
+hashParser : Navigation.Location -> Result String UserProfile
 hashParser location =
     location.hash
         |> String.dropLeft 2
         |> parse identity matchers
 
-parser : Navigation.Parser (Result String Msg)
+parser : Navigation.Parser (Result String UserProfile)
 parser =
     Navigation.makeParser hashParser
 
-urlUpdate : Result String Msg -> Model -> (Model, Cmd Msg)
+urlUpdate : Result String UserProfile -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
        Ok route ->
-           ( { model | username = toString route }, Cmd.none)
+           case route of
+               MyBarista ->
+                   ( model, Cmd.none )
+               User username ->
+                   ( model, fetchUserCmd username)
        Err error ->
-           ( { model | username = toString error }, Cmd.none)
+           ( { model | username = toString error }, Cmd.none )
 
 -- MODEL
 
@@ -64,7 +72,7 @@ type alias Model =
   , checkins_count : Int
   }
 
-init : Result String Msg -> (Model, Cmd Msg)
+init : Result String UserProfile -> (Model, Cmd Msg)
 init result =
     urlUpdate result ( { id = 0
                          , name = ""
@@ -85,12 +93,12 @@ api =
 -- User endpoint
 userUrl : String
 userUrl =
-    api ++ "users/1"
+    api ++ "users/"
 
 -- User command
-fetchUserCmd : Cmd Msg
-fetchUserCmd =
-    Http.get userDecoder userUrl
+fetchUserCmd : String -> Cmd Msg
+fetchUserCmd username =
+    Http.get userDecoder (userUrl ++ username)
         |> Task.perform FetchUserError FetchUserSuccess
 
 -- User decoder
@@ -131,22 +139,13 @@ checkinDecoder =
 
 
 type Msg
-  = MyBarista
-    | User String
-    | UserNotFound
-    | FetchUserSuccess Model
+  = FetchUserSuccess Model
     | FetchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    MyBarista ->
-        ( model, Cmd.none )
-    User username ->
-        ( { model | username = username }, fetchUserCmd )
-    UserNotFound ->
-        ( model, Cmd.none )
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
