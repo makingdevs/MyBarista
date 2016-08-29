@@ -65,7 +65,7 @@ type alias S3Asset =
 
 type alias Model =
   { id : Int
-  , name : String
+  , name : Maybe String
   , username : String
   , s3_asset : S3Asset
   , checkins : List Checkin
@@ -75,7 +75,7 @@ type alias Model =
 init : Result String UserProfile -> (Model, Cmd Msg)
 init result =
     urlUpdate result ( { id = 0
-                         , name = ""
+                         , name = Nothing
                          , username = ""
                          , s3_asset = { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
                          , checkins = []
@@ -106,7 +106,7 @@ userDecoder : Decode.Decoder Model
 userDecoder =
     Decode.object6 Model
         ("id" := Decode.int)
-        ("name" := Decode.string)
+        ( Decode.maybe("name" := Decode.string))
         ("username" := Decode.string)
         ("s3_asset" := s3AssetDecoder)
         ("checkins" := checkinsDecoder)
