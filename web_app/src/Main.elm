@@ -16,14 +16,14 @@ import String
 -- Ruta deseada: /user/username
 type UserProfile
     = MyBarista
-    | User String
+    | UserRoute String
 
 matchers : Parser ( UserProfile -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format MyBarista ( UrlParser.s "" )
-               , format User ( UrlParser.s "user" </> string ) ]
+               , format UserRoute ( UrlParser.s "user" </> string ) ]
 
 hashParser : Navigation.Location -> Result String UserProfile
 hashParser location =
@@ -42,7 +42,7 @@ urlUpdate result model =
            case route of
                MyBarista ->
                    ( model, Cmd.none )
-               User username ->
+               UserRoute username ->
                    ( model, fetchUserCmd username)
        Err error ->
            ( { model | username = toString error }, Cmd.none )
