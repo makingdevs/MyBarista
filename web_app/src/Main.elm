@@ -93,7 +93,7 @@ api =
 -- User endpoint
 userUrl : String
 userUrl =
-    api ++ "users/"
+    api ++ "user/"
 
 -- User command
 fetchUserCmd : String -> Cmd Msg
