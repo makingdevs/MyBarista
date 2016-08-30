@@ -67,7 +67,7 @@ type alias Model =
   { id : Int
   , name : Maybe String
   , username : String
-  , s3_asset : S3Asset
+  , s3_asset : Maybe S3Asset
   , checkins : List Checkin
   , checkins_count : Int
   }
@@ -77,7 +77,7 @@ init result =
     urlUpdate result ( { id = 0
                          , name = Nothing
                          , username = ""
-                         , s3_asset = { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
+                         , s3_asset = Just { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
                          , checkins = []
                          , checkins_count = 0 }
                        )
@@ -106,9 +106,9 @@ userDecoder : Decode.Decoder Model
 userDecoder =
     Decode.object6 Model
         ("id" := Decode.int)
-        ( Decode.maybe("name" := Decode.string))
+        (Decode.maybe("name" := Decode.string))
         ("username" := Decode.string)
-        ("s3_asset" := s3AssetDecoder)
+        (Decode.maybe("s3_asset" := s3AssetDecoder))
         ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
 
@@ -192,7 +192,7 @@ profile model =
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src model.s3_asset.url_file, class "profile-page__avatar img-circle" ] []
+                          [ img [ src (model.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/avatar.png"), class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
