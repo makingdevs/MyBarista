@@ -45,7 +45,7 @@ urlUpdate result model =
                UserRoute username ->
                    ( model, fetchUserCmd username)
        Err error ->
-           ( { model | username = toString error }, Cmd.none )
+           ( model, Cmd.none )
 
 -- MODEL
 
@@ -154,7 +154,7 @@ update msg model =
           }
         , Cmd.none)
     FetchUserError error ->
-        ( {model | username = toString error}, Cmd.none)
+        ( {model | username = "User not found"}, Cmd.none)
 
 
 -- CHILD VIEWS
