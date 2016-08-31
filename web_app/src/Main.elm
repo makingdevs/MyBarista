@@ -163,7 +163,7 @@ update msg model =
 navigation : Html.Html Msg
 navigation =
     div[ class "navigation-main row" ]
-        [ div [ class "navigation__brand col-xs-6 col-sm-4 col-md-4" ]
+        [ div [ class "navigation__brand col-xs-6 col-sm-6 col-md-6" ]
               [ div [ class "navigation__brand-container" ]
                     [ img [ src "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png", class "navigation__image"] []
                     ]
@@ -171,12 +171,6 @@ navigation =
                     [ p []
                           [ text "Barista"]
                     ]
-              ]
-        , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
-              [ input [ type' "text"
-                      , placeholder "Buscar"
---                      , onInput SearchUser
-                      ] []
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
               [ ul [ class "navigation__session-items"]
