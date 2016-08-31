@@ -222,14 +222,33 @@ grid model =
         ]
 
 -- Footer
+baristUrl : String
+baristUrl =
+    "http://www.barist.coffee/"
+storeUrl : String
+storeUrl =
+    "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
+devsUrl : String
+devsUrl =
+    "http://makingdevs.com"
+
 footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
         [ div [ class "footer-nav" ]
               [ ul [ class "footer__nav-items"]
-                    [ li [ class "footer__nav-item" ] [ text "Enlace 1" ]
-                    , li [ class "footer__nav-item" ] [ text "Enlace 2" ]
-                    , li [ class "footer__nav-item col" ] [ text "Enlace 3" ]
+                    [ li [ class "footer__nav-item" ]
+                         [ a [ href baristUrl ]
+                             [ text "Barista" ]
+                         ]
+                    , li [ class "footer__nav-item" ]
+                         [ a [ href storeUrl ]
+                             [ text "Google Play" ]
+                         ]
+                    , li [ class "footer__nav-item col" ]
+                         [ a [ href devsUrl ]
+                             [ text "Making Devs"]
+                         ]
                     ]
               ]
         ]
