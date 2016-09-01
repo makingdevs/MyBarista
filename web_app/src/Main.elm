@@ -88,7 +88,7 @@ init result =
 -- Base url
 api : String
 api =
-    "http://192.168.1.243:3000/"
+    "http://mybarista.makingdevs.com/"
 
 -- User endpoint
 userUrl : String
@@ -154,7 +154,12 @@ update msg model =
           }
         , Cmd.none)
     FetchUserError error ->
-        ( {model | username = "User not found"}, Cmd.none)
+        ( {model | username = "User not found"
+          , s3_asset = Nothing
+          , checkins = []
+          , checkins_count = 0
+          }
+        , Cmd.none)
 
 
 -- CHILD VIEWS
