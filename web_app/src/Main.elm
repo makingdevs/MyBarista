@@ -88,7 +88,7 @@ init result =
 -- Base url
 api : String
 api =
-    "http://192.168.1.21:3000/"
+    "http://192.168.1.243:3000/"
 
 -- User endpoint
 userUrl : String
@@ -168,13 +168,13 @@ navigation =
                     [ img [ src "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png", class "navigation__image"] []
                     ]
               , div [ class "navigation__text col-sm-4 col-md-4" ]
-                    [ p []
+                    [ h1 []
                           [ text "Barista"]
                     ]
               ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
               [ ul [ class "navigation__session-items"]
-                    [ li [ class "navigation__session-item"] [ text "Descarga la applicación" ]
+                    [ li [ class "navigation__session-item"] [ a [href "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"] [text "Descarga la applicación"] ]
                     ]
               ]
         ]
