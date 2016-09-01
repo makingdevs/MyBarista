@@ -1,5 +1,5 @@
 
-# barista
+# Barista
 
 ## Development
 

@@ -3,45 +3,88 @@ module Main exposing (..)
 
 -- Elm Core
 import Html exposing (..)
-import Html.App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Task exposing (Task)
 import Json.Decode as Decode exposing ((:=))
+import Navigation
+import UrlParser exposing (..)
+import String
 
+{- Routing -}
+-- Ruta deseada: /user/username
+type UserProfile
+    = MyBarista
+    | UserRoute String
+
+matchers : Parser ( UserProfile -> a ) a
+matchers =
+           oneOf
+               {- El orden de los matchers importa -}
+               [ format MyBarista ( UrlParser.s "" )
+               , format UserRoute ( UrlParser.s "user" </> string ) ]
+
+hashParser : Navigation.Location -> Result String UserProfile
+hashParser location =
+    location.hash
+        |> String.dropLeft 2
+        |> parse identity matchers
+
+parser : Navigation.Parser (Result String UserProfile)
+parser =
+    Navigation.makeParser hashParser
+
+urlUpdate : Result String UserProfile -> Model -> (Model, Cmd Msg)
+urlUpdate result model =
+    case result of
+       Ok route ->
+           case route of
+               MyBarista ->
+                   ( model, Cmd.none )
+               UserRoute username ->
+                   ( model, fetchUserCmd username)
+       Err error ->
+           ( model, Cmd.none )
 
 -- MODEL
 
+
 type alias Checkin =
-    { s3_asset : String
-    , author : String
+    { author : String
+    , id : Int
+    , s3_asset : CheckinS3Asset
     }
+
+type alias CheckinS3Asset =
+    { id : Int
+    , url_file : String }
 
 type alias S3Asset =
     { url_file : String }
 
 type alias Model =
   { id : Int
-  , name : String
+  , name : Maybe String
   , username : String
-  , s3_asset : S3Asset
+  , s3_asset : Maybe S3Asset
+  , checkins : List Checkin
   , checkins_count : Int
   }
 
-init : (Model, Cmd Msg)
-init =
-  ( Model
-        0
-        ""
-        "@username"
-        { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
-        0
-  , fetchUserCmd
-  )
-
+init : Result String UserProfile -> (Model, Cmd Msg)
+init result =
+    urlUpdate result ( { id = 0
+                         , name = Nothing
+                         , username = ""
+                         , s3_asset = Just { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
+                         , checkins = []
+                         , checkins_count = 0 }
+                       )
 
 -- UPDATE
+
+
 -- Base url
 api : String
 api =
@@ -50,23 +93,31 @@ api =
 -- User endpoint
 userUrl : String
 userUrl =
-    api ++ "users/1"
+    api ++ "user/"
 
 -- User command
-fetchUserCmd : Cmd Msg
-fetchUserCmd =
-    Http.get userDecoder userUrl
+fetchUserCmd : String -> Cmd Msg
+fetchUserCmd username =
+    Http.get userDecoder (userUrl ++ username)
         |> Task.perform FetchUserError FetchUserSuccess
 
 -- User decoder
 userDecoder : Decode.Decoder Model
 userDecoder =
-    Decode.object5 Model
+    Decode.object6 Model
         ("id" := Decode.int)
-        ("name" := Decode.string)
+        (Decode.maybe("name" := Decode.string))
         ("username" := Decode.string)
-        ("s3_asset" := s3AssetDecoder)
+        (Decode.maybe("s3_asset" := s3AssetDecoder))
+        ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
+
+-- Checkin S3Asset decoder
+checkinAssetDecoder : Decode.Decoder CheckinS3Asset
+checkinAssetDecoder =
+    Decode.object2 CheckinS3Asset
+        ("id" := Decode.int)
+        ("url_file" := Decode.string)
 
 -- S3Asset decoder
 s3AssetDecoder : Decode.Decoder S3Asset
@@ -81,31 +132,30 @@ checkinsDecoder =
 
 checkinDecoder : Decode.Decoder Checkin
 checkinDecoder =
-    Decode.object2 Checkin
-        ("s3_asset" := Decode.string)
+    Decode.object3 Checkin
         ("author" := Decode.string)
+        ("id" := Decode.int)
+        ("s3_asset" := checkinAssetDecoder)
 
 
 type Msg
-  = FetchUser
-    | FetchUserSuccess Model
+  = FetchUserSuccess Model
     | FetchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    FetchUser ->
-        ( model
-        , Cmd.none)
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
+          , checkins = user.checkins
           , checkins_count = user.checkins_count
           }
         , Cmd.none)
     FetchUserError error ->
-        ( model, Cmd.none)
+        ( {model | username = "User not found"}, Cmd.none)
+
 
 -- CHILD VIEWS
 
@@ -142,7 +192,7 @@ profile model =
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src model.s3_asset.url_file, class "profile-page__avatar img-circle" ] []
+                          [ img [ src (model.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/avatar.png"), class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
@@ -161,7 +211,7 @@ profile model =
 -- Grid
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
-  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset] [] ]
+  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset.url_file] [] ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
@@ -174,7 +224,7 @@ grid : Model -> Html.Html Msg
 grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
-              [ {-renderCheckins model.checkins-} ]
+              [ renderCheckins model.checkins ]
         ]
 
 -- Footer
@@ -218,9 +268,10 @@ subscriptions model =
 
 main : Program Never
 main =
-  Html.App.program
+  Navigation.program parser
     { init = init
     , update = update
     , view = view
+    , urlUpdate = urlUpdate
     , subscriptions = subscriptions
     }
