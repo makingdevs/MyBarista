@@ -88,7 +88,7 @@ init result =
 -- Base url
 api : String
 api =
-    "http://192.168.1.21:3000/"
+    "http://192.168.1.243:3000/"
 
 -- User endpoint
 userUrl : String
@@ -163,24 +163,18 @@ update msg model =
 navigation : Html.Html Msg
 navigation =
     div[ class "navigation-main row" ]
-        [ div [ class "navigation__brand col-xs-6 col-sm-4 col-md-4" ]
+        [ div [ class "navigation__brand col-xs-6 col-sm-6 col-md-6" ]
               [ div [ class "navigation__brand-container" ]
                     [ img [ src "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png", class "navigation__image"] []
                     ]
               , div [ class "navigation__text col-sm-4 col-md-4" ]
-                    [ p []
+                    [ h1 []
                           [ text "Barista"]
                     ]
               ]
-        , div [ class "navigation__search-box hidden-xs col-sm-4 col-md-4" ]
-              [ input [ type' "text"
-                      , placeholder "Buscar"
---                      , onInput SearchUser
-                      ] []
-              ]
         , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
               [ ul [ class "navigation__session-items"]
-                    [ li [ class "navigation__session-item"] [ text "Descarga la applicación" ]
+                    [ li [ class "navigation__session-item"] [ a [href "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"] [text "Descarga la applicación"] ]
                     ]
               ]
         ]
@@ -228,14 +222,33 @@ grid model =
         ]
 
 -- Footer
+baristUrl : String
+baristUrl =
+    "http://www.barist.coffee/"
+storeUrl : String
+storeUrl =
+    "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
+devsUrl : String
+devsUrl =
+    "http://makingdevs.com"
+
 footer : Html.Html Msg
 footer =
     div [ class "footer-main" ]
         [ div [ class "footer-nav" ]
               [ ul [ class "footer__nav-items"]
-                    [ li [ class "footer__nav-item" ] [ text "Enlace 1" ]
-                    , li [ class "footer__nav-item" ] [ text "Enlace 2" ]
-                    , li [ class "footer__nav-item col" ] [ text "Enlace 3" ]
+                    [ li [ class "footer__nav-item" ]
+                         [ a [ href baristUrl ]
+                             [ text "Barista" ]
+                         ]
+                    , li [ class "footer__nav-item" ]
+                         [ a [ href storeUrl ]
+                             [ text "Google Play" ]
+                         ]
+                    , li [ class "footer__nav-item col" ]
+                         [ a [ href devsUrl ]
+                             [ text "Making Devs"]
+                         ]
                     ]
               ]
         ]

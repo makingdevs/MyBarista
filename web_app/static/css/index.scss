@@ -1,8 +1,23 @@
 
 /* Note: You can write Sass in this file. */
 
+@font-face {
+  font-family: "BaristFont";
+  src: url(../font/Blacksword.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "Bariol";
+  src: url("../font/bariol_regular.woff2") format("woff2"),
+       url("../font/bariol_regular.woff") format("woff"),
+       url("../font/bariol_regular.ttf") format("truetype");
+}
+
+* {
+    font-family: Bariol;
+}
+
 body {
-  padding-top: 25px;
   font-size: 16px;
 }
 
@@ -21,7 +36,6 @@ body {
 }
 
 .shell__content {
-    flex: 1;
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
@@ -31,9 +45,11 @@ body {
 /* Navigation */
 .navigation-main {
     width: 70%;
+    display: flex;
+    align-items: center;
+    padding: 15px 0px 15px 0px; 
 }
-.navigation__brand, .navigation__search-box
-, .navigation__href-session {
+.navigation__brand, .navigation__brand-container {
     display:flex;
     justify-content: center;
     align-items: center;
@@ -41,8 +57,17 @@ body {
 .navigation__image {
     width: 50px;
 }
+.navigation__text {
+    display: flex;
+    align-items: center;
+}
+.navigation__text h1 {
+    font-family: "BaristFont";
+    font-size: 24px;
+}
 .navigation__session-items {
     display: flex;
+    justify-content: flex-end;
     list-style: none;
 }
 
@@ -71,6 +96,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.profile-page__username p {
+    font-size: 34px;
+  	color: #411e11;
+  	font-weight: 300;
+  	margin: 0px 15px 0px 0px;
 }
 
 /* Grid */
