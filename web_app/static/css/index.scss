@@ -6,6 +6,17 @@
   src: url(../font/Blacksword.otf) format("truetype");
 }
 
+@font-face {
+  font-family: "Bariol";
+  src: url("../font/bariol_regular.woff2") format("woff2"),
+       url("../font/bariol_regular.woff") format("woff"),
+       url("../font/bariol_regular.ttf") format("truetype");
+}
+
+* {
+    font-family: Bariol;
+}
+
 body {
   font-size: 16px;
 }
@@ -86,6 +97,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.profile-page__username p {
+    font-size: 34px;
+  	color: #411e11;
+  	font-weight: 300;
+  	margin: 0px 15px 0px 0px;
 }
 
 /* Grid */
