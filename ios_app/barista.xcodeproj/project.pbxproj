@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800A1D70BF460001A9D1 /* Barista.swift */; };
+		4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */; };
+		4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800E1D70C13E0001A9D1 /* Comment.swift */; };
+		4B0780111D70C1640001A9D1 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0780101D70C1640001A9D1 /* GPSLocation.swift */; };
+		4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0780121D70C17B0001A9D1 /* PhotoCheckin.swift */; };
+		4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0780141D70C18C0001A9D1 /* S3Asset.swift */; };
+		4B0780171D70C1980001A9D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0780161D70C1980001A9D1 /* User.swift */; };
+		4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0780181D70C1A40001A9D1 /* UserProfile.swift */; };
+		4B07801B1D70C1AE0001A9D1 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07801A1D70C1AE0001A9D1 /* Venue.swift */; };
+		4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07801C1D70C1C20001A9D1 /* VenueDetailBindable.swift */; };
+		4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B07804B1D7758DD0001A9D1 /* Blacksword.otf */; };
+		4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07804D1D79C4CA0001A9D1 /* SignUpViewController.swift */; };
 		4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA0F1D2D50B1007028B1 /* AppDelegate.swift */; };
 		4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA111D2D50B1007028B1 /* ViewController.swift */; };
 		4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA131D2D50B1007028B1 /* Main.storyboard */; };
@@ -21,6 +33,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B07800A1D70BF460001A9D1 /* Barista.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Barista.swift; sourceTree = "<group>"; };
+		4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavor.swift; sourceTree = "<group>"; };
+		4B07800E1D70C13E0001A9D1 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		4B0780101D70C1640001A9D1 /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
+		4B0780121D70C17B0001A9D1 /* PhotoCheckin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCheckin.swift; sourceTree = "<group>"; };
+		4B0780141D70C18C0001A9D1 /* S3Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Asset.swift; sourceTree = "<group>"; };
+		4B0780161D70C1980001A9D1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4B0780181D70C1A40001A9D1 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		4B07801A1D70C1AE0001A9D1 /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
+		4B07801C1D70C1C20001A9D1 /* VenueDetailBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueDetailBindable.swift; sourceTree = "<group>"; };
+		4B07804B1D7758DD0001A9D1 /* Blacksword.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Blacksword.otf; sourceTree = "<group>"; };
+		4B07804D1D79C4CA0001A9D1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		4B17FA0C1D2D50B1007028B1 /* barista.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = barista.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B17FA0F1D2D50B1007028B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B17FA111D2D50B1007028B1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +91,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4B07804A1D7758140001A9D1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4B07804B1D7758DD0001A9D1 /* Blacksword.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		4B17FA031D2D50B1007028B1 = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +120,7 @@
 		4B17FA0E1D2D50B1007028B1 /* barista */ = {
 			isa = PBXGroup;
 			children = (
+				4B07804A1D7758140001A9D1 /* Resources */,
 				4B17FA271D2D58D1007028B1 /* Delegate */,
 				4B17FA261D2D58C8007028B1 /* Controllers */,
 				4B17FA251D2D58BF007028B1 /* Views */,
@@ -130,6 +163,16 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA2C1D2D6004007028B1 /* Checkin.swift */,
+				4B07800A1D70BF460001A9D1 /* Barista.swift */,
+				4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */,
+				4B07800E1D70C13E0001A9D1 /* Comment.swift */,
+				4B0780101D70C1640001A9D1 /* GPSLocation.swift */,
+				4B0780121D70C17B0001A9D1 /* PhotoCheckin.swift */,
+				4B0780141D70C18C0001A9D1 /* S3Asset.swift */,
+				4B0780161D70C1980001A9D1 /* User.swift */,
+				4B0780181D70C1A40001A9D1 /* UserProfile.swift */,
+				4B07801A1D70C1AE0001A9D1 /* Venue.swift */,
+				4B07801C1D70C1C20001A9D1 /* VenueDetailBindable.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -147,6 +190,7 @@
 				4B17FA111D2D50B1007028B1 /* ViewController.swift */,
 				4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */,
 				4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */,
+				4B07804D1D79C4CA0001A9D1 /* SignUpViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -221,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */,
 				4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */,
 				4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */,
 				4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */,
@@ -283,12 +328,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B0780171D70C1980001A9D1 /* User.swift in Sources */,
+				4B07801B1D70C1AE0001A9D1 /* Venue.swift in Sources */,
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
+				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
+				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
+				4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */,
+				4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */,
+				4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */,
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
+				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
+				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
 				4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */,
+				4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */,
 				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
+				4B0780111D70C1640001A9D1 /* GPSLocation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
