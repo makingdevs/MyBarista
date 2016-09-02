@@ -149,7 +149,7 @@ update msg model =
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
-          , checkins = user.checkins
+          , checkins = List.reverse user.checkins
           , checkins_count = user.checkins_count
           }
         , Cmd.none)
