@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Blacksword.otf">
+            <string>Blacksword</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QIe-Gh-ApN">
+                                <rect key="frame" x="20" y="128" width="560" height="313"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2DE-Tw-ds0">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="313"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lbO-Yp-RFI">
+                                                <rect key="frame" x="0.0" y="0.0" width="560" height="313"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zug-TG-dUP">
+                                                        <rect key="frame" x="0.0" y="0.0" width="560" height="313"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="120" verticalHuggingPriority="120" ambiguous="YES" image="started_barista" translatesAutoresizingMaskIntoConstraints="NO" id="Nky-Pw-nYF">
+                                                                <rect key="frame" x="235" y="0.0" width="90" height="90"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="90" id="Cui-dt-SYv"/>
+                                                                    <constraint firstAttribute="width" secondItem="Nky-Pw-nYF" secondAttribute="height" multiplier="1:1" id="G1L-J4-opP"/>
+                                                                    <constraint firstAttribute="width" secondItem="Nky-Pw-nYF" secondAttribute="height" multiplier="1:1" id="RQi-f2-I1s"/>
+                                                                    <constraint firstAttribute="width" secondItem="Nky-Pw-nYF" secondAttribute="height" multiplier="1:1" id="fW4-rb-bRe"/>
+                                                                    <constraint firstAttribute="width" constant="90" id="ouc-6k-0px"/>
+                                                                </constraints>
+                                                            </imageView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Barista" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATH-DE-Sdh">
+                                                                <rect key="frame" x="225" y="100" width="110" height="53"/>
+                                                                <fontDescription key="fontDescription" name="Blacksword" family="Blacksword" pointSize="33"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gug-pE-3eH">
+                                                                <rect key="frame" x="0.0" y="163" width="560" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ggD-yZ-XO1">
+                                                                <rect key="frame" x="0.0" y="203" width="560" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bty-bW-tjm">
+                                                                <rect key="frame" x="238" y="243" width="84" height="30"/>
+                                                                <state key="normal" title="Inicia sesión"/>
+                                                                <connections>
+                                                                    <segue destination="zDl-f7-gXc" kind="showDetail" id="eZ1-DK-rOQ"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-x1-MHe">
+                                                                <rect key="frame" x="178" y="283" width="205" height="30"/>
+                                                                <state key="normal" title="¿No tienes cuenta? Regístrate"/>
+                                                                <connections>
+                                                                    <segue destination="f75-30-ify" kind="presentation" id="UaM-Jb-LbW"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="gug-pE-3eH" firstAttribute="leading" secondItem="Zug-TG-dUP" secondAttribute="leading" id="VTL-F9-Kfg"/>
+                                                            <constraint firstAttribute="trailing" secondItem="gug-pE-3eH" secondAttribute="trailing" id="cBv-nM-tV2"/>
+                                                            <constraint firstItem="ATH-DE-Sdh" firstAttribute="top" secondItem="Nky-Pw-nYF" secondAttribute="bottom" constant="5" id="uwe-Ln-VAw"/>
+                                                            <constraint firstItem="ggD-yZ-XO1" firstAttribute="leading" secondItem="Zug-TG-dUP" secondAttribute="leading" id="wwa-ys-4k2"/>
+                                                            <constraint firstAttribute="trailing" secondItem="ggD-yZ-XO1" secondAttribute="trailing" id="xyt-Oh-Kd0"/>
+                                                        </constraints>
+                                                        <variation key="default">
+                                                            <mask key="constraints">
+                                                                <exclude reference="uwe-Ln-VAw"/>
+                                                            </mask>
+                                                        </variation>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.24309689097355525" green="0.78527736035222118" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="-166"/>
+        </scene>
+        <!--CheckinsStoryBoard-->
+        <scene sceneID="M38-gp-ERb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1HU-eV-uV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="948.5" y="98"/>
+        </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="IsI-mq-rWp">
+            <objects>
+                <viewController id="f75-30-ify" customClass="SignUpViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w69-Tc-lbP"/>
+                        <viewControllerLayoutGuide type="bottom" id="uiH-sq-5gw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TBZ-HP-FH3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zWZ-go-die">
+                                <rect key="frame" x="114" y="135" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-gu-qzI">
+                                <rect key="frame" x="114" y="226" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhl-Ng-79L">
+                                <rect key="frame" x="114" y="322" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FRu-R3-FH6">
+                                <rect key="frame" x="114" y="413" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGl-aG-382">
+                                <rect key="frame" x="139" y="491" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ds-pi-tB8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="1099"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="started_barista" width="256" height="256"/>
+    </resources>
+</document>
