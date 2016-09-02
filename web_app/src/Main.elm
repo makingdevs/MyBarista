@@ -53,7 +53,7 @@ urlUpdate result model =
 type alias Checkin =
     { author : String
     , id : Int
-    , s3_asset : CheckinS3Asset
+    , s3_asset : Maybe CheckinS3Asset
     }
 
 type alias CheckinS3Asset =
@@ -135,7 +135,7 @@ checkinDecoder =
     Decode.object3 Checkin
         ("author" := Decode.string)
         ("id" := Decode.int)
-        ("s3_asset" := checkinAssetDecoder)
+        (Decode.maybe("s3_asset" := checkinAssetDecoder))
 
 
 type Msg
@@ -149,12 +149,12 @@ update msg model =
     FetchUserSuccess user ->
         ( { model | username = user.username
           , s3_asset = user.s3_asset
-          , checkins = user.checkins
+          , checkins = List.reverse user.checkins
           , checkins_count = user.checkins_count
           }
         , Cmd.none)
     FetchUserError error ->
-        ( {model | username = "User not found"
+        ( {model | username = "User not found :("
           , s3_asset = Nothing
           , checkins = []
           , checkins_count = 0
@@ -210,7 +210,7 @@ profile model =
 -- Grid
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
-  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| checkin.s3_asset.url_file] [] ]
+  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| (checkin.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/coffee.jpg")] [] ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
