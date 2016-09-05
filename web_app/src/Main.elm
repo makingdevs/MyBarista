@@ -4,6 +4,7 @@ module Main exposing (..)
 -- Elm Core
 import Models exposing (..)
 import Messages exposing (Msg(..))
+import Update exposing (update)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -114,27 +115,6 @@ checkinDecoder =
         ("author" := Decode.string)
         ("id" := Decode.int)
         (Decode.maybe("s3_asset" := checkinAssetDecoder))
-
-
-
-
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
-  case msg of
-    FetchUserSuccess user ->
-        ( { model | username = user.username
-          , s3_asset = user.s3_asset
-          , checkins = List.reverse user.checkins
-          , checkins_count = user.checkins_count
-          }
-        , Cmd.none)
-    FetchUserError error ->
-        ( {model | username = "User not found :("
-          , s3_asset = Nothing
-          , checkins = []
-          , checkins_count = 0
-          }
-        , Cmd.none)
 
 
 -- CHILD VIEWS
