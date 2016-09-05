@@ -6,50 +6,14 @@ import Models exposing (..)
 import Messages exposing (Msg(..))
 import Update exposing (update)
 import View exposing (view)
+import Routing exposing (..)
 import Http
 import Task exposing (Task)
 import Json.Decode as Decode exposing ((:=))
 import Navigation
-import UrlParser exposing (..)
-import String
-
-{- Routing -}
--- Ruta deseada: /user/username
-type UserProfile
-    = MyBarista
-    | UserRoute String
-
-matchers : Parser ( UserProfile -> a ) a
-matchers =
-           oneOf
-               {- El orden de los matchers importa -}
-               [ format MyBarista ( UrlParser.s "" )
-               , format UserRoute ( UrlParser.s "user" </> string ) ]
-
-hashParser : Navigation.Location -> Result String UserProfile
-hashParser location =
-    location.hash
-        |> String.dropLeft 2
-        |> parse identity matchers
-
-parser : Navigation.Parser (Result String UserProfile)
-parser =
-    Navigation.makeParser hashParser
-
-urlUpdate : Result String UserProfile -> Model -> (Model, Cmd Msg)
-urlUpdate result model =
-    case result of
-       Ok route ->
-           case route of
-               MyBarista ->
-                   ( model, Cmd.none )
-               UserRoute username ->
-                   ( model, fetchUserCmd username)
-       Err error ->
-           ( model, Cmd.none )
 
 
-init : Result String UserProfile -> (Model, Cmd Msg)
+init : Result String Route -> (Model, Cmd Msg)
 init result =
     urlUpdate result ( { id = 0
                          , name = Nothing
@@ -58,8 +22,6 @@ init result =
                          , checkins = []
                          , checkins_count = 0 }
                        )
-
--- UPDATE
 
 -- Base url
 api : String
@@ -120,6 +82,19 @@ checkinDecoder =
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
+
+
+urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
+urlUpdate result model =
+    case result of
+       Ok route ->
+           case route of
+               Home ->
+                   ( model, Cmd.none )
+               UserProfile username ->
+                   ( model, fetchUserCmd username)
+       Err error ->
+           ( model, Cmd.none )
 
 
 main : Program Never
