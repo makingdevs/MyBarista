@@ -3,6 +3,7 @@ module Main exposing (..)
 
 -- Elm Core
 import Models exposing (..)
+import Messages exposing (Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -115,9 +116,6 @@ checkinDecoder =
         (Decode.maybe("s3_asset" := checkinAssetDecoder))
 
 
-type Msg
-  = FetchUserSuccess Model
-    | FetchUserError Http.Error
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
