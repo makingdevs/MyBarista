@@ -7,9 +7,6 @@ import Update exposing (update)
 import View exposing (view)
 import Routing exposing (..)
 import Users.Commands exposing (..)
-import Http
-import Task exposing (Task)
-import Json.Decode as Decode exposing ((:=))
 import Navigation
 
 
