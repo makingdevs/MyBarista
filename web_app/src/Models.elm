@@ -5,10 +5,14 @@ type alias Model =
   { id : Int
   , name : Maybe String
   , username : String
-  , s3_asset : Maybe S3Asset
+  , s3_asset : Maybe UserS3Asset
   , checkins : List Checkin
   , checkins_count : Int
   }
+
+type alias UserS3Asset =
+    { url_file : String }
+
 
 type alias Checkin =
     { author : String
@@ -20,5 +24,4 @@ type alias CheckinS3Asset =
     { id : Int
     , url_file : String }
 
-type alias S3Asset =
-    { url_file : String }
+
