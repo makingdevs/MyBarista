@@ -4,28 +4,19 @@ module Users.Commands exposing (..)
 import Models exposing (Model, UserS3Asset)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (checkinsDecoder)
+import Api exposing (user)
 import Http
 import Task exposing (Task)
 import Json.Decode as Decode exposing ((:=))
 
 
--- Base url
-api : String
-api =
-    "http://mybarista.makingdevs.com/"
-
-userUrl : String
-userUrl =
-    api ++ "user/"
-
 fetchUserCmd : String -> Cmd Msg
 fetchUserCmd username =
-    Http.get userDecoder (userUrl ++ username)
+    Http.get userDecoder (user ++ username)
         |> Task.perform FetchUserError FetchUserSuccess
 
 
 -- DECODERS
-
 
 userDecoder : Decode.Decoder Model
 userDecoder =
