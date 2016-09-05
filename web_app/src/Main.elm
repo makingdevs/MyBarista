@@ -2,6 +2,7 @@
 module Main exposing (..)
 
 -- Elm Core
+import Models exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -47,30 +48,6 @@ urlUpdate result model =
        Err error ->
            ( model, Cmd.none )
 
--- MODEL
-
-
-type alias Checkin =
-    { author : String
-    , id : Int
-    , s3_asset : Maybe CheckinS3Asset
-    }
-
-type alias CheckinS3Asset =
-    { id : Int
-    , url_file : String }
-
-type alias S3Asset =
-    { url_file : String }
-
-type alias Model =
-  { id : Int
-  , name : Maybe String
-  , username : String
-  , s3_asset : Maybe S3Asset
-  , checkins : List Checkin
-  , checkins_count : Int
-  }
 
 init : Result String UserProfile -> (Model, Cmd Msg)
 init result =
