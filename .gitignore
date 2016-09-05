@@ -4,3 +4,5 @@ android_app/app/fabric.properties
 android_app/fastlane/README.md
 android_app/fastlane/report.xml
 **/*.swp
+web_app/src/.#Main.elm
+
