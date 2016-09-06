@@ -5,6 +5,8 @@ import Models exposing (Model, Checkin)
 import Messages exposing (Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Dialog
 
 
 view : Model -> Html Msg
@@ -71,7 +73,19 @@ profile model =
 -- Grid
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
-  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| (checkin.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/coffee.jpg")] [] ]
+    let
+        placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+    in
+        li [ class "post-grid__item"
+           , onClick (ShowCheckinDialog checkin)
+           ]
+        [ img [ class "post-grid__item-image"
+              , src <| (checkin.s3_asset
+                       |> Maybe.map .url_file
+                       |> Maybe.withDefault placeholder
+                       )
+              ] []
+        ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
