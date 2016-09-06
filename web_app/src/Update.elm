@@ -1,3 +1,4 @@
+
 module Update exposing (..)
 
 import Models exposing (Model)
@@ -21,3 +22,8 @@ update msg model =
           , checkins_count = 0
           }
         , Cmd.none)
+    ShowCheckinDialog checkin ->
+        Debug.log ("Checkin clicked! " ++ ( toString checkin.id ) )
+            ( model, Cmd.none )
+    CancelCheckinDialog ->
+       ( model, Cmd.none )
