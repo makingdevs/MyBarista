@@ -79,13 +79,15 @@ renderCheckin checkin =
         li [ class "post-grid__item"
            , onClick (ShowCheckinDialog checkin)
            ]
-        [ img [ class "post-grid__item-image"
-              , src <| (checkin.s3_asset
-                       |> Maybe.map .url_file
-                       |> Maybe.withDefault placeholder
-                       )
-              ] []
-        ]
+           [ img [ class "post-grid__item-image"
+                 , src <| (checkin.s3_asset
+                          |> Maybe.map .url_file
+                          |> Maybe.withDefault placeholder
+                          )
+                 ] []
+           , Dialog.view
+               ( Just ( checkinDialog checkin ) )
+           ]
 
 renderCheckins : List Checkin -> Html.Html Msg
 renderCheckins checkins =
@@ -133,3 +135,20 @@ footer =
                     ]
               ]
         ]
+
+
+-- CHECK IN DIALOG
+checkinDialog: Checkin -> Dialog.Config Msg
+checkinDialog checkin =
+    { closeMessage = Just CancelCheckinDialog
+    , header = Nothing
+    , body = Just ( img [ class "img-responsive"
+                        , src <| (checkin.s3_asset
+                                 |> Maybe.map .url_file
+                                 |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+                                 )
+                        ] []
+                  )
+    , footer =
+        Nothing
+    }
