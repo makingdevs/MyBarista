@@ -140,15 +140,18 @@ footer =
 -- CHECK IN DIALOG
 checkinDialog: Checkin -> Dialog.Config Msg
 checkinDialog checkin =
-    { closeMessage = Just CancelCheckinDialog
-    , header = Nothing
-    , body = Just ( img [ class "img-responsive"
-                        , src <| (checkin.s3_asset
-                                 |> Maybe.map .url_file
-                                 |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
-                                 )
-                        ] []
-                  )
-    , footer =
-        Nothing
-    }
+    let
+        placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+    in
+        { closeMessage = Just CancelCheckinDialog
+        , header = Nothing
+        , body = Just ( img [ class "img-responsive"
+                            , src <| (checkin.s3_asset
+                                     |> Maybe.map .url_file
+                                     |> Maybe.withDefault placeholder
+                                     )
+                            ] []
+                      )
+        , footer =
+            Nothing
+        }
