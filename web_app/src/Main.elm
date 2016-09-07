@@ -12,13 +12,17 @@ import Navigation
 
 init : Result String Route -> (Model, Cmd Msg)
 init result =
-    urlUpdate result ( { id = 0
-                         , name = Nothing
-                         , username = ""
-                         , s3_asset = Just { url_file = "http://barist.coffee.s3.amazonaws.com/avatar.png" }
-                         , checkins = []
-                         , checkins_count = 0 }
-                       )
+    let
+        placeholder =  "http://barist.coffee.s3.amazonaws.com/avatar.png"
+    in
+        urlUpdate result ( { id = 0
+                           , name = Nothing
+                           , username = ""
+                           , s3_asset = Just { url_file = placeholder }
+                           , checkins = []
+                           , checkins_count = 0
+                           , show_checkin = Just False }
+                         )
 
 
 subscriptions : Model -> Sub Msg
