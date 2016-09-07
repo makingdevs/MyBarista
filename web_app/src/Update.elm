@@ -24,6 +24,10 @@ update msg model =
         , Cmd.none)
     ShowCheckinDialog checkin ->
         Debug.log ("Checkin clicked! " ++ ( toString checkin.id ) )
-            ( model, Cmd.none )
+            ( { model
+                  | show_checkin = Just True }
+            , Cmd.none )
     CancelCheckinDialog ->
-       ( model, Cmd.none )
+       ( { model
+             | show_checkin = Just False }
+       , Cmd.none )
