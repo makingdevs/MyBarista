@@ -71,6 +71,21 @@ profile model =
 
 
 -- Grid
+
+grid : Model -> Html.Html Msg
+grid model =
+    div [ class "post-grid" ]
+        [ div [ class "post-grid__items-container"]
+              [ renderCheckins model ]
+        ]
+
+renderCheckins : Model -> Html.Html Msg
+renderCheckins model =
+  let
+    items = List.map renderCheckin model.checkins
+  in
+    ul [ class "post-grid__items"] items
+
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
     let
@@ -88,20 +103,6 @@ renderCheckin checkin =
            , Dialog.view
                ( Just ( checkinDialog checkin ) )
            ]
-
-renderCheckins : List Checkin -> Html.Html Msg
-renderCheckins checkins =
-  let
-    items = List.map renderCheckin checkins
-  in
-    ul [ class "post-grid__items"] items
-
-grid : Model -> Html.Html Msg
-grid model =
-    div [ class "post-grid" ]
-        [ div [ class "post-grid__items-container"]
-              [ renderCheckins model.checkins ]
-        ]
 
 
 -- Footer
