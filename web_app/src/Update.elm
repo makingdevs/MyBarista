@@ -46,19 +46,5 @@ update msg model =
                     , Cmd.none )
             CancelCheckinDialog checkin ->
                 Debug.log "Closed"
-                    ( { model
-                          | checkins =
-                            [ { author = checkin.author
-                              , id = checkin.id
-                              , s3_asset = Just { id = checkin.s3_asset
-                                                |> Maybe.map .id
-                                                |> Maybe.withDefault 0
-                                                , url_file = checkin.s3_asset
-                                                |> Maybe.map .url_file
-                                                |> Maybe.withDefault placeholder
-                                                }
-                              , show_checkin = Just False
-                              }
-                            ]
-                      }
+                    ( model
                     , fetchUserCmd model.username )
