@@ -82,11 +82,11 @@ grid model =
 renderCheckins : Model -> Html.Html Msg
 renderCheckins model =
     model.checkins
-        |> List.map renderCheckin
+        |> List.map (renderCheckin model)
         |> ul [ class "post-grid__items" ]
 
-renderCheckin : Checkin -> Html.Html Msg
-renderCheckin checkin =
+renderCheckin : Model -> Checkin -> Html.Html Msg
+renderCheckin model checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
@@ -100,7 +100,11 @@ renderCheckin checkin =
                           )
                  ] []
            , Dialog.view
-               ( Just ( checkinDialog checkin ) )
+               ( if model.show_checkin |> Maybe.withDefault False then
+                     Just ( checkinDialog checkin )
+                 else
+                     Nothing
+               )
            ]
 
 
