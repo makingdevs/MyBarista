@@ -3,6 +3,7 @@ module Update exposing (..)
 
 import Models exposing (Model)
 import Messages exposing (Msg(..))
+import Users.Commands exposing (fetchUserCmd)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -60,4 +61,4 @@ update msg model =
                               }
                             ]
                       }
-                    , Cmd.none )
+                    , fetchUserCmd model.username )
