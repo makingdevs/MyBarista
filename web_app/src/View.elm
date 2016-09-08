@@ -81,10 +81,9 @@ grid model =
 
 renderCheckins : Model -> Html.Html Msg
 renderCheckins model =
-  let
-    items = List.map renderCheckin model.checkins
-  in
-    ul [ class "post-grid__items"] items
+    model.checkins
+        |> List.map renderCheckin
+        |> ul [ class "post-grid__items" ]
 
 renderCheckin : Checkin -> Html.Html Msg
 renderCheckin checkin =
