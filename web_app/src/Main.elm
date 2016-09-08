@@ -19,7 +19,14 @@ init result =
                            , name = Nothing
                            , username = ""
                            , s3_asset = Just { url_file = placeholder }
-                           , checkins = []
+                           , checkins = [ { author = ""
+                                          , id = 0
+                                          , s3_asset = Just { id = 0
+                                                            , url_file = ""
+                                                            }
+                                          , show_checkin = Just False
+                                          }
+                                        ]
                            , checkins_count = 0
                            , show_checkin = Just False }
                          )
