@@ -19,6 +19,7 @@ type alias Checkin =
     { author : String
     , id : Int
     , s3_asset : Maybe CheckinS3Asset
+    , show_checkin : Maybe Bool
     }
 
 type alias CheckinS3Asset =
