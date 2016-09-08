@@ -8,4 +8,4 @@ type Msg
   = FetchUserSuccess Model
     | FetchUserError Http.Error
     | ShowCheckinDialog Checkin
-    | CancelCheckinDialog
+    | CancelCheckinDialog Checkin
