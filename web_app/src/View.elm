@@ -100,7 +100,7 @@ renderCheckin model checkin =
                           )
                  ] []
            , Dialog.view
-               ( if model.show_checkin |> Maybe.withDefault False then
+               ( if checkin.show_checkin |> Maybe.withDefault False then
                      Just ( checkinDialog checkin )
                  else
                      Nothing
@@ -147,7 +147,7 @@ checkinDialog checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
-        { closeMessage = Just CancelCheckinDialog
+        { closeMessage = Just (CancelCheckinDialog checkin)
         , header = Nothing
         , body = Just ( img [ class "img-responsive"
                             , src <| (checkin.s3_asset
