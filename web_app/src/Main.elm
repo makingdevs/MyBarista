@@ -28,7 +28,7 @@ init result =
                                           }
                                         ]
                            , checkins_count = 0
-                           , show_checkin = Just False }
+                           }
                          )
 
 

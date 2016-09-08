@@ -20,14 +20,13 @@ fetchUserCmd username =
 
 userDecoder : Decode.Decoder Model
 userDecoder =
-    Decode.object7 Model
+    Decode.object6 Model
         ("id" := Decode.int)
         (Decode.maybe("name" := Decode.string))
         ("username" := Decode.string)
         (Decode.maybe("s3_asset" := s3AssetDecoder))
         ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
-        (Decode.maybe("show_checkin" := Decode.bool))
 
 s3AssetDecoder : Decode.Decoder UserS3Asset
 s3AssetDecoder =

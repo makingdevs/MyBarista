@@ -82,11 +82,11 @@ grid model =
 renderCheckins : Model -> Html.Html Msg
 renderCheckins model =
     model.checkins
-        |> List.map (renderCheckin model)
+        |> List.map renderCheckin
         |> ul [ class "post-grid__items" ]
 
-renderCheckin : Model -> Checkin -> Html.Html Msg
-renderCheckin model checkin =
+renderCheckin : Checkin -> Html.Html Msg
+renderCheckin checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in

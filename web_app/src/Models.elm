@@ -8,7 +8,6 @@ type alias Model =
   , s3_asset : Maybe UserS3Asset
   , checkins : List Checkin
   , checkins_count : Int
-  , show_checkin : Maybe Bool
   }
 
 type alias UserS3Asset =

@@ -28,8 +28,7 @@ update msg model =
             ShowCheckinDialog checkin ->
                 Debug.log ("Checkin clicked! " ++ ( toString checkin.id ) )
                     ( { model
-                          | show_checkin = Just True
-                          , checkins =
+                          | checkins =
                             [ { author = checkin.author
                               , id = checkin.id
                               , s3_asset = Just { id = checkin.s3_asset
@@ -47,8 +46,7 @@ update msg model =
             CancelCheckinDialog checkin ->
                 Debug.log "Closed"
                     ( { model
-                          | show_checkin = Just False
-                          , checkins =
+                          | checkins =
                             [ { author = checkin.author
                               , id = checkin.id
                               , s3_asset = Just { id = checkin.s3_asset
