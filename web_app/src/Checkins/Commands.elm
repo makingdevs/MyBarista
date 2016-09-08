@@ -11,10 +11,11 @@ checkinsDecoder =
 
 checkinDecoder : Decode.Decoder Checkin
 checkinDecoder =
-    Decode.object3 Checkin
+    Decode.object4 Checkin
         ("author" := Decode.string)
         ("id" := Decode.int)
         (Decode.maybe("s3_asset" := s3AssetDecoder))
+        (Decode.maybe("show_checkin" := Decode.bool))
 
 s3AssetDecoder : Decode.Decoder CheckinS3Asset
 s3AssetDecoder =
