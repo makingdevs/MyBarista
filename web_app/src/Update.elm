@@ -40,6 +40,7 @@ update msg model =
                                                 |> Maybe.map .url_file
                                                 |> Maybe.withDefault placeholder
                                                 }
+                              , comments = Just []
                               , show_checkin = Just True
                               }
                             ]
@@ -51,6 +52,10 @@ update msg model =
                     , fetchUserCmd model.username )
             FetchCommentsSuccess comments ->
                 Debug.log (" Comments: :D " ++ (toString comments))
-                    ( model, Cmd.none )
+                    ( { model
+                          | checkins =
+                            [ { comments = comments } ]
+                      }
+                    , Cmd.none )
             FetchCommentsError error ->
                 ( model, Cmd.none )
