@@ -48,3 +48,7 @@ update msg model =
                 Debug.log "Closed"
                     ( model
                     , fetchUserCmd model.username )
+            FetchCommentsSuccess comments ->
+                ( model, Cmd.none )
+            FetchCommentsError error ->
+                ( model, Cmd.none )
