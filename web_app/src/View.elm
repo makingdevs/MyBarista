@@ -149,12 +149,23 @@ checkinDialog checkin =
     in
         { closeMessage = Just (CancelCheckinDialog checkin)
         , header = Nothing
-        , body = Just ( img [ class "img-responsive"
-                            , src <| (checkin.s3_asset
-                                     |> Maybe.map .url_file
-                                     |> Maybe.withDefault placeholder
-                                     )
-                            ] []
+        , body = Just ( div [ class "post-preview"]
+                            [ div [ class "post-preview__image-container"]
+                                  [
+                                   img [ class "img-responsive post-preview__image"
+                                       , src <| (checkin.s3_asset
+                                                |> Maybe.map .url_file
+                                                |> Maybe.withDefault placeholder
+                                                )
+                                       ] []
+                                  ]
+                            , div [ class "post-preview__comments-container"]
+                                  [ div [ class "comments-container__header"]
+                                        [ text checkin.author]
+                                  , div [ class "comments-container__body"]
+                                        []
+                                  ]
+                            ]
                       )
         , footer =
             Nothing
