@@ -4,6 +4,7 @@ module Update exposing (..)
 import Models exposing (Model)
 import Messages exposing (Msg(..))
 import Users.Commands exposing (fetchUserCmd)
+import Checkins.Commands exposing (fetchCommentsCmd)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -43,12 +44,13 @@ update msg model =
                               }
                             ]
                       }
-                    , Cmd.none )
+                    , fetchCommentsCmd checkin.id )
             CancelCheckinDialog checkin ->
                 Debug.log "Closed"
                     ( model
                     , fetchUserCmd model.username )
             FetchCommentsSuccess comments ->
-                ( model, Cmd.none )
+                Debug.log (" Comments: :D " ++ (toString comments))
+                    ( model, Cmd.none )
             FetchCommentsError error ->
                 ( model, Cmd.none )
