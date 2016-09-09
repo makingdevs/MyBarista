@@ -25,4 +25,8 @@ type alias CheckinS3Asset =
     { id : Int
     , url_file : String }
 
+type alias CheckinComment =
+    { body : String
+    , created_at : String }
+
 
