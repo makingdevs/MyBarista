@@ -1,7 +1,7 @@
 
 module Checkins.Commands exposing (..)
 
-import Models exposing (Checkin, CheckinS3Asset)
+import Models exposing (Checkin, CheckinS3Asset, CheckinComment)
 import Json.Decode as Decode exposing ((:=))
 
 
@@ -22,3 +22,13 @@ s3AssetDecoder =
     Decode.object2 CheckinS3Asset
         ("id" := Decode.int)
         ("url_file" := Decode.string)
+
+commentsDecoder : Decode.Decoder (List CheckinComment)
+commentsDecoder =
+    Decode.list commentDecoder
+
+commentDecoder : Decode.Decoder CheckinComment
+commentDecoder =
+    Decode.object2 CheckinComment
+        ( "body" := Decode.string )
+        ( "created_at" := Decode.string )
