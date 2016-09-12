@@ -18,7 +18,7 @@ type alias Checkin =
     { author : String
     , id : Int
     , s3_asset : Maybe CheckinS3Asset
-    , comments : Maybe (List CheckinComment)
+    , comments : List CheckinComment
     , show_checkin : Maybe Bool
     }
 
@@ -28,6 +28,10 @@ type alias CheckinS3Asset =
 
 type alias CheckinComment =
     { body : String
-    , created_at : String }
+    , created_at : String
+    , user : Friend }
+
+type alias Friend =
+    { username : String }
 
 
