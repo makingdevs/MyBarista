@@ -9,5 +9,5 @@ type Msg
     | FetchUserError Http.Error
     | ShowCheckinDialog Checkin
     | CancelCheckinDialog Checkin
-    | FetchCommentsSuccess (List CheckinComment)
-    | FetchCommentsError Http.Error
+    | FetchCheckinSuccess Checkin
+    | FetchCheckinError Http.Error
