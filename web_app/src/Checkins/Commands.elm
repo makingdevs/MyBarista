@@ -3,16 +3,16 @@ module Checkins.Commands exposing (..)
 
 import Models exposing (Checkin, CheckinS3Asset, CheckinComment, CommentAuthor)
 import Messages exposing (Msg(..))
-import Api exposing (commentsUrl)
+import Api exposing (checkinUrl)
 import Json.Decode as Decode exposing ((:=))
 import Task exposing (Task)
 import Http
 
 
-fetchCommentsCmd : Int -> Cmd Msg
-fetchCommentsCmd id =
-    Http.get commentsDecoder (commentsUrl id)
-        |> Task.perform FetchCommentsError FetchCommentsSuccess
+fetchCheckinCmd : Int -> Cmd Msg
+fetchCheckinCmd id =
+    Http.get checkinDecoder (checkinUrl id)
+        |> Task.perform FetchCheckinError FetchCheckinSuccess
 
 
 -- DECODERS
