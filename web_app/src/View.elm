@@ -90,14 +90,13 @@ renderCheckin checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
-        li [ class "post-grid__item"
-           , onClick (ShowCheckinDialog checkin)
-           ]
+        li [ class "post-grid__item" ]
            [ img [ class "post-grid__item-image"
                  , src <| (checkin.s3_asset
                           |> Maybe.map .url_file
                           |> Maybe.withDefault placeholder
                           )
+                 , onClick (ShowCheckinDialog checkin)
                  ] []
            , Dialog.view
                ( if checkin.show_checkin |> Maybe.withDefault False then
