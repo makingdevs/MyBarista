@@ -29,9 +29,9 @@ type alias CheckinS3Asset =
 type alias CheckinComment =
     { body : String
     , created_at : String
-    , user : Friend }
+    , user : CommentAuthor }
 
-type alias Friend =
+type alias CommentAuthor =
     { username : String }
 
 
