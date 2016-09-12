@@ -4,7 +4,7 @@ module Update exposing (..)
 import Models exposing (Model)
 import Messages exposing (Msg(..))
 import Users.Commands exposing (fetchUserCmd)
-import Checkins.Commands exposing (fetchCommentsCmd)
+import Checkins.Commands exposing (fetchCheckinCmd)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -28,31 +28,44 @@ update msg model =
                   }
                 , Cmd.none )
             ShowCheckinDialog checkin ->
-                Debug.log ("Checkin clicked! " ++ ( toString checkin.id ) )
-                    ( { model
-                          | checkins =
-                            [ { author = checkin.author
-                              , id = checkin.id
-                              , s3_asset = Just { id = checkin.s3_asset
-                                                |> Maybe.map .id
-                                                |> Maybe.withDefault 0
-                                                , url_file =  checkin.s3_asset
-                                                |> Maybe.map .url_file
-                                                |> Maybe.withDefault placeholder
-                                                }
-                              , comments = checkin.comments
-                              , show_checkin = Just True
-                              }
-                            ]
-                      }
-                    , Cmd.none )
+                ( { model
+                      | checkins =
+                        [ { author = checkin.author
+                          , id = checkin.id
+                          , s3_asset = Just { id = checkin.s3_asset
+                                            |> Maybe.map .id
+                                            |> Maybe.withDefault 0
+                                            , url_file =  checkin.s3_asset
+                                            |> Maybe.map .url_file
+                                            |> Maybe.withDefault placeholder
+                                            }
+                          , comments = checkin.comments
+                          , show_checkin = Just True
+                          }
+                        ]
+                  }
+                , fetchCheckinCmd checkin.id )
             CancelCheckinDialog checkin ->
                 Debug.log "Closed"
                     ( model
                     , Cmd.none )
-            FetchCommentsSuccess comments ->
-                Debug.log (" Comments: :D " ++ (toString comments))
-                    ( model
-                    , Cmd.none )
-            FetchCommentsError error ->
+            FetchCheckinSuccess checkin ->
+                ( { model
+                      | checkins =
+                        [ { author = checkin.author
+                          , id = checkin.id
+                          , s3_asset = Just { id = checkin.s3_asset
+                                            |> Maybe.map .id
+                                            |> Maybe.withDefault 0
+                                            , url_file = checkin.s3_asset
+                                            |> Maybe.map .url_file
+                                            |> Maybe.withDefault placeholder
+                                            }
+                          , comments = checkin.comments
+                          , show_checkin = Just True
+                          }
+                        ]
+                  }
+                , Cmd.none )
+            FetchCheckinError error ->
                 ( model, Cmd.none )
