@@ -24,7 +24,7 @@ init result =
                                           , s3_asset = Just { id = 0
                                                             , url_file = ""
                                                             }
-                                          , comments = Just []
+                                          , comments = []
                                           , show_checkin = Just False
                                           }
                                         ]
