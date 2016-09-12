@@ -21,7 +21,7 @@ update msg model =
                   }
                 , Cmd.none )
             FetchUserError error ->
-                ( {model | username = "User not found :("
+                ( {model | username = toString error
                   , s3_asset = Nothing
                   , checkins = []
                   , checkins_count = 0
@@ -40,22 +40,19 @@ update msg model =
                                                 |> Maybe.map .url_file
                                                 |> Maybe.withDefault placeholder
                                                 }
-                              , comments = Just []
+                              , comments = checkin.comments
                               , show_checkin = Just True
                               }
                             ]
                       }
-                    , fetchCommentsCmd checkin.id )
+                    , Cmd.none )
             CancelCheckinDialog checkin ->
                 Debug.log "Closed"
                     ( model
-                    , fetchUserCmd model.username )
+                    , Cmd.none )
             FetchCommentsSuccess comments ->
                 Debug.log (" Comments: :D " ++ (toString comments))
-                    ( { model
-                          | checkins =
-                            [ { comments = comments } ]
-                      }
+                    ( model
                     , Cmd.none )
             FetchCommentsError error ->
                 ( model, Cmd.none )
