@@ -1,7 +1,7 @@
 
 module View exposing (..)
 
-import Models exposing (Model, Checkin)
+import Models exposing (Model, Checkin, CheckinComment)
 import Messages exposing (Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -163,10 +163,21 @@ checkinDialog checkin =
                                   [ div [ class "comments-container__header"]
                                         [ text checkin.author]
                                   , div [ class "comments-container__body"]
-                                        []
+                                        [ renderComments checkin ]
                                   ]
                             ]
                       )
         , footer =
             Nothing
         }
+
+renderComments : Checkin -> Html.Html Msg
+renderComments checkin =
+    checkin.comments
+        |> List.map renderComment
+        |> ul []
+
+renderComment : CheckinComment -> Html.Html Msg
+renderComment comment =
+    li []
+       [ text ( comment.user.username ++ " " ++ comment.body ) ]
