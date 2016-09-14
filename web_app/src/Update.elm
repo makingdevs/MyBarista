@@ -3,6 +3,7 @@ module Update exposing (..)
 
 import Models exposing (Model, Checkin)
 import Messages exposing (Msg(..))
+import Users.Commands exposing (fetchUserCmd)
 import Checkins.Commands exposing (fetchCheckinCmd)
 
 
@@ -30,22 +31,7 @@ update msg model =
                 ( showDialog model checkin.id
                 , fetchCheckinCmd checkin.id )
             HideCheckin checkin ->
-                ( { model
-                      | checkins =
-                        [ { author = checkin.author
-                          , id = checkin.id
-                          , s3_asset = Just { id = checkin.s3_asset
-                                            |> Maybe.map .id
-                                            |> Maybe.withDefault 0
-                                            , url_file =  checkin.s3_asset
-                                            |> Maybe.map .url_file
-                                            |> Maybe.withDefault placeholder
-                                            }
-                          , comments = checkin.comments
-                          , show_checkin = Just False
-                          }
-                        ]
-                  }
+                ( cancelDialog model checkin.id
                 , Cmd.none )
             FetchCheckinSuccess checkin ->
                 ( showDialog model checkin.id
@@ -72,3 +58,22 @@ showDialog model id =
         { model
             | checkins = newCheckins
         }
+
+cancelDialog : Model -> Int -> Model
+cancelDialog model id =
+    let
+        newCheckins =
+            List.map
+                (\checkin ->
+                     if checkin.id == id then
+                         { checkin
+                             | show_checkin = Just False
+                         }
+                     else
+                         checkin
+                )
+                model.checkins
+     in
+         { model
+             | checkins = newCheckins
+         }
