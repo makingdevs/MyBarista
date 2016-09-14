@@ -21,7 +21,7 @@ update msg model =
                   }
                 , Cmd.none )
             FetchUserError error ->
-                ( {model | username = toString error
+                ( {model | username = "User not found :("
                   , s3_asset = Nothing
                   , checkins = []
                   , checkins_count = 0
