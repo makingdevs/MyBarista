@@ -28,27 +28,31 @@ update msg model =
                   }
                 , Cmd.none )
             ShowCheckin checkin ->
-                ( showDialog model checkin.id
+                ( showDialog model checkin
                 , fetchCheckinCmd checkin.id )
             HideCheckin checkin ->
                 ( cancelDialog model checkin.id
                 , Cmd.none )
             FetchCheckinSuccess checkin ->
-                ( showDialog model checkin.id
+                Debug.log ("Checkin: " ++ (toString checkin))
+                ( showDialog model checkin
                 , Cmd.none )
             FetchCheckinError error ->
                 ( model, Cmd.none )
 
 
-showDialog : Model -> Int -> Model
-showDialog model id =
+showDialog : Model -> Checkin -> Model
+showDialog model checkinSelected =
     let
         newCheckins =
             List.map
                 (\checkin ->
-                     if checkin.id == id then
+                     if checkin.id == checkinSelected.id then
                          { checkin
-                             | show_checkin = Just True
+                             | note = checkinSelected.note
+                             , rating = checkinSelected.rating
+                             , venue = checkinSelected.venue
+                             , show_checkin = Just True
                          }
                      else
                          checkin
