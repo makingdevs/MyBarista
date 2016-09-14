@@ -120,6 +120,43 @@ body {
     width: 300px;
 }
 
+/* Dialog Check In */
+.comments-container__header {
+    display: flex;
+    padding: 16px 0px 16px 0px;
+}
+.header__avatar-container {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header__avatar {
+    width: 50px;
+}
+.header__checkin-author {
+    width: 40%;
+}
+.checkin-author__user-container text {
+    font-weight: bold;
+}
+.header__checkin-rating {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+.body__author-note {
+    padding: 0px 0px 8px 16px;
+}
+.body__other-comments {
+    padding-left: 16px;
+}
+.comments__items {
+    list-style: none;
+    padding: 0px;
+    marging: 0px;
+}
+
 /* Footer */
 .shell__footer {
     height: 150px;
