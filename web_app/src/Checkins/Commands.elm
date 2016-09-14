@@ -23,10 +23,13 @@ checkinsDecoder =
 
 checkinDecoder : Decode.Decoder Checkin
 checkinDecoder =
-    Decode.object5 Checkin
-        ("author" := Decode.string)
+    Decode.object8 Checkin
         ("id" := Decode.int)
+        ("author" := Decode.string)
+        (Decode.maybe("note" := Decode.string))
+        (Decode.maybe("rating" := Decode.string))
         (Decode.maybe("s3_asset" := s3AssetDecoder))
+        (Decode.maybe("venue_id" := Decode.int))
         ("comments" := commentsDecoder)
         (Decode.maybe("show_checkin" := Decode.bool))
 
