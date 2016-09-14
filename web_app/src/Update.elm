@@ -1,9 +1,8 @@
 
 module Update exposing (..)
 
-import Models exposing (Model)
+import Models exposing (Model, Checkin)
 import Messages exposing (Msg(..))
-import Users.Commands exposing (fetchUserCmd)
 import Checkins.Commands exposing (fetchCheckinCmd)
 
 
@@ -27,25 +26,10 @@ update msg model =
                   , checkins_count = 0
                   }
                 , Cmd.none )
-            ShowCheckinDialog checkin ->
-                ( { model
-                      | checkins =
-                        [ { author = checkin.author
-                          , id = checkin.id
-                          , s3_asset = Just { id = checkin.s3_asset
-                                            |> Maybe.map .id
-                                            |> Maybe.withDefault 0
-                                            , url_file =  checkin.s3_asset
-                                            |> Maybe.map .url_file
-                                            |> Maybe.withDefault placeholder
-                                            }
-                          , comments = checkin.comments
-                          , show_checkin = Just True
-                          }
-                        ]
-                  }
+            ShowCheckin checkin ->
+                ( showDialog model checkin.id
                 , fetchCheckinCmd checkin.id )
-            CancelCheckinDialog checkin ->
+            HideCheckin checkin ->
                 ( { model
                       | checkins =
                         [ { author = checkin.author
@@ -64,22 +48,27 @@ update msg model =
                   }
                 , Cmd.none )
             FetchCheckinSuccess checkin ->
-                ( { model
-                      | checkins =
-                        [ { author = checkin.author
-                          , id = checkin.id
-                          , s3_asset = Just { id = checkin.s3_asset
-                                            |> Maybe.map .id
-                                            |> Maybe.withDefault 0
-                                            , url_file = checkin.s3_asset
-                                            |> Maybe.map .url_file
-                                            |> Maybe.withDefault placeholder
-                                            }
-                          , comments = checkin.comments
-                          , show_checkin = Just True
-                          }
-                        ]
-                  }
+                ( showDialog model checkin.id
                 , Cmd.none )
             FetchCheckinError error ->
                 ( model, Cmd.none )
+
+
+showDialog : Model -> Int -> Model
+showDialog model id =
+    let
+        newCheckins =
+            List.map
+                (\checkin ->
+                     if checkin.id == id then
+                         { checkin
+                             | show_checkin = Just True
+                         }
+                     else
+                         checkin
+                )
+                model.checkins
+    in
+        { model
+            | checkins = newCheckins
+        }
