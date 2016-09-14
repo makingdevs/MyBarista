@@ -179,7 +179,7 @@ checkinDialog model checkin =
                                         ]
                                   , div [ class "comments-container__body" ]
                                         [ div [ class "body__author-note" ]
-                                              [ text (Maybe.withDefault "" checkin.note) ]
+                                              [ text ( checkin.author ++ " " ++ (Maybe.withDefault "" checkin.note)) ]
                                         , div [ class "body__other-comments" ]
                                               [ renderComments checkin ]
                                         ]
