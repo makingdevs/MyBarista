@@ -96,7 +96,7 @@ renderCheckin checkin =
                           |> Maybe.map .url_file
                           |> Maybe.withDefault placeholder
                           )
-                 , onClick (ShowCheckinDialog checkin)
+                 , onClick (ShowCheckin checkin)
                  ] []
            , Dialog.view
                ( if checkin.show_checkin |> Maybe.withDefault False then
@@ -146,7 +146,7 @@ checkinDialog checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
-        { closeMessage = Just (CancelCheckinDialog checkin)
+        { closeMessage = Just (HideCheckin checkin)
         , header = Nothing
         , body = Just ( div [ class "post-preview"]
                             [ div [ class "post-preview__image-container"]
