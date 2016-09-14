@@ -1,3 +1,4 @@
+# coding: utf-8
 class Checkin < ApplicationRecord
   enum method: [:Expresso,:Americano,:Goteo,:Prensa,:Sifón,:Otro ]
   has_many :comments
@@ -11,6 +12,12 @@ class Checkin < ApplicationRecord
     super(
       :include => {
         :s3_asset => {:only => [:id, :url_file]},
+        :comments => {
+          :only => [:body, :created_at],
+          :include => {
+            :user => { :only => [:username] }
+          }
+        },
         :baristum => {:only => [:name,:id],
           :include => {
             :s3_asset => {:only => [:id,:url_file]}

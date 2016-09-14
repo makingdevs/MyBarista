@@ -2,10 +2,14 @@
 module Api exposing (..)
 
 
-api : String
-api =
-    "http://mybarista.makingdevs.com/"
+baseUrl : String
+baseUrl =
+    "http://192.168.1.244:3000/"
 
-user : String
-user =
-    api ++ "user/"
+userUrl : String -> String
+userUrl username =
+    baseUrl ++ "user/" ++ username
+
+checkinUrl : Int -> String
+checkinUrl id =
+    baseUrl ++ "checkins/" ++ (toString id)

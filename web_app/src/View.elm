@@ -1,10 +1,12 @@
 
 module View exposing (..)
 
-import Models exposing (Model, Checkin)
+import Models exposing (Model, Checkin, CheckinComment)
 import Messages exposing (Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Dialog
 
 
 view : Model -> Html Msg
@@ -69,23 +71,40 @@ profile model =
 
 
 -- Grid
-renderCheckin : Checkin -> Html.Html Msg
-renderCheckin checkin =
-  li [ class "post-grid__item"] [ img [ class "post-grid__item-image", src <| (checkin.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/coffee.jpg")] [] ]
-
-renderCheckins : List Checkin -> Html.Html Msg
-renderCheckins checkins =
-  let
-    items = List.map renderCheckin checkins
-  in
-    ul [ class "post-grid__items"] items
 
 grid : Model -> Html.Html Msg
 grid model =
     div [ class "post-grid" ]
         [ div [ class "post-grid__items-container"]
-              [ renderCheckins model.checkins ]
+              [ renderCheckins model ]
         ]
+
+renderCheckins : Model -> Html.Html Msg
+renderCheckins model =
+    model.checkins
+        |> List.map renderCheckin
+        |> ul [ class "post-grid__items" ]
+
+renderCheckin : Checkin -> Html.Html Msg
+renderCheckin checkin =
+    let
+        placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+    in
+        li [ class "post-grid__item" ]
+           [ img [ class "post-grid__item-image"
+                 , src <| (checkin.s3_asset
+                          |> Maybe.map .url_file
+                          |> Maybe.withDefault placeholder
+                          )
+                 , onClick (ShowCheckin checkin)
+                 ] []
+           , Dialog.view
+               ( if checkin.show_checkin |> Maybe.withDefault False then
+                     Just ( checkinDialog checkin )
+                 else
+                     Nothing
+               )
+           ]
 
 
 -- Footer
@@ -119,3 +138,45 @@ footer =
                     ]
               ]
         ]
+
+
+-- CHECK IN DIALOG
+checkinDialog: Checkin -> Dialog.Config Msg
+checkinDialog checkin =
+    let
+        placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+    in
+        { closeMessage = Just (HideCheckin checkin)
+        , header = Nothing
+        , body = Just ( div [ class "post-preview"]
+                            [ div [ class "post-preview__image-container"]
+                                  [
+                                   img [ class "img-responsive post-preview__image"
+                                       , src <| (checkin.s3_asset
+                                                |> Maybe.map .url_file
+                                                |> Maybe.withDefault placeholder
+                                                )
+                                       ] []
+                                  ]
+                            , div [ class "post-preview__comments-container"]
+                                  [ div [ class "comments-container__header"]
+                                        [ text checkin.author]
+                                  , div [ class "comments-container__body"]
+                                        [ renderComments checkin ]
+                                  ]
+                            ]
+                      )
+        , footer =
+            Nothing
+        }
+
+renderComments : Checkin -> Html.Html Msg
+renderComments checkin =
+    checkin.comments
+        |> List.map renderComment
+        |> ul []
+
+renderComment : CheckinComment -> Html.Html Msg
+renderComment comment =
+    li []
+       [ text ( comment.user.username ++ " " ++ comment.body ) ]

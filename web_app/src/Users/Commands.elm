@@ -4,7 +4,7 @@ module Users.Commands exposing (..)
 import Models exposing (Model, UserS3Asset)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (checkinsDecoder)
-import Api exposing (user)
+import Api exposing (userUrl)
 import Http
 import Task exposing (Task)
 import Json.Decode as Decode exposing ((:=))
@@ -12,7 +12,7 @@ import Json.Decode as Decode exposing ((:=))
 
 fetchUserCmd : String -> Cmd Msg
 fetchUserCmd username =
-    Http.get userDecoder (user ++ username)
+    Http.get userDecoder (userUrl username)
         |> Task.perform FetchUserError FetchUserSuccess
 
 

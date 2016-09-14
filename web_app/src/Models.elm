@@ -18,10 +18,20 @@ type alias Checkin =
     { author : String
     , id : Int
     , s3_asset : Maybe CheckinS3Asset
+    , comments : List CheckinComment
+    , show_checkin : Maybe Bool
     }
 
 type alias CheckinS3Asset =
     { id : Int
     , url_file : String }
+
+type alias CheckinComment =
+    { body : String
+    , created_at : String
+    , user : CommentAuthor }
+
+type alias CommentAuthor =
+    { username : String }
 
 
