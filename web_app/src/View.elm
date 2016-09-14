@@ -82,11 +82,11 @@ grid model =
 renderCheckins : Model -> Html.Html Msg
 renderCheckins model =
     model.checkins
-        |> List.map renderCheckin
+        |> List.map (renderCheckin model)
         |> ul [ class "post-grid__items" ]
 
-renderCheckin : Checkin -> Html.Html Msg
-renderCheckin checkin =
+renderCheckin : Model -> Checkin -> Html.Html Msg
+renderCheckin model checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
@@ -100,7 +100,7 @@ renderCheckin checkin =
                  ] []
            , Dialog.view
                ( if checkin.show_checkin |> Maybe.withDefault False then
-                     Just ( checkinDialog checkin )
+                     Just ( checkinDialog model checkin )
                  else
                      Nothing
                )
@@ -141,15 +141,15 @@ footer =
 
 
 -- CHECK IN DIALOG
-checkinDialog: Checkin -> Dialog.Config Msg
-checkinDialog checkin =
+checkinDialog: Model -> Checkin -> Dialog.Config Msg
+checkinDialog model checkin =
     let
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
         { closeMessage = Just (HideCheckin checkin)
         , header = Nothing
         , body = Just ( div [ class "post-preview"]
-                            [ div [ class "post-preview__image-container"]
+                            [ div [ class "post-preview__image-container" ]
                                   [
                                    img [ class "img-responsive post-preview__image"
                                        , src <| (checkin.s3_asset
@@ -158,11 +158,31 @@ checkinDialog checkin =
                                                 )
                                        ] []
                                   ]
-                            , div [ class "post-preview__comments-container"]
-                                  [ div [ class "comments-container__header"]
-                                        [ text checkin.author]
-                                  , div [ class "comments-container__body"]
-                                        [ renderComments checkin ]
+                            , div [ class "post-preview__comments-container" ]
+                                  [ div [ class "comments-container__header" ]
+                                        [ div [ class "header__avatar-container" ]
+                                              [ img [ class "header__avatar img-circle"
+                                                    , src ( model.s3_asset
+                                                          |> Maybe.map .url_file
+                                                          |> Maybe.withDefault placeholder
+                                                          )
+                                                    ] []
+                                              ]
+                                        , div [ class "header__checkin-author" ]
+                                              [ div [ class "checkin-author__user-container" ]
+                                                    [ text checkin.author ]
+                                              , div [ class "checkin-author__venue-container" ]
+                                                    [ text "Venue" ]
+                                              ]
+                                        , div [ class "header__checkin-rating" ]
+                                              [ text ((Maybe.withDefault "0" checkin.rating) ++ " stars") ]
+                                        ]
+                                  , div [ class "comments-container__body" ]
+                                        [ div [ class "body__author-note" ]
+                                              [ text (Maybe.withDefault "" checkin.note) ]
+                                        , div [ class "body__other-comments" ]
+                                              [ renderComments checkin ]
+                                        ]
                                   ]
                             ]
                       )
@@ -174,7 +194,7 @@ renderComments : Checkin -> Html.Html Msg
 renderComments checkin =
     checkin.comments
         |> List.map renderComment
-        |> ul []
+        |> ul [ class "comments__items"]
 
 renderComment : CheckinComment -> Html.Html Msg
 renderComment comment =
