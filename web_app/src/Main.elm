@@ -19,11 +19,14 @@ init result =
                            , name = Nothing
                            , username = ""
                            , s3_asset = Just { url_file = placeholder }
-                           , checkins = [ { author = ""
-                                          , id = 0
+                           , checkins = [ { id = 0
+                                          , author = ""
+                                          , note = Nothing
+                                          , rating = Nothing
                                           , s3_asset = Just { id = 0
                                                             , url_file = ""
                                                             }
+                                          , venue = Nothing
                                           , comments = []
                                           , show_checkin = Just False
                                           }
