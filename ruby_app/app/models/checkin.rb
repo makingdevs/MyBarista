@@ -11,6 +11,7 @@ class Checkin < ApplicationRecord
   def as_json(options={})
     super(
       :include => {
+        :venue => {:only => [:name]},
         :s3_asset => {:only => [:id, :url_file]},
         :comments => {
           :only => [:body, :created_at],
