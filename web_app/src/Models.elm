@@ -20,7 +20,7 @@ type alias Checkin =
     , note : Maybe String
     , rating : Maybe String
     , s3_asset : Maybe CheckinS3Asset
-    , venue : Maybe Int
+    , venue : Maybe Venue
     , comments : List CheckinComment
     , show_checkin : Maybe Bool
     }
@@ -36,5 +36,8 @@ type alias CheckinComment =
 
 type alias CommentAuthor =
     { username : String }
+
+type alias Venue =
+    { name : String }
 
 
