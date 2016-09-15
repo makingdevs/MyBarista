@@ -1,7 +1,7 @@
 
 module Checkins.Commands exposing (..)
 
-import Models exposing (Checkin, CheckinS3Asset, CheckinComment, CommentAuthor)
+import Models exposing (..)
 import Messages exposing (Msg(..))
 import Api exposing (checkinUrl)
 import Json.Decode as Decode exposing ((:=))
@@ -23,10 +23,13 @@ checkinsDecoder =
 
 checkinDecoder : Decode.Decoder Checkin
 checkinDecoder =
-    Decode.object5 Checkin
-        ("author" := Decode.string)
+    Decode.object8 Checkin
         ("id" := Decode.int)
+        ("author" := Decode.string)
+        (Decode.maybe("note" := Decode.string))
+        (Decode.maybe("rating" := Decode.string))
         (Decode.maybe("s3_asset" := s3AssetDecoder))
+        (Decode.maybe("venue" := venueDecoder))
         ("comments" := commentsDecoder)
         (Decode.maybe("show_checkin" := Decode.bool))
 
@@ -51,3 +54,8 @@ commentAuthorDecoder : Decode.Decoder CommentAuthor
 commentAuthorDecoder =
     Decode.object1 CommentAuthor
         ( "username" := Decode.string )
+
+venueDecoder : Decode.Decoder Venue
+venueDecoder =
+    Decode.object1 Venue
+        ("name" := Decode.string)
