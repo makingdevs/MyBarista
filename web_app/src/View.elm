@@ -170,16 +170,22 @@ checkinDialog model checkin =
                                               ]
                                         , div [ class "header__checkin-author" ]
                                               [ div [ class "checkin-author__user-container" ]
-                                                    [ text checkin.author ]
-                                              , div [ class "checkin-author__venue-container" ]
-                                                    [ text "Venue" ]
+                                                    [ b []
+                                                        [text checkin.author ]
+                                                    ]
+                                              , div []
+                                                    {- TODO: Validate Venue -}
+                                                    [  renderVenue checkin ]
                                               ]
                                         , div [ class "header__checkin-rating" ]
-                                              [ text ((Maybe.withDefault "0" checkin.rating) ++ " stars") ]
+                                              [ span [ class "glyphicon glyphicon-star" ] []
+                                              , p []
+                                                  [ text (Maybe.withDefault "0" checkin.rating) ]]
                                         ]
                                   , div [ class "comments-container__body" ]
                                         [ div [ class "body__author-note" ]
-                                              [ text ( checkin.author ++ " " ++ (Maybe.withDefault "" checkin.note)) ]
+                                              [ text (Maybe.withDefault "" checkin.note) ]
+                                        , hr [] []
                                         , div [ class "body__other-comments" ]
                                               [ renderComments checkin ]
                                         ]
@@ -190,13 +196,34 @@ checkinDialog model checkin =
             Nothing
         }
 
+renderVenue : Checkin -> Html.Html Msg
+renderVenue checkin =
+    div [ class "checkin-author__venue-container" ]
+        [ span [ class "glyphicon glyphicon-map-marker"] []
+        , p []
+            [ text ( checkin.venue
+                   |> Maybe.map .name
+                   |> Maybe.withDefault "Venue"
+                   )
+            ]
+        ]
+
+
 renderComments : Checkin -> Html.Html Msg
 renderComments checkin =
     checkin.comments
         |> List.map renderComment
-        |> ul [ class "comments__items"]
+        |> ul [ class "comments__items" ]
 
 renderComment : CheckinComment -> Html.Html Msg
 renderComment comment =
     li []
-       [ text ( comment.user.username ++ " " ++ comment.body ) ]
+       [ div [ class "comments__item-container"]
+             [ p [ class "item-container__header" ]
+                 [  b []
+                      [ text (comment.user.username ++ ":") ]
+                 ]
+             , p [ class "item-container__body" ]
+                 [ text (comment.body) ]
+             ]
+       ]
