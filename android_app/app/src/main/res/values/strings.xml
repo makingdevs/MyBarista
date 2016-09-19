@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Barista</string>
+
     <string name="facebook_app_id">180639749039848</string>
+    <string name="message_fb_session_cancel">Inicio de sesión cancelado</string>
+    <string name="message_fb_session_error">Ocurrió un error al iniciar sesión</string>
+    <string name="permission_fb_email">email</string>
+    <string name="permission_fb_birthday">user_birthday</string>
+
     <string name="checkin_title">Elige tu cafe</string>
     <string name="button_checkin">Check-in!</string>
 
