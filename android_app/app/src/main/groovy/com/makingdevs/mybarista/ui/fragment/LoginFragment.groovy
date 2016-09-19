@@ -12,10 +12,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.FacebookSdk
+import com.facebook.GraphRequest
+import com.facebook.GraphRequestAsyncTask
+import com.facebook.GraphResponse
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.makingdevs.mybarista.R
@@ -28,11 +32,15 @@ import com.makingdevs.mybarista.service.UserManagerImpl
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.activity.RegistrationActivity
 import groovy.transform.CompileStatic
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
+import java.lang.reflect.Array
+
 @CompileStatic
-class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
+class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
 
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
@@ -44,6 +52,7 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
     private Button mButtonLogin
     private LoginButton buttonFacebookLogin
     private CallbackManager callbackManager
+
     LoginFragment() { super() }
 
     @Override
@@ -53,7 +62,8 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
         callbackManager = CallbackManager.Factory.create()
     }
 
-    View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    View onCreateView(LayoutInflater inflater,
+                      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         validateHasUserSession()
         View root = inflater.inflate(R.layout.fragment_login, container, false)
         userNameEditText = (EditText) root.findViewById(R.id.input_username)
@@ -70,12 +80,8 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
         root
     }
 
-    private void configFacebookLogin () {
-        List permissions = new ArrayList()
-        permissions.add(getString(R.string.permission_fb_email))
-        permissions.add(getString(R.string.permission_fb_birthday))
-
-        buttonFacebookLogin.setReadPermissions(permissions)
+    private void configFacebookLogin() {
+        buttonFacebookLogin.setReadPermissions(Arrays.asList(getString(R.string.permission_fb_email), getString(R.string.permission_fb_birthday)))
         buttonFacebookLogin.setFragment(this)
         buttonFacebookLogin.registerCallback(callbackManager, this)
     }
@@ -86,18 +92,18 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    private void validateHasUserSession(){
-        if (mSessionManager.isUserSession(getContext())){
+    private void validateHasUserSession() {
+        if (mSessionManager.isUserSession(getContext())) {
             showPrincipalActivity()
         }
     }
 
-    private void getFormLogin(){
-        LoginCommand loginCommand = new LoginCommand(username:userNameEditText.text.toString(),password:passwordEditText.text.toString())
+    private void getFormLogin() {
+        LoginCommand loginCommand = new LoginCommand(username: userNameEditText.text.toString(), password: passwordEditText.text.toString())
         mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
     }
 
-    private void cleanForm(){
+    private void cleanForm() {
         passwordEditText.text = ""
         Toast.makeText(getContext(), R.string.toastLoginFail, Toast.LENGTH_SHORT).show()
     }
@@ -108,11 +114,10 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
 
     private Closure onLoginSuccess() {
         { Call<User> call, Response<User> response ->
-            if(response.code() == 200){
-                mSessionManager.setUserSession(response.body(),getContext())
+            if (response.code() == 200) {
+                mSessionManager.setUserSession(response.body(), getContext())
                 showPrincipalActivity()
-            }
-            else {
+            } else {
                 cleanForm()
             }
 
@@ -126,19 +131,44 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult>{
 
     @Override
     void onSuccess(LoginResult loginResult) {
-        showPrincipalActivity()
+        GraphRequest request = GraphRequest.newMeRequest(loginResult.accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                if (AccessToken.getCurrentAccessToken() != null)
+                    getFacebookUserData(graphResponse)
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, first_name, last_name, email, birthday");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     @Override
     void onCancel() {
         Toast.makeText(context, R.string.message_fb_session_cancel, Toast.LENGTH_SHORT)
-        .show()
+                .show()
     }
 
     @Override
     void onError(FacebookException error) {
         Toast.makeText(context, R.string.message_fb_session_error, Toast.LENGTH_SHORT)
-        .show()
+                .show()
+    }
+
+    private void getFacebookUserData(GraphResponse graphResponse) {
+        JSONObject json = graphResponse.getJSONObject()
+        try {
+            if (json != null) {
+                String id = json.getString(getString(R.string.request_fb_id))
+                String email = json.getString(getString(R.string.request_fb_email))
+                String first_name = json.getString(getString(R.string.request_fb_first_name))
+                String last_name = json.getString(getString(R.string.request_fb_last_name))
+                String birthday = json.getString(getString(R.string.request_fb_birthday))
+            }
+        } catch (JSONException e) {
+            e.printStackTrace()
+        }
     }
 
     private void showPrincipalActivity() {
