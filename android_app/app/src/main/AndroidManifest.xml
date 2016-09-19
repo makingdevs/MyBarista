@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="android.support.multidex.MultiDexApplication">
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity android:name=".ui.activity.ListBrewByUserActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.CheckInActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.ShowCheckinActivity" android:screenOrientation="portrait"/>
