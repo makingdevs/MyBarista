@@ -6,6 +6,11 @@
     <string name="message_fb_session_error">Ocurrió un error al iniciar sesión</string>
     <string name="permission_fb_email">email</string>
     <string name="permission_fb_birthday">user_birthday</string>
+    <string name="request_fb_id">id</string>
+    <string name="request_fb_email">email</string>
+    <string name="request_fb_first_name">first_name</string>
+    <string name="request_fb_last_name">last_name</string>
+    <string name="request_fb_birthday">birthday</string>
 
     <string name="checkin_title">Elige tu cafe</string>
     <string name="button_checkin">Check-in!</string>
