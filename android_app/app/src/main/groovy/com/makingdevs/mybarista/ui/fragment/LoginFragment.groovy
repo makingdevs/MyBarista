@@ -17,6 +17,7 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
+
 import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
@@ -136,6 +137,9 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
         parameters.putString("fields", "id, first_name, last_name, email, birthday");
         request.setParameters(parameters);
         request.executeAsync();
+
+        LoginCommand loginCommand = new LoginCommand(email: email, token: token)
+        mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
     }
 
     @Override
