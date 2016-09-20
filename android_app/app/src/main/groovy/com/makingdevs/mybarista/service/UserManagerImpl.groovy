@@ -29,7 +29,11 @@ class UserManagerImpl implements UserManager {
     @Override
     void login(LoginCommand loginCommand, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofitUser(operations as Class, onSuccess, onError) { UserRestOperations restOperations ->
-            restOperations.loginUser([username:loginCommand.username,password:loginCommand.password])
+            restOperations.loginUser([  username:loginCommand.username
+                                        , password:loginCommand.password
+                                        , email:loginCommand.email
+                                        , token:loginCommand.token
+            ])
         }
     }
 
