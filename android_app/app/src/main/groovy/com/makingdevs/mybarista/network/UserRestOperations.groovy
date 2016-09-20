@@ -1,13 +1,10 @@
 package com.makingdevs.mybarista.network
 
-import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.RegistrationCommand
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
 import groovy.transform.CompileStatic
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -25,7 +22,6 @@ interface UserRestOperations {
 
     @PUT("users/{id}")
     Call<UserProfile> updateUser(@Path("id") String id, @Body UpdateUserCommand updateUserCommand)
-
 
     @GET("/search/users")
     Call<List<UserProfile>> search(@QueryMap Map<String, String> options)
