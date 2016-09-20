@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.FacebookSdk
-import com.facebook.GraphRequest
-import com.facebook.GraphRequestAsyncTask
-import com.facebook.GraphResponse
+import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.makingdevs.mybarista.R
@@ -37,8 +30,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
-import java.lang.reflect.Array
-
 @CompileStatic
 class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
 
@@ -52,6 +43,7 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
     private Button mButtonLogin
     private LoginButton buttonFacebookLogin
     private CallbackManager callbackManager
+    String facebookId, email, first_name, last_name, birthday, token
 
     LoginFragment() { super() }
 
@@ -109,7 +101,9 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
     }
 
     private Closure onLoginError() {
-        { Call<User> call, Throwable t -> Log.d("ERRORZ", t.toString()) }
+        { Call<User> call, Throwable t ->
+            LoginManager.instance.logOut()
+        }
     }
 
     private Closure onLoginSuccess() {
@@ -135,7 +129,7 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
             @Override
             public void onCompleted(JSONObject user, GraphResponse graphResponse) {
                 if (AccessToken.getCurrentAccessToken() != null)
-                    getFacebookUserData(graphResponse)
+                    getFacebookUserData(loginResult, graphResponse)
             }
         });
         Bundle parameters = new Bundle();
@@ -156,15 +150,17 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
                 .show()
     }
 
-    private void getFacebookUserData(GraphResponse graphResponse) {
+    private void getFacebookUserData(LoginResult loginResult, GraphResponse graphResponse) {
         JSONObject json = graphResponse.getJSONObject()
+
         try {
             if (json != null) {
-                String id = json.getString(getString(R.string.request_fb_id))
-                String email = json.getString(getString(R.string.request_fb_email))
-                String first_name = json.getString(getString(R.string.request_fb_first_name))
-                String last_name = json.getString(getString(R.string.request_fb_last_name))
-                String birthday = json.getString(getString(R.string.request_fb_birthday))
+                facebookId = json.getString(getString(R.string.request_fb_id))
+                email = json.getString(getString(R.string.request_fb_email))
+                token = loginResult.accessToken.token
+                first_name = json.getString(getString(R.string.request_fb_first_name))
+                last_name = json.getString(getString(R.string.request_fb_last_name))
+                birthday = json.getString(getString(R.string.request_fb_birthday))
             }
         } catch (JSONException e) {
             e.printStackTrace()
