@@ -1,17 +1,11 @@
 package com.makingdevs.mybarista.service
 
 import com.makingdevs.mybarista.model.RegistrationCommand
-import com.makingdevs.mybarista.model.command.CheckinCommand
 import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
-import com.makingdevs.mybarista.model.command.UploadCommand
-import com.makingdevs.mybarista.model.command.UserCommand
 import com.makingdevs.mybarista.network.UserRestOperations
 import com.makingdevs.mybarista.network.impl.RetrofitTemplate
 import groovy.transform.CompileStatic
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 @Singleton
 @CompileStatic
@@ -29,13 +23,15 @@ class UserManagerImpl implements UserManager {
     @Override
     void login(LoginCommand loginCommand, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofitUser(operations as Class, onSuccess, onError) { UserRestOperations restOperations ->
-            if (loginCommand.username) {
+            if (loginCommand.email) {
                 restOperations.loginUser([username  : loginCommand.username
                                           , password: loginCommand.password
+                                          , email   : loginCommand.email
+                                          , token   : loginCommand.token
                 ])
             } else {
-                restOperations.loginUser([email  : loginCommand.email
-                                          , token: loginCommand.token
+                restOperations.loginUser([username  : loginCommand.username
+                                          , password: loginCommand.password
                 ])
             }
         }
