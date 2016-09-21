@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -13,6 +14,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.model.SharePhotoContent
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
@@ -84,8 +87,8 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         itemView
     }
 
-    private void validateCheckinAuthor(){
-        if(checkin.author != currentUser.username){
+    private void validateCheckinAuthor() {
+        if (checkin.author != currentUser.username) {
             mButtonEditCheckin.setVisibility(View.GONE)
             mBarista.setVisibility(View.GONE)
             mButtonNote.setVisibility(View.GONE)
@@ -165,5 +168,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     void updateNoteInCheckin(String currentNote) {
         CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
         mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
+    }
+
+    SharePhoto shareCheckinOnFacebook() {
+        SharePhoto photo = new SharePhoto.Builder()
+                .setImageUrl(checkin.s3_asset.url_file as Uri)
+                .build()
+
+        photo
     }
 }
