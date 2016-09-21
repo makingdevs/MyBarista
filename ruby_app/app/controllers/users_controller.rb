@@ -43,11 +43,19 @@ class UsersController < ApplicationController
 
   # GET /users/login   => username, password =>success 200 o 201 y user token , error 401
   def login
-    @user = User.find_by username:params['username']
-    if @user.authenticate(params['password'])
-      render json: @user
+    @user =  User.find_by username:params['username']
+    if @user
+      @user.authenticate(params['password']) ? (render json: @user) : (render :json => {:error => "Unauthorized"}.to_json, :status => 401)
     else
-      render :json => {:error => "Unauthorized"}.to_json, :status => 401
+      params[:username] = params['username']
+      params[:password] = params['password']
+      @user = User.new(user_params)
+      @user.token = Digest::MD5.hexdigest(params[:token])
+      if @user.save
+        render json: @user, status: :created, location: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -69,6 +77,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:username,:name,:lastName,:password,:email)
+      params.permit(:username,:name,:lastName,:password,:email,:token)
     end
 end
