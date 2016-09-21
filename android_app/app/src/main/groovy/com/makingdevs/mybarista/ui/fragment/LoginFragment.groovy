@@ -103,7 +103,7 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
 
     private Closure onLoginError() {
         { Call<User> call, Throwable t ->
-            LoginManager.instance.logOut()
+            t.printStackTrace()
         }
     }
 
