@@ -12,12 +12,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.facebook.*
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.User
-
 import com.makingdevs.mybarista.model.command.LoginCommand
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
@@ -109,7 +107,7 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
 
     private Closure onLoginSuccess() {
         { Call<User> call, Response<User> response ->
-            if (response.code() == 200) {
+            if (response.code() == 200 || response.code() == 201) {
                 mSessionManager.setUserSession(response.body(), getContext())
                 showPrincipalActivity()
             } else {
@@ -126,20 +124,22 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
 
     @Override
     void onSuccess(LoginResult loginResult) {
+        buttonFacebookLogin.setVisibility(View.INVISIBLE)
         GraphRequest request = GraphRequest.newMeRequest(loginResult.accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-                if (AccessToken.getCurrentAccessToken() != null)
-                    getFacebookUserData(loginResult, graphResponse)
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    token = loginResult.accessToken.token
+                    getFacebookUserData(graphResponse)
+                    LoginCommand loginCommand = new LoginCommand(username: first_name+last_name, password: facebookId, email: email, token: token)
+                    mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
+                }
             }
         });
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id, first_name, last_name, email, birthday");
         request.setParameters(parameters);
         request.executeAsync();
-
-        LoginCommand loginCommand = new LoginCommand(email: email, token: token)
-        mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
     }
 
     @Override
@@ -154,14 +154,13 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
                 .show()
     }
 
-    private void getFacebookUserData(LoginResult loginResult, GraphResponse graphResponse) {
+    private void getFacebookUserData(GraphResponse graphResponse) {
         JSONObject json = graphResponse.getJSONObject()
 
         try {
             if (json != null) {
                 facebookId = json.getString(getString(R.string.request_fb_id))
                 email = json.getString(getString(R.string.request_fb_email))
-                token = loginResult.accessToken.token
                 first_name = json.getString(getString(R.string.request_fb_first_name))
                 last_name = json.getString(getString(R.string.request_fb_last_name))
                 birthday = json.getString(getString(R.string.request_fb_birthday))
