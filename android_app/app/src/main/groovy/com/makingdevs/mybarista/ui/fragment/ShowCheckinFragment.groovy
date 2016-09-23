@@ -1,7 +1,8 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.content.Intent
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -10,13 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import com.facebook.CallbackManager
+import com.facebook.FacebookSdk
+import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.model.SharePhoto
 import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.widget.ShareDialog
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.Fluent
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.model.Checkin
@@ -28,6 +31,7 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CheckInActivity
+import com.makingdevs.mybarista.view.LoadingDialog
 import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -62,8 +66,19 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     Checkin checkin
     ImageButton mButtonEditCheckin
     ViewStub userActionsView
+    Button shareCheckin
+    ShareDialog shareDialog
+    LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_sharing_photo)
 
     ShowCheckinFragment() { super() }
+
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        FacebookSdk.sdkInitialize(activity.getApplicationContext())
+        callbackManager = CallbackManager.Factory.create()
+        shareDialog = new ShareDialog(this)
+    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -80,6 +95,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
 
+
         bindingViews()
         validateCheckinAuthor()
         setUserActions()
@@ -92,6 +108,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             mButtonEditCheckin.setVisibility(View.GONE)
             mBarista.setVisibility(View.GONE)
             mButtonNote.setVisibility(View.GONE)
+            shareCheckin.setVisibility(View.GONE)
         }
     }
 
@@ -115,6 +132,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
+        shareCheckin = (Button) itemView.findViewById(R.id.btnShare)
     }
 
     private setUserActions() {
@@ -138,6 +156,32 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             startActivity(intent)
         }
 
+        shareCheckin.onClickListener = {
+            if (ShareDialog.canShow(ShareLinkContent.class) && checkin.s3_asset)
+                sharePhotoContent()
+            else
+                Toast.makeText(context, R.string.message_add_photo, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private void sharePhotoContent() {
+        loadingDialog.show(getActivity().getSupportFragmentManager(), "Sharing dialog")
+        Fluent.async {
+            checkin.s3_asset.url_file.toURL().bytes
+        } then { result ->
+            Bitmap bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(result as byte[]))
+            loadingDialog.dismiss()
+
+            SharePhoto photo = new SharePhoto.Builder()
+                    .setBitmap(bitmap)
+                    .setCaption(checkin.note)
+                    .build();
+
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(photo)
+                    .build();
+            shareDialog.show(content)
+        }
     }
 
     private void setCheckinInView(Checkin checkin) {
@@ -168,13 +212,5 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     void updateNoteInCheckin(String currentNote) {
         CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
         mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
-    }
-
-    SharePhoto shareCheckinOnFacebook() {
-        SharePhoto photo = new SharePhoto.Builder()
-                .setImageUrl(checkin.s3_asset.url_file as Uri)
-                .build()
-
-        photo
     }
 }
