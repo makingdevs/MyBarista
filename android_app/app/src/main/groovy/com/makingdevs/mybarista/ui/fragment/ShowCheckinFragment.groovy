@@ -119,6 +119,11 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mCheckinManager.show(mCheckinId, onSuccess(), onError())
     }
 
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
     private void bindingViews() {
         userActionsView = (ViewStub) itemView.findViewById(R.id.stub_bottons)
         userActionsView.inflate()
