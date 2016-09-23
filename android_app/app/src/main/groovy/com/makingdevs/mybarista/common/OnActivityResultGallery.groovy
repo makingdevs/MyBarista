@@ -15,9 +15,6 @@ trait OnActivityResultGallery {
     CallbackManager callbackManager
 
     void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 pathPhoto = data.getStringExtra("PATH_PHOTO")
