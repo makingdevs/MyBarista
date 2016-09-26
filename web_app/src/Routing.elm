@@ -5,23 +5,23 @@ import UrlParser exposing (..)
 import String
 
 
-type Route
+type Page
     = Home
     | UserProfile String
 
-matchers : Parser ( Route -> a ) a
+matchers : Parser ( Page -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format Home ( s "" )
                , format UserProfile ( s "user" </> string ) ]
 
-hashParser : Navigation.Location -> Result String Route
+hashParser : Navigation.Location -> Result String Page
 hashParser location =
     location.hash
         |> String.dropLeft 2
         |> parse identity matchers
 
-parser : Navigation.Parser (Result String Route)
+parser : Navigation.Parser (Result String Page)
 parser =
     Navigation.makeParser hashParser
