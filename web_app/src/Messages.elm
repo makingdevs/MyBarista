@@ -1,12 +1,14 @@
 module Messages exposing (..)
 
-import Models exposing (Model, Checkin)
+import Models exposing (User, Checkin)
 import Http
 
 
 type Msg
-  = FetchUserSuccess Model
+  = FetchUserSuccess User
     | FetchUserError Http.Error
+    | FetchCheckinsSuccess (List Checkin)
+    | FetchCheckinsError Http.Error
     | ShowCheckin Checkin
     | HideCheckin Checkin
     | FetchCheckinSuccess Checkin
