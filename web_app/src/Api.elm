@@ -13,3 +13,7 @@ userUrl username =
 checkinUrl : Int -> String
 checkinUrl id =
     baseUrl ++ "checkins/" ++ (toString id)
+
+checkinsUrl : String -> String
+checkinsUrl username =
+    baseUrl ++ "checkins/" ++ "?username=" ++ username
