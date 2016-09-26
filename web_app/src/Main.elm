@@ -10,38 +10,28 @@ import Users.Commands exposing (..)
 import Navigation
 
 
-init : Result String Route -> (Model, Cmd Msg)
+init : Result String Page -> (Model, Cmd Msg)
 init result =
     let
         placeholder =  "http://barist.coffee.s3.amazonaws.com/avatar.png"
     in
-        urlUpdate result ( { id = 0
-                           , name = Nothing
-                           , username = ""
-                           , s3_asset = Just { url_file = placeholder }
-                           , checkins = [ { id = 0
-                                          , author = ""
-                                          , note = Nothing
-                                          , rating = Nothing
-                                          , s3_asset = Just { id = 0
-                                                            , url_file = ""
-                                                            }
-                                          , venue = Nothing
-                                          , comments = []
-                                          , show_checkin = Just False
-                                          }
-                                        ]
-                           , checkins_count = 0
+        urlUpdate result ( { user = { id = 0
+                                    , name = Nothing
+                                    , username = ""
+                                    , s3_asset = Just { url_file = placeholder }
+                                    , checkins_count = 0
+                                    }
+                           , checkins = []
+                           , currentPage = Home
                            }
                          )
-
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
 
-urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
+urlUpdate : Result String Page-> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
        Ok route ->
