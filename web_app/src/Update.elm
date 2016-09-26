@@ -1,10 +1,10 @@
 
 module Update exposing (..)
 
-import Models exposing (Model, Checkin)
+import Models exposing (Model, Checkin, User)
 import Messages exposing (Msg(..))
-import Users.Commands exposing (fetchUserCmd)
-import Checkins.Commands exposing (fetchCheckinCmd)
+import Checkins.Commands exposing (fetchCheckinCmd, fetchCheckinsCmd)
+import Routing exposing (..)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -14,18 +14,17 @@ update msg model =
     in
         case msg of
             FetchUserSuccess user ->
-                ( { model | username = user.username
-                  , s3_asset = user.s3_asset
-                  , checkins = List.reverse user.checkins
-                  , checkins_count = user.checkins_count
-                  }
-                , Cmd.none )
+                ( showUser model user
+                , fetchCheckinsCmd user.username )
             FetchUserError error ->
-                ( {model | username = "User not found :("
-                  , s3_asset = Nothing
-                  , checkins = []
-                  , checkins_count = 0
-                  }
+                ( showError model
+                , Cmd.none )
+            FetchCheckinsSuccess checkins ->
+                ( { model
+                      | checkins = checkins }
+                , Cmd.none )
+            FetchCheckinsError error ->
+                ( model
                 , Cmd.none )
             ShowCheckin checkin ->
                 ( showDialog model checkin
@@ -34,12 +33,36 @@ update msg model =
                 ( cancelDialog model checkin.id
                 , Cmd.none )
             FetchCheckinSuccess checkin ->
-                Debug.log ("Checkin: " ++ (toString checkin))
                 ( showDialog model checkin
                 , Cmd.none )
             FetchCheckinError error ->
                 ( model, Cmd.none )
 
+showUser : Model -> User -> Model
+showUser model user =
+    let
+        newUser =
+            { user
+                | username = user.username
+                , s3_asset = user.s3_asset
+                , checkins_count = user.checkins_count
+            }
+    in
+        { model
+            | user = newUser }
+
+showError : Model -> Model
+showError model =
+    { model
+        | user = { id = 0
+                 , name = Nothing
+                 , username = "User Not Found :("
+                 , s3_asset = Nothing
+                 , checkins_count = 0
+                 }
+        , checkins = []
+        , currentPage = Home
+    }
 
 showDialog : Model -> Checkin -> Model
 showDialog model checkinSelected =
