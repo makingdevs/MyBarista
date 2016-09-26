@@ -14,12 +14,12 @@ matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format Home ( s "" )
-               , format UserProfile ( s "user" </> string ) ]
+               , format UserProfile ( s "#profile" </> string ) ]
 
 hashParser : Navigation.Location -> Result String Page
 hashParser location =
     location.hash
-        |> String.dropLeft 2
+        |> String.dropLeft 0
         |> parse identity matchers
 
 parser : Navigation.Parser (Result String Page)
