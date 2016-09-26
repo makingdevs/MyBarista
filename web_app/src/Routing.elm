@@ -7,14 +7,16 @@ import String
 
 type Page
     = Home
-    | UserProfile String
+    | ProfilePage String
+    | CheckinPage Int
 
 matchers : Parser ( Page -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format Home ( s "" )
-               , format UserProfile ( s "#profile" </> string ) ]
+               , format ProfilePage ( s "#profile" </> string )
+               , format CheckinPage ( s "#checkin" </> int) ]
 
 hashParser : Navigation.Location -> Result String Page
 hashParser location =
