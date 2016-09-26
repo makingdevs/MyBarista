@@ -3,11 +3,16 @@ module Checkins.Commands exposing (..)
 
 import Models exposing (..)
 import Messages exposing (Msg(..))
-import Api exposing (checkinUrl)
+import Api exposing (checkinUrl, checkinsUrl)
 import Json.Decode as Decode exposing ((:=))
 import Task exposing (Task)
 import Http
 
+
+fetchCheckinsCmd : String -> Cmd Msg
+fetchCheckinsCmd username =
+    Http.get checkinsDecoder (checkinsUrl username)
+        |> Task.perform FetchCheckinsError FetchCheckinsSuccess
 
 fetchCheckinCmd : Int -> Cmd Msg
 fetchCheckinCmd id =

@@ -1,7 +1,7 @@
 
 module Users.Commands exposing (..)
 
-import Models exposing (Model, UserS3Asset)
+import Models exposing (User, UserS3Asset)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (checkinsDecoder)
 import Api exposing (userUrl)
@@ -18,14 +18,13 @@ fetchUserCmd username =
 
 -- DECODERS
 
-userDecoder : Decode.Decoder Model
+userDecoder : Decode.Decoder User
 userDecoder =
-    Decode.object6 Model
+    Decode.object5 User
         ("id" := Decode.int)
         (Decode.maybe("name" := Decode.string))
         ("username" := Decode.string)
         (Decode.maybe("s3_asset" := s3AssetDecoder))
-        ("checkins" := checkinsDecoder)
         ("checkins_count" := Decode.int)
 
 s3AssetDecoder : Decode.Decoder UserS3Asset

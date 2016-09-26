@@ -1,12 +1,18 @@
 module Models exposing (..)
 
+import Routing exposing (..)
 
 type alias Model =
+    { user : User
+    , checkins : List Checkin
+    , currentPage : Page
+    }
+
+type alias User =
   { id : Int
   , name : Maybe String
   , username : String
   , s3_asset : Maybe UserS3Asset
-  , checkins : List Checkin
   , checkins_count : Int
   }
 
