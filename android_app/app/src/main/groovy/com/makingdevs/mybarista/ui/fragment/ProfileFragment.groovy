@@ -12,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.facebook.FacebookActivity
+import com.facebook.login.LoginManager
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
@@ -70,9 +72,9 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
             updateInfoUserProfile()
         }
         mCloseSession.onClickListener = {
+            LoginManager.getInstance().logOut()
             mSessionManager.setLogout(getContext())
-            Intent intent = LoginActivity.newIntentWithContext(getContext())
-            startActivity(intent)
+            showLoginActivity()
             getActivity().finish()
         }
         mImageViewCamera.onClickListener = {
@@ -87,6 +89,11 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         }
         loadData()
         root
+    }
+
+    private void showLoginActivity() {
+        Intent intent = LoginActivity.newIntentWithContext(getContext())
+        startActivity(intent)
     }
 
     private void loadData() {

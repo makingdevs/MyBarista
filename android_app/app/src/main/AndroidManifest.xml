@@ -1,46 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.makingdevs.mybarista"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.makingdevs.mybarista">
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"/>
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>​
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />​
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    >
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="android.support.multidex.MultiDexApplication">
-        <activity android:name=".ui.activity.ListBrewByUserActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.CheckInActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ShowCheckinActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.RegistrationActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.LoginActivity" android:screenOrientation="portrait">
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.ListBrewByUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CheckInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ShowCheckinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.CircleFlavorActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ProfilePublicActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.BaristaActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.PrincipalActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.CircleFlavorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ProfilePublicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BaristaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PrincipalActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d33994ba306ba33f1b147bf996196b8a479081fd" />
-        <activity android:name=".ui.activity.CameraActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.SearchVenueFoursquareActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ShowBaristaActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ShowGalleryActivity" android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.activity.CameraActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SearchVenueFoursquareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ShowBaristaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ShowGalleryActivity"
+            android:screenOrientation="portrait" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider180639749039848"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -12,10 +12,16 @@
 
     <Button
         android:id="@+id/btnBarista"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="55dp"
-        android:layout_weight="1"
         android:text="@string/baristum"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_weight="1"
+        android:text="@string/label_share_button"
+        android:textColor="@color/white" />
 </LinearLayout>

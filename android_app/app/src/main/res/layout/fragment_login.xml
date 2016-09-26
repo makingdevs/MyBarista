@@ -70,6 +70,12 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:text="@string/button_login"/>
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"/>
+
     <TextView
         android:id="@+id/message_register"
         android:layout_width="match_parent"
