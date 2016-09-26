@@ -31,15 +31,17 @@ subscriptions model =
   Sub.none
 
 
-urlUpdate : Result String Page-> Model -> (Model, Cmd Msg)
+urlUpdate : Result String Page -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
        Ok route ->
            case route of
                Home ->
                    ( model, Cmd.none )
-               UserProfile username ->
+               ProfilePage username ->
                    ( model, fetchUserCmd username)
+               CheckinPage id ->
+                   ( model, Cmd.none )
        Err error ->
            ( model, Cmd.none )
 
