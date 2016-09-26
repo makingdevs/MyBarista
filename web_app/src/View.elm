@@ -53,16 +53,16 @@ profile model =
         [ div [ class "profile-page__header"]
               [ div [ class "profile-page__author-container row" ]
                     [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src (model.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/avatar.png"), class "profile-page__avatar img-circle" ] []
+                          [ img [ src (model.user.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/avatar.png"), class "profile-page__avatar img-circle" ] []
                           ]
                     , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
                           [ div [ class "profile-page__username" ]
                                 [ p []
-                                      [ text model.username ]
+                                      [ text model.user.username ]
                                 ]
                           , div [ class "profile-page__statistics" ]
                                 [ p []
-                                      [ text ( (toString model.checkins_count) ++ " checkins") ]
+                                      [ text ( (toString model.user.checkins_count) ++ " checkins") ]
                                 ]
                           ]
                     ]
@@ -144,7 +144,8 @@ footer =
 checkinDialog: Model -> Checkin -> Dialog.Config Msg
 checkinDialog model checkin =
     let
-        placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+        coffeePlaceholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
+        userPlaceholder = "http://barist.coffee.s3.amazonaws.com/avatar.png"
     in
         { closeMessage = Just (HideCheckin checkin)
         , header = Nothing
@@ -154,7 +155,7 @@ checkinDialog model checkin =
                                    img [ class "img-responsive post-preview__image"
                                        , src <| (checkin.s3_asset
                                                 |> Maybe.map .url_file
-                                                |> Maybe.withDefault placeholder
+                                                |> Maybe.withDefault coffeePlaceholder
                                                 )
                                        ] []
                                   ]
@@ -162,9 +163,9 @@ checkinDialog model checkin =
                                   [ div [ class "comments-container__header" ]
                                         [ div [ class "header__avatar-container" ]
                                               [ img [ class "header__avatar img-circle"
-                                                    , src ( model.s3_asset
+                                                    , src ( model.user.s3_asset
                                                           |> Maybe.map .url_file
-                                                          |> Maybe.withDefault placeholder
+                                                          |> Maybe.withDefault userPlaceholder
                                                           )
                                                     ] []
                                               ]
