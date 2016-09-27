@@ -4,7 +4,10 @@ module Update exposing (..)
 import Models exposing (Model, Checkin, User)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (fetchCheckinCmd, fetchCheckinsCmd)
+import Users.Commands exposing (..)
 import Routing exposing (..)
+import Navigation exposing (..)
+import String
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -13,6 +16,8 @@ update msg model =
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
         case msg of
+            Navigate page ->
+                ( model, newUrl (toHash page))
             FetchUserSuccess user ->
                 ( showUser model user
                 , fetchCheckinsCmd user.username )
@@ -28,7 +33,12 @@ update msg model =
                 , Cmd.none )
             ShowCheckin checkin ->
                 ( showDialog model checkin
-                , fetchCheckinCmd checkin.id )
+                , newUrl ( "#profile/"
+                               ++ ( String.toLower checkin.author )
+                               ++ "/checkin/"
+                               ++ ( toString checkin.id )
+                         )
+                )
             HideCheckin checkin ->
                 ( cancelDialog model checkin.id
                 , Cmd.none )
@@ -37,6 +47,17 @@ update msg model =
                 , Cmd.none )
             FetchCheckinError error ->
                 ( model, Cmd.none )
+
+toHash : Page -> String
+toHash page =
+    case page of
+        Home ->
+            "#"
+        ProfilePage username ->
+            "#profile/" ++ username
+        CheckinPage id ->
+            "#checkin/" ++ (toString id)
+
 
 showUser : Model -> User -> Model
 showUser model user =
