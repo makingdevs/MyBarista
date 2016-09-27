@@ -7,24 +7,28 @@ import Update exposing (update)
 import View exposing (view)
 import Routing exposing (..)
 import Users.Commands exposing (..)
+import Checkins.Commands exposing (fetchCheckinCmd)
 import Navigation
 
 
-init : Result String Page -> (Model, Cmd Msg)
-init result =
+initModel : Model
+initModel =
     let
         placeholder =  "http://barist.coffee.s3.amazonaws.com/avatar.png"
     in
-        urlUpdate result ( { user = { id = 0
-                                    , name = Nothing
-                                    , username = ""
-                                    , s3_asset = Just { url_file = placeholder }
-                                    , checkins_count = 0
-                                    }
-                           , checkins = []
-                           , currentPage = Home
-                           }
-                         )
+        { user = { id = 0
+                 , name = Nothing
+                 , username = ""
+                 , s3_asset = Just { url_file = placeholder }
+                 , checkins_count = 0
+                 }
+        , checkins = []
+        , currentPage = Home
+        }
+
+init : Result String Page -> (Model, Cmd Msg)
+init result =
+    urlUpdate result (initModel)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -34,17 +38,16 @@ subscriptions model =
 urlUpdate : Result String Page -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
     case result of
-       Ok route ->
-           case route of
-               Home ->
-                   ( model, Cmd.none )
-               ProfilePage username ->
-                   ( model, fetchUserCmd username)
-               CheckinPage id ->
-                   ( model, Cmd.none )
-       Err error ->
-           ( model, Cmd.none )
-
+        Ok page ->
+            case page of
+                Home ->
+                    ( model, Cmd.none )
+                ProfilePage username ->
+                    ( model, fetchUserCmd username )
+                CheckinPage id ->
+                    ( model, fetchCheckinCmd id )
+        Err error ->
+            ( model, Cmd.none )
 
 main : Program Never
 main =
