@@ -41,7 +41,7 @@ update msg model =
                 )
             HideCheckin checkin ->
                 ( cancelDialog model checkin.id
-                , Cmd.none )
+                , back 1 )
             FetchCheckinSuccess checkin ->
                 ( showDialog model checkin
                 , Cmd.none )
