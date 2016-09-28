@@ -8,7 +8,7 @@ import View exposing (view)
 import Routing exposing (..)
 import Users.Commands exposing (..)
 import Checkins.Commands exposing (fetchCheckinCmd)
-import Navigation
+import Navigation exposing (..)
 
 
 initModel : Model
@@ -41,11 +41,14 @@ urlUpdate result model =
         Ok page ->
             case page of
                 Home ->
+                    Debug.log ( "HomePage: " )
                     ( model, Cmd.none )
                 ProfilePage username ->
-                    ( model, fetchUserCmd username )
-                CheckinPage id ->
-                    ( model, fetchCheckinCmd id )
+                    Debug.log ( "ProfilePage: " ++ (toString result) )
+                        ( model, fetchUserCmd username )
+                CheckinPage username id ->
+                    Debug.log ( "CheckinPage: " ++ (toString result) )
+                        ( model, fetchCheckinCmd id )
         Err error ->
             ( model, Cmd.none )
 
