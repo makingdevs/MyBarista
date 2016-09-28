@@ -148,7 +148,7 @@ checkinDialog model checkin =
         coffeePlaceholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
         userPlaceholder = "http://barist.coffee.s3.amazonaws.com/avatar.png"
     in
-        { closeMessage = Just ( Navigate ( ProfilePage checkin.author ) )
+        { closeMessage = Just ( HideCheckin checkin )
         , header = Nothing
         , body = Just ( div [ class "post-preview"]
                             [ div [ class "post-preview__image-container" ]
