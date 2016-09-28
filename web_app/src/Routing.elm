@@ -1,3 +1,4 @@
+
 module Routing exposing (..)
 
 import Navigation
@@ -8,21 +9,23 @@ import String
 type Page
     = Home
     | ProfilePage String
-    | CheckinPage Int
+    | CheckinPage String Int
 
 matchers : Parser ( Page -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
                [ format Home ( s "" )
-               , format ProfilePage ( s "#profile" </> string )
-               , format CheckinPage ( s "#checkin" </> int) ]
+               , format ProfilePage ( s "profile" </> string )
+               , format CheckinPage ( s "profile" </> string </> s "checkin" </> int )
+               ]
 
 hashParser : Navigation.Location -> Result String Page
 hashParser location =
-    location.hash
-        |> String.dropLeft 0
-        |> parse identity matchers
+    Debug.log ("Location" ++ (toString location))
+        location.hash
+            |> String.dropLeft 1
+            |> parse identity matchers
 
 parser : Navigation.Parser (Result String Page)
 parser =
