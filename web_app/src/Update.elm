@@ -4,10 +4,9 @@ module Update exposing (..)
 import Models exposing (Model, Checkin, User)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (fetchCheckinCmd, fetchCheckinsCmd)
-import Users.Commands exposing (..)
 import Routing exposing (..)
 import Navigation exposing (..)
-import String
+import String exposing (concat, toLower)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -33,18 +32,21 @@ update msg model =
                 , Cmd.none )
             ShowCheckin checkin ->
                 ( showDialog model checkin
-                , newUrl ( "#profile/"
-                               ++ ( String.toLower checkin.author )
-                               ++ "/checkin/"
-                               ++ ( toString checkin.id )
+                , newUrl ( concat
+                               [ "#profile/"
+                               , toLower checkin.author
+                               , "/checkin/"
+                               , toString checkin.id
+                               ]
                          )
                 )
             HideCheckin checkin ->
                 ( cancelDialog model checkin.id
                 , back 1 )
             FetchCheckinSuccess checkin ->
-                ( showDialog model checkin
-                , Cmd.none )
+                Debug.log "Data: "
+                    ( showDialog model checkin
+                    , Cmd.none )
             FetchCheckinError error ->
                 ( model, Cmd.none )
 
@@ -55,7 +57,7 @@ toHash page =
             "#"
         ProfilePage username ->
             "#profile/" ++ username
-        CheckinPage id ->
+        CheckinPage username id ->
             "#checkin/" ++ (toString id)
 
 
