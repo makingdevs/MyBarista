@@ -21,7 +21,7 @@ update msg model =
                 (showUser model user, fetchCheckinsCmd user.username)
 
             FetchUserError error ->
-                (model, modifyUrl (toHash model.currentPage))
+                (model, modifyUrl (toHash NotFound))
 
             FetchCheckinsSuccess checkins ->
                 ({ model
