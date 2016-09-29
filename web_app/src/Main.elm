@@ -37,20 +37,22 @@ subscriptions model =
 
 urlUpdate : Result String Page -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
-    case result of
+    case Debug.log "Result: " result of
         Ok page ->
-            case page of
+            case Debug.log "Page: " page of
                 Home ->
-                    Debug.log ( "HomePage: " )
-                    ( model, Cmd.none )
+                    ({model | currentPage = page}, Cmd.none)
+
                 ProfilePage username ->
-                    Debug.log ( "ProfilePage: " ++ (toString result) )
-                        ( model, fetchUserCmd username )
+                    ({model | currentPage = page}, fetchUserCmd username)
+
                 CheckinPage username id ->
-                    Debug.log ( "CheckinPage: " ++ (toString result) )
-                        ( model, fetchCheckinCmd id )
-        Err error ->
-            ( model, Cmd.none )
+                    ({model | currentPage = page}, fetchCheckinCmd id)
+
+                NotFound ->
+                    (initModel, Cmd.none)
+        Err _ ->
+            (initModel, modifyUrl (toHash model.currentPage))
 
 main : Program Never
 main =
