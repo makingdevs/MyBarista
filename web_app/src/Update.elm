@@ -6,7 +6,6 @@ import Messages exposing (Msg(..))
 import Checkins.Commands exposing (fetchCheckinCmd, fetchCheckinsCmd)
 import Routing exposing (..)
 import Navigation exposing (..)
-import String exposing (concat, toLower)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -16,50 +15,34 @@ update msg model =
     in
         case msg of
             Navigate page ->
-                ( model, newUrl (toHash page))
+                (model, newUrl (toHash page))
+
             FetchUserSuccess user ->
-                ( showUser model user
-                , fetchCheckinsCmd user.username )
+                (showUser model user, fetchCheckinsCmd user.username)
+
             FetchUserError error ->
-                ( showError model
-                , Cmd.none )
+                (model, modifyUrl (toHash model.currentPage))
+
             FetchCheckinsSuccess checkins ->
-                ( { model
-                      | checkins = checkins }
-                , Cmd.none )
+                ({ model
+                      | checkins = checkins }, Cmd.none)
+
             FetchCheckinsError error ->
-                ( model
-                , Cmd.none )
+                (model, modifyUrl (toHash NotFound))
+
             ShowCheckin checkin ->
-                ( showDialog model checkin
-                , newUrl ( concat
-                               [ "#profile/"
-                               , toLower checkin.author
-                               , "/checkin/"
-                               , toString checkin.id
-                               ]
-                         )
-                )
+                {- Modify Url -}
+                (showDialog model checkin, Cmd.none)
+
             HideCheckin checkin ->
-                ( cancelDialog model checkin.id
-                , back 1 )
+                (cancelDialog model checkin.id, back 0)
+
             FetchCheckinSuccess checkin ->
                 Debug.log "Data: "
-                    ( showDialog model checkin
-                    , Cmd.none )
+                    (showDialog model checkin, Cmd.none)
+
             FetchCheckinError error ->
-                ( model, Cmd.none )
-
-toHash : Page -> String
-toHash page =
-    case page of
-        Home ->
-            "#"
-        ProfilePage username ->
-            "#profile/" ++ username
-        CheckinPage username id ->
-            "#checkin/" ++ (toString id)
-
+                (model, modifyUrl (toHash model.currentPage))
 
 showUser : Model -> User -> Model
 showUser model user =
@@ -73,19 +56,6 @@ showUser model user =
     in
         { model
             | user = newUser }
-
-showError : Model -> Model
-showError model =
-    { model
-        | user = { id = 0
-                 , name = Nothing
-                 , username = "User Not Found :("
-                 , s3_asset = Nothing
-                 , checkins_count = 0
-                 }
-        , checkins = []
-        , currentPage = Home
-    }
 
 showDialog : Model -> Checkin -> Model
 showDialog model checkinSelected =
