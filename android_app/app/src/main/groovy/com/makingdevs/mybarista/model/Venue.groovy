@@ -3,7 +3,7 @@ package com.makingdevs.mybarista.model
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Venue {
+class Venue implements Serializable {
     String id
     String name
     LocationVenue location
