@@ -70,6 +70,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         super.onCreate(savedInstanceState)
         CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt(ACTION_CHECK_IN)
         currentCheckin = new Checkin()
+        venue = new Venue()
         currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
         currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
     }
@@ -78,15 +79,12 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
-        venue = new Venue()
-
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         venueDescription = (TextView) root.findViewById(R.id.venue_description)
         venueDescription.setVisibility(View.GONE)
         contextView = getActivity().getApplicationContext()
         imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
-
         showImage = (ImageView) root.findViewById(R.id.preview_checkin)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         originEditText = (EditText) root.findViewById(R.id.originField)
@@ -128,11 +126,15 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
         methodFieldSprinner.setAdapter(getSpinnerAdapter())
         methodFieldSprinner.setSelection(getSpinnerAdapter().getPosition(currentCheckin.method))
+
+        if (CHECKIN_STATUS == UPDATE_CHECK_IN) {
+            checkInButton.setText(R.string.button_update_checkin)
+        }
     }
 
     ArrayAdapter<String> getSpinnerAdapter() {
         // TODO: Check this out!!!!
-        String[] methods = ["Método de preparación", "Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
+        String[] methods = ["Elige un método de preparación", "Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, methods)
         adapter
     }

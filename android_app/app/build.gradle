@@ -85,7 +85,7 @@ dependencies {
         transitive = true
     }
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.facebook.android:facebook-android-sdk:4.15.0'
 }
 
 def API_SERVER_URL = '"'+ urlApiServer +'"' ?:'"Define una url"'
