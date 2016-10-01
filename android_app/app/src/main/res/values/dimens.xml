@@ -10,4 +10,7 @@
     <dimen name="height_profile_info">246dp</dimen>
     <dimen name="size_image_profile">82dp</dimen>
     <dimen name="size_image_profile_public">160dp</dimen>
+
+    <dimen name="font_large">16sp</dimen>
+    <dimen name="font_xlarge">20sp</dimen>
 </resources>
