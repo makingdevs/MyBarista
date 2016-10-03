@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -48,6 +49,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private static final String CURRENT_CHECK_IN_ID = "check_in"
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
+    private static final int EDIT_REQUEST_CODE = 1
 
 
     ImageUtil mImageUtil1 = new ImageUtil()
@@ -103,6 +105,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     @Override
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EDIT_REQUEST_CODE) {
+                checkin = data.getExtras().getSerializable("check_in") as Checkin
+                setCheckinInView(checkin)
+            }
+        }
     }
 
     private void bindingViews() {
@@ -162,7 +171,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
             intent.putExtra(ACTION_CHECK_IN, 1)
             intent.putExtra(CURRENT_CHECK_IN_ID, checkin)
-            startActivity(intent)
+            startActivityForResult(intent, 1)
         }
 
         shareCheckin.onClickListener = {
