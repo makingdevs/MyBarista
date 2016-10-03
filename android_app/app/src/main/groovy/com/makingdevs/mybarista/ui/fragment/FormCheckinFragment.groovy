@@ -1,6 +1,7 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -228,6 +229,9 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessUpdateCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
+            Intent intent = new Intent()
+            intent.putExtra(CURRENT_CHECK_IN, response.body())
+            getActivity().setResult(Activity.RESULT_OK, intent)
             getActivity().finish()
         }
     }
