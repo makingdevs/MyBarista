@@ -7,7 +7,7 @@
     android:background="@color/primary"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/spacing_large">
 
     <ImageView
         android:layout_width="@dimen/size_login_logo"
@@ -82,8 +82,8 @@
         android:background="@drawable/background_facebook_login"
         android:drawableLeft="@null"
         android:drawableStart="@null"
-        android:paddingBottom="14dp"
-        android:paddingTop="14dp"
+        android:paddingBottom="@dimen/spacing_regular"
+        android:paddingTop="@dimen/spacing_regular"
         android:text="@string/com_facebook_loginview_log_in_button_long"
         android:textAllCaps="true"
         android:textSize="@dimen/font_normal"
