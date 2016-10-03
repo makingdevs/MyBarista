@@ -50,11 +50,11 @@
     <string name="toastRegistrationSuccess">Username and Password correct!</string>
     <string name="toastRegistrationFail">Correo o contraseña inválidos</string>
     <string name="toastInit">Presiona el botón café para hacer el primer check-in</string>
-    <string name="username">Userame</string>
+    <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
-    <string name="login_textView_message">¿No tienes cuenta? ¡Regístrate!</string>
+    <string name="login_textView_message">¿No tienes cuenta? <u>¡Regístrate!</u></string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="profile_first_name">Nombre</string>
     <string name="profile_last_name">Apellidos</string>
