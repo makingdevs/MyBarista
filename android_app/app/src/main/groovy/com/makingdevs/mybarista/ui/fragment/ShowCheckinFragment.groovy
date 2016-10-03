@@ -98,6 +98,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
         bindingViews()
         validateCheckinAuthor()
+        setCheckinInView(checkin)
         setUserActions()
 
         itemView
@@ -110,13 +111,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
             mButtonNote.setVisibility(View.GONE)
             shareCheckin.setVisibility(View.GONE)
         }
-    }
-
-
-    @Override
-    void onResume() {
-        super.onResume()
-        mCheckinManager.show(mCheckinId, onSuccess(), onError())
     }
 
     @Override
