@@ -43,7 +43,8 @@
     <string name="password_layout">Password:</string>
     <string name="confirm_password_layout">Confirmar contraseña</string>
     <string name="button_registration">Registrate</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Iniciar Sesión</string>
+    <string name="com_facebook_loginview_log_in_button_long">Entra con Facebook</string>
     <string name="toastLoginSuccess">Username and Password correct!</string>
     <string name="toastLoginFail">Username or Password incorrect!</string>
     <string name="toastRegistrationSuccess">Username and Password correct!</string>
@@ -53,7 +54,7 @@
     <string name="password">Contraseña</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
-    <string name="login_textView_message">¿No tienes cuenta? Registrate!</string>
+    <string name="login_textView_message">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="profile_first_name">Nombre</string>
     <string name="profile_last_name">Apellidos</string>
