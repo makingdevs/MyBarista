@@ -71,7 +71,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/spacing_xlarge"
         android:text="@string/button_login"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textStyle="normal" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
@@ -87,6 +88,7 @@
         android:text="@string/com_facebook_loginview_log_in_button_long"
         android:textAllCaps="true"
         android:textSize="@dimen/font_normal"
+        android:textStyle="normal"
         facebook:com_facebook_confirm_logout="false" />
 
     <TextView
