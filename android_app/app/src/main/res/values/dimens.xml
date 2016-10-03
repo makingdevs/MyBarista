@@ -4,13 +4,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_regular">14dp</dimen>
     <dimen name="spacing_large">16dp</dimen>
     <dimen name="spacing_xlarge">22dp</dimen>
-    <dimen name="size_login_logo">124dp</dimen>
+    <dimen name="spacing_huge">26dp</dimen>
+    <dimen name="size_login_logo">120dp</dimen>
     <dimen name="height_profile_info">246dp</dimen>
     <dimen name="size_image_profile">82dp</dimen>
     <dimen name="size_image_profile_public">160dp</dimen>
 
-    <dimen name="font_large">16sp</dimen>
+    <dimen name="font_normal">14sp</dimen>
+    <dimen name="font_large">16sp</dimen>>
     <dimen name="font_xlarge">20sp</dimen>
 </resources>
