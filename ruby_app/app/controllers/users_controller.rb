@@ -48,6 +48,8 @@ class UsersController < ApplicationController
       @user.authenticate(params['password']) ? (render json: @user) : (render :json => {:error => "Unauthorized"}.to_json, :status => 401)
     else
       params[:username] = params['username']
+      params[:name] = params['firstName']
+      params[:lastName] = params['lastName']
       params[:password] = params['password']
       @user = User.new(user_params)
       @user.token = Digest::MD5.hexdigest(params[:token])
