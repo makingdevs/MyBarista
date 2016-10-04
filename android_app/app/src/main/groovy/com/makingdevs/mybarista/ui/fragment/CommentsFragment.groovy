@@ -21,7 +21,6 @@ import com.makingdevs.mybarista.service.CommentManager
 import com.makingdevs.mybarista.service.CommentManagerImpl
 import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
-import com.makingdevs.mybarista.ui.adapter.BrewAdapter
 import com.makingdevs.mybarista.ui.adapter.CommentAdapter
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -31,8 +30,8 @@ import retrofit2.Response
 public class CommentsFragment extends Fragment {
 
     private static final String TAG = "CommentsFragment"
-    private static String ID_CHECKIN
-    String checkinId
+    static String CHECK_IN_ID = "check_in_id"
+    String checkInId
     RecyclerView mListComments
     CommentAdapter mCommentsAdapter
     ImageView mSendMessage
@@ -47,33 +46,33 @@ public class CommentsFragment extends Fragment {
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_comments,container, false)
-        currentUser =  mSessionManager.getUserSession(getContext())
+        View root = inflater.inflate(R.layout.fragment_comments, container, false)
+        currentUser = mSessionManager.getUserSession(getContext())
         mListComments = (RecyclerView) root.findViewById(R.id.list_commnets)
-        mSendMessage= (ImageView) root.findViewById(R.id.sendButton)
+        mSendMessage = (ImageView) root.findViewById(R.id.sendButton)
         mCommentsText = (EditText) root.findViewById(R.id.comment)
         mSendMessage.onClickListener = {
             sendMessage()
         }
-        checkinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        checkInId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         mListComments.setLayoutManager(new LinearLayoutManager(getActivity()))
         updateUI()
         root
     }
 
     void updateUI() {
-        mCommentManager.list(checkinId,onSuccess(),onError())
+        mCommentManager.list(checkInId, onSuccess(), onError())
     }
 
-    void sendMessage(){
+    void sendMessage() {
         String comment = mCommentsText.getText().toString()
-        CommentCommand commentCommand = new CommentCommand(body:comment,checkin_id:checkinId,username:currentUser.username,created_at:new Date())
+        CommentCommand commentCommand = new CommentCommand(body: comment, checkin_id: checkInId, username: currentUser.username, created_at: new Date())
         mCommentManager.save(commentCommand, onSuccessComment(), onError())
     }
 
-    private Closure onSuccess(){
+    private Closure onSuccess() {
         { Call<List<Comment>> call, Response<List<Comment>> response ->
-            if(!mCommentsAdapter){
+            if (!mCommentsAdapter) {
                 mCommentsAdapter = new CommentAdapter(getActivity(), response.body().toList())
                 mListComments.adapter = mCommentsAdapter
             } else {
@@ -83,11 +82,11 @@ public class CommentsFragment extends Fragment {
         }
     }
 
-    private Closure onError(){
-        {Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    private Closure onError() {
+        { Call<List<Checkin>> call, Throwable t -> Log.d(TAG, t.message) }
     }
 
-    private Closure onSuccessComment(){
+    private Closure onSuccessComment() {
         { Call<Comment> call, Response<Comment> response ->
             if (response.code() == 201) {
                 mCommentsText.text = ""

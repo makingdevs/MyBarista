@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.makingdevs.mybarista.common.MultiFragmentActivity
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
-import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
+import com.makingdevs.mybarista.ui.fragment.RatingCoffeeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCircleFlavorFragment
 import groovy.transform.CompileStatic
@@ -20,24 +20,24 @@ import static com.makingdevs.mybarista.common.RequestPermissionAndroid.*
 @CompileStatic
 public class ShowCheckinActivity extends MultiFragmentActivity {
 
-    static String EXTRA_CHECKIN_ID = "checkin_id"
-    static String EXTRA_CIRCLE_FLAVOR_ID = "circle_flavor_id"
-    static String EXTRA_CURRENT_CHECKIN = "checkin"
-    private static final String TAG = "ShowCheckinActivity"
+    static String CHECK_IN_ID = "check_in_id"
+    static String CIRCLE_FLAVOR_ID = "circle_flavor_id"
+    static String CURRENT_CHECK_IN = "check_in"
+    private static final String TAG = "ShowCheckInActivity"
 
     static Intent newIntentWithContext(Context context, Checkin checkin) {
         Intent intent = new Intent(context, ShowCheckinActivity)
-        intent.putExtra(EXTRA_CHECKIN_ID, checkin.id)
-        intent.putExtra(EXTRA_CIRCLE_FLAVOR_ID, checkin.circle_flavor_id)
-        intent.putExtra(EXTRA_CURRENT_CHECKIN, checkin)
+        intent.putExtra(CHECK_IN_ID, checkin.id)
+        intent.putExtra(CIRCLE_FLAVOR_ID, checkin.circle_flavor_id)
+        intent.putExtra(CURRENT_CHECK_IN, checkin)
         intent
     }
 
     @TypeChecked
     Map createFragments() {
-        if (!getIntent().extras.getString(EXTRA_CHECKIN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
+        if (!getIntent().extras.getString(CHECK_IN_ID)) throw new IllegalArgumentException("El checkin no tiene ID, mmmm tamales!")
         //TODO: cambiar a meotodo newInstance en los frgamentos utilizados
-        [top: new ShowCheckinFragment(), middleTop: new RatingCoffeFragment(), middleBootom: new ShowCircleFlavorFragment(), bottom: new CommentsFragment()]
+        [top: new ShowCheckinFragment(), middleTop: new RatingCoffeeFragment(), middleBootom: new ShowCircleFlavorFragment(), bottom: new CommentsFragment()]
     }
 
     @Override

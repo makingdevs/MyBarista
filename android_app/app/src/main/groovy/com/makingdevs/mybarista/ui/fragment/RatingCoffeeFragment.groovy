@@ -25,11 +25,12 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-public class RatingCoffeFragment extends Fragment {
+public class RatingCoffeeFragment extends Fragment {
 
-    private static final String TAG = "RatingCoffeFragment"
-    private RatingBar mRatingCoffeBar
-    private TextView mRatingCoffeText
+    private static final String TAG = "RatingCoffeeFragment"
+    static String CHECK_IN_ID = "check_in_id"
+    private RatingBar mRatingCoffeeBar
+    private TextView mRatingCoffeeText
     private static Context contextView
     private User currentUser
     private String mCheckinId
@@ -37,21 +38,21 @@ public class RatingCoffeFragment extends Fragment {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
-    RatingCoffeFragment() { super() }
+    RatingCoffeeFragment() { super() }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         currentUser = mSessionManager.getUserSession(getContext())
         mCheckinManager.show(mCheckinId, onSuccessShow(), onError())
     }
 
-    private void addListenerToRatingCoffeBar() {
-        mRatingCoffeBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+    private void addListenerToRatingCoffeeBar() {
+        mRatingCoffeeBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
             @Override
             void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                sendRatingCoffeToCheckin()
+                sendRatingCoffeeToCheckin()
             }
         })
     }
@@ -59,8 +60,8 @@ public class RatingCoffeFragment extends Fragment {
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_rating_coffee, container, false)
-        mRatingCoffeBar = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
-        mRatingCoffeText = (TextView) root.findViewById(R.id.rating_coffe_text)
+        mRatingCoffeeBar = (RatingBar) root.findViewById(R.id.rating_coffe_bar)
+        mRatingCoffeeText = (TextView) root.findViewById(R.id.rating_coffe_text)
         contextView = getActivity().getApplicationContext()
         root
     }
@@ -69,10 +70,10 @@ public class RatingCoffeFragment extends Fragment {
         { Call<Checkin> call, Response<Checkin> response ->
             if (response.code() == 200) {
                 Checkin checkin = response.body()
-                setRatingCoffe(checkin)
-                addListenerToRatingCoffeBar()
+                setRatingCoffee(checkin)
+                addListenerToRatingCoffeeBar()
                 if (checkin.author == currentUser.username)
-                    mRatingCoffeBar.isIndicator = false
+                    mRatingCoffeeBar.isIndicator = false
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -81,7 +82,7 @@ public class RatingCoffeFragment extends Fragment {
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            setRatingCoffe(response.body())
+            setRatingCoffee(response.body())
             if (response.code() == 200) {
                 Log.d(TAG, response.body().toString())
             } else {
@@ -96,14 +97,13 @@ public class RatingCoffeFragment extends Fragment {
         }
     }
 
-    private void sendRatingCoffeToCheckin() {
-        CheckinCommand command = new CheckinCommand(rating: String.valueOf(mRatingCoffeBar.getRating()))
+    private void sendRatingCoffeeToCheckin() {
+        CheckinCommand command = new CheckinCommand(rating: String.valueOf(mRatingCoffeeBar.getRating()))
         mCheckinManager.saveRating(mCheckinId, command, onSuccess(), onError())
     }
 
-    private void setRatingCoffe(Checkin checkin) {
-        mRatingCoffeBar.setRating(Float.parseFloat(checkin.rating ?: "0"))
-        mRatingCoffeText.text = checkin.rating ?: "0"
+    private void setRatingCoffee(Checkin checkin) {
+        mRatingCoffeeBar.setRating(Float.parseFloat(checkin.rating ?: "0"))
+        mRatingCoffeeText.text = checkin.rating ?: "0"
     }
-
 }

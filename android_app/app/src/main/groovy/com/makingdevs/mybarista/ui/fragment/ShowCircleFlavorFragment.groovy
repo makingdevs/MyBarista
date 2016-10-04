@@ -27,13 +27,13 @@ import retrofit2.Response
 @CompileStatic
 public class ShowCircleFlavorFragment extends Fragment {
 
-    CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    CheckinManager mCheckInManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
     private static final String TAG = "ShowCircleFlavorFragment"
-    static String CURRENT_CHECKIN_ID = "checkin_id"
-    static String CURRENT_CIRCLE_FLAVOR = "circle_flavor_id"
-    static String CURRENT_CHECKIN = "checkin"
+    static String CHECK_IN_ID = "check_in_id"
+    static String CIRCLE_FLAVOR_ID = "circle_flavor_id"
+    static String CURRENT_CHECK_IN = "check_in"
 
     RoundCornerProgressBar sweetnessBar
     RoundCornerProgressBar acidityBar
@@ -45,7 +45,7 @@ public class ShowCircleFlavorFragment extends Fragment {
     RoundCornerProgressBar candyBar
     RoundCornerProgressBar bodyBar
     RoundCornerProgressBar cleaningBar
-    Checkin currentCheckin
+    Checkin currentCheckIn
     CircleFlavor currentCircleFlavor
     User currentUser
 
@@ -56,9 +56,9 @@ public class ShowCircleFlavorFragment extends Fragment {
         super.onCreate(savedInstanceState)
         currentCircleFlavor = new CircleFlavor()
         currentUser = mSessionManager.getUserSession(getContext())
-        currentCheckin = getActivity().intent.extras.getSerializable(CURRENT_CHECKIN) as Checkin
-        if (!currentCheckin.circle_flavor_id) return
-        mCheckinManager.showCircleFlavor(currentCheckin.circle_flavor_id, onSuccess(), onError())
+        currentCheckIn = getActivity().intent.extras.getSerializable(CURRENT_CHECK_IN) as Checkin
+        if (!currentCheckIn.circle_flavor_id) return
+        mCheckInManager.showCircleFlavor(currentCheckIn.circle_flavor_id, onSuccess(), onError())
 
 
     }
@@ -76,16 +76,16 @@ public class ShowCircleFlavorFragment extends Fragment {
         candyBar = (RoundCornerProgressBar) root.findViewById(R.id.candyBar)
         bodyBar = (RoundCornerProgressBar) root.findViewById(R.id.bodyBar)
         cleaningBar = (RoundCornerProgressBar) root.findViewById(R.id.cleaningBar)
-        validateCheckinAuthor()
+        validateCheckInAuthor()
         root
     }
 
-    private void validateCheckinAuthor(){
-        if(currentCheckin.author == currentUser.username){
+    private void validateCheckInAuthor() {
+        if (currentCheckIn.author == currentUser.username) {
             Closure action = {
                 Intent intent = CircleFlavorActivity.newIntentWithContext(getContext())
-                intent.putExtra(CURRENT_CHECKIN_ID, currentCheckin.id)
-                intent.putExtra(CURRENT_CIRCLE_FLAVOR, currentCircleFlavor)
+                intent.putExtra(CHECK_IN_ID, currentCheckIn.id)
+                intent.putExtra(CIRCLE_FLAVOR_ID, currentCircleFlavor)
                 startActivityForResult(intent, 1)
             }
             [sweetnessBar, acidityBar, floweryBar, spicyBar, saltyBar, berriesBar, chocolateBar, candyBar, bodyBar, cleaningBar]*.setOnClickListener(action)
@@ -122,7 +122,7 @@ public class ShowCircleFlavorFragment extends Fragment {
     }
 
     private Closure onError() {
-        { Call<CircleFlavor> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<CircleFlavor> call, Throwable t -> Log.d(TAG, t.message) }
     }
 
     @Override
@@ -132,7 +132,7 @@ public class ShowCircleFlavorFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 CircleFlavor circleUpdated = new CircleFlavor()
-                circleUpdated = data.getExtras().getSerializable(CURRENT_CIRCLE_FLAVOR) as CircleFlavor
+                circleUpdated = data.getExtras().getSerializable(CIRCLE_FLAVOR_ID) as CircleFlavor
                 currentCircleFlavor = circleUpdated
                 setCircleFlavorView(circleUpdated)
             }

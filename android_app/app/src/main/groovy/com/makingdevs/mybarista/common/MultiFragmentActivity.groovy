@@ -20,7 +20,7 @@ import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import com.makingdevs.mybarista.ui.activity.PrincipalActivity
 import com.makingdevs.mybarista.ui.fragment.CommentsFragment
-import com.makingdevs.mybarista.ui.fragment.RatingCoffeFragment
+import com.makingdevs.mybarista.ui.fragment.RatingCoffeeFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCheckinFragment
 import com.makingdevs.mybarista.ui.fragment.ShowCircleFlavorFragment
 import groovy.transform.CompileStatic
@@ -41,7 +41,7 @@ abstract class MultiFragmentActivity extends AppCompatActivity implements WithMu
         Map fragments = createFragments()
 
         ShowCheckinFragment topFragment= (ShowCheckinFragment) fragments.top
-        RatingCoffeFragment middleTopFragment= (RatingCoffeFragment) fragments.middleTop
+        RatingCoffeeFragment middleTopFragment= (RatingCoffeeFragment) fragments.middleTop
         ShowCircleFlavorFragment middleBottomFragment= (ShowCircleFlavorFragment) fragments.middleBootom
         CommentsFragment bottomFragment= (CommentsFragment) fragments.bottom
 
