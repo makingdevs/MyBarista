@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
@@ -29,6 +30,7 @@ import retrofit2.Response
 class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "BaristaFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
     private static final String CHECK_IN_ID = "check_in_id"
     EditText mNameBarista
     Button mButtonCreateBarista
@@ -42,6 +44,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
+
 
     BaristaFragment() { super() }
 
@@ -111,8 +114,12 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            if (response.code() == 200)
+            if (response.code() == 200) {
+                Intent intent = new Intent()
+                intent.putExtra(CURRENT_CHECK_IN, response.body())
+                getActivity().setResult(Activity.RESULT_OK, intent)
                 getActivity().finish()
+            }
         }
     }
 
@@ -138,5 +145,4 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
                 .addToBackStack(null)
                 .commit()
     }
-
 }
