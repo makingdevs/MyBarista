@@ -131,7 +131,13 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
                 if (AccessToken.getCurrentAccessToken() != null) {
                     token = loginResult.accessToken.token
                     getFacebookUserData(graphResponse)
-                    LoginCommand loginCommand = new LoginCommand(username: first_name+last_name, password: facebookId, email: email, token: token)
+                    LoginCommand loginCommand = new LoginCommand(
+                            username: first_name + last_name
+                            , password: facebookId
+                            , email: email
+                            , token: token
+                            , firstName: first_name
+                            , lastName: last_name)
                     mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
                 }
             }
