@@ -24,10 +24,12 @@ class UserManagerImpl implements UserManager {
     void login(LoginCommand loginCommand, Closure onSuccess, Closure onError) {
         RetrofitTemplate.instance.withRetrofitUser(operations as Class, onSuccess, onError) { UserRestOperations restOperations ->
             if (loginCommand.email) {
-                restOperations.loginUser([username  : loginCommand.username
-                                          , password: loginCommand.password
-                                          , email   : loginCommand.email
-                                          , token   : loginCommand.token
+                restOperations.loginUser([username   : loginCommand.username
+                                          , firstName: loginCommand.firstName
+                                          , lastName : loginCommand.lastName
+                                          , password : loginCommand.password
+                                          , email    : loginCommand.email
+                                          , token    : loginCommand.token
                 ])
             } else {
                 restOperations.loginUser([username  : loginCommand.username
