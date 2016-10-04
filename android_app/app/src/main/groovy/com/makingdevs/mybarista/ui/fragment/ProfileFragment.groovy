@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.facebook.FacebookActivity
+import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
@@ -46,6 +46,7 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     private Button mSaveProfile
     TextView mCloseSession
     ImageView mImageViewCamera
+    private UserProfile userProfile
 
 
     ProfileFragment() { super() }
@@ -53,6 +54,7 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
+        userProfile = new UserProfile()
     }
 
     View onCreateView(LayoutInflater inflater,
@@ -131,13 +133,18 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessUser() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            nameProfileEditText.text = response.body().name
-            lastNameProfileEditText.text = response.body().lastName
-            checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
-            String urlFile = response?.body()?.s3_asset?.url_file
-            if (urlFile) {
-                mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
-            }
+            userProfile = response.body()
+            setUserProfileData(userProfile)
+        }
+    }
+
+    private void setUserProfileData(UserProfile profile) {
+        nameProfileEditText.text = profile.name
+        lastNameProfileEditText.text = profile.lastName
+        checkinsCount.text = "${userProfile.checkins_count.toString()}\n Checkins"
+        String urlFile = profile?.s3_asset?.url_file
+        if (urlFile) {
+            mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
         }
     }
 
@@ -174,8 +181,8 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if(resultCode == activity.RESULT_OK){
-                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , mImageViewCamera)
+            if (resultCode == activity.RESULT_OK) {
+                mImageUtil1.setPhotoImageView(getContext(), data.getStringExtra("PATH_PHOTO"), mImageViewCamera)
             }
         }
     }
