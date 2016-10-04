@@ -44,9 +44,9 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
-    private static final String TAG = "ShowCheckinFragment"
-    private static final String CURRENT_CHECKIN = "checkin"
-    private static final String CURRENT_CHECK_IN_ID = "check_in"
+    private static final String TAG = "ShowCheckInFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String CHECK_IN_ID = "check_in_id"
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
     private static final int EDIT_REQUEST_CODE = 1
@@ -88,15 +88,15 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
         //Current User
         currentUser = mSessionManager.getUserSession(getContext())
-        //Current Checkin
-        checkin = getActivity().intent.extras.getSerializable(CURRENT_CHECKIN) as Checkin
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        //Current Check In
+        checkin = getActivity().intent.extras.getSerializable(CURRENT_CHECK_IN) as Checkin
+        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
 
         bindingViews()
-        validateCheckinAuthor()
-        setCheckinInView(checkin)
+        validateCheckInAuthor()
+        setCheckInInView(checkin)
         setUserActions()
 
         itemView
@@ -108,8 +108,8 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EDIT_REQUEST_CODE) {
-                checkin = data.getExtras().getSerializable("check_in") as Checkin
-                setCheckinInView(checkin)
+                checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
+                setCheckInInView(checkin)
             }
         }
     }
@@ -130,7 +130,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         shareCheckin = (Button) itemView.findViewById(R.id.btnShare)
     }
 
-    private void validateCheckinAuthor() {
+    private void validateCheckInAuthor() {
         if (checkin.author != currentUser.username) {
             mButtonEditCheckin.setVisibility(View.GONE)
             mBarista.setVisibility(View.GONE)
@@ -139,7 +139,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         }
     }
 
-    private void setCheckinInView(Checkin checkin) {
+    private void setCheckInInView(Checkin checkin) {
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
@@ -157,20 +157,20 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote.onClickListener = {
             NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
             noteDialog.onNoteSubmit = { String note ->
-                updateNoteInCheckin(note)
+                updateNoteInCheckIn(note)
             }
             noteDialog.show(fragmentManager, "note_dialog")
         }
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
-            intent.putExtra("checkingId", mCheckinId)
+            intent.putExtra(CHECK_IN_ID, mCheckinId)
             startActivity(intent)
         }
 
         mButtonEditCheckin.onClickListener = {
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
             intent.putExtra(ACTION_CHECK_IN, 1)
-            intent.putExtra(CURRENT_CHECK_IN_ID, checkin)
+            intent.putExtra(CURRENT_CHECK_IN, checkin)
             startActivityForResult(intent, 1)
         }
 
@@ -182,7 +182,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         }
     }
 
-    void updateNoteInCheckin(String currentNote) {
+    void updateNoteInCheckIn(String currentNote) {
         CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
         mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
     }
@@ -210,11 +210,11 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
-            setCheckinInView(checkin)
+            setCheckInInView(checkin)
         }
     }
 
     private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
+        { Call<Checkin> call, Throwable t -> Log.d(TAG, t.message) }
     }
 }

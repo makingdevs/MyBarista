@@ -39,7 +39,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final int CREATE_CHECK_IN = 0
     private static final int UPDATE_CHECK_IN = 1
-    int CHECKIN_STATUS = 0
+    int CHECK_IN_STATUS = 0
 
     static Context contextView
     Button checkInButton
@@ -69,11 +69,11 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        CHECKIN_STATUS = getActivity().getIntent().getExtras().getInt(ACTION_CHECK_IN)
+        CHECK_IN_STATUS = getActivity().getIntent().getExtras().getInt(ACTION_CHECK_IN)
         currentCheckin = new Checkin()
         venue = new Venue()
         currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
-        currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
+        //currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
     }
 
     @Override
@@ -128,7 +128,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         methodFieldSprinner.setAdapter(getSpinnerAdapter())
         methodFieldSprinner.setSelection(getSpinnerAdapter().getPosition(currentCheckin.method))
 
-        if (CHECKIN_STATUS == UPDATE_CHECK_IN) {
+        if (CHECK_IN_STATUS == UPDATE_CHECK_IN) {
             checkInButton.setText(R.string.button_update_checkin)
         }
     }
@@ -184,7 +184,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         String method = methodFieldSprinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
 
-        switch (CHECKIN_STATUS) {
+        switch (CHECK_IN_STATUS) {
             case CREATE_CHECK_IN:
                 checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
