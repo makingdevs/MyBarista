@@ -116,14 +116,13 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
 
 
     private Closure onError() {
-        { Call<UserProfile> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<UserProfile> call, Throwable t -> Log.d(TAG, t.message) }
     }
 
     private Closure onSuccess() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            Log.d(TAG, "Respueta:" + response.code())
             if (response.code() == 200) {
-                Toast.makeText(getContext(), "Datos Guardados Exitosamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.message_saved_data, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -142,9 +141,16 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         nameProfileEditText.text = profile.name
         lastNameProfileEditText.text = profile.lastName
         checkinsCount.text = "${userProfile.checkins_count.toString()}\n Checkins"
-        String urlFile = profile?.s3_asset?.url_file
-        if (urlFile) {
+
+        if (AccessToken.getCurrentAccessToken() != null) {
+            // Testing hardcode url
+            String urlFile = "https://graph.facebook.com/100013621411464/picture?type=large"
             mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
+        } else {
+            String urlFile = profile?.s3_asset?.url_file
+            if (urlFile) {
+                mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
+            }
         }
     }
 
