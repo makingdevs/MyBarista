@@ -6,6 +6,8 @@ import groovy.transform.CompileStatic
 class LoginCommand {
 
     String username
+    String firstName
+    String lastName
     String password
     String email
     String token
