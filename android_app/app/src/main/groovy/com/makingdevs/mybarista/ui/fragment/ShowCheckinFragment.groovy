@@ -50,6 +50,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
     private static final int EDIT_REQUEST_CODE = 1
+    private static final int BARIST_REQUEST_CODE = 2
 
 
     ImageUtil mImageUtil1 = new ImageUtil()
@@ -107,9 +108,15 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         callbackManager.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EDIT_REQUEST_CODE) {
-                checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
-                setCheckInInView(checkin)
+            switch (requestCode) {
+                case EDIT_REQUEST_CODE:
+                    checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
+                    setCheckInInView(checkin)
+                    break
+                case BARIST_REQUEST_CODE:
+                    checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
+                    setCheckInInView(checkin)
+                    break
             }
         }
     }
@@ -164,7 +171,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mBarista.onClickListener = {
             Intent intent = BaristaActivity.newIntentWithContext(getContext())
             intent.putExtra(CHECK_IN_ID, mCheckinId)
-            startActivity(intent)
+            startActivityForResult(intent, 2)
         }
 
         mButtonEditCheckin.onClickListener = {
