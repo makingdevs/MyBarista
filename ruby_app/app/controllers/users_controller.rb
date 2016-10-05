@@ -51,10 +51,7 @@ class UsersController < ApplicationController
     elsif @email
       render json: @email
     else
-      params[:username] = params['username']
-      params[:name] = params['firstName']
-      params[:lastName] = params['lastName']
-      params[:password] = params['password']
+      set_user_from_facebook
       @user = User.new(user_params)
       @user.token = Digest::MD5.hexdigest(params[:token])
       if @user.save
@@ -85,4 +82,12 @@ class UsersController < ApplicationController
     def user_params
       params.permit(:username,:name,:lastName,:password,:email,:token)
     end
+
+    def set_user_from_facebook
+      params[:username] = params['username']
+      params[:name] = params['firstName']
+      params[:lastName] = params['lastName']
+      params[:password] = params['password']
+    end
+
 end
