@@ -94,27 +94,22 @@ class LoginFragment extends Fragment implements FacebookCallback<LoginResult> {
         mUserManager.login(loginCommand, onLoginSuccess(), onLoginError())
     }
 
-    private void cleanForm() {
-        passwordEditText.text = ""
-        Toast.makeText(getContext(), R.string.toastLoginFail, Toast.LENGTH_SHORT).show()
+    private Closure onLoginSuccess() {
+        { Call<User> call, Response<User> response ->
+            mSessionManager.setUserSession(response.body(), getContext())
+            showPrincipalActivity()
+        }
     }
 
     private Closure onLoginError() {
         { Call<User> call, Throwable t ->
-            t.printStackTrace()
+            cleanForm()
         }
     }
 
-    private Closure onLoginSuccess() {
-        { Call<User> call, Response<User> response ->
-            if (response.code() == 200 || response.code() == 201) {
-                mSessionManager.setUserSession(response.body(), getContext())
-                showPrincipalActivity()
-            } else {
-                cleanForm()
-            }
-
-        }
+    private void cleanForm() {
+        passwordEditText.text = ""
+        Toast.makeText(getContext(), R.string.toastLoginFail, Toast.LENGTH_SHORT).show()
     }
 
     /**
