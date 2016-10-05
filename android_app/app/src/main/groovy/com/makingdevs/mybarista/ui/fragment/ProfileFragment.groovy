@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
@@ -141,16 +140,9 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         nameProfileEditText.text = profile.name
         lastNameProfileEditText.text = profile.lastName
         checkinsCount.text = "${userProfile.checkins_count.toString()}\n Checkins"
-
-        if (AccessToken.getCurrentAccessToken() != null) {
-            // Testing hardcode url
-            String urlFile = "https://graph.facebook.com/100013621411464/picture?type=large"
+        String urlFile = profile?.s3_asset?.url_file
+        if (urlFile) {
             mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
-        } else {
-            String urlFile = profile?.s3_asset?.url_file
-            if (urlFile) {
-                mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
-            }
         }
     }
 
