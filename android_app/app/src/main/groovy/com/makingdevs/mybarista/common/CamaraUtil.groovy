@@ -13,14 +13,14 @@ class CamaraUtil {
 
     private static final String TAG = "CamaraUtil"
 
-    File createImageFile() {
+    static File createImageFile() {
         String timeStamp = new Date().format("yyyyMMdd_HHmmss")
         String imageFileName = "Checkin_$timeStamp"
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         File image = File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 
-    File saveBitmapToFile(Bitmap bitmap, String photoName) {
+    static File saveBitmapToFile(Bitmap bitmap, String photoName) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + photoName)
