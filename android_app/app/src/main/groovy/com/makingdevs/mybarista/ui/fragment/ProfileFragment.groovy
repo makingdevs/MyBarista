@@ -3,6 +3,8 @@ package com.makingdevs.mybarista.ui.fragment
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -12,28 +14,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.facebook.FacebookActivity
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.GraphResponse
 import com.facebook.login.LoginManager
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.common.OnActivityResultGallery
-import com.makingdevs.mybarista.common.RequestPermissionAndroid
+import com.makingdevs.mybarista.common.*
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.User
 import com.makingdevs.mybarista.model.UserProfile
 import com.makingdevs.mybarista.model.command.UpdateUserCommand
+import com.makingdevs.mybarista.model.command.UploadCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.LoginActivity
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
+import groovy.transform.CompileStatic
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
+@CompileStatic
 class ProfileFragment extends Fragment implements OnActivityResultGallery {
 
     UserManager mUserManager = UserManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
-    S3assetManager mS3Manager = S3assetManagerImpl.instance
+    S3assetManager s3assetManager = S3assetManagerImpl.instance
     ImageUtil mImageUtil1 = new ImageUtil()
     User currentUser
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
@@ -46,19 +53,22 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     private Button mSaveProfile
     TextView mCloseSession
     ImageView mImageViewCamera
-
+    private UserProfile userProfile
+    private CamaraUtil camaraUtil
 
     ProfileFragment() { super() }
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
+        userProfile = new UserProfile()
     }
 
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false)
         currentUser = mSessionManager.getUserSession(getContext())
+        camaraUtil = new CamaraUtil()
         nameProfileEditText = (EditText) root.findViewById(R.id.inputNameProfile)
         lastNameProfileEditText = (EditText) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
@@ -100,12 +110,11 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         mUserManager.getUser(currentUser.id, onSuccessUser(), onError())
     }
 
-    private User updateInfoUserProfile() {
+    private void updateInfoUserProfile() {
         String name = nameProfileEditText.text
         String lastName = lastNameProfileEditText.text
         UpdateUserCommand updateUserCommand = new UpdateUserCommand(name: name, lastName: lastName, id: currentUser.id)
         sendUpdateUserProfile(updateUserCommand)
-
     }
 
     private void sendUpdateUserProfile(UpdateUserCommand updateUserCommand) {
@@ -113,15 +122,14 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     }
 
 
-    private Closure onError() {
-        { Call<UserProfile> call, Throwable t -> Log.d("ERRORZ", "el error") }
+    static Closure onError() {
+        { Call<UserProfile> call, Throwable t -> Log.d(TAG, t.message) }
     }
 
     private Closure onSuccess() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            Log.d(TAG, "Respueta:" + response.code())
             if (response.code() == 200) {
-                Toast.makeText(getContext(), "Datos Guardados Exitosamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.message_saved_data, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -131,38 +139,76 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessUser() {
         { Call<UserProfile> call, Response<UserProfile> response ->
-            nameProfileEditText.text = response.body().name
-            lastNameProfileEditText.text = response.body().lastName
-            checkinsCount.text = "${response.body().checkins_count.toString()}\n Checkins"
-            String urlFile = response?.body()?.s3_asset?.url_file
-            if (urlFile) {
-                mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
+            userProfile = response.body()
+            setUserProfileData(userProfile)
+
+            if (userProfile.s3_asset == null && AccessToken.getCurrentAccessToken() != null)
+                getFacebookPhotoProfile()
+        }
+    }
+
+    private void setUserProfileData(UserProfile profile) {
+        nameProfileEditText.text = profile.name
+        lastNameProfileEditText.text = profile.lastName
+        checkinsCount.text = "${userProfile.checkins_count.toString()}\n Checkins"
+        String urlFile = profile?.s3_asset?.url_file
+        if (urlFile) {
+            mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
+        }
+    }
+
+    /**
+     * This piece of code is temporal since I do not know yet how to pass arguments from LoginFragment to Principal Activity
+     */
+    void getFacebookPhotoProfile() {
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            void onCompleted(JSONObject object, GraphResponse response) {
+                JSONObject json = response.getJSONObject()
+
+                try {
+                    if (json != null) {
+                        String facebookId = json.getString(getString(R.string.request_fb_id))
+                        setFacebookProfilePhoto(facebookId)
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace()
+                }
             }
+        })
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    void setFacebookProfilePhoto(String facebookId) {
+        String photoUrl = String.format(getString(R.string.url_facebook_photo), facebookId)
+        String userId = currentUser.id.toString()
+
+        Fluent.async {
+            photoUrl.toURL().bytes
+        } then { result ->
+            Bitmap bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(result as byte[]))
+            String bitmapPath = camaraUtil.saveBitmapToFile(bitmap, "${facebookId}.png").path
+            s3assetManager.uploadPhotoUser(new UploadCommand(idUser: userId, pathFile: bitmapPath), onSuccessPhoto(), onErrorPhoto())
         }
     }
 
-    private Closure onSuccessPhoto() {
+    static Closure onSuccessPhoto() {
         { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            changeFragment(new ProfileFragment())
+            // Our Code
         }
     }
 
-    private Closure onErrorPhoto() {
+    static Closure onErrorPhoto() {
         { Call<Checkin> call, Throwable t ->
-            Log.d("Error ${t.message}")
-            changeFragment(new ProfileFragment())
+            // Our Code
         }
-    }
-
-    void changeFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit()
     }
 
     boolean checkPermissionStorage() {
-        Boolean status
+        Boolean status = false
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             status = true
@@ -174,8 +220,8 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if(resultCode == activity.RESULT_OK){
-                mImageUtil1.setPhotoImageView(getContext(),data.getStringExtra("PATH_PHOTO") , mImageViewCamera)
+            if (resultCode == activity.RESULT_OK) {
+                mImageUtil1.setPhotoImageView(getContext(), data.getStringExtra("PATH_PHOTO"), mImageViewCamera)
             }
         }
     }
