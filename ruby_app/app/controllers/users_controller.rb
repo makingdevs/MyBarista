@@ -43,14 +43,15 @@ class UsersController < ApplicationController
 
   # GET /users/login   => username, password =>success 200 o 201 y user token , error 401
   def login
-    @user =  User.find_by username:params['username']
-    if @user
-      @user.authenticate(params['password']) ? (render json: @user) : (render :json => {:error => "Unauthorized"}.to_json, :status => 401)
+    # Clean this code
+    @username = User.find_by username:params['username']
+    @email = User.find_by email:params['email']
+    if @username
+      @username.authenticate(params['password']) ? (render json: @username) : (render :json => {:error => "Unauthorized"}.to_json, :status => 401)
+    elsif @email
+      render json: @email
     else
-      params[:username] = params['username']
-      params[:name] = params['firstName']
-      params[:lastName] = params['lastName']
-      params[:password] = params['password']
+      set_user_from_facebook
       @user = User.new(user_params)
       @user.token = Digest::MD5.hexdigest(params[:token])
       if @user.save
@@ -81,4 +82,12 @@ class UsersController < ApplicationController
     def user_params
       params.permit(:username,:name,:lastName,:password,:email,:token)
     end
+
+    def set_user_from_facebook
+      params[:username] = params['username']
+      params[:name] = params['firstName']
+      params[:lastName] = params['lastName']
+      params[:password] = params['password']
+    end
+
 end
