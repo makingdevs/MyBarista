@@ -98,7 +98,6 @@
     <string name="close_session">Cerrar sesión</string>
     <string name="email">Correo</string>
     <string name="save_profile">Actualizar perfil</string>
-    <string name="venue_detail">Lugar</string>
     <string name="add_venue">Agregar ubicacion</string>
     <string name="message_uploading_photo">Uploading photo...</string>
     <string name="message_sharing_photo">Sharing photo...</string>
@@ -108,4 +107,5 @@
     <string name="label_share_button">Compartir</string>
     <string name="message_saved_data">Datos guardados correctamente</string>
     <string name="url_facebook_photo">https://graph.facebook.com/%s/picture?width=500</string>
+    <string name="hint_search_place">Selecciona un lugar</string>
 </resources>
