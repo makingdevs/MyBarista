@@ -3,31 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/spacing_normal"
+    android:paddingEnd="@dimen/spacing_normal"
+    android:paddingStart="@dimen/spacing_normal"
+    android:paddingTop="@dimen/spacing_large">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/search_venue_foursquare"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".9"
-            android:hint="@string/menu_search">
-
-            <EditText
-                android:id="@+id/search_venue_foursquare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            android:hint="@string/label_search_place"
+            android:paddingEnd="@dimen/spacing_normal"
+            android:paddingStart="@dimen/spacing_normal"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/font_large" />
 
         <ImageButton
             android:id="@+id/btnSearchVenueFoursquare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".1"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_search_white" />
 
     </LinearLayout>
 
@@ -35,6 +37,5 @@
         android:id="@+id/list_venues_recicler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </LinearLayout>
