@@ -108,4 +108,6 @@
     <string name="message_saved_data">Datos guardados correctamente</string>
     <string name="url_facebook_photo">https://graph.facebook.com/%s/picture?width=500</string>
     <string name="hint_search_place">Selecciona un lugar</string>
+    <string name="label_check_in">Check In</string>
+    <string name="label_add_place">Agrega un lugar</string>
 </resources>
