@@ -14,7 +14,7 @@
             android:id="@+id/show_picture_barista"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@drawable/coffee"
+            android:src="@drawable/placeholder_coffee"
             android:scaleType="centerCrop"/>
 
         <TextView

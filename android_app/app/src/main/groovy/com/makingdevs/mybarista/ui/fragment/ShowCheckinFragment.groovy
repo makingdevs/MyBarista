@@ -64,7 +64,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     View itemView
     ImageButton mButtonNote
     User currentUser
-    Button mBarista
+    ImageButton mBarista
     String mCheckinId
     Checkin checkin
     ImageButton mButtonEditCheckin
@@ -132,7 +132,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
         mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
-        mBarista = (Button) itemView.findViewById(R.id.btnBarista)
+        mBarista = (ImageButton) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
         shareCheckin = (Button) itemView.findViewById(R.id.btnShare)
     }
