@@ -26,5 +26,5 @@ Rails.application.routes.draw do
    post '/barista/photo/save_photo', to: 's3_asset#save_photo_by_barista', as: 's3_barista'
    post '/users/photo/save', to: 's3_asset#save_photo_by_user', as: 's3_users'
    post '/checkins/:id/updateCheckin', to: 'checkins#update', as: 'updateCheckin'
-
+   get '/user/:username', to: 'users#showUser', as: 'showUser'
 end

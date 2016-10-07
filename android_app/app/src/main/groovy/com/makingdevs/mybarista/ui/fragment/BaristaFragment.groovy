@@ -1,5 +1,6 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
@@ -29,6 +30,8 @@ import retrofit2.Response
 class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     static final String TAG = "BaristaFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String CHECK_IN_ID = "check_in_id"
     EditText mNameBarista
     Button mButtonCreateBarista
     ImageButton mButtonPhotoBarista
@@ -42,11 +45,12 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     RequestPermissionAndroid requestPermissionAndroid = new RequestPermissionAndroid()
 
+
     BaristaFragment() { super() }
 
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkingId")
+        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         View root = inflater.inflate(R.layout.fragment_new_barista, container, false)
         mNameBarista = (EditText) root.findViewById(R.id.name_barista_field)
         mButtonCreateBarista = (Button) root.findViewById(R.id.button_new_barista)
@@ -110,8 +114,12 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
-            if (response.code() == 200)
+            if (response.code() == 200) {
+                Intent intent = new Intent()
+                intent.putExtra(CURRENT_CHECK_IN, response.body())
+                getActivity().setResult(Activity.RESULT_OK, intent)
                 getActivity().finish()
+            }
         }
     }
 
@@ -136,9 +144,5 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
                 .commit()
-    }
-
-    private void muestraCarlo(){
-        int edad=19
     }
 }

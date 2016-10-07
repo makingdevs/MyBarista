@@ -1,25 +1,46 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fgm_checkin_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:background="@color/white"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/preview_checkin"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/coffee" />
+            android:layout_height="200dp">
 
-        <LinearLayout
+            <ImageView
+                android:id="@+id/preview_checkin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_latte_placeholder" />
+
+            <ImageView
+                android:id="@+id/imgTransparency"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/medium_transparency" />
+
+            <ImageView
+                android:id="@+id/imgAddPhoto"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_coffee_picture" />
+        </FrameLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_large"
             android:orientation="vertical">
 
             <TextView
@@ -28,76 +49,100 @@
                 android:layout_height="34dp"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/label_title_checkin"
-                android:textSize="20dp" />
+                android:textColor="@color/accent"
+                android:textSize="@dimen/font_xlarge" />
 
-            <Spinner
+            <ImageView
+                android:id="@+id/icn_methodSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:src="@drawable/ic_coffee_method" />
+
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/methodSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/methods_arrays"
-                android:prompt="@string/label_title_spinner"
+                android:layout_below="@id/textView"
+                android:layout_marginStart="4dp"
+                android:layout_toEndOf="@+id/icn_methodSpinner"
+                android:paddingStart="0dp"
                 android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:id="@+id/icn_originField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/methodSpinner"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:src="@drawable/ic_coffee_bean" />
 
             <EditText
                 android:id="@+id/originField"
-                style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/methodSpinner"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_toEndOf="@id/icn_originField"
                 android:hint="@string/placeholderOrigin"
-                android:singleLine="true" />
+                android:maxLines="1"
+                android:textSize="@dimen/font_large" />
+
+            <ImageView
+                android:id="@+id/icn_priceField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/originField"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:src="@drawable/ic_coffe_price" />
 
             <EditText
                 android:id="@+id/priceField"
-                style="@style/EditText.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/originField"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_toEndOf="@id/icn_priceField"
                 android:hint="@string/placeholderPrice"
                 android:inputType="numberDecimal"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/venue_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:drawableLeft="@drawable/ic_checkin_venue"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/image_view_photo_checkin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_checkin_camera" />
+                android:maxLines="1"
+                android:textSize="@dimen/font_large" />
 
             <ImageView
                 android:id="@+id/btnAddVenue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_get_venue" />
+                android:layout_below="@id/priceField"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:src="@drawable/ic_pin" />
+
+            <TextView
+                android:id="@+id/venue_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/priceField"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_toEndOf="@id/btnAddVenue"
+                android:gravity="center_vertical"
+                android:text="@string/label_add_place"
+                android:textSize="@dimen/font_large" />
 
             <Button
                 android:id="@+id/btnCheckIn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="@string/button_checkin"
-                android:textColor="@color/white" />
-        </LinearLayout>
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/label_check_in"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_large" />
+
+        </RelativeLayout>
     </LinearLayout>
 </FrameLayout>
 

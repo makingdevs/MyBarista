@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.User
@@ -32,9 +33,10 @@ public class ListBrewFragment extends Fragment {
     private static final String ACTION_CHECK_IN = "action_check_in"
     RecyclerView mListBrew
     BrewAdapter mBrewAdapter
-    FloatingActionButton mButtonGoChekin
+    FloatingActionButton mButtonGoChekIn
+    LinearLayout mFirstTime
 
-    CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    CheckinManager mCheckInManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
     ListBrewFragment() { super() }
@@ -45,9 +47,9 @@ public class ListBrewFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_list_brew, container, false)
         mListBrew = (RecyclerView) root.findViewById(R.id.list_brews)
         mListBrew.setLayoutManager(new LinearLayoutManager(getActivity()))
-
-        mButtonGoChekin = (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
-        mButtonGoChekin.onClickListener = {
+        mFirstTime = (LinearLayout) root.findViewById(R.id.first_checkin)
+        mButtonGoChekIn = (FloatingActionButton) root.findViewById(R.id.button_go_chekin)
+        mButtonGoChekIn.onClickListener = {
             Intent intent = CheckInActivity.newIntentWithContext(getContext())
             intent.putExtra(ACTION_CHECK_IN, 0)
             intent.putExtra(CURRENT_CHECK_IN, new Checkin())
@@ -65,7 +67,7 @@ public class ListBrewFragment extends Fragment {
 
     void updateUI() {
         User currentUser = mSessionManager.getUserSession(getContext())
-        mCheckinManager.list([username: currentUser.username], onSuccess(), onError())
+        mCheckInManager.list([username: currentUser.username], onSuccess(), onError())
     }
 
     private Closure onSuccess() {
@@ -77,10 +79,16 @@ public class ListBrewFragment extends Fragment {
                 mBrewAdapter.setmCheckins(response.body().toList())
                 mBrewAdapter.notifyDataSetChanged()
             }
+
+            if ((response.body().toList()).isEmpty()) {
+                mFirstTime.setVisibility(View.VISIBLE)
+            } else {
+                mFirstTime.setVisibility(View.GONE)
+            }
         }
     }
 
     private Closure onError() {
-        { Call<List<Checkin>> call, Throwable t -> Log.d("ERRORZ", "el error") }
+        { Call<List<Checkin>> call, Throwable t -> Log.d(TAG, t.message) }
     }
 }

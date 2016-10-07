@@ -1,7 +1,226 @@
 
 /* Note: You can write Sass in this file. */
 
+@font-face {
+  font-family: "BaristFont";
+  src: url(../font/Blacksword.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "Bariol";
+  src: url("../font/bariol_regular.woff2") format("woff2"),
+       url("../font/bariol_regular.woff") format("woff"),
+       url("../font/bariol_regular.ttf") format("truetype");
+}
+
+* {
+    font-family: Bariol;
+}
+
 body {
-  padding-top: 25px;
   font-size: 16px;
+}
+
+.shell {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.shell__nav {
+    width: 100%;
+    border-bottom: 1px solid #edeeee;
+    display: flex;
+    justify-content: center;
+}
+
+.shell__content {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navigation */
+.navigation-main {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    padding: 15px 0px 15px 0px; 
+}
+.navigation__brand, .navigation__brand-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.navigation__image {
+    width: 50px;
+}
+.navigation__text {
+    display: flex;
+    align-items: center;
+}
+.navigation__text h1 {
+    font-family: "BaristFont";
+    font-size: 24px;
+}
+.navigation__session-items {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+}
+
+/* Profile */
+.profile-page {
+    width: 60%;
+}
+.profile-page__header {
+    padding: 40px 0px;
+}
+.profile-page__author-container {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+}
+.profile-page__avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-page__avatar {
+    width: 130px;
+    height: 130px;
+}
+.profile-page__user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.profile-page__username p {
+    font-size: 34px;
+  	color: #411e11;
+  	font-weight: 300;
+  	margin: 0px 15px 0px 0px;
+}
+
+/* Grid */
+.post-grid {
+    width: 60%;
+}
+.post-grid__items {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.post-grid__item {
+    margin: 20px;
+}
+.post-grid__item-image {
+    width: 300px;
+}
+
+/* Dialog Check In */
+.comments-container__header {
+    display: flex;
+    padding: 16px 0px 16px 0px;
+}
+.header__avatar-container {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+}
+.header__avatar {
+    width: 50px;
+}
+.header__checkin-author {
+    width: 40%;
+}
+.checkin-author__user-container b {
+    font-weight: bold;
+    font-size: 22px;
+    padding-left: 2px;
+}
+.checkin-author__venue-container {
+    color: #806252;
+    display: flex;
+}
+.checkin-author__venue-container span {
+    font-size: 14px;
+}
+.checkin-author__venue-container p {
+    line-height: 14px;
+    font-size: 14.5px;
+    padding: 2px;
+}
+.header__checkin-rating {
+    width: 45%;
+    color: #806252;
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 16px 0px 0px;
+}
+.header__checkin-rating p {
+    font-size: 34px;
+    line-height: 29px;
+    padding-left: 8px;
+}
+.header__checkin-rating span {
+    font-size: 26px;
+}
+.body__author-note {
+    font-weight: bold;
+    padding: 0px 0px 0px 16px;
+}
+.body__other-comments {
+    padding-left: 16px;
+}
+.comments__items {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+.comments__item-container {
+    display: flex;
+}
+.item-container__header {
+    width:20%;
+    text-align: right;
+    color: #806252;
+}
+.item-container__header b {
+    font-family: Helvetica !important;
+    font-size: 15px;
+} 
+.item-container__body {
+    width: 80%;
+    color: #757575;
+    text-align: left;
+    padding-left: 6px;
+}
+
+/* Footer */
+.shell__footer {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer__nav-items {
+    display: flex;
+    list-style: none;
+}
+.footer__nav-item {
+    margin-right: 16px;
+}
+
+dl dt {
+   padding: 2px 10px;
+   text-align: right;
+}
+
+dl dd {
+   padding: 2px 10px;
+   text-align: left;
 }

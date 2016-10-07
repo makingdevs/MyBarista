@@ -1,63 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/primary"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:facebook="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_large">
 
     <ImageView
         android:layout_width="@dimen/size_login_logo"
         android:layout_height="@dimen/size_login_logo"
-        android:src="@drawable/ic_barista_logo"/>
+        android:layout_marginTop="@dimen/spacing_large"
+        android:src="@drawable/ic_barista_logo" />
 
     <com.makingdevs.mybarista.view.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="32sp"
-        app:fontName="@string/font_blacksword"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:fontName="@string/font_blacksword" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="#EEEEEE"
-        android:hint="@string/username">
+        android:hint="@string/username"
+        android:textColorHint="#EEEEEE">
 
         <EditText
             android:id="@+id/input_username"
             style="@style/EditText.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:singleLine="true"
             android:textColor="@color/white"
-            android:singleLine="true"/>
+            android:textSize="@dimen/font_large" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="#EEEEEE"
-        android:hint="@string/password">
+        android:hint="@string/password"
+        android:textColorHint="#EEEEEE">
 
         <EditText
             android:id="@+id/input_password"
             style="@style/EditText.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_large"
             android:inputType="textPassword"
+            android:singleLine="true"
             android:textColor="@color/white"
-            android:singleLine="true"/>
+            android:textSize="@dimen/font_large" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -67,18 +69,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:text="@string/button_login"/>
+        android:layout_marginBottom="@dimen/spacing_xlarge"
+        android:text="@string/button_login"
+        android:textColor="@color/white"
+        android:textStyle="normal" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/background_facebook_login"
+        android:drawableLeft="@null"
+        android:drawableStart="@null"
+        android:paddingBottom="@dimen/spacing_regular"
+        android:paddingTop="@dimen/spacing_regular"
+        android:text="@string/com_facebook_loginview_log_in_button_long"
+        android:textAllCaps="true"
+        android:textSize="@dimen/font_normal"
+        android:textStyle="normal"
+        facebook:com_facebook_confirm_logout="false" />
 
     <TextView
         android:id="@+id/message_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_xlarge"
         android:gravity="center_horizontal"
-        android:padding="@dimen/spacing_normal"
         android:text="@string/login_textView_message"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textSize="@dimen/font_large" />
 
 </LinearLayout>

@@ -15,13 +15,13 @@ import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.ui.activity.ShowCheckinActivity
 
-class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
+class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
 
     Context mContext
     List<Checkin> mCheckins
     ImageUtil mImageUtil1 = new ImageUtil()
 
-    BrewAdapter(Context context, List<Checkin> checkinList){
+    BrewAdapter(Context context, List<Checkin> checkinList) {
         mContext = context
         mCheckins = checkinList
     }
@@ -44,7 +44,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
     }
 
 
-    class BrewViewHolder extends RecyclerView.ViewHolder{
+    class BrewViewHolder extends RecyclerView.ViewHolder {
 
         Checkin mCheckin
         TextView mtitle
@@ -66,7 +66,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder>{
             mmoment.text = fecha
             mprice.text = "${checkin.price ? "\$ ${checkin.price}" : ""}"
             mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
-            if(mCheckin.s3_asset?.url_file)
+            if (mCheckin.s3_asset?.url_file)
                 mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file, photoCheckinImageView)
             else
                 photoCheckinImageView.setImageResource(R.drawable.coffee)

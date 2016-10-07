@@ -1,6 +1,9 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -9,11 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import com.facebook.CallbackManager
+import com.facebook.FacebookSdk
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.widget.ShareDialog
 import com.makingdevs.mybarista.R
+import com.makingdevs.mybarista.common.Fluent
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.model.Checkin
@@ -25,6 +32,7 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CheckInActivity
+import com.makingdevs.mybarista.view.LoadingDialog
 import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -36,11 +44,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
     SessionManager mSessionManager = SessionManagerImpl.instance
 
-    private static final String TAG = "ShowCheckinFragment"
-    private static final String CURRENT_CHECKIN = "checkin"
-    private static final String CURRENT_CHECK_IN_ID = "check_in"
+    private static final String TAG = "ShowCheckInFragment"
+    private static final String CURRENT_CHECK_IN = "check_in"
+    private static final String CHECK_IN_ID = "check_in_id"
     private static final String ACTION_CHECK_IN = "action_check_in"
     private static final String CURRENT_CIRCLE_FLAVOR = "circle_flavor"
+    private static final int EDIT_REQUEST_CODE = 1
+    private static final int BARIST_REQUEST_CODE = 2
 
 
     ImageUtil mImageUtil1 = new ImageUtil()
@@ -59,44 +69,56 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     Checkin checkin
     ImageButton mButtonEditCheckin
     ViewStub userActionsView
+    Button shareCheckin
+    ShareDialog shareDialog
+    LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_sharing_photo)
 
     ShowCheckinFragment() { super() }
+
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        FacebookSdk.sdkInitialize(activity.getApplicationContext())
+        callbackManager = CallbackManager.Factory.create()
+        shareDialog = new ShareDialog(this)
+    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         itemView = inflater.inflate(R.layout.fragment_show_chek_in, container, false)
-
         //Current User
         currentUser = mSessionManager.getUserSession(getContext())
-
-        //Current Checkin
-        checkin = getActivity().intent.extras.getSerializable(CURRENT_CHECKIN) as Checkin
-
-        mCheckinId = getActivity().getIntent().getExtras().getString("checkin_id")
+        //Current Check In
+        checkin = getActivity().intent.extras.getSerializable(CURRENT_CHECK_IN) as Checkin
+        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         if (!mCheckinId)
             throw new IllegalArgumentException("No arguments $mCheckinId")
 
         bindingViews()
-        validateCheckinAuthor()
+        validateCheckInAuthor()
+        setCheckInInView(checkin)
         setUserActions()
 
         itemView
     }
 
-    private void validateCheckinAuthor(){
-        if(checkin.author != currentUser.username){
-            mButtonEditCheckin.setVisibility(View.GONE)
-            mBarista.setVisibility(View.GONE)
-            mButtonNote.setVisibility(View.GONE)
-        }
-    }
-
-
     @Override
-    void onResume() {
-        super.onResume()
-        mCheckinManager.show(mCheckinId, onSuccess(), onError())
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case EDIT_REQUEST_CODE:
+                    checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
+                    setCheckInInView(checkin)
+                    break
+                case BARIST_REQUEST_CODE:
+                    checkin = data.getExtras().getSerializable(CURRENT_CHECK_IN) as Checkin
+                    setCheckInInView(checkin)
+                    break
+            }
+        }
     }
 
     private void bindingViews() {
@@ -112,37 +134,24 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         mBarista = (Button) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
+        shareCheckin = (Button) itemView.findViewById(R.id.btnShare)
     }
 
-    private setUserActions() {
-        mButtonNote.onClickListener = {
-            NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
-            noteDialog.onNoteSubmit = { String note ->
-                updateNoteInCheckin(note)
-            }
-            noteDialog.show(fragmentManager, "note_dialog")
+    private void validateCheckInAuthor() {
+        if (checkin.author != currentUser.username) {
+            mButtonEditCheckin.setVisibility(View.GONE)
+            mBarista.setVisibility(View.GONE)
+            mButtonNote.setVisibility(View.GONE)
+            shareCheckin.setVisibility(View.GONE)
         }
-        mBarista.onClickListener = {
-            Intent intent = BaristaActivity.newIntentWithContext(getContext())
-            intent.putExtra("checkingId", mCheckinId)
-            startActivity(intent)
-        }
-
-        mButtonEditCheckin.onClickListener = {
-            Intent intent = CheckInActivity.newIntentWithContext(getContext())
-            intent.putExtra(ACTION_CHECK_IN, 1)
-            intent.putExtra(CURRENT_CHECK_IN_ID, checkin)
-            startActivity(intent)
-        }
-
     }
 
-    private void setCheckinInView(Checkin checkin) {
+    private void setCheckInInView(Checkin checkin) {
         mOrigin.text = checkin.origin
         mMethod.text = checkin.method
         mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
         mNote.text = checkin.note ? " \"${checkin.note}\" " : ""
-        mBaristaName.text = checkin?.baristum.id ? "Preparado por ${checkin?.baristum?.name}" : ""
+        mBaristaName.text = checkin?.baristum?.id ? "Preparado por ${checkin?.baristum?.name}" : ""
         mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
 
         def url_image = checkin?.s3_asset?.url_file
@@ -151,19 +160,68 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
     }
 
+    private setUserActions() {
+        mButtonNote.onClickListener = {
+            NoteDialog noteDialog = NoteDialog.newInstance(checkin.note)
+            noteDialog.onNoteSubmit = { String note ->
+                updateNoteInCheckIn(note)
+            }
+            noteDialog.show(fragmentManager, "note_dialog")
+        }
+        mBarista.onClickListener = {
+            Intent intent = BaristaActivity.newIntentWithContext(getContext())
+            intent.putExtra(CHECK_IN_ID, mCheckinId)
+            startActivityForResult(intent, 2)
+        }
+
+        mButtonEditCheckin.onClickListener = {
+            Intent intent = CheckInActivity.newIntentWithContext(getContext())
+            intent.putExtra(ACTION_CHECK_IN, 1)
+            intent.putExtra(CURRENT_CHECK_IN, checkin)
+            startActivityForResult(intent, 1)
+        }
+
+        shareCheckin.onClickListener = {
+            if (ShareDialog.canShow(ShareLinkContent.class) && checkin.s3_asset)
+                sharePhotoContent()
+            else
+                Toast.makeText(context, R.string.message_add_photo, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    void updateNoteInCheckIn(String currentNote) {
+        CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
+        mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
+    }
+
+    private void sharePhotoContent() {
+        loadingDialog.show(getActivity().getSupportFragmentManager(), "Sharing dialog")
+        Fluent.async {
+            checkin.s3_asset.url_file.toURL().bytes
+        } then { result ->
+            Bitmap bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(result as byte[]))
+            loadingDialog.dismiss()
+
+            SharePhoto photo = new SharePhoto.Builder()
+                    .setBitmap(bitmap)
+                    .setCaption(checkin.note)
+                    .build();
+
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(photo)
+                    .build();
+            shareDialog.show(content)
+        }
+    }
+
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
-            setCheckinInView(checkin)
+            setCheckInInView(checkin)
         }
     }
 
     private Closure onError() {
-        { Call<Checkin> call, Throwable t -> Log.d("ERRORZ", "el error " + t.message) }
-    }
-
-    void updateNoteInCheckin(String currentNote) {
-        CheckinCommand checkinCommand = new CheckinCommand(note: currentNote)
-        mCheckinManager.saveNote(checkin.id, checkinCommand, onSuccess(), onError())
+        { Call<Checkin> call, Throwable t -> Log.d(TAG, t.message) }
     }
 }

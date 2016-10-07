@@ -27,8 +27,8 @@ import retrofit2.Response
 public class CircleFlavorFragment extends Fragment {
 
     private static final String TAG = "CircleFlavorFragment"
-    static String CURRENT_CHECKIN = "checkin_id"
-    static String CURRENT_CIRCLE_FLAVOR = "circle_flavor_id"
+    static String CHECK_IN_ID = "check_in_id"
+    static String CIRCLE_FLAVOR_ID = "circle_flavor_id"
 
     private static Context contextView
     private SeekBar seekProcessSweetness
@@ -55,7 +55,7 @@ public class CircleFlavorFragment extends Fragment {
     private CircleFlavor currentCircleFlavor
 
 
-    CheckinManager mCheckinManager = CheckingManagerImpl.instance
+    CheckinManager mCheckInManager = CheckingManagerImpl.instance
 
     CircleFlavorFragment() { super() }
 
@@ -98,7 +98,7 @@ public class CircleFlavorFragment extends Fragment {
         buttonCircleFlavor.setOnClickListener(new View.OnClickListener() {
             @Override
             void onClick(View v) {
-                String id = getActivity().getIntent().getExtras().getString(CURRENT_CHECKIN)
+                String id = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
                 saveCircleFlavor(id, getCircleFlavor())
             }
         })
@@ -109,7 +109,7 @@ public class CircleFlavorFragment extends Fragment {
          * Get current circle flavor
          */
 
-        currentCircleFlavor = activity.intent.extras.getSerializable(CURRENT_CIRCLE_FLAVOR) as CircleFlavor
+        currentCircleFlavor = activity.intent.extras.getSerializable(CIRCLE_FLAVOR_ID) as CircleFlavor
 
 
         root
@@ -263,7 +263,7 @@ public class CircleFlavorFragment extends Fragment {
     }
 
     private void saveCircleFlavor(String id, CircleFlavorCommand circleFlavorCommand) {
-        mCheckinManager.saveCircle(id, circleFlavorCommand, onSuccess(), onError())
+        mCheckInManager.saveCircle(id, circleFlavorCommand, onSuccess(), onError())
     }
 
     private CircleFlavorCommand getCircleFlavor() {
@@ -283,7 +283,7 @@ public class CircleFlavorFragment extends Fragment {
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
             if (response.code() == 201) {
-                showCheckin(getCurrentCircleFlavor())
+                showCheckIn(getCurrentCircleFlavor())
             } else {
                 Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
             }
@@ -310,9 +310,9 @@ public class CircleFlavorFragment extends Fragment {
         }
     }
 
-    private void showCheckin(CircleFlavor circleFlavor) {
+    private void showCheckIn(CircleFlavor circleFlavor) {
         Intent intent = new Intent()
-        intent.putExtra(CURRENT_CIRCLE_FLAVOR, circleFlavor)
+        intent.putExtra(CIRCLE_FLAVOR_ID, circleFlavor)
         getActivity().setResult(Activity.RESULT_OK, intent)
         getActivity().finish()
     }
