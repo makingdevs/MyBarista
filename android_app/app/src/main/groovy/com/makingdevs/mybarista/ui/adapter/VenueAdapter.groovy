@@ -39,21 +39,22 @@ class VenueAdapter extends RecyclerView.Adapter<VenueViewHolder> {
 
     class VenueViewHolder extends RecyclerView.ViewHolder {
 
-        TextView venueItemLabel
+        TextView venueAddress
+        TextView venueName
 
         VenueViewHolder(View itemView) {
             super(itemView)
-            venueItemLabel = (TextView) itemView.findViewById(R.id.item_venue_label)
+            venueName = (TextView) itemView.findViewById(R.id.item_venue_name)
+            venueAddress = (TextView) itemView.findViewById(R.id.item_venue_label)
         }
 
         void bindVenue(Venue venue) {
             itemView.onClickListener = {
                 onItemSelected(venue)
             }
-            venueItemLabel.text = venue.name + "\n" + venue.location.formattedAddress.join("") + "\n"
+            venueName.text = venue.name
+            venueAddress.text = venue.location.formattedAddress.join("\n")
         }
-
-
     }
 
 }

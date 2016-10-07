@@ -53,7 +53,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_uploading_photo)
     ImageUtil mImageUtil = new ImageUtil()
     TextView venueDescription
-    ImageView imageViewPhotoCheckin
     Checkin currentCheckin
     Venue venue
 
@@ -73,7 +72,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         currentCheckin = new Checkin()
         venue = new Venue()
         currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
-        //currentCheckin = (Checkin) activity.intent.extras.getSerializable(CURRENT_CHECK_IN)
     }
 
     @Override
@@ -82,37 +80,36 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         View root = inflater.inflate(R.layout.fragment_form_chek_in, container, false)
         checkInButton = (Button) root.findViewById(R.id.btnCheckIn)
         venueDescription = (TextView) root.findViewById(R.id.venue_description)
-        venueDescription.setVisibility(View.GONE)
         contextView = getActivity().getApplicationContext()
-        imageViewPhotoCheckin = (ImageView) root.findViewById(R.id.image_view_photo_checkin)
         imageViewAddVenue = (ImageView) root.findViewById(R.id.btnAddVenue)
         showImage = (ImageView) root.findViewById(R.id.preview_checkin)
         methodFieldSprinner = (Spinner) root.findViewById(R.id.methodSpinner)
         originEditText = (EditText) root.findViewById(R.id.originField)
         priceEditText = (EditText) root.findViewById(R.id.priceField)
+        addPhotoCheckIn = (ImageView) root.findViewById(R.id.imgAddPhoto)
+        transparencyView = (ImageView) root.findViewById(R.id.imgTransparency)
+
 
         /**
          * Select a picture from the preview image
          */
-        showImage.onClickListener = { chooseCheckInImage() }
+        addPhotoCheckIn.onClickListener = { chooseCheckInImage() }
 
-        /**
-         * Select a picture from the camera icon
-         */
-        imageViewPhotoCheckin.onClickListener = { chooseCheckInImage() }
-
-        imageViewAddVenue.onClickListener = {
-            if (checkPermissionLocation()) {
-                requestPermissionAndroid.checkPermission(getActivity(), "location")
-            } else {
-                showSearchVenueFragment()
-            }
-        }
+        setVenueListener()
 
         checkInButton.onClickListener = { View v -> createCheckin() }
 
-
         root
+    }
+
+    void setVenueListener() {
+        Closure venueAction = {
+            if (checkPermissionLocation())
+                requestPermissionAndroid.checkPermission(getActivity(), "location")
+            else
+                showSearchVenueFragment()
+        }
+        [imageViewAddVenue, venueDescription]*.setOnClickListener(venueAction as View.OnClickListener)
     }
 
     @Override
@@ -134,9 +131,16 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     }
 
     ArrayAdapter<String> getSpinnerAdapter() {
-        // TODO: Check this out!!!!
-        String[] methods = ["Elige un método de preparación", "Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, methods)
+        List<String> method = [
+                "Elige un método de preparación",
+                "Expresso",
+                "Americano",
+                "Goteo",
+                "Prensa",
+                "Sifón",
+                "Otro"]
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, method)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter
     }
 
@@ -159,7 +163,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
             this.venue.name = venue.name
             this.venue.id = venue.id
             this.venueDescription.text = venue.name
-            this.venueDescription.setVisibility(View.VISIBLE)
         }
         getFragmentManager()
                 .beginTransaction()
@@ -240,13 +243,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         { Call<Checkin> call, Throwable t ->
             Toast.makeText(contextView, R.string.toastCheckinFail, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    void setVenuesToSpinner(Spinner spinner, List<Venue> venues) {
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, venues?.name)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.adapter = adapter
-
     }
 
     boolean checkPermissionLocation() {
