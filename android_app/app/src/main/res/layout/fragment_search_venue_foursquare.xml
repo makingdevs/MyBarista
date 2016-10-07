@@ -17,7 +17,7 @@
         <EditText
             android:id="@+id/search_venue_foursquare"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight=".9"
             android:hint="@string/hint_search_place"
             android:paddingEnd="@dimen/spacing_normal"
@@ -28,7 +28,7 @@
         <ImageButton
             android:id="@+id/btnSearchVenueFoursquare"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_search_white" />
 
     </LinearLayout>
