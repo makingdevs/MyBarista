@@ -111,4 +111,6 @@
     <string name="label_check_in">Check In</string>
     <string name="label_add_place">Agrega un lugar</string>
     <string name="title_circle_fragment">CÍRCULO DEL SABOR</string>
+    <string name="url_barista_profile">http://users.barist.coffee/#profile/%s</string>
+    <string name="title_barista_photo">Barista photo by %s</string>
 </resources>
