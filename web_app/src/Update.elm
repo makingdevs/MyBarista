@@ -5,6 +5,7 @@ import Models exposing (Model, Checkin, User)
 import Messages exposing (Msg(..))
 import Checkins.Commands exposing (fetchCheckinCmd, fetchCheckinsCmd)
 import Routing exposing (..)
+import Navigation exposing (..)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -13,30 +14,35 @@ update msg model =
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
         case msg of
+            Navigate page ->
+                (model, newUrl (toHash page))
+
             FetchUserSuccess user ->
-                ( showUser model user
-                , fetchCheckinsCmd user.username )
+                (showUser model user, fetchCheckinsCmd user.username)
+
             FetchUserError error ->
-                ( showError model
-                , Cmd.none )
+                (model, modifyUrl (toHash NotFound))
+
             FetchCheckinsSuccess checkins ->
-                ( { model
-                      | checkins = checkins }
-                , Cmd.none )
+                ({ model
+                      | checkins = checkins }, Cmd.none)
+
             FetchCheckinsError error ->
-                ( model
-                , Cmd.none )
+                (model, modifyUrl (toHash NotFound))
+
             ShowCheckin checkin ->
-                ( showDialog model checkin
-                , fetchCheckinCmd checkin.id )
+                {- Modify Url -}
+                (showDialog model checkin, Cmd.none)
+
             HideCheckin checkin ->
-                ( cancelDialog model checkin.id
-                , Cmd.none )
+                (cancelDialog model checkin.id, back 0)
+
             FetchCheckinSuccess checkin ->
-                ( showDialog model checkin
-                , Cmd.none )
+                Debug.log "Data: "
+                    (showDialog model checkin, Cmd.none)
+
             FetchCheckinError error ->
-                ( model, Cmd.none )
+                (model, modifyUrl (toHash model.currentPage))
 
 showUser : Model -> User -> Model
 showUser model user =
@@ -50,19 +56,6 @@ showUser model user =
     in
         { model
             | user = newUser }
-
-showError : Model -> Model
-showError model =
-    { model
-        | user = { id = 0
-                 , name = Nothing
-                 , username = "User Not Found :("
-                 , s3_asset = Nothing
-                 , checkins_count = 0
-                 }
-        , checkins = []
-        , currentPage = Home
-    }
 
 showDialog : Model -> Checkin -> Model
 showDialog model checkinSelected =

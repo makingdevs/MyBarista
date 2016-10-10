@@ -7,42 +7,52 @@ import Update exposing (update)
 import View exposing (view)
 import Routing exposing (..)
 import Users.Commands exposing (..)
-import Navigation
+import Checkins.Commands exposing (fetchCheckinCmd)
+import Navigation exposing (..)
 
 
-init : Result String Page -> (Model, Cmd Msg)
-init result =
+initModel : Model
+initModel =
     let
         placeholder =  "http://barist.coffee.s3.amazonaws.com/avatar.png"
     in
-        urlUpdate result ( { user = { id = 0
-                                    , name = Nothing
-                                    , username = ""
-                                    , s3_asset = Just { url_file = placeholder }
-                                    , checkins_count = 0
-                                    }
-                           , checkins = []
-                           , currentPage = Home
-                           }
-                         )
+        { user = { id = 0
+                 , name = Nothing
+                 , username = ""
+                 , s3_asset = Just { url_file = placeholder }
+                 , checkins_count = 0
+                 }
+        , checkins = []
+        , currentPage = Home
+        }
+
+init : Result String Page -> (Model, Cmd Msg)
+init result =
+    urlUpdate result (initModel)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
 
-urlUpdate : Result String Page-> Model -> (Model, Cmd Msg)
+urlUpdate : Result String Page -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
-    case result of
-       Ok route ->
-           case route of
-               Home ->
-                   ( model, Cmd.none )
-               UserProfile username ->
-                   ( model, fetchUserCmd username)
-       Err error ->
-           ( model, Cmd.none )
+    case Debug.log "Result: " result of
+        Ok page ->
+            case Debug.log "Page: " page of
+                Home ->
+                    ({model | currentPage = page}, Cmd.none)
 
+                ProfilePage username ->
+                    ({model | currentPage = page}, fetchUserCmd username)
+
+                CheckinPage username id ->
+                    ({model | currentPage = page}, fetchCheckinCmd id)
+
+                NotFound ->
+                    (initModel, Cmd.none)
+        Err _ ->
+            (initModel, modifyUrl (toHash model.currentPage))
 
 main : Program Never
 main =
