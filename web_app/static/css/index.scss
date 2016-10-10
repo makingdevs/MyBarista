@@ -109,18 +109,22 @@ body {
 
 /* Grid */
 .post-grid {
-    width: 60%;
+    width: 90%;
 }
 .post-grid__items {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
     display: flex;
     flex-wrap: wrap;
-    list-style: none;
+    justify-content: center;
 }
 .post-grid__item {
-    margin: 20px;
+    width: 26%;
+    margin: 10px;
 }
 .post-grid__item-image {
-    width: 300px;
+   
 }
 
 /* Dialog Check In */
@@ -231,11 +235,64 @@ dl dd {
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 468px )
 {
+    .shell__content, .post-grid {
+        width: 100%
+    }
+    .profile-page, .profile-page__header {
+        width: 100%;
+    }
+    .profile-page__header {
+        padding: 16px 0px;
+    }
+    .profile-page__avatar-container {
+        width: 30%;
+        padding: 16px;
+    }
+    .profile-page__avatar {
+
+    }
+    .profile-page__user-info {
+        width: 45%;
+        padding: 0px 0px 0px 16px;
+    }
+    .profile-page__username p {
+        font-size: 26px;
+    }
+    .post-grid__item {
+        width: 30%;
+        margin: 1px;
+    }
+
+    /* Navigation */
+    .navigation__brand {
+      width: 24%;
+    }
     .navigation__text {
-        display: none;
+      display: none
     }
     .navigation__href-session {
-        width: 100%;
+      width: 100%;
+    }
+    .header__avatar-container {
+      width: 35%;
+    }
+    .header__checkin-author {
+      width: 65%;
+    }
+    .checkin-author__user-container b {
+      font-size: 18px;
+    }
+    .header__checkin-rating {
+      width: 30%;
+    }
+    .header__checkin-rating span p {
+        font-size: 10px;
+    }
+    .item-container__header {
+      width: 35%;
+    }
+    .item-container__body {
+      width: 65%;
     }
 }
 
