@@ -29,34 +29,46 @@ view model =
 -- Navigation
 navigation : Html.Html Msg
 navigation =
-    div[ class "navigation-main row" ]
-        [ div [ class "navigation__brand col-xs-6 col-sm-6 col-md-6" ]
-              [ div [ class "navigation__brand-container" ]
-                    [ img [ src "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png", class "navigation__image"] []
-                    ]
-              , div [ class "navigation__text col-sm-4 col-md-4" ]
-                    [ h1 []
-                          [ text "Barista"]
-                    ]
-              ]
-        , div [ class "navigation__href-session col-xs-6 col-sm-4 col-md-4" ]
-              [ ul [ class "navigation__session-items"]
-                    [ li [ class "navigation__session-item"] [ a [href "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"] [text "Descarga la applicación"] ]
-                    ]
-              ]
-        ]
+    let
+        brand = "http://barist.coffee.s3.amazonaws.com/ic_barista_logo.png"
+
+        url = "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
+    in
+        div[ class "navigation-main" ]
+           [ div [ class "navigation__brand" ]
+                 [ div [ class "navigation__brand-container" ]
+                       [ img [ src brand
+                             , class "img-responsive" ] []
+                       ]
+                 , div [ class "navigation__text" ]
+                       [ h1 []
+                             [ text "Barista" ]
+                       ]
+                 ]
+           , div [ class "navigation__href-session" ]
+                 [ ul [ class "navigation__session-items"]
+                      [ li [ class "navigation__session-item" ]
+                           [ a [ href url ]
+                               [ text "Descarga la applicación" ] ]
+                      ]
+                 ]
+           ]
 
 
 -- Profile
 profile : Model -> Html.Html Msg
 profile model =
-    div [ class "profile-page row" ]
+    div [ class "profile-page" ]
         [ div [ class "profile-page__header"]
-              [ div [ class "profile-page__author-container row" ]
-                    [ div [ class "profile-page__avatar-container col-xs-4 col-sm-4 col-md-4" ]
-                          [ img [ src (model.user.s3_asset |> Maybe.map .url_file |> Maybe.withDefault "http://barist.coffee.s3.amazonaws.com/avatar.png"), class "profile-page__avatar img-circle" ] []
+              [ div [ class "profile-page__author-container" ]
+                    [ div [ class "profile-page__avatar-container" ]
+                          [ img [ src (model.user.s3_asset
+                                      |> Maybe.map .url_file
+                                      |> Maybe.withDefault "")
+                                , class "img-circle img-responsive"
+                                ] []
                           ]
-                    , div [ class "profile-page__user-info col-xs-8 col-sm-8 col-md-8" ]
+                    , div [ class "profile-page__user-info" ]
                           [ div [ class "profile-page__username" ]
                                 [ p []
                                       [ text model.user.username ]
@@ -69,7 +81,6 @@ profile model =
                     ]
               ]
         ]
-
 
 -- Grid
 
@@ -92,7 +103,7 @@ renderCheckin model checkin =
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
         li [ class "post-grid__item" ]
-           [ img [ class "post-grid__item-image"
+           [ img [ class "img-responsive"
                  , src <| (checkin.s3_asset
                           |> Maybe.map .url_file
                           |> Maybe.withDefault placeholder
@@ -109,36 +120,34 @@ renderCheckin model checkin =
 
 
 -- Footer
-baristUrl : String
-baristUrl =
-    "http://www.barist.coffee/"
-storeUrl : String
-storeUrl =
-    "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
-devsUrl : String
-devsUrl =
-    "http://makingdevs.com"
-
 footer : Html.Html Msg
 footer =
-    div [ class "footer-main" ]
-        [ div [ class "footer-nav" ]
-              [ ul [ class "footer__nav-items"]
-                    [ li [ class "footer__nav-item" ]
-                         [ a [ href baristUrl ]
-                             [ text "Barista" ]
-                         ]
-                    , li [ class "footer__nav-item" ]
-                         [ a [ href storeUrl ]
+    let
+        baristUrl = "http://www.barist.coffee/"
+
+        storeUrl = "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
+
+        devsUrl = "http://makingdevs.com"
+
+    in
+        div [ class "footer-main" ]
+            [ div [ class "footer-nav" ]
+                  [ ul [ class "footer__nav-items"]
+                        [ li [ class "footer__nav-item" ]
+                             [ a [ href baristUrl ]
+                                 [ text "Barista" ]
+                             ]
+                        , li [ class "footer__nav-item" ]
+                             [ a [ href storeUrl ]
                              [ text "Google Play" ]
-                         ]
-                    , li [ class "footer__nav-item col" ]
-                         [ a [ href devsUrl ]
-                             [ text "Making Devs"]
-                         ]
-                    ]
-              ]
-        ]
+                             ]
+                        , li [ class "footer__nav-item col" ]
+                             [ a [ href devsUrl ]
+                                 [ text "Making Devs"]
+                             ]
+                        ]
+                  ]
+            ]
 
 
 -- CHECK IN DIALOG
