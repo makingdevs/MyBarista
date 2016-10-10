@@ -2,8 +2,7 @@ package com.makingdevs.mybarista.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -16,11 +15,8 @@ import android.widget.*
 import com.facebook.CallbackManager
 import com.facebook.FacebookSdk
 import com.facebook.share.model.ShareLinkContent
-import com.facebook.share.model.SharePhoto
-import com.facebook.share.model.SharePhotoContent
 import com.facebook.share.widget.ShareDialog
 import com.makingdevs.mybarista.R
-import com.makingdevs.mybarista.common.Fluent
 import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.model.Checkin
@@ -32,7 +28,6 @@ import com.makingdevs.mybarista.service.SessionManager
 import com.makingdevs.mybarista.service.SessionManagerImpl
 import com.makingdevs.mybarista.ui.activity.BaristaActivity
 import com.makingdevs.mybarista.ui.activity.CheckInActivity
-import com.makingdevs.mybarista.view.LoadingDialog
 import com.makingdevs.mybarista.view.NoteDialog
 import groovy.transform.CompileStatic
 import retrofit2.Call
@@ -71,7 +66,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     ViewStub userActionsView
     Button shareCheckin
     ShareDialog shareDialog
-    LoadingDialog loadingDialog = LoadingDialog.newInstance(R.string.message_sharing_photo)
 
     ShowCheckinFragment() { super() }
 
@@ -195,23 +189,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     }
 
     private void sharePhotoContent() {
-        loadingDialog.show(getActivity().getSupportFragmentManager(), "Sharing dialog")
-        Fluent.async {
-            checkin.s3_asset.url_file.toURL().bytes
-        } then { result ->
-            Bitmap bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(result as byte[]))
-            loadingDialog.dismiss()
-
-            SharePhoto photo = new SharePhoto.Builder()
-                    .setBitmap(bitmap)
-                    .setCaption(checkin.note)
-                    .build();
-
-            SharePhotoContent content = new SharePhotoContent.Builder()
-                    .addPhoto(photo)
-                    .build();
-            shareDialog.show(content)
-        }
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(String.format(getString(R.string.url_barista_profile), checkin.author)))
+                .setContentTitle(String.format(getString(R.string.title_barista_photo), checkin.author))
+                .setImageUrl(Uri.parse(checkin.s3_asset.url_file))
+                .setContentDescription(checkin.note)
+                .build()
+        shareDialog.show(content)
     }
 
     private Closure onSuccess() {
