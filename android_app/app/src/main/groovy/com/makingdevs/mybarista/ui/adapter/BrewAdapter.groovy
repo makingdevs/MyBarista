@@ -69,7 +69,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
             if (mCheckin.s3_asset?.url_file)
                 mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file, photoCheckinImageView)
             else
-                photoCheckinImageView.setImageResource(R.drawable.coffee)
+                photoCheckinImageView.setImageResource(R.drawable.placeholder_coffee)
 
         }
 

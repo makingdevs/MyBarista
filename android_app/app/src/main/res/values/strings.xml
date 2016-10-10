@@ -104,10 +104,13 @@
     <string name="message_add_photo">Agrega una foto a tu Check In"</string>
     <string name="label_title_note_dialog">Describe tu experiencia</string>
     <string name="hint_note_dialog">Deja una nota...</string>
-    <string name="label_share_button">Compartir</string>
+    <string name="label_share_button">Compartir en Facebook</string>
     <string name="message_saved_data">Datos guardados correctamente</string>
     <string name="url_facebook_photo">https://graph.facebook.com/%s/picture?width=500</string>
     <string name="hint_search_place">Selecciona un lugar</string>
     <string name="label_check_in">Check In</string>
     <string name="label_add_place">Agrega un lugar</string>
+    <string name="title_circle_fragment">CÍRCULO DEL SABOR</string>
+    <string name="url_barista_profile">http://users.barist.coffee/#profile/%s</string>
+    <string name="title_barista_photo">Barista photo by %s</string>
 </resources>

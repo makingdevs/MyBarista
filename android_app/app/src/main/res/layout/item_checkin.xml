@@ -30,7 +30,7 @@
                     android:id="@+id/myImageView"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/coffee"
+                    android:src="@drawable/placeholder_coffee"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"/>
 

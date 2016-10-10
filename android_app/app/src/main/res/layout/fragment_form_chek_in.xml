@@ -88,7 +88,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_toEndOf="@id/icn_originField"
                 android:hint="@string/placeholderOrigin"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="@dimen/font_large" />
 
             <ImageView
@@ -109,7 +109,7 @@
                 android:layout_toEndOf="@id/icn_priceField"
                 android:hint="@string/placeholderPrice"
                 android:inputType="numberDecimal"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="@dimen/font_large" />
 
             <ImageView

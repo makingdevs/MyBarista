@@ -23,6 +23,7 @@
         <FrameLayout
             android:id="@+id/middleTopFragment"
             android:layout_width="match_parent"
+            android:background="@color/third_background"
             android:layout_height="wrap_content"
             android:layout_below="@+id/topFragment"
             android:padding="16dp">
@@ -31,6 +32,7 @@
         <FrameLayout
             android:id="@+id/middleBottomFragment"
             android:layout_width="match_parent"
+            android:background="@color/third_background"
             android:layout_height="wrap_content"
             android:layout_below="@+id/middleTopFragment"
             android:padding="16dp">

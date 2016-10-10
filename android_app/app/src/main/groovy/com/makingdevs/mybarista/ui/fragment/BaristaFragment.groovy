@@ -57,7 +57,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         showImage = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
-        showImage.setImageResource(R.drawable.coffee)
+        showImage.setImageResource(R.drawable.placeholder_coffee)
         bindingElements()
         if (!checkin)
             mCheckinManager.show(mCheckinId, onSuccessGetCheckin(), onError())
