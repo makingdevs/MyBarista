@@ -55,21 +55,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="16dp">
+        android:padding="@dimen/spacing_large">
 
         <TextView
             android:id="@+id/origin_data"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent" />
 
         <TextView
             android:id="@+id/label_created"
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="12-12-1990"
+            android:layout_alignParentEnd="true"
             android:textColor="@color/primary_dark" />
 
         <TextView
@@ -84,9 +84,8 @@
             style="@style/EditText.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/label_created"
-            android:text="$0.00"
             android:textStyle="bold" />
 
         <TextView
@@ -95,7 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/barista_name_data"
-            android:padding="10dp"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:textStyle="italic" />
 
         <ViewStub
@@ -106,5 +106,4 @@
             android:layout="@layout/stub_show_check_in" />
 
     </RelativeLayout>
-
 </LinearLayout>
