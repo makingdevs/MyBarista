@@ -65,7 +65,7 @@ profile model =
                           [ img [ src (model.user.s3_asset
                                       |> Maybe.map .url_file
                                       |> Maybe.withDefault "")
-                                , class "profile-page__avatar img-circle"
+                                , class "img-circle img-responsive"
                                 ] []
                           ]
                     , div [ class "profile-page__user-info" ]
@@ -103,7 +103,7 @@ renderCheckin model checkin =
         placeholder = "http://barist.coffee.s3.amazonaws.com/coffee.jpg"
     in
         li [ class "post-grid__item" ]
-           [ img [ class "post-grid__item-image"
+           [ img [ class "img-responsive"
                  , src <| (checkin.s3_asset
                           |> Maybe.map .url_file
                           |> Maybe.withDefault placeholder
