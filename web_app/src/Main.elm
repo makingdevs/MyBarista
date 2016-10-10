@@ -23,7 +23,7 @@ initModel =
                  , checkins_count = 0
                  }
         , checkins = []
-        , currentPage = Home
+        , currentPage = NotFound
         }
 
 init : Result String Page -> (Model, Cmd Msg)
@@ -37,12 +37,9 @@ subscriptions model =
 
 urlUpdate : Result String Page -> Model -> (Model, Cmd Msg)
 urlUpdate result model =
-    case Debug.log "Result: " result of
+    case result of
         Ok page ->
-            case Debug.log "Page: " page of
-                Home ->
-                    ({model | currentPage = page}, Cmd.none)
-
+            case page of
                 ProfilePage username ->
                     ({model | currentPage = page}, fetchUserCmd username)
 
@@ -50,7 +47,7 @@ urlUpdate result model =
                     ({model | currentPage = page}, fetchCheckinCmd id)
 
                 NotFound ->
-                    (initModel, Cmd.none)
+                    ({model | currentPage = page}, Cmd.none)
         Err _ ->
             (initModel, modifyUrl (toHash model.currentPage))
 
