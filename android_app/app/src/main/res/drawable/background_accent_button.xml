@@ -2,13 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#FF2C487E" />
+            <solid android:color="@color/accent_material" />
             <corners android:radius="3dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <solid android:color="@color/facebook_color" />
+            <solid android:color="@color/accent" />
             <corners android:radius="3dp" />
         </shape>
     </item>
