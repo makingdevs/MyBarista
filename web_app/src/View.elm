@@ -35,24 +35,24 @@ navigation =
         url = "https://play.google.com/store/apps/details?id=makingdevs.com.mybarista"
     in
         div[ class "navigation-main" ]
-            [ div [ class "navigation__brand" ]
-              [ div [ class "navigation__brand-container" ]
-                    [ img [ src brand
-                          , class "img-responsive" ] []
-                    ]
-              , div [ class "navigation__text" ]
-                    [ h1 []
-                         [ text "Barista" ]
-                    ]
-              ]
-        , div [ class "navigation__href-session" ]
-              [ ul [ class "navigation__session-items"]
-                    [ li [ class "navigation__session-item" ]
-                         [ a [ href url ]
-                             [ text "Descarga la applicación" ] ]
-                    ]
-              ]
-        ]
+           [ div [ class "navigation__brand" ]
+                 [ div [ class "navigation__brand-container" ]
+                       [ img [ src brand
+                             , class "img-responsive" ] []
+                       ]
+                 , div [ class "navigation__text" ]
+                       [ h1 []
+                             [ text "Barista" ]
+                       ]
+                 ]
+           , div [ class "navigation__href-session" ]
+                 [ ul [ class "navigation__session-items"]
+                      [ li [ class "navigation__session-item" ]
+                           [ a [ href url ]
+                               [ text "Descarga la applicación" ] ]
+                      ]
+                 ]
+           ]
 
 
 -- Profile
