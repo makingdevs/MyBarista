@@ -67,9 +67,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView"
                 android:layout_marginStart="4dp"
+                android:prompt="@string/label_title_methods_spinner"
                 android:layout_toEndOf="@+id/icn_methodSpinner"
-                android:paddingStart="0dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dialog" />
 
             <ImageView
                 android:id="@+id/icn_originField"
@@ -92,10 +92,32 @@
                 android:textSize="@dimen/font_large" />
 
             <ImageView
-                android:id="@+id/icn_priceField"
+                android:id="@+id/icn_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/originField"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:src="@drawable/ic_origin" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/stateSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/originField"
+                android:layout_marginStart="4dp"
+                android:prompt="@string/label_title_states_spinner"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_toEndOf="@+id/icn_state"
+                android:spinnerMode="dialog">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <ImageView
+                android:id="@+id/icn_priceField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stateSpinner"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:src="@drawable/ic_coffe_price" />
 
@@ -103,7 +125,7 @@
                 android:id="@+id/priceField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/originField"
+                android:layout_below="@id/stateSpinner"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_toEndOf="@id/icn_priceField"
