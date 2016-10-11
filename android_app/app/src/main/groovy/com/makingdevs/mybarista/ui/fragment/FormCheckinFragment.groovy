@@ -202,18 +202,19 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
+        String state = statesSpinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
 
         switch (CHECK_IN_STATUS) {
             case CREATE_CHECK_IN:
-                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                checkinCommand = new CheckinCommand(method: method, state: state, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
 
                 mCheckinManager.save(checkinCommand, onSuccessCreateCheckin(), onErrorCreateCheckin())
                 break
 
             case UPDATE_CHECK_IN:
-                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                checkinCommand = new CheckinCommand(method: method, state: state, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venue.id, created_at: currentCheckin.created_at, idS3asset: assetID)
 
                 mCheckinManager.update(currentCheckin.id, checkinCommand, onSuccessUpdateCheckin(), onErrorUpdateCheckin())
@@ -231,7 +232,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessCreateCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
                 getActivity().finish()
             } else {
