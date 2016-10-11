@@ -67,57 +67,50 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView"
                 android:layout_marginStart="4dp"
-                android:prompt="@string/label_title_methods_spinner"
                 android:layout_toEndOf="@+id/icn_methodSpinner"
+                android:prompt="@string/label_title_methods_spinner"
                 android:spinnerMode="dialog" />
-
-            <ImageView
-                android:id="@+id/icn_originField"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/methodSpinner"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:src="@drawable/ic_coffee_bean" />
-
-            <EditText
-                android:id="@+id/originField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/methodSpinner"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_toEndOf="@id/icn_originField"
-                android:hint="@string/placeholderOrigin"
-                android:singleLine="true"
-                android:textSize="@dimen/font_large" />
 
             <ImageView
                 android:id="@+id/icn_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/originField"
+                android:layout_below="@id/methodSpinner"
                 android:layout_marginTop="@dimen/spacing_large"
-                android:src="@drawable/ic_origin" />
+                android:src="@drawable/ic_coffee_bean" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/stateSpinner"
                 style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/originField"
+                android:layout_below="@+id/methodSpinner"
                 android:layout_marginStart="4dp"
-                android:prompt="@string/label_title_states_spinner"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_toEndOf="@+id/icn_state"
+                android:prompt="@string/label_title_states_spinner"
                 android:spinnerMode="dialog">
 
             </android.support.v7.widget.AppCompatSpinner>
+
+            <EditText
+                android:id="@+id/originField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stateSpinner"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_toEndOf="@id/icn_state"
+                android:hint="@string/placeholderOrigin"
+                android:paddingStart="12dp"
+                android:singleLine="true"
+                android:textSize="@dimen/font_large" />
 
             <ImageView
                 android:id="@+id/icn_priceField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stateSpinner"
+                android:layout_below="@id/originField"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:src="@drawable/ic_coffe_price" />
 
@@ -125,12 +118,13 @@
                 android:id="@+id/priceField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stateSpinner"
+                android:layout_below="@id/originField"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_toEndOf="@id/icn_priceField"
                 android:hint="@string/placeholderPrice"
                 android:inputType="numberDecimal"
+                android:paddingStart="12dp"
                 android:singleLine="true"
                 android:textSize="@dimen/font_large" />
 
@@ -151,6 +145,7 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_toEndOf="@id/btnAddVenue"
                 android:gravity="center_vertical"
+                android:paddingStart="7dp"
                 android:text="@string/label_add_place"
                 android:textSize="@dimen/font_large" />
 
