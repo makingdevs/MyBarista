@@ -16,8 +16,8 @@
     <string name="button_checkin">Check-in!</string>
     <string name="button_update_checkin">Actualizar</string>
 
-
-    <string name="label_title_spinner">Elige un método de preparación</string>
+    <string name="label_title_states_spinner">Estados representativos</string>
+    <string name="label_title_methods_spinner">Método de preparación</string>
     <string-array name="methods_arrays">
         <item>Método de preparación</item>
         <item>Expresso</item>
