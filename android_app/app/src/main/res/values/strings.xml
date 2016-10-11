@@ -16,7 +16,7 @@
     <string name="button_checkin">Check-in!</string>
     <string name="button_update_checkin">Actualizar</string>
 
-    <string name="label_title_states_spinner">Estados representativos</string>
+    <string name="label_title_states_spinner">Estado representativo</string>
     <string name="label_title_methods_spinner">Método de preparación</string>
     <string-array name="methods_arrays">
         <item>Método de preparación</item>
@@ -28,7 +28,7 @@
         <item>Otro</item>
     </string-array>
     <string name="label_title_checkin">Cuéntanos sobre tu café</string>
-    <string name="placeholderOrigin">Origen del grano</string>
+    <string name="placeholderOrigin">Municipio</string>
     <string name="placeholderPrice">Precio</string>
     <string name="placeholderNote">Notas</string>labelMethod
     <string name="toastCheckinSuccess">Check-in Relizado!!!</string>
