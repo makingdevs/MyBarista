@@ -154,7 +154,8 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
                 "Chiapas",
                 "Guerrero",
                 "Oaxaca",
-                "Puebla"
+                "Puebla",
+                "Otro"
         ]
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, states)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
