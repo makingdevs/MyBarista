@@ -12,19 +12,46 @@ import Routing exposing (..)
 
 view : Model -> Html Msg
 view model =
-  div [ class "shell" ]
-      [ div [class "shell__nav"]
-            [ navigation
-            ]
-      , div [class "shell__content"]
-            [ profile model
-            , grid model
-            ]
-      , div [class "shell__footer"]
-            [ footer
-            ]
-      ]
+    case model.currentPage of
+        ProfilePage username ->
+            mainView model
 
+        CheckinPage username id ->
+            mainView model
+
+        NotFound ->
+            notFoundView
+
+
+mainView : Model -> Html Msg
+mainView model =
+           div [ class "shell" ]
+                [ div [class "shell__nav"]
+                      [ navigation
+                      ]
+                , div [class "shell__content"]
+                    [ profile model
+                    , grid model
+                    ]
+                , div [class "shell__footer"]
+                      [ footer
+                      ]
+                ]
+
+notFoundView : Html Msg
+notFoundView =
+    div [ class "shell" ]
+                [ div [class "shell__nav"]
+                      [ navigation
+                      ]
+                , div [class "shell__content-not-found"]
+                      [ h2 [] [ text "Esta página no está disponible :(" ]
+                      , p [] [ text "Verifica que tu usuario ha sido escrito correctamente." ]
+                      ]
+                , div [class "shell__footer"]
+                      [ footer
+                      ]
+                ]
 
 -- Navigation
 navigation : Html.Html Msg

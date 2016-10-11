@@ -7,8 +7,7 @@ import String exposing (..)
 
 
 type Page
-    = Home
-    | ProfilePage String
+    = ProfilePage String
     | CheckinPage String Int
     | NotFound
 
@@ -17,8 +16,7 @@ matchers : Parser ( Page -> a ) a
 matchers =
            oneOf
                {- El orden de los matchers importa -}
-               [ format Home ( s "" )
-               , format ProfilePage ( s "profile" </> string )
+               [ format ProfilePage ( s "profile" </> string )
                , format CheckinPage ( s "profile" </> string </> s "checkin" </> int )
                , format NotFound ( s "not-found" )
                ]
@@ -38,8 +36,6 @@ parser =
 toHash : Page -> String
 toHash page =
     case page of
-        Home ->
-            "#"
         ProfilePage username ->
             "#profile/" ++ username
         CheckinPage username id ->
