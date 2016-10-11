@@ -32,6 +32,11 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     static final String TAG = "BaristaFragment"
     private static final String CURRENT_CHECK_IN = "check_in"
     private static final String CHECK_IN_ID = "check_in_id"
+    private static final String EXTRA_GALLERY_PHOTO = "PATH_PHOTO"
+    private static final int GALLERY_REQUEST_CODE = 1
+    private ImageView checkInPhoto
+    private ImageUtil mImageUtil
+    private String pathPhoto
     EditText mNameBarista
     Button mButtonCreateBarista
     ImageButton mButtonPhotoBarista
@@ -39,7 +44,6 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     ImageButton mButtonShowBarista
     Checkin checkin
 
-    ImageUtil mImageUtil = new ImageUtil()
     BaristaManager mBaristaManager = BaristaManagerImpl.instance
     S3assetManager mS3Manager = S3assetManagerImpl.instance
     CheckinManager mCheckinManager = CheckingManagerImpl.instance
@@ -50,14 +54,15 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
 
     View onCreateView(LayoutInflater inflater,
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
         View root = inflater.inflate(R.layout.fragment_new_barista, container, false)
+        mCheckinId = getActivity().getIntent().getExtras().getString(CHECK_IN_ID)
+        mImageUtil = new ImageUtil()
         mNameBarista = (EditText) root.findViewById(R.id.name_barista_field)
         mButtonCreateBarista = (Button) root.findViewById(R.id.button_new_barista)
-        showImage = (ImageView) root.findViewById(R.id.show_photo_barista)
+        checkInPhoto = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
-        showImage.setImageResource(R.drawable.placeholder_coffee)
+        checkInPhoto.setImageResource(R.drawable.placeholder_coffee)
         bindingElements()
         if (!checkin)
             mCheckinManager.show(mCheckinId, onSuccessGetCheckin(), onError())
@@ -65,10 +70,20 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     }
 
     @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST_CODE) {
+                pathPhoto = data.getStringExtra(EXTRA_GALLERY_PHOTO)
+                mImageUtil.setPhotoImageView(context, pathPhoto, checkInPhoto)
+            }
+        }
+    }
+
+    @Override
     void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState)
         if (checkin?.baristum?.s3_asset?.url_file) {
-            mImageUtil.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file, showImage)
+            mImageUtil.setPhotoImageView(getContext(), checkin.baristum.s3_asset.url_file, checkInPhoto)
         }
     }
 
@@ -104,7 +119,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
             if (checkin?.baristum?.s3_asset?.url_file)
-                mImageUtil.setPhotoImageView(getContext(), checkin?.baristum?.s3_asset?.url_file, getShowImage())
+                mImageUtil.setPhotoImageView(getContext(), checkin?.baristum?.s3_asset?.url_file, checkInPhoto)
             if (checkin.baristum.id)
                 mButtonCreateBarista.text = "Actualizar barista"
             mNameBarista.text = checkin?.baristum?.name
