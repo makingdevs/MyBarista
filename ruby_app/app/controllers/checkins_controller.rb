@@ -125,6 +125,6 @@ class CheckinsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def checkin_params
-      params.permit(:method, :origin, :price, :note, :rating, :created_at, :s3_asset)
+      params.permit(:method, :state, :origin, :price, :note, :rating, :created_at, :s3_asset)
     end
 end

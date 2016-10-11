@@ -19,7 +19,7 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
 
     Context mContext
     List<Checkin> mCheckins
-    ImageUtil mImageUtil1 = new ImageUtil()
+    ImageUtil mImageUtil = new ImageUtil()
 
     BrewAdapter(Context context, List<Checkin> checkinList) {
         mContext = context
@@ -43,15 +43,14 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
         mCheckins.size()
     }
 
-
     class BrewViewHolder extends RecyclerView.ViewHolder {
 
         Checkin mCheckin
-        TextView mtitle
-        TextView morigin
-        TextView mprice
-        TextView mmoment
-        RatingBar mrating
+        TextView mTitle
+        TextView mState
+        TextView mPrice
+        TextView mMoment
+        RatingBar mRating
         ImageView photoCheckinImageView
 
         void bindCheckin(Checkin checkin) {
@@ -60,14 +59,14 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
                 Intent intent = ShowCheckinActivity.newIntentWithContext(mContext, mCheckin)
                 mContext.startActivity(intent)
             }
-            mtitle.text = checkin.method
-            morigin.text = checkin.origin
-            String fecha = DateUtils.getRelativeTimeSpanString(mCheckin.created_at.time, new Date().time, 0).toString()
-            mmoment.text = fecha
-            mprice.text = "${checkin.price ? "\$ ${checkin.price}" : ""}"
-            mrating.setRating(Float.parseFloat(checkin.rating ?: "0"))
+            mTitle.text = checkin.method
+            mState.text = checkin.state
+            String date = DateUtils.getRelativeTimeSpanString(mCheckin.created_at.time, new Date().time, 0).toString()
+            mMoment.text = date
+            mPrice.text = "${checkin.price ? "\$ ${checkin.price}" : ""}"
+            mRating.setRating(Float.parseFloat(checkin.rating ?: "0"))
             if (mCheckin.s3_asset?.url_file)
-                mImageUtil1.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file, photoCheckinImageView)
+                mImageUtil.setPhotoImageView(mContext, mCheckin.s3_asset?.url_file, photoCheckinImageView)
             else
                 photoCheckinImageView.setImageResource(R.drawable.placeholder_coffee)
 
@@ -75,13 +74,12 @@ class BrewAdapter extends RecyclerView.Adapter<BrewViewHolder> {
 
         BrewViewHolder(View itemView) {
             super(itemView)
-            mtitle = (TextView) itemView.findViewById(R.id.label_method)
-            morigin = (TextView) itemView.findViewById(R.id.label_origin)
-            mprice = (TextView) itemView.findViewById(R.id.label_price)
-            mmoment = (TextView) itemView.findViewById(R.id.label_moment)
-            mrating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
+            mTitle = (TextView) itemView.findViewById(R.id.label_method)
+            mState = (TextView) itemView.findViewById(R.id.label_state)
+            mPrice = (TextView) itemView.findViewById(R.id.label_price)
+            mMoment = (TextView) itemView.findViewById(R.id.label_moment)
+            mRating = (RatingBar) itemView.findViewById(R.id.rating_coffe_bar)
             photoCheckinImageView = (ImageView) itemView.findViewById(R.id.myImageView)
-
         }
     }
 

@@ -8,6 +8,7 @@ class CheckinCommand {
     String method
     String note
     String origin
+    String state
     String price
     String username
     String rating

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630184959) do
+ActiveRecord::Schema.define(version: 20161011213938) do
 
   create_table "barista", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
@@ -34,6 +33,7 @@ ActiveRecord::Schema.define(version: 20160630184959) do
     t.integer  "baristum_id"
     t.integer  "venue_id"
     t.integer  "s3_asset_id"
+    t.string   "state"
     t.index ["baristum_id"], name: "index_checkins_on_baristum_id", using: :btree
     t.index ["circle_flavor_id"], name: "index_checkins_on_circle_flavor_id", using: :btree
     t.index ["s3_asset_id"], name: "index_checkins_on_s3_asset_id", using: :btree

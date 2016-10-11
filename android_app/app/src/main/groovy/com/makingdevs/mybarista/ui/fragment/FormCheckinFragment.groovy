@@ -62,6 +62,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
     Spinner methodFieldSprinner
     EditText originEditText
     EditText priceEditText
+    private Spinner statesSpinner
 
     FormCheckinFragment() { super() }
 
@@ -88,7 +89,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         priceEditText = (EditText) root.findViewById(R.id.priceField)
         addPhotoCheckIn = (ImageView) root.findViewById(R.id.imgAddPhoto)
         transparencyView = (ImageView) root.findViewById(R.id.imgTransparency)
-
+        statesSpinner = (Spinner) root.findViewById(R.id.stateSpinner)
 
         /**
          * Select a picture from the preview image
@@ -125,6 +126,9 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         methodFieldSprinner.setAdapter(getSpinnerAdapter())
         methodFieldSprinner.setSelection(getSpinnerAdapter().getPosition(currentCheckin.method))
 
+        statesSpinner.setAdapter(getStateSpinnerAdapter())
+        statesSpinner.setSelection(getStateSpinnerAdapter().getPosition(currentCheckin.state))
+
         if (CHECK_IN_STATUS == UPDATE_CHECK_IN) {
             checkInButton.setText(R.string.button_update_checkin)
         }
@@ -132,14 +136,28 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     ArrayAdapter<String> getSpinnerAdapter() {
         List<String> method = [
-                "Elige un método de preparación",
                 "Expresso",
                 "Americano",
                 "Goteo",
                 "Prensa",
                 "Sifón",
-                "Otro"]
+                "Otro"
+        ]
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, method)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter
+    }
+
+    ArrayAdapter<String> getStateSpinnerAdapter() {
+        List<String> states = [
+                "Veracruz",
+                "Chiapas",
+                "Guerrero",
+                "Oaxaca",
+                "Puebla",
+                "Otro"
+        ]
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, states)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter
     }
@@ -185,18 +203,19 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
         String origin = originEditText.getText().toString()
         String price = priceEditText.getText().toString()
         String method = methodFieldSprinner.getSelectedItem().toString()
+        String state = statesSpinner.getSelectedItem().toString()
         User currentUser = mSessionManager.getUserSession(getContext())
 
         switch (CHECK_IN_STATUS) {
             case CREATE_CHECK_IN:
-                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                checkinCommand = new CheckinCommand(method: method, state: state, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venue.id, created_at: new Date(), idS3asset: assetID)
 
                 mCheckinManager.save(checkinCommand, onSuccessCreateCheckin(), onErrorCreateCheckin())
                 break
 
             case UPDATE_CHECK_IN:
-                checkinCommand = new CheckinCommand(method: method, origin: origin, price: price?.toString(), username: currentUser.username,
+                checkinCommand = new CheckinCommand(method: method, state: state, origin: origin, price: price?.toString(), username: currentUser.username,
                         idVenueFoursquare: venue.id, created_at: currentCheckin.created_at, idS3asset: assetID)
 
                 mCheckinManager.update(currentCheckin.id, checkinCommand, onSuccessUpdateCheckin(), onErrorUpdateCheckin())
@@ -214,7 +233,6 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
     private Closure onSuccessCreateCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
-            Log.d(TAG, response.dump().toString())
             if (response.code() == 201) {
                 getActivity().finish()
             } else {
