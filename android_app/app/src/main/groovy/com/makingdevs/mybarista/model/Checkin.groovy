@@ -12,6 +12,7 @@ class Checkin implements Serializable {
     String note
     String origin
     String price
+    String state
 
     Date updated_at
     String user_id
