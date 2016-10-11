@@ -50,7 +50,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
 
     ImageUtil mImageUtil1 = new ImageUtil()
 
-    TextView mOrigin
+    TextView stateName
     TextView mMethod
     TextView mPrice
     TextView mNote
@@ -118,7 +118,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     private void bindingViews() {
         userActionsView = (ViewStub) itemView.findViewById(R.id.stub_bottons)
         userActionsView.inflate()
-        mOrigin = (TextView) itemView.findViewById(R.id.origin_data)
+        stateName = (TextView) itemView.findViewById(R.id.state_data)
         mMethod = (TextView) itemView.findViewById(R.id.method_data)
         mPrice = (TextView) itemView.findViewById(R.id.price_data)
         mNote = (TextView) itemView.findViewById(R.id.note_data)
@@ -141,7 +141,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     }
 
     private void setCheckInInView(Checkin checkin) {
-        mOrigin.text = checkin.origin
+        stateName.text = checkin.state
         mMethod.text = checkin.method
         mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
         mNote.text = checkin.note ? " \"${checkin.note}\" " : ""
