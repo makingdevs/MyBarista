@@ -256,6 +256,12 @@ dl dd {
     .shell__content, .post-grid {
         width: 100%
     }
+    .shell__content-not-found {
+        font-size: 14px;
+    }
+    .shell__content-not-found h2 {
+        font-size: 20px;
+    }
     .profile-page, .profile-page__header {
         width: 100%;
     }
