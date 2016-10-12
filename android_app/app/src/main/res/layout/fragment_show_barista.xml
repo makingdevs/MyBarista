@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,19 +14,19 @@
             android:id="@+id/show_picture_barista"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@drawable/placeholder_coffee"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/cafe" />
 
         <TextView
             android:id="@+id/name_barista_shadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/show_picture_barista"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textAlignment="center"
+            android:alpha="0.4"
             android:background="@color/accent"
-            android:alpha="0.4"/>
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/name_barista"
@@ -34,11 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/show_picture_barista"
             android:singleLine="true"
-            android:text="Nombre"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textAlignment="center"
             android:textColor="@color/cardview_light_background"
-            android:textAlignment="center"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 </LinearLayout>
