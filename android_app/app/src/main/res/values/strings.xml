@@ -86,7 +86,7 @@
     <string name="cuerpo_progress_bar">Cuerpo</string>
     <string name="text_message">Text Message</string>
     <string name="comment_error_message">Ocurrio un error al comentar</string>
-    <string name="template_checkins">0 \n Checkins</string>
+    <string name="template_checkins">%d</string>
     <string name="template_friends">0 \n Amigos</string>
     <string name="menu_search">Buscar</string>
     <string name="something">Something</string>
