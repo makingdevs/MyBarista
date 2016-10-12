@@ -1,10 +1,13 @@
 package com.makingdevs.mybarista.ui.fragment
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +35,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
     private static final String CHECK_IN_ID = "check_in_id"
     private static final String EXTRA_GALLERY_PHOTO = "PATH_PHOTO"
     private static final int GALLERY_REQUEST_CODE = 1
+    private static final String PERMISSION_REQUEST_STORAGE = "storage"
     private ImageView checkInPhoto
     private ImageUtil mImageUtil
     private String pathPhoto
@@ -85,20 +89,17 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
-    private BaristaCommand getPropertiesOfBarista() {
-        String name = mNameBarista.getText().toString()
-        new BaristaCommand(name: name, s3_asset: checkin.baristum.s3_asset.id)
-    }
-
     private void bindingElements() {
         mButtonCreateBarista.onClickListener = {
             saveBarista(getPropertiesOfBarista(), mCheckinId)
         }
         mButtonPhotoBarista.onClickListener = {
-            Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
-            intent.putExtra("CONTAINER", "barista")
-            startActivityForResult(intent, 1)
-
+            if (checkPermissionStorage()) {
+                // Improve this way to request permissions
+                requestPermissionAndroid.checkPermission(activity, PERMISSION_REQUEST_STORAGE)
+            } else {
+                showGalleryFragment()
+            }
         }
         mButtonShowBarista.onClickListener = {
             ShowBaristaFragment showBaristaFragment = new ShowBaristaFragment()
@@ -113,6 +114,11 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         mBaristaManager.save(command, id, onSuccess(), onError())
     }
 
+    private BaristaCommand getPropertiesOfBarista() {
+        String name = mNameBarista.getText().toString()
+        new BaristaCommand(name: name, s3_asset: checkin.baristum.s3_asset.id)
+    }
+
     private Closure onSuccessGetCheckin() {
         { Call<Checkin> call, Response<Checkin> response ->
             checkin = response.body()
@@ -123,7 +129,6 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
             mNameBarista.text = checkin?.baristum?.name
         }
     }
-
 
     private Closure onSuccess() {
         { Call<Checkin> call, Response<Checkin> response ->
@@ -142,10 +147,25 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
+    void showGalleryFragment() {
+        Intent intent = ShowGalleryActivity.newIntentWithContext(getContext())
+        intent.putExtra("CONTAINER", "barista")
+        startActivityForResult(intent, 1)
+    }
+
     void changeFragment(Fragment fragment) {
         getFragmentManager().beginTransaction()
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
                 .commit()
+    }
+
+    boolean checkPermissionStorage() {
+        Boolean status = false
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            status = true
+        }
+        status
     }
 }
