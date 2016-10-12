@@ -17,7 +17,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import com.makingdevs.mybarista.R
 import com.makingdevs.mybarista.common.ImageUtil
-import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
 import com.makingdevs.mybarista.model.command.BaristaCommand
@@ -28,7 +27,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 @CompileStatic
-class BaristaFragment extends Fragment implements OnActivityResultGallery {
+class BaristaFragment extends Fragment {
 
     static final String TAG = "BaristaFragment"
     private static final String CURRENT_CHECK_IN = "check_in"
