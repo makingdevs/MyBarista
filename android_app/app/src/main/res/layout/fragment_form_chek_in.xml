@@ -145,8 +145,8 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_toEndOf="@id/btnAddVenue"
                 android:gravity="center_vertical"
+                android:hint="@string/label_add_place"
                 android:paddingStart="7dp"
-                android:text="@string/label_add_place"
                 android:textSize="@dimen/font_large" />
 
             <Button
