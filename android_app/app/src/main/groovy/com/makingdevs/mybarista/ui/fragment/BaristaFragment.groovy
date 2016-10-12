@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.makingdevs.mybarista.common.ImageUtil
 import com.makingdevs.mybarista.common.OnActivityResultGallery
 import com.makingdevs.mybarista.common.RequestPermissionAndroid
 import com.makingdevs.mybarista.model.Checkin
-import com.makingdevs.mybarista.model.PhotoCheckin
 import com.makingdevs.mybarista.model.command.BaristaCommand
 import com.makingdevs.mybarista.service.*
 import com.makingdevs.mybarista.ui.activity.ShowGalleryActivity
@@ -62,7 +60,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         checkInPhoto = (ImageView) root.findViewById(R.id.show_photo_barista)
         mButtonPhotoBarista = (ImageButton) root.findViewById(R.id.button_camera)
         mButtonShowBarista = (ImageButton) root.findViewById(R.id.button_show_barista)
-        checkInPhoto.setImageResource(R.drawable.placeholder_coffee)
+        checkInPhoto.setImageResource(R.drawable.cafe)
         bindingElements()
         if (!checkin)
             mCheckinManager.show(mCheckinId, onSuccessGetCheckin(), onError())
@@ -121,7 +119,7 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
             if (checkin?.baristum?.s3_asset?.url_file)
                 mImageUtil.setPhotoImageView(getContext(), checkin?.baristum?.s3_asset?.url_file, checkInPhoto)
             if (checkin.baristum.id)
-                mButtonCreateBarista.text = "Actualizar barista"
+                mButtonCreateBarista.setText(R.string.label_update)
             mNameBarista.text = checkin?.baristum?.name
         }
     }
@@ -138,19 +136,9 @@ class BaristaFragment extends Fragment implements OnActivityResultGallery {
         }
     }
 
-    private Closure onSuccessPhoto() {
-        { Call<PhotoCheckin> call, Response<PhotoCheckin> response ->
-            if (getFragmentManager().getBackStackEntryCount() > 0) {
-                getFragmentManager().popBackStack()
-                checkin.baristum.s3_asset.id = response?.body()?.id
-                checkin.baristum.s3_asset.url_file = response?.body()?.url_file
-            }
-        }
-    }
-
-    private Closure onError() {
+    private static Closure onError() {
         { Call<Checkin> call, Throwable t ->
-            Log.d(TAG, "Error ${t.message}")
+            // Our code here
         }
     }
 
