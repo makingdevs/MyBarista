@@ -86,6 +86,7 @@ dependencies {
     }
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.facebook.android:facebook-android-sdk:4.15.0'
+    compile 'com.android.support:customtabs:23.0.0+'
 }
 
 def API_SERVER_URL = '"'+ urlApiServer +'"' ?:'"Define una url"'

@@ -1,12 +1,15 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -49,12 +52,13 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     private EditText nameProfileEditText
     private EditText lastNameProfileEditText
     private TextView usernameProfile
-    private Button checkinsCount
+    private TextView checkinsCount
     private Button mSaveProfile
     TextView mCloseSession
     ImageView mImageViewCamera
     private UserProfile userProfile
     private CamaraUtil camaraUtil
+    private TextView mWebProfile
 
     ProfileFragment() { super() }
 
@@ -73,11 +77,11 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         lastNameProfileEditText = (EditText) root.findViewById(R.id.inputLastNameProfile)
         usernameProfile = (TextView) root.findViewById(R.id.usernameProfile)
         usernameProfile.text = currentUser.username
-        checkinsCount = (Button) root.findViewById(R.id.checkinsList)
+        checkinsCount = (TextView) root.findViewById(R.id.checkinsList)
         mSaveProfile = (Button) root.findViewById(R.id.save_profile)
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
         mImageViewCamera = (ImageView) root.findViewById(R.id.photo_profile_user)
-        showImage = (ImageView) root.findViewById(R.id.photo_current_user)
+        mWebProfile = (TextView) root.findViewById(R.id.webProfile)
         mSaveProfile.onClickListener = {
             updateInfoUserProfile()
         }
@@ -97,8 +101,25 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
                 startActivityForResult(intent, 1)
             }
         }
+        mWebProfile.setText(String.format(getString(R.string.url_barista_profile, currentUser.username)))
+        mWebProfile.onClickListener = {
+            showWebProfileTab()
+        }
         loadData()
         root
+    }
+
+    private void showWebProfileTab() {
+        Uri webProfileUrl = Uri.parse(String.format(getString(R.string.url_barista_profile, currentUser.username)))
+        CustomTabsIntent profileTabIntent = new CustomTabsIntent.Builder().build();
+        CustomTabActivityHelper.openCustomTab(activity, profileTabIntent, webProfileUrl,
+                new CustomTabActivityHelper.CustomTabFallback() {
+                    @Override
+                    void openUri(Activity activity, Uri uri) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        activity.startActivity(intent);
+                    }
+                });
     }
 
     private void showLoginActivity() {
@@ -150,7 +171,7 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     private void setUserProfileData(UserProfile profile) {
         nameProfileEditText.text = profile.name
         lastNameProfileEditText.text = profile.lastName
-        checkinsCount.text = "${userProfile.checkins_count.toString()}\n Checkins"
+        checkinsCount.text = String.format(getString(R.string.template_checkins, userProfile.checkins_count))
         String urlFile = profile?.s3_asset?.url_file
         if (urlFile) {
             mImageUtil1.setPhotoImageView(getContext(), urlFile, mImageViewCamera)
