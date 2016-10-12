@@ -37,8 +37,13 @@ class CheckinsController < ApplicationController
   # PATCH/PUT /checkins/1
   def update
     # TODO: Esto tiene que ir todo junto
+    @venue = search_venue(params['idVenueFoursquare'])
+    if @venue == nil
+      @venue = save_venue(params['idVenueFoursquare'])
+    end
     @s3_asset = search_s3asset(params['idS3asset'])
     @checkin.s3_asset = @s3_asset
+    @checkin.venue = @venue
     if @checkin.update(checkin_params)
       render json: @checkin
     else

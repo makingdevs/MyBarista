@@ -13,7 +13,6 @@ class Checkin implements Serializable {
     String origin
     String price
     String state
-
     Date updated_at
     String user_id
     String circle_flavor_id
@@ -22,5 +21,5 @@ class Checkin implements Serializable {
     S3Asset s3_asset
     Barista baristum = new Barista()
     String author
-
+    Venue venue
 }

@@ -1,5 +1,6 @@
-package  com.makingdevs.mybarista.model.command
+package com.makingdevs.mybarista.model.command
 
+import com.makingdevs.mybarista.model.Venue
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -15,5 +16,5 @@ class CheckinCommand {
     String idVenueFoursquare
     Date created_at
     String idS3asset
-
+    Venue venue
 }

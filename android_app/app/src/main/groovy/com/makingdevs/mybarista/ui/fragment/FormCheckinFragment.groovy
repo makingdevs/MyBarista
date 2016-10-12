@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -122,6 +121,7 @@ class FormCheckinFragment extends Fragment implements OnActivityResultGallery {
 
         originEditText.setText(currentCheckin.origin)
         priceEditText.setText(currentCheckin.price)
+        venueDescription.setText(currentCheckin.venue?.name)
 
         methodFieldSprinner.setAdapter(getSpinnerAdapter())
         methodFieldSprinner.setSelection(getSpinnerAdapter().getPosition(currentCheckin.method))

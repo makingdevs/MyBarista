@@ -21,9 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignBottom="@id/show_photo_checkin"
-            android:alpha="0.4"
+            android:alpha="0.5"
             android:background="@color/accent"
-            android:singleLine="true"
             android:textAlignment="center"
             android:textSize="20sp" />
 
@@ -40,14 +39,25 @@
         <TextView
             android:id="@+id/method_data"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignBottom="@id/show_photo_checkin"
-            android:gravity="center"
-            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/place_data"
+            android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textColor="@color/cardview_light_background"
-            android:textSize="20sp"
+            android:textSize="@dimen/font_xlarge"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/place_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/show_photo_checkin"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:drawablePadding="3dp"
+            android:drawableStart="@drawable/ic_pin_white"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -58,51 +68,91 @@
         android:padding="@dimen/spacing_large">
 
         <TextView
-            android:id="@+id/state_data"
-            style="@style/EditText.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/accent" />
-
-        <TextView
-            android:id="@+id/label_created"
-            style="@style/EditText.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textColor="@color/primary_dark" />
-
-        <TextView
-            android:id="@+id/barista_name_data"
-            style="@style/EditText.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/state_data" />
-
-        <TextView
-            android:id="@+id/price_data"
-            style="@style/EditText.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/label_created"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/note_data"
-            style="@style/EditText.Icon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/barista_name_data"
-            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_below="@+id/viewGroup"
+            android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:hint="@string/hint_note_check_in"
             android:textStyle="italic" />
+
+        <LinearLayout
+            android:id="@+id/viewGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/barista_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/font_large"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/barista_name_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:hint="@string/hint_barista_name" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/state_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_coffee_bean"
+                android:gravity="center"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholderPrice"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/font_large"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/price_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:hint="@string/hint_price" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <ViewStub
             android:id="@+id/stub_bottons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/note_data"
+            android:layout_marginTop="@dimen/spacing_large"
             android:layout="@layout/stub_show_check_in" />
 
     </RelativeLayout>

@@ -54,7 +54,6 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     TextView mMethod
     TextView mPrice
     TextView mNote
-    TextView mDateCreated
     TextView mBaristaName
     View itemView
     ImageButton mButtonNote
@@ -66,6 +65,7 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     ViewStub userActionsView
     Button shareCheckin
     ShareDialog shareDialog
+    private TextView venueName
 
     ShowCheckinFragment() { super() }
 
@@ -124,11 +124,13 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
         mNote = (TextView) itemView.findViewById(R.id.note_data)
         mBaristaName = (TextView) itemView.findViewById(R.id.barista_name_data)
         showImage = (ImageView) itemView.findViewById(R.id.show_photo_checkin)
-        mDateCreated = (TextView) itemView.findViewById(R.id.label_created)
         mButtonNote = (ImageButton) itemView.findViewById(R.id.btnNote)
         mBarista = (ImageButton) itemView.findViewById(R.id.btnBarista)
         mButtonEditCheckin = (ImageButton) itemView.findViewById(R.id.edit_checkin)
         shareCheckin = (Button) itemView.findViewById(R.id.btnShare)
+        venueName = (TextView) itemView.findViewById(R.id.place_data)
+
+
     }
 
     private void validateCheckInAuthor() {
@@ -141,17 +143,20 @@ public class ShowCheckinFragment extends Fragment implements OnActivityResultGal
     }
 
     private void setCheckInInView(Checkin checkin) {
-        stateName.text = checkin.state
-        mMethod.text = checkin.method
-        mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
-        mNote.text = checkin.note ? " \"${checkin.note}\" " : ""
-        mBaristaName.text = checkin?.baristum?.id ? "Preparado por ${checkin?.baristum?.name}" : ""
-        mDateCreated.text = checkin.created_at.format("HH:mm - dd/MM/yyyy")
-
         def url_image = checkin?.s3_asset?.url_file
         if (url_image)
             mImageUtil1.setPhotoImageView(getContext(), url_image, showImage)
 
+        if (checkin.venue) {
+            venueName.text = checkin?.venue?.name
+            venueName.setVisibility(View.VISIBLE)
+        }
+
+        mMethod.text = checkin.method
+        mBaristaName.text = checkin?.baristum?.id ? checkin?.baristum?.name : ""
+        stateName.text = checkin.state
+        mPrice.text = checkin.price ? "\$ ${checkin.price}" : ""
+        mNote.text = checkin.note ? " \"${checkin.note}\" " : ""
     }
 
     private setUserActions() {
