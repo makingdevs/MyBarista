@@ -1,12 +1,15 @@
 package com.makingdevs.mybarista.ui.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -55,6 +58,7 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
     ImageView mImageViewCamera
     private UserProfile userProfile
     private CamaraUtil camaraUtil
+    private Button mWebProfile
 
     ProfileFragment() { super() }
 
@@ -78,6 +82,7 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
         mCloseSession = (TextView) root.findViewById(R.id.close_session)
         mImageViewCamera = (ImageView) root.findViewById(R.id.photo_profile_user)
         showImage = (ImageView) root.findViewById(R.id.photo_current_user)
+        mWebProfile = (Button) root.findViewById(R.id.webProfile)
         mSaveProfile.onClickListener = {
             updateInfoUserProfile()
         }
@@ -97,8 +102,24 @@ class ProfileFragment extends Fragment implements OnActivityResultGallery {
                 startActivityForResult(intent, 1)
             }
         }
+        mWebProfile.onClickListener = {
+            showWebProfileTab()
+        }
         loadData()
         root
+    }
+
+    private void showWebProfileTab() {
+        Uri webProfileUrl = Uri.parse(String.format(getString(R.string.url_barista_profile, currentUser.username)))
+        CustomTabsIntent profileTabIntent = new CustomTabsIntent.Builder().build();
+        CustomTabActivityHelper.openCustomTab(activity, profileTabIntent, webProfileUrl,
+                new CustomTabActivityHelper.CustomTabFallback() {
+                    @Override
+                    void openUri(Activity activity, Uri uri) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        activity.startActivity(intent);
+                    }
+                });
     }
 
     private void showLoginActivity() {
