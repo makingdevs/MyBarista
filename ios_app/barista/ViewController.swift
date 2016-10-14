@@ -9,17 +9,21 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    var loginCommand: LoginCommand!
+  
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        loginCommand = LoginCommand.init(username: usernameField.text!, password: passwordField.text!)
+        
+        return !usernameField.text!.isEmpty && !passwordField.text!.isEmpty
     }
-
-
 }
 
