@@ -19,9 +19,16 @@ class UserManager {
             response in
             switch response.result {
             case .Success:
-                print("Success")
-            case .Failure(_):
-                print(response.result)
+                if let value = response.result.value {
+                    let json = JSON(value)
+                    let userID = json["id"].intValue
+                    let userName = json["username"].stringValue
+                    let userPass = json["password_digest"].stringValue
+                    let user = User(id: userID, username: userName, password: userPass)
+                    onSuccess(user: user)
+                }
+            case .Failure(let error):
+                onError(error: error.description)
             }
         }
     }
