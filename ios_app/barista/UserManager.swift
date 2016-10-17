@@ -13,9 +13,14 @@ import SwiftyJSON
 class UserManager {
     
     static func signin(loginCommand: LoginCommand, onSuccess:(user: User) -> (), onError:(error: String) -> () ) {
-        let loginURL: String = "http://mybarista.makingdevs.com/login/user/"
-        let parameters:[String:AnyObject]? = ["username": loginCommand.username!, "password": loginCommand.password!]
-        Alamofire.request(.GET, loginURL, parameters: parameters).responseJSON {
+        
+        let signinURL: String = "http://mybarista.makingdevs.com/login/user"
+        let parameters:[String:AnyObject]? = ["username": loginCommand.username!,
+                                              "password": loginCommand.password!]
+        
+        Alamofire.request(.GET, signinURL, parameters: parameters)
+                 .validate(statusCode: 200..<201)
+                 .responseJSON {
             response in
             switch response.result {
             case .Success:
@@ -27,8 +32,13 @@ class UserManager {
                     let user = User(id: userID, username: userName, password: userPass)
                     onSuccess(user: user)
                 }
-            case .Failure(let error):
-                onError(error: error.description)
+            case .Failure(_):
+                let errorMessage : String
+                // TODO: Switch statusCode and manage the other ones
+                if response.response?.statusCode == 401 {
+                    errorMessage = "Usuario o contraseña incorrectos"
+                    onError(error: errorMessage)
+                }
             }
         }
     }
