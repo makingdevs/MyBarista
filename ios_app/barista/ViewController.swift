@@ -20,17 +20,21 @@ class ViewController: UIViewController {
         let username: String = usernameField.text!
         let password: String = passwordField.text!
         loginCommand = LoginCommand(username: username, password: password)
-        UserManager.signin(loginCommand,
-                          onSuccess: { (user: User) -> () in
-                            print("Sign existoso para: \(user.username)")
-            },
-                          onError:{ (error:String) -> () in
-                            print("Usuario o contraseña incorrectos")
-        })
+        
+        if !username.isEmpty && !password.isEmpty {
+            UserManager.signin(loginCommand,
+                               onSuccess: { (user: User) -> () in
+                                //TODO: To call shouldPerformSegue... method
+                },
+                               onError:{ (error: String) -> () in
+                                //TODO: To call shouldPerformSegue... method
+            })
+        } else {
+            print("Campos obligatorios")
+        }
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return false
     }
 }
-
