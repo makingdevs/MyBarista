@@ -10,20 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var user: User!
     var loginCommand: LoginCommand!
   
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    @IBAction func fetchUserData(sender: UIButton) {
+        let username: String = usernameField.text!
+        let password: String = passwordField.text!
+        loginCommand = LoginCommand(username: username, password: password)
+        UserManager.signin(loginCommand,
+                          onSuccess: { (user: User) -> () in
+                            print("Sign existoso para: \(user.username)")
+            },
+                          onError:{ (error:String) -> () in
+                            print("Usuario o contraseña incorrectos")
+        })
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        loginCommand = LoginCommand.init(username: usernameField.text!, password: passwordField.text!)
-        
-        return !usernameField.text!.isEmpty && !passwordField.text!.isEmpty
+        return false
     }
 }
 
