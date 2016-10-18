@@ -16,13 +16,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    @IBAction func fetchUserData(sender: UIButton) {
+    @IBAction func fetchUserData(_ sender: UIButton) {
         let username: String = usernameField.text!
         let password: String = passwordField.text!
         loginCommand = LoginCommand(username: username, password: password)
         
         if !username.isEmpty && !password.isEmpty {
-            UserManager.signin(loginCommand,
+            UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
                                 //TODO: To call shouldPerformSegue... method
                 },
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         }
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return false
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return true
     }
 }
