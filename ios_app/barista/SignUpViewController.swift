@@ -19,20 +19,20 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var cpassw: UITextField!
     
     
-    func isValidEmail(testStr:String) -> Bool {
+    func isValidEmail(_ testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(testStr)
+        return emailTest.evaluate(with: testStr)
     }
     
-    func alertTest(testStr:String) -> Void {
-        let alert = UIAlertController(title: "Alert", message: testStr, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func alertTest(_ testStr:String) -> Void {
+        let alert = UIAlertController(title: "Alert", message: testStr, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
-    @IBAction func sendRequest(sender: UIButton) {
+    @IBAction func sendRequest(_ sender: UIButton) {
         let mail : String = mailUser.text!
         let user : String = userName.text!
         let pass : String = passw.text!
@@ -56,7 +56,7 @@ class SignUpViewController: UIViewController {
        
         // let parameterzs  = [:]
         // Alamofire.request(.POST, "http://mybarista.makingdevs.com/user/neodevelop", parameters: parameters)
-        Alamofire.request(.GET, "http://mybarista.makingdevs.com/user/neodevelop")
+        Alamofire.request("http://mybarista.makingdevs.com/user/neodevelop/")
             .responseJSON { response in
             if let value = response.result.value{
                 let json = JSON(value)

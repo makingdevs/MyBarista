@@ -17,15 +17,15 @@ class CheckinViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var checkinPhotoView: UIImageView!
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = checkin.method
         methodLabel.text = checkin.method
         originLabel.text = checkin.origin
         priceLabel!.text = "$ \(checkin.price)"
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            dispatch_async(dispatch_get_main_queue(), {
-                let myImage =  UIImage(data: NSData(contentsOfURL: NSURL(string:self.checkin.urlPhoto!)!)!)
+        DispatchQueue.global( qos: DispatchQoS.QoSClass.default).async(execute: {
+            DispatchQueue.main.async(execute: {
+                let myImage =  UIImage(data: try! Data(contentsOf: URL(string:self.checkin.urlPhoto!)!))
                 self.checkinPhotoView.image = myImage
             })
         })
