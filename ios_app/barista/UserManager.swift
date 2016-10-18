@@ -12,32 +12,33 @@ import SwiftyJSON
 
 class UserManager {
     
-    static func signin(loginCommand: LoginCommand, onSuccess:(user: User) -> (), onError:(error: String) -> () ) {
+    static func signin(loginCommand: LoginCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
-        let signinURL: String = "http://mybarista.makingdevs.com/login/user"
-        let parameters:[String:AnyObject]? = ["username": loginCommand.username!,
-                                              "password": loginCommand.password!]
+        let signinURL: String = "http://mybarista.makingdevs.com/login/user/"
+        let parameters = ["username": loginCommand.username!,
+                          "password": loginCommand.password!]
         
-        Alamofire.request(.GET, signinURL, parameters: parameters)
+        Alamofire.request(signinURL, parameters: parameters)
                  .validate(statusCode: 200..<201)
                  .responseJSON {
             response in
             switch response.result {
-            case .Success:
+            case .success:
                 if let value = response.result.value {
                     let json = JSON(value)
                     let userID = json["id"].intValue
                     let userName = json["username"].stringValue
                     let userPass = json["password_digest"].stringValue
                     let user = User(id: userID, username: userName, password: userPass)
-                    onSuccess(user: user)
+                    onSuccess(user)
+                    print(response)
                 }
-            case .Failure(_):
+            case .failure(_):
                 let errorMessage : String
                 // TODO: Switch statusCode and manage the other ones
                 if response.response?.statusCode == 401 {
                     errorMessage = "Usuario o contraseña incorrectos"
-                    onError(error: errorMessage)
+                    onError(errorMessage)
                 }
             }
         }
