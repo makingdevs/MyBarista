@@ -93,7 +93,7 @@
                 <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1HU-eV-uV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28.5" y="36"/>
+            <point key="canvasLocation" x="1023" y="22"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="IsI-mq-rWp">
@@ -180,7 +180,7 @@
             <objects>
                 <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="9Bd-O3-0eU" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XO4-L3-KoR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="XO4-L3-KoR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -202,6 +202,6 @@
         <image name="started_barista" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RBy-DO-Z0j"/>
+        <segue reference="eZ1-DK-rOQ"/>
     </inferredMetricsTieBreakers>
 </document>
