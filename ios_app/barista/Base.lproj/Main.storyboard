@@ -50,7 +50,7 @@
                                         <state key="normal" title="Inicia sesión"/>
                                         <connections>
                                             <action selector="fetchUserData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zhw-Mh-zuM"/>
-                                            <segue destination="zDl-f7-gXc" kind="showDetail" id="eZ1-DK-rOQ"/>
+                                            <segue destination="zDl-f7-gXc" kind="showDetail" identifier="PerformSignIn" id="eZ1-DK-rOQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-x1-MHe">
