@@ -130,11 +130,11 @@
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhl-Ng-79L">
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FRu-R3-FH6">
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGl-aG-382">
                                         <state key="normal" title="Registrate"/>
@@ -163,10 +163,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cpassw" destination="FRu-R3-FH6" id="TDt-8o-prf"/>
-                        <outlet property="mailUser" destination="zWZ-go-die" id="tB9-Tu-Kzx"/>
-                        <outlet property="passw" destination="bhl-Ng-79L" id="B7p-Uu-25O"/>
-                        <outlet property="userName" destination="hOQ-gu-qzI" id="6CH-mE-ERs"/>
+                        <outlet property="confirmField" destination="FRu-R3-FH6" id="vhQ-K3-Rs7"/>
+                        <outlet property="emailField" destination="zWZ-go-die" id="yUm-2b-B4P"/>
+                        <outlet property="passwordField" destination="bhl-Ng-79L" id="5n1-9a-z2W"/>
+                        <outlet property="usernameField" destination="hOQ-gu-qzI" id="TQ0-wk-Frk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ds-pi-tB8" userLabel="First Responder" sceneMemberID="firstResponder"/>
