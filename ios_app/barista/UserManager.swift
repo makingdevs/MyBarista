@@ -31,7 +31,6 @@ class UserManager {
                     let userPass = json["password_digest"].stringValue
                     let user = User(id: userID, username: userName, password: userPass)
                     onSuccess(user)
-                    print(response)
                 }
             case .failure(_):
                 let errorMessage : String
@@ -42,7 +41,6 @@ class UserManager {
                     case _:
                         errorMessage = "Desconocido"
                     }
-                    print(statusCode)
                     onError(errorMessage)
                 }
             }
@@ -62,9 +60,25 @@ class UserManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
-                case .failure(let error):
-                    print(error)
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let userID = json["id"].intValue
+                        let userName = json["username"].stringValue
+                        let userPass = json["password_digest"].stringValue
+                        let user = User(id: userID, username: userName, password: userPass)
+                        onSuccess(user)
+                    }
+                case .failure(_):
+                    let errorMessage: String
+                    if let statusCode = response.response?.statusCode {
+                        switch(statusCode) {
+                        case 422:
+                            errorMessage = "El usuario ya se encuentra registrado"
+                        case _:
+                            errorMessage = "Desconocido"
+                        }
+                        onError(errorMessage)
+                    }
                 }
         }
     }
