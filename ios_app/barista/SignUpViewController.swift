@@ -31,10 +31,17 @@ class SignUpViewController: UIViewController {
                                 // TODO: To call souldPerformSegue... method
                 },
                                onError: { (error: String) -> () in
-                                // TODO: To show an error alert
+                                self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            print("Something is wrong with your data")
+            self.present(self.showErrorAlert(message: "Completa el formulario"), animated: true)
         }
+    }
+    
+    func showErrorAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Ocurrió un error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
+        alert.addAction(okAction)
+        return alert
     }
 }
