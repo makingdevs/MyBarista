@@ -45,6 +45,14 @@ class ViewController: UIViewController {
         return alert
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PerformSignIn" {
+            let navigationController: UINavigationController = segue.destination as! UINavigationController
+            let checkinsTableController = navigationController.topViewController as! CheckinsTableViewController
+            checkinsTableController.user = user
+        }
+    }
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return identifier == "PerformSignIn" ? performSignIn : true
     }
