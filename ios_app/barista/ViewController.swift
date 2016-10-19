@@ -46,6 +46,6 @@ class ViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return performSignIn
+        return identifier == "PerformSignIn" ? performSignIn : true
     }
 }
