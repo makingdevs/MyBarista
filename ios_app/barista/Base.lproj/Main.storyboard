@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9Bd-O3-0eU">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -70,13 +70,14 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.24309689097355525" green="0.78527736035222118" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.21176470588235294" green="0.73333333333333328" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="6LI-o6-oiS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="16" id="KHn-20-hOm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6LI-o6-oiS" secondAttribute="trailing" id="hkD-Wo-igd"/>
                             <constraint firstItem="6LI-o6-oiS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="jQv-Dd-Hid"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="1g5-F2-M0d"/>
                     <connections>
                         <outlet property="passwordField" destination="ggD-yZ-XO1" id="5RN-X2-x3y"/>
                         <outlet property="usernameField" destination="gug-pE-3eH" id="IU6-ja-4IQ"/>
@@ -84,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-336" y="-615"/>
+            <point key="canvasLocation" x="602.39999999999998" y="-615.74212893553226"/>
         </scene>
         <!--CheckinsStoryBoard-->
         <scene sceneID="M38-gp-ERb">
@@ -172,7 +173,29 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ds-pi-tB8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="418" y="-615"/>
+            <point key="canvasLocation" x="1356" y="-615.74212893553226"/>
+        </scene>
+        <!-- -->
+        <scene sceneID="2ww-Xe-Bcq">
+            <objects>
+                <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="9Bd-O3-0eU" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XO4-L3-KoR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="MDc-gk-lNG">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="fI9-QT-syX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="afp-WO-8I9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-336.80000000000001" y="-615.74212893553226"/>
         </scene>
     </scenes>
     <resources>
