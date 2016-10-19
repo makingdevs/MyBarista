@@ -29,6 +29,9 @@
 		4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2C1D2D6004007028B1 /* Checkin.swift */; };
 		4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */; };
 		4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */; };
+		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
+		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
+		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +60,9 @@
 		4B17FA2C1D2D6004007028B1 /* Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkin.swift; sourceTree = "<group>"; };
 		4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinManager.swift; sourceTree = "<group>"; };
 		4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
+		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
+		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
 		D66AE602CAFECCA888BC7735 /* Pods_barista.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barista.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +143,7 @@
 		4B17FA211D2D587F007028B1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */,
 				4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */,
 			);
 			name = Network;
@@ -162,6 +169,7 @@
 		4B17FA241D2D58B5007028B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8F8DCFB81DB7101B00F2B33E /* Commands */,
 				4B17FA2C1D2D6004007028B1 /* Checkin.swift */,
 				4B07800A1D70BF460001A9D1 /* Barista.swift */,
 				4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */,
@@ -203,6 +211,15 @@
 			name = Delegate;
 			sourceTree = "<group>";
 		};
+		8F8DCFB81DB7101B00F2B33E /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */,
+				8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */,
+			);
+			name = Commands;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,12 +250,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MakingDevs;
 				TargetAttributes = {
 					4B17FA0B1D2D50B1007028B1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = H2WD4JANN6;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -318,7 +336,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -328,14 +346,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */,
 				4B0780171D70C1980001A9D1 /* User.swift in Sources */,
 				4B07801B1D70C1AE0001A9D1 /* Venue.swift in Sources */,
+				8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */,
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
 				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
 				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
 				4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */,
 				4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */,
 				4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */,
+				8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */,
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
@@ -384,8 +405,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -429,8 +452,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -449,6 +474,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -457,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -465,6 +492,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.barista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -472,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -480,6 +509,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.barista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

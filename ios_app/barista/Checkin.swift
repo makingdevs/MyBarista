@@ -15,7 +15,7 @@ class Checkin {
     var origin:String?
     var price:Float?
     var urlPhoto:String?
-    var createdAt:NSDate?
+    var createdAt:Date?
     
     init(id:NSInteger, method:String, note:String, origin:String, price:Float, urlPhoto:String){
         self.id = id

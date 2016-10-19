@@ -17,30 +17,30 @@ class CheckinsTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         retriveCheckinsForManager()
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let viewCell = tableView.dequeueReusableCellWithIdentifier("checkinCell", forIndexPath: indexPath)
-        viewCell.textLabel?.text = checkins[indexPath.row].method
-        viewCell.detailTextLabel?.text = checkins[indexPath.row].origin
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let viewCell = tableView.dequeueReusableCell(withIdentifier: "checkinCell", for: indexPath)
+        viewCell.textLabel?.text = checkins[(indexPath as NSIndexPath).row].method
+        viewCell.detailTextLabel?.text = checkins[(indexPath as NSIndexPath).row].origin
         
         return viewCell
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return checkins.count
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let checkinViewController:CheckinViewController = segue.destinationViewController as! CheckinViewController
-        checkinViewController.checkin = checkins[(tableView.indexPathForSelectedRow?.row)!]
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
+        checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
     }
     
     func retriveCheckinsForManager(){

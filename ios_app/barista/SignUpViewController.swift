@@ -7,69 +7,47 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
 
 class SignUpViewController: UIViewController {
     
+    var registrationCommand: RegistrtionCommand!
+    var perfomrSignUp: Bool = false
     
-    @IBOutlet weak var mailUser: UITextField!
-    @IBOutlet weak var userName: UITextField!
-    @IBOutlet weak var passw: UITextField!
-    @IBOutlet weak var cpassw: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var confirmField: UITextField!
     
-    
-    func isValidEmail(testStr:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(testStr)
+    @IBAction func sendRequest(_ sender: UIButton) {
+        let email: String = emailField.text!
+        let username: String = usernameField.text!
+        let password: String = passwordField.text!
+        let confirm: String = confirmField.text!
+        
+        registrationCommand = RegistrtionCommand(username: username, password: password, confirmPassword: confirm, email: email)
+        
+        if registrationCommand.validateCommand() {
+            UserManager.signup(registrationCommand: registrationCommand,
+                               onSuccess: { (user: User) -> () in
+                                self.perfomrSignUp = true
+                                self.performSegue(withIdentifier: "PerformSignUp", sender: self)
+                },
+                               onError: { (error: String) -> () in
+                                self.present(self.showErrorAlert(message: error.description), animated: true)
+            })
+        } else {
+            self.present(self.showErrorAlert(message: registrationCommand.errorMessage!), animated: true)
+        }
     }
     
-    func alertTest(testStr:String) -> Void {
-        let alert = UIAlertController(title: "Alert", message: testStr, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func showErrorAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Ocurrió un error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
+        alert.addAction(okAction)
+        return alert
     }
     
-    
-    @IBAction func sendRequest(sender: UIButton) {
-        let mail : String = mailUser.text!
-        let user : String = userName.text!
-        let pass : String = passw.text!
-        let cpass : String = cpassw.text!
-       
-        let email:Bool = isValidEmail(mail)
-        if email{
-            if pass == cpass{
-                alertTest("Registro exitoso")
-                print("registro exitoso" + user)
-            }else{
-                alertTest("las contraseñas no coinciden")
-                cpassw.text = ""
-                passw.text = ""
-            }
-        }else{
-            alertTest("email no valido")
-            mailUser.text=""
-            
-        }
-       
-        // let parameterzs  = [:]
-        // Alamofire.request(.POST, "http://mybarista.makingdevs.com/user/neodevelop", parameters: parameters)
-        Alamofire.request(.GET, "http://mybarista.makingdevs.com/user/neodevelop")
-            .responseJSON { response in
-            if let value = response.result.value{
-                let json = JSON(value)
-                print(json)
-                let checkins = json["checkins"]
-                for(_, subJson) in checkins {
-                    print("***")
-                    let id = subJson["id"].stringValue
-                    print(id)
-                    let author = subJson["author"].stringValue
-                    print(author)
-                }
-            }
-        }
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return perfomrSignUp
     }
 }
