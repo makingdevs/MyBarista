@@ -35,9 +35,14 @@ class UserManager {
                 }
             case .failure(_):
                 let errorMessage : String
-                // TODO: Switch statusCode and manage the other ones
-                if response.response?.statusCode == 401 {
-                    errorMessage = "Usuario o contraseña incorrectos"
+                if let statusCode = response.response?.statusCode {
+                    switch(statusCode){
+                    case 500,401:
+                        errorMessage = "Usuario o contraseña incorrectos"
+                    case _:
+                        errorMessage = "Desconocido"
+                    }
+                    print(statusCode)
                     onError(errorMessage)
                 }
             }
