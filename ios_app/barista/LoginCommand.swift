@@ -12,6 +12,7 @@ class LoginCommand {
     
     var username: String?
     var password: String?
+    var errorMessage: String?
     
     init(username: String, password: String){
         self.username = username
@@ -20,8 +21,13 @@ class LoginCommand {
     
     //Maybe method
     func validateCommand() -> Bool {
-        let regex = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[A-Za-z]{2,4}"
-        let username = NSPredicate(format:"SELF MATCHES %@", regex)
-        return username.evaluate(with: self.username)
+        if (self.username?.isEmpty)! {
+            self.errorMessage = "Nombre de usuario requerido"
+            return false
+        } else if (self.password?.isEmpty)! {
+            self.errorMessage = "Contraseña requerida"
+            return false
+        }
+        return true
     }
 }
