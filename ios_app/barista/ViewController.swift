@@ -31,11 +31,18 @@ class ViewController: UIViewController {
                                 self.performSegue(withIdentifier: "PerformSignIn", sender: self)
                 },
                                onError:{ (error: String) -> () in
-                                // TODO: Show an error alert
+                                self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            print("Campos obligatorios")
+            self.present(self.showErrorAlert(message: "Falta usuario y/o contraseña"), animated: true)
         }
+    }
+    
+    func showErrorAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Ocurrió un error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
+        alert.addAction(okAction)
+        return alert
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
