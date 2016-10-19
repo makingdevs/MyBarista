@@ -11,7 +11,7 @@ import UIKit
 class CheckinsTableViewController: UITableViewController {
     
     var checkins:[Checkin] = []
-
+    var user: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,7 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     func retriveCheckinsForManager(){
-        CheckinManager.findAllCheckinsByUser("cggg88jorge",
+        CheckinManager.findAllCheckinsByUser(user.username,
           onSuccess: { (checkins:[Checkin]) -> () in
                 self.checkins = checkins
                 self.tableView.reloadData()
