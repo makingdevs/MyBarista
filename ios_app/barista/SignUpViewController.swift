@@ -26,7 +26,13 @@ class SignUpViewController: UIViewController {
         registrationCommand = RegistrtionCommand(username: username, password: password, confirmPassword: confirm, email: email)
         
         if registrationCommand.validateCommand() {
-            print("Your form is great for Sign Up")
+            UserManager.signup(registrationCommand: registrationCommand,
+                               onSuccess: { (user: User) -> () in
+                                // TODO: To call souldPerformSegue... method
+                },
+                               onError: { (error: String) -> () in
+                                // TODO: To show an error alert
+            })
         } else {
             print("Something is wrong with your data")
         }
