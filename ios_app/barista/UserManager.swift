@@ -19,7 +19,7 @@ class UserManager {
                           "password": loginCommand.password!]
         
         Alamofire.request(signinURL, parameters: parameters)
-                 .validate(statusCode: 200..<201)
+                 .validate(statusCode: 200..<202)
                  .responseJSON {
             response in
             switch response.result {
@@ -46,6 +46,26 @@ class UserManager {
                     onError(errorMessage)
                 }
             }
+        }
+    }
+    
+    static func signup(registrationCommand: RegistrtionCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
+        
+        let signupURL: String = "http://mybarista.makingdevs.com/users/"
+        let parameters = ["email": registrationCommand.email!,
+                          "username": registrationCommand.username!,
+                          "password": registrationCommand.password!]
+        
+        Alamofire.request(signupURL, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print(response)
+                case .failure(let error):
+                    print(error)
+                }
         }
     }
 }
