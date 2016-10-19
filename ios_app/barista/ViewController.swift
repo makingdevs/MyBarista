@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         let password: String = passwordField.text!
         loginCommand = LoginCommand(username: username, password: password)
         
-        if !username.isEmpty && !password.isEmpty {
+        if loginCommand.validateCommand() {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
                                 self.user = user
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            self.present(self.showErrorAlert(message: "Falta usuario y/o contraseña"), animated: true)
+            self.present(self.showErrorAlert(message: loginCommand.errorMessage!), animated: true)
         }
     }
     
