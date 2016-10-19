@@ -11,6 +11,7 @@ import UIKit
 class SignUpViewController: UIViewController {
     
     var registrationCommand: RegistrtionCommand!
+    var perfomrSignUp: Bool = false
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
@@ -28,7 +29,8 @@ class SignUpViewController: UIViewController {
         if registrationCommand.validateCommand() {
             UserManager.signup(registrationCommand: registrationCommand,
                                onSuccess: { (user: User) -> () in
-                                // TODO: To call souldPerformSegue... method
+                                self.perfomrSignUp = true
+                                self.performSegue(withIdentifier: "PerformSignUp", sender: self)
                 },
                                onError: { (error: String) -> () in
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
@@ -43,5 +45,9 @@ class SignUpViewController: UIViewController {
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
         alert.addAction(okAction)
         return alert
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return perfomrSignUp
     }
 }
