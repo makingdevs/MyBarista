@@ -36,7 +36,7 @@ class SignUpViewController: UIViewController {
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            self.present(self.showErrorAlert(message: "Completa el formulario"), animated: true)
+            self.present(self.showErrorAlert(message: registrationCommand.errorMessage!), animated: true)
         }
     }
     
