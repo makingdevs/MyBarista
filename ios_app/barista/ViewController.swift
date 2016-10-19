@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     
     var user: User!
     var loginCommand: LoginCommand!
+    var performSignIn: Bool = false
   
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -24,10 +25,13 @@ class ViewController: UIViewController {
         if !username.isEmpty && !password.isEmpty {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
-                                //TODO: To call shouldPerformSegue... method
+                                self.user = user
+                                // TODO: Ask if it is a correct way to perform a Segue
+                                self.performSignIn = true
+                                self.performSegue(withIdentifier: "PerformSignIn", sender: self)
                 },
                                onError:{ (error: String) -> () in
-                                //TODO: To call shouldPerformSegue... method
+                                // TODO: Show an error alert
             })
         } else {
             print("Campos obligatorios")
@@ -35,6 +39,6 @@ class ViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return true
+        return performSignIn
     }
 }
