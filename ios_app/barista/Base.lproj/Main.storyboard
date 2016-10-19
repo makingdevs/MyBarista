@@ -56,7 +56,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-x1-MHe">
                                         <state key="normal" title="¿No tienes cuenta? Regístrate"/>
                                         <connections>
-                                            <segue destination="f75-30-ify" kind="presentation" id="UaM-Jb-LbW"/>
+                                            <segue destination="f75-30-ify" kind="show" identifier="ShowSignUp" id="uhw-AK-1Ol"/>
                                         </connections>
                                     </button>
                                 </subviews>
