@@ -10,7 +10,7 @@ import UIKit
 
 class CheckinsTableViewController: UITableViewController {
     
-    var checkins:[Checkin] = []
+    var checkins:[Checkin] = [Checkin]()
     var user: User!
     
     override func viewDidLoad() {
@@ -23,9 +23,10 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewCell = tableView.dequeueReusableCell(withIdentifier: "checkinCell", for: indexPath)
-        viewCell.textLabel?.text = checkins[(indexPath as NSIndexPath).row].method
-        viewCell.detailTextLabel?.text = checkins[(indexPath as NSIndexPath).row].origin
+        let viewCell = tableView.dequeueReusableCell(withIdentifier: "CheckinsTableViewCell", for: indexPath) as! CheckinsTableViewCell
+        let checkin = checkins[indexPath.row]
+        viewCell.methodLabel?.text = checkin.method
+        viewCell.coffeeOriginLabel?.text = checkin.origin
         
         return viewCell
     }
