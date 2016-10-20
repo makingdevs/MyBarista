@@ -24,10 +24,11 @@ class CheckinManager {
                         let checkinId = subJson["id"].intValue
                         let checkinMethod = subJson["method"].stringValue
                         let checkinOrigin = subJson["origin"].stringValue
+                        let checkinState = subJson["state"].stringValue
                         let checkinPrice = subJson["price"].floatValue
                         let checkinNote = subJson["note"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
-                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, price:checkinPrice, urlPhoto: urlPhoto)
+                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, urlPhoto: urlPhoto)
                         checkins.append(checkin)
                     }
                 }
