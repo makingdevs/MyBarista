@@ -9,6 +9,12 @@
 import UIKit
 
 class CheckinsTableViewCell: UITableViewCell {
+    
+    // MARK: Properties
+    @IBOutlet weak var coffeeImageView: UIImageView!
+    @IBOutlet weak var methodLabel: UILabel!
+    @IBOutlet weak var coffeeOriginLabel: UILabel!
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
