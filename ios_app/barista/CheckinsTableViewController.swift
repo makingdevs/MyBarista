@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CheckinsTableViewController: UITableViewController {
     
@@ -26,8 +27,9 @@ class CheckinsTableViewController: UITableViewController {
         let viewCell = tableView.dequeueReusableCell(withIdentifier: "CheckinsTableViewCell", for: indexPath) as! CheckinsTableViewCell
         let checkin = checkins[indexPath.row]
         viewCell.methodLabel?.text = checkin.method
-        viewCell.coffeeOriginLabel?.text = checkin.origin
-        
+        viewCell.coffeeOriginLabel?.text = checkin.state
+        viewCell.coffeeImageView.kf.setImage(with: URL(string: checkin.urlPhoto!),
+                                             placeholder: #imageLiteral(resourceName: "coffee_holder"))
         return viewCell
     }
     
