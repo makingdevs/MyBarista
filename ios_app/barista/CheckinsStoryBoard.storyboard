@@ -27,14 +27,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLY-l9-VkP">
-                                            <frame key="frameInset" minX="20" minY="193" width="42" height="21"/>
+                                            <frame key="frameInset" minX="20" minY="193" width="130" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxJ-hA-uL7">
-                                            <frame key="frameInset" minX="20" minY="220" width="67" height="13"/>
+                                            <frame key="frameInset" minX="20" minY="220" width="130" height="13"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -43,7 +43,6 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="coffeeImageHolder" destination="gO7-do-baP" id="vDS-PX-JqA"/>
                                     <outlet property="coffeeImageView" destination="gO7-do-baP" id="3FE-Ap-2nW"/>
                                     <outlet property="coffeeOriginLabel" destination="VxJ-hA-uL7" id="e1K-zZ-pYL"/>
                                     <outlet property="methodLabel" destination="XLY-l9-VkP" id="kk9-We-7zC"/>
@@ -118,7 +117,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gQt-1M-1ds" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pa5-DU-evS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Pa5-DU-evS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
