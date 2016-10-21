@@ -19,7 +19,7 @@ class Checkin {
     var urlPhoto:String?
     var createdAt:Date?
     
-    init(id:NSInteger, method:String, note:String, origin:String, state: String, price:Float, rating: Float, urlPhoto:String){
+    init(id:NSInteger, method:String, note:String, origin:String, state: String, price:Float, rating: Float, urlPhoto:String, createdAt:Date?){
         self.id = id
         self.method = method
         self.note = note
@@ -28,5 +28,6 @@ class Checkin {
         self.price = price
         self.rating = rating
         self.urlPhoto = urlPhoto
+        self.createdAt = createdAt
     }
 }
