@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class CheckinsTableViewController: UITableViewController {
     
@@ -24,12 +23,13 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //TODO: Improve this piece of code
         let viewCell = tableView.dequeueReusableCell(withIdentifier: "CheckinsTableViewCell", for: indexPath) as! CheckinsTableViewCell
         let checkin = checkins[indexPath.row]
         viewCell.methodLabel?.text = checkin.method
         viewCell.coffeeOriginLabel?.text = checkin.state
-        viewCell.coffeeImageView.kf.setImage(with: URL(string: checkin.urlPhoto!),
-                                             placeholder: #imageLiteral(resourceName: "coffee_holder"))
+        viewCell.ratingView.loadRating(rating: checkin.rating!)
+        viewCell.coffeeImageView.loadURL(url: checkin.urlPhoto!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         return viewCell
     }
     
