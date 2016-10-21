@@ -40,12 +40,18 @@
                                             <color key="textColor" red="0.3369991987179487" green="0.3369991987179487" blue="0.3369991987179487" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="obu-kE-QFh">
+                                            <frame key="frameInset" minX="217" minY="193" width="150" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="coffeeImageView" destination="gO7-do-baP" id="3FE-Ap-2nW"/>
                                     <outlet property="coffeeOriginLabel" destination="VxJ-hA-uL7" id="e1K-zZ-pYL"/>
                                     <outlet property="methodLabel" destination="XLY-l9-VkP" id="kk9-We-7zC"/>
+                                    <outlet property="ratingView" destination="obu-kE-QFh" id="JnQ-KW-pk9"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
