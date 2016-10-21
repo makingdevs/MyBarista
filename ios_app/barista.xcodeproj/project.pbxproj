@@ -32,6 +32,9 @@
 		4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */; };
 		4B98366E1DBA7D810027BE5D /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */; };
 		4B9836701DBA7DBD0027BE5D /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */; };
+		4B9836741DBAB4580027BE5D /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836731DBAB4580027BE5D /* DateExtensions.swift */; };
+		4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */; };
+		4B9836781DBACE760027BE5D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836771DBACE760027BE5D /* Formatter.swift */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -66,6 +69,9 @@
 		4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewCell.swift; sourceTree = "<group>"; };
 		4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		4B9836731DBAB4580027BE5D /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExtensions.swift; sourceTree = "<group>"; };
+		4B9836771DBACE760027BE5D /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -224,6 +230,9 @@
 			children = (
 				4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */,
 				4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */,
+				4B9836731DBAB4580027BE5D /* DateExtensions.swift */,
+				4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */,
+				4B9836771DBACE760027BE5D /* Formatter.swift */,
 			);
 			name = Commons;
 			sourceTree = "<group>";
@@ -368,13 +377,16 @@
 				4B98366E1DBA7D810027BE5D /* ImageViewExtensions.swift in Sources */,
 				4B07801B1D70C1AE0001A9D1 /* Venue.swift in Sources */,
 				8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */,
+				4B9836741DBAB4580027BE5D /* DateExtensions.swift in Sources */,
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
 				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
 				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
+				4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */,
 				4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */,
 				4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */,
 				4B9836701DBA7DBD0027BE5D /* ViewExtensions.swift in Sources */,
 				4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */,
+				4B9836781DBACE760027BE5D /* Formatter.swift in Sources */,
 				8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */,
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
