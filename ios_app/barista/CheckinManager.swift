@@ -29,7 +29,8 @@ class CheckinManager {
                         let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
-                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto)
+                        let checkinCreatedAt = subJson["created_at"].timeValue
+                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
