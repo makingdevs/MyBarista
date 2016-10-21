@@ -45,11 +45,19 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCE-K5-ORs">
+                                            <frame key="frameInset" minX="217" minY="214" width="150" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="coffeeImageView" destination="gO7-do-baP" id="3FE-Ap-2nW"/>
                                     <outlet property="coffeeOriginLabel" destination="VxJ-hA-uL7" id="e1K-zZ-pYL"/>
+                                    <outlet property="createdAtLabel" destination="qCE-K5-ORs" id="znz-82-5A6"/>
                                     <outlet property="methodLabel" destination="XLY-l9-VkP" id="kk9-We-7zC"/>
                                     <outlet property="ratingView" destination="obu-kE-QFh" id="JnQ-KW-pk9"/>
                                 </connections>
