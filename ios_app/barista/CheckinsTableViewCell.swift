@@ -14,6 +14,7 @@ class CheckinsTableViewCell: UITableViewCell {
     @IBOutlet weak var coffeeImageView: UIImageView!
     @IBOutlet weak var methodLabel: UILabel!
     @IBOutlet weak var coffeeOriginLabel: UILabel!
+    @IBOutlet weak var ratingView: UIView!
     
 
     override func awakeFromNib() {
