@@ -7,4 +7,6 @@ target 'barista' do
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.0'
   pod 'Kingfisher', '~> 3.0'
+  pod 'FDRatingView', :git => 'https://github.com/FelixSFD/FDRatingView.git'
+
 end
