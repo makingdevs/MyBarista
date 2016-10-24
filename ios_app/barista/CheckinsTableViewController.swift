@@ -29,6 +29,7 @@ class CheckinsTableViewController: UITableViewController {
         viewCell.methodLabel?.text = checkin.method
         viewCell.coffeeOriginLabel?.text = checkin.state
         viewCell.ratingView.loadRating(rating: checkin.rating!)
+        viewCell.createdAtLabel.text = checkin.createdAt?.relativeTime
         viewCell.coffeeImageView.loadURL(url: checkin.urlPhoto!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         return viewCell
     }
