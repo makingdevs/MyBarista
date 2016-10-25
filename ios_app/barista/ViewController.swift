@@ -10,9 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var user: User!
     var loginCommand: LoginCommand!
     var performSignIn: Bool = false
+    let userPreferences = UserDefaults.standard
   
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -25,8 +25,8 @@ class ViewController: UIViewController {
         if loginCommand.validateCommand() {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
-                                self.user = user
-                                // TODO: Ask if it is a correct way to perform a Segue
+                                self.userPreferences.set(user.username, forKey: "currentUser")
+                                self.userPreferences.synchronize()
                                 self.performSignIn = true
                                 self.performSegue(withIdentifier: "PerformSignIn", sender: self)
                 },
@@ -43,14 +43,6 @@ class ViewController: UIViewController {
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
         alert.addAction(okAction)
         return alert
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PerformSignIn" {
-            let navigationController: UINavigationController = segue.destination as! UINavigationController
-            let checkinsTableController = navigationController.topViewController as! CheckinsTableViewController
-            checkinsTableController.user = user
-        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

@@ -10,9 +10,9 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
-    var user: User!
     var registrationCommand: RegistrtionCommand!
     var perfomrSignUp: Bool = false
+    let userPreferences = UserDefaults.standard
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
@@ -30,7 +30,8 @@ class SignUpViewController: UIViewController {
         if registrationCommand.validateCommand() {
             UserManager.signup(registrationCommand: registrationCommand,
                                onSuccess: { (user: User) -> () in
-                                self.user = user
+                                self.userPreferences.set(user.username, forKey: "currentUser")
+                                self.userPreferences.synchronize()
                                 self.perfomrSignUp = true
                                 self.performSegue(withIdentifier: "PerformSignUp", sender: self)
                 },
@@ -47,14 +48,6 @@ class SignUpViewController: UIViewController {
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
         alert.addAction(okAction)
         return alert
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PerformSignUp" {
-            let navigationController: UINavigationController = segue.destination as! UINavigationController
-            let checkinsTableController = navigationController.topViewController as! CheckinsTableViewController
-            checkinsTableController.user = user
-        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
