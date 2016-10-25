@@ -50,7 +50,7 @@
                                         <state key="normal" title="Inicia sesión"/>
                                         <connections>
                                             <action selector="fetchUserData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zhw-Mh-zuM"/>
-                                            <segue destination="zDl-f7-gXc" kind="showDetail" identifier="PerformSignIn" id="eZ1-DK-rOQ"/>
+                                            <segue destination="Kim-Wg-5BM" kind="showDetail" identifier="PerformSignIn" id="eZ1-DK-rOQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-x1-MHe">
@@ -90,10 +90,12 @@
         <!--CheckinsStoryBoard-->
         <scene sceneID="M38-gp-ERb">
             <objects>
-                <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="E1T-lS-Zjo"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1HU-eV-uV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1023" y="22"/>
+            <point key="canvasLocation" x="1610" y="198"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="IsI-mq-rWp">
@@ -141,7 +143,7 @@
                                         <state key="normal" title="Registrate"/>
                                         <connections>
                                             <action selector="sendRequest:" destination="f75-30-ify" eventType="touchUpInside" id="83Z-Lv-g1y"/>
-                                            <segue destination="zDl-f7-gXc" kind="show" identifier="PerformSignUp" id="RBy-DO-Z0j"/>
+                                            <segue destination="Kim-Wg-5BM" kind="show" identifier="PerformSignUp" id="RBy-DO-Z0j"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -180,7 +182,7 @@
             <objects>
                 <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="9Bd-O3-0eU" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="XO4-L3-KoR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XO4-L3-KoR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -196,6 +198,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="afp-WO-8I9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-336.80000000000001" y="-615.74212893553226"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="wYO-3V-GrX">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Kim-Wg-5BM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="QEA-rq-n4s">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="zDl-f7-gXc" kind="relationship" relationship="viewControllers" id="QNO-2e-zLN"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FgN-M8-nqU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="977" y="198"/>
         </scene>
     </scenes>
     <resources>
