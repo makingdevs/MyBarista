@@ -11,7 +11,7 @@ import UIKit
 class CheckinsTableViewController: UITableViewController {
     
     var checkins:[Checkin] = [Checkin]()
-    var user: User!
+    let userPreferences = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,9 @@ class CheckinsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        retriveCheckinsForManager()
+        if userPreferences.object(forKey: "currentUser") != nil {
+            retriveCheckinsForManager(username: userPreferences.string(forKey: "currentUser")!)
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,14 +49,16 @@ class CheckinsTableViewController: UITableViewController {
         checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
     }
     
-    func retriveCheckinsForManager(){
-        CheckinManager.findAllCheckinsByUser(user.username,
-          onSuccess: { (checkins:[Checkin]) -> () in
+    func retriveCheckinsForManager(username: String){
+        CheckinManager.findAllCheckinsByUser(
+            username,
+            onSuccess: { (checkins:[Checkin]) -> () in
                 self.checkins = checkins
                 self.tableView.reloadData()
-          },
-          onError:{ (error:String) -> () in
-            print("Errorsss" + error)
-          })
+            },
+            onError:{ (error:String) -> () in
+                print(error)
+        })
     }
 }
+
