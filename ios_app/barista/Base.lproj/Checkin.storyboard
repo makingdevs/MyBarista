@@ -126,11 +126,11 @@
             </objects>
             <point key="canvasLocation" x="3534" y="197"/>
         </scene>
-        <!--Check-ins-->
+        <!--Timeline-->
         <scene sceneID="v0b-4M-hfD">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Pb-FC-gQr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Check-ins" image="item_checkins" selectedImage="item_checkins" id="Wgv-7z-k0C"/>
+                    <tabBarItem key="tabBarItem" title="Timeline" image="item_timeline" selectedImage="item_timeline" id="Wgv-7z-k0C"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4_7.fullscreen"/>
@@ -157,6 +157,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="item_checkins" width="26" height="26"/>
+        <image name="item_timeline" width="26" height="26"/>
     </resources>
 </document>
