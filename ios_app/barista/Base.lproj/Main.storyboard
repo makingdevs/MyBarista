@@ -87,16 +87,6 @@
             </objects>
             <point key="canvasLocation" x="602.39999999999998" y="-615.74212893553226"/>
         </scene>
-        <!--CheckinsStoryBoard-->
-        <scene sceneID="M38-gp-ERb">
-            <objects>
-                <viewControllerPlaceholder storyboardName="CheckinsStoryBoard" id="zDl-f7-gXc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="E1T-lS-Zjo"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1HU-eV-uV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1610" y="198"/>
-        </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="IsI-mq-rWp">
             <objects>
@@ -205,12 +195,10 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Kim-Wg-5BM" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="QEA-rq-n4s">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
-                    <connections>
-                        <segue destination="zDl-f7-gXc" kind="relationship" relationship="viewControllers" id="QNO-2e-zLN"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FgN-M8-nqU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
