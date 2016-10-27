@@ -24,7 +24,6 @@
 		4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA131D2D50B1007028B1 /* Main.storyboard */; };
 		4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA161D2D50B1007028B1 /* Assets.xcassets */; };
 		4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */; };
-		4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */; };
 		4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */; };
 		4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2C1D2D6004007028B1 /* Checkin.swift */; };
 		4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */; };
@@ -61,7 +60,6 @@
 		4B17FA161D2D50B1007028B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B17FA191D2D50B1007028B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B17FA1B1D2D50B1007028B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CheckinsStoryBoard.storyboard; sourceTree = "<group>"; };
 		4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewController.swift; sourceTree = "<group>"; };
 		4B17FA2C1D2D6004007028B1 /* Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkin.swift; sourceTree = "<group>"; };
 		4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinManager.swift; sourceTree = "<group>"; };
@@ -174,7 +172,6 @@
 			children = (
 				4B17FA131D2D50B1007028B1 /* Main.storyboard */,
 				4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */,
-				4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -311,7 +308,6 @@
 			files = (
 				4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */,
 				4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */,
-				4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */,
 				4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */,
 				4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */,
 			);
