@@ -259,6 +259,7 @@
 				4B17FA0A1D2D50B1007028B1 /* Resources */,
 				3E3609995017164874FA0AA4 /* [CP] Embed Pods Frameworks */,
 				10E99D3FF5516CAEB2911DD8 /* [CP] Copy Pods Resources */,
+				4BAC486D1DC2A06B009A1850 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -349,6 +350,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barista/Pods-barista-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		4BAC486D1DC2A06B009A1850 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" d33994ba306ba33f1b147bf996196b8a479081fd ff3fa7def4702b6f1247e4650540ca0c77d0d69c2e6b7f981f9ddc19d504b447";
 		};
 		E680F296768ED6FEE605E098 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
