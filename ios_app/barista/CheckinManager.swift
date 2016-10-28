@@ -40,4 +40,28 @@ class CheckinManager {
             }
         }
     }
+    
+    static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
+        
+        let createCheckinURL: String = "http://mybarista.makingdevs.com/checkins/"
+        let parameters = ["username": checkinCommand.username!,
+                          "method": checkinCommand.method!,
+                          "state": checkinCommand.state!,
+                          "origin": checkinCommand.origin!,
+                          "price": checkinCommand.price!,
+                          "created_at": checkinCommand.created_at!] as [String : Any]
+        
+        Alamofire.request(createCheckinURL, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print("success")
+                case .failure(_):
+                    print("error")
+                }
+                
+        }
+    }
 }
