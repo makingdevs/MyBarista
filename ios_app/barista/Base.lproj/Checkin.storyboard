@@ -81,10 +81,10 @@
             </objects>
             <point key="canvasLocation" x="2754" y="197"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Checkin View Controller-->
         <scene sceneID="KDh-Gt-cLY">
             <objects>
-                <viewController id="ugf-dZ-6Xk" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="ugf-dZ-6Xk" customClass="CreateCheckinViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ou0-0a-jh8"/>
                         <viewControllerLayoutGuide type="bottom" id="M0h-6S-SDB"/>
