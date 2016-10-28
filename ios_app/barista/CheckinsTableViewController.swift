@@ -45,8 +45,10 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
-        checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
+        if segue.identifier == "ShowCheckin" {
+            let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
+            checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
+        }
     }
     
     func retriveCheckinsForManager(username: String){
