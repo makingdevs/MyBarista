@@ -24,14 +24,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        methodPickerView.delegate = self
-        statePickerView.delegate = self
-        methodPickerView.showsSelectionIndicator = true
-        methodPickerView.showsSelectionIndicator = true
-        methodPickerView.backgroundColor = UIColor.white
-        statePickerView.backgroundColor = UIColor.white
+        configurePickerViews()
         methodField.inputView = methodPickerView
         stateField.inputView = statePickerView
     }
@@ -63,5 +56,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             stateField.text = stateList[row]
         }
         self.view.endEditing(true)
+    }
+    
+    func configurePickerViews() {
+        methodPickerView.delegate = self
+        statePickerView.delegate = self
+        methodPickerView.backgroundColor = UIColor.white
+        statePickerView.backgroundColor = UIColor.white
     }
 }
