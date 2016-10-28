@@ -35,6 +35,7 @@
 		4B9836741DBAB4580027BE5D /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836731DBAB4580027BE5D /* DateExtensions.swift */; };
 		4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */; };
 		4B9836781DBACE760027BE5D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836771DBACE760027BE5D /* Formatter.swift */; };
+		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -72,6 +73,7 @@
 		4B9836731DBAB4580027BE5D /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExtensions.swift; sourceTree = "<group>"; };
 		4B9836771DBACE760027BE5D /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */,
 				4B07804D1D79C4CA0001A9D1 /* SignUpViewController.swift */,
 				4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */,
+				4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
 				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
 				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
+				4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */,
 				4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */,
 				4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */,
 				4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */,
