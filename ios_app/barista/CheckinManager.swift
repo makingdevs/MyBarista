@@ -58,11 +58,24 @@ class CheckinManager {
                 response in
                 switch response.result {
                 case .success:
-                    print("success")
-                case .failure(_):
-                    print("error")
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let checkinId = json["id"].intValue
+                        let checkinAuthor = json["author"].stringValue
+                        let checkinMethod = json["method"].stringValue
+                        let checkinState = json["state"].stringValue
+                        let checkinOrigin = json["origin"].stringValue
+                        let checkinPrice = json["price"].floatValue
+                        let checkinRating = json["rating"].floatValue
+                        let checkinNote = json["note"].stringValue
+                        let urlPhoto = json["s3_asset"]["url_file"].stringValue
+                        let checkinCreatedAt = json["created_at"].timeValue
+                        let checkin = Checkin(id: checkinId,author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt : checkinCreatedAt as Date?)
+                        onSuccess(checkin)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
                 }
-                
         }
     }
 }
