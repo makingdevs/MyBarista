@@ -22,6 +22,7 @@ class CheckinManager {
                     let json = JSON(value)
                     for(_, subJson) in json{
                         let checkinId = subJson["id"].intValue
+                        let checkinAuthor = subJson["author"].stringValue
                         let checkinMethod = subJson["method"].stringValue
                         let checkinOrigin = subJson["origin"].stringValue
                         let checkinState = subJson["state"].stringValue
@@ -30,7 +31,7 @@ class CheckinManager {
                         let checkinNote = subJson["note"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
-                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
