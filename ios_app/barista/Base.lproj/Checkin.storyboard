@@ -157,6 +157,9 @@
                                 <frame key="frameInset" minX="16" minY="597" width="343" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Check-In"/>
+                                <connections>
+                                    <action selector="createCheckin:" destination="ugf-dZ-6Xk" eventType="touchUpInside" id="fWY-ML-bV0"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -232,7 +235,7 @@
                     <tabBarItem key="tabBarItem" title="Timeline" image="item_timeline" selectedImage="item_timeline" id="Wgv-7z-k0C"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fzn-8M-Jqq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fzn-8M-Jqq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
