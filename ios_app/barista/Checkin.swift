@@ -10,6 +10,7 @@ import Foundation
 
 class Checkin {
     var id:NSInteger?
+    var author:String?
     var method:String?
     var note:String?
     var origin:String?
@@ -19,8 +20,9 @@ class Checkin {
     var urlPhoto:String?
     var createdAt:Date?
     
-    init(id:NSInteger, method:String, note:String, origin:String, state: String, price:Float, rating: Float, urlPhoto:String, createdAt:Date?){
+    init(id:NSInteger, author:String, method:String, note:String, origin:String, state: String, price:Float, rating: Float, urlPhoto:String, createdAt:Date?){
         self.id = id
+        self.author = author
         self.method = method
         self.note = note
         self.origin = origin
