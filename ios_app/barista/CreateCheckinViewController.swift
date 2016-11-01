@@ -11,6 +11,7 @@ import UIKit
 class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     
+    @IBOutlet weak var checkinPhoto: UIImageView!
     @IBOutlet weak var methodField: UITextField!
     @IBOutlet weak var stateField: UITextField!
     @IBOutlet weak var originField: UITextField!
@@ -74,6 +75,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
         checkInImagePicker.delegate = self
         present(checkInImagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        checkinPhoto.image = image
+        dismiss(animated: true, completion: nil)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
