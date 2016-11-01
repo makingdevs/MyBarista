@@ -26,7 +26,7 @@ class CheckinManager {
                         let checkinMethod = subJson["method"].stringValue
                         let checkinOrigin = subJson["origin"].stringValue
                         let checkinState = subJson["state"].stringValue
-                        let checkinPrice = subJson["price"].floatValue
+                        let checkinPrice = subJson["price"].stringValue
                         let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
@@ -65,7 +65,7 @@ class CheckinManager {
                         let checkinMethod = json["method"].stringValue
                         let checkinState = json["state"].stringValue
                         let checkinOrigin = json["origin"].stringValue
-                        let checkinPrice = json["price"].floatValue
+                        let checkinPrice = json["price"].stringValue
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
                         let urlPhoto = json["s3_asset"]["url_file"].stringValue
