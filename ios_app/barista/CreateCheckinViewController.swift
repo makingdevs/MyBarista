@@ -36,21 +36,32 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         state = stateList[0]
     }
     
-    @IBAction func createCheckin(_ sender: UIButton) {
-        price = priceField.text!
-        origin = priceField.text!
-        
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, created_at: Date())
-        
-        if checkinCommand.validateCommand() {
-            CheckinManager.create(
-                checkinCommand: checkinCommand,
-                onSuccess: { (checkin: Checkin) -> () in
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                onError: { (error: String) -> () in
-                    print(error.description)
-            })
+    @IBAction func createCheckin(_ sender: UIBarButtonItem) {
+        if let action = sender.title {
+            if action == "Done" {
+                price = priceField.text!
+                origin = priceField.text!
+                
+                checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!,
+                                                method: method,
+                                                state: state,
+                                                origin: origin,
+                                                price: price,
+                                                created_at: Date())
+                
+                if checkinCommand.validateCommand() {
+                    CheckinManager.create(
+                        checkinCommand: checkinCommand,
+                        onSuccess: { (checkin: Checkin) -> () in
+                            _ = self.tabBarController?.selectedIndex = 0
+                        },
+                        onError: { (error: String) -> () in
+                            print(error.description)
+                    })
+                }
+            } else {
+                _ = self.tabBarController?.selectedIndex = 0
+            }
         }
     }
     
