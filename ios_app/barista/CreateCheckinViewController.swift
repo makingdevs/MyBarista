@@ -19,35 +19,39 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
-    var methodList = ["Expreso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
+    var methodList = ["Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
     var stateList = ["Veracruz", "Chiapas", "Guerrero", "Oaxaca", "Puebla", "Otro"]
+    
     let userPreferences = UserDefaults.standard
     var checkinCommand: CheckinCommand!
-    var method:  String!
+    var method: String!
     var state: String!
     var origin: String!
-    var price: Float!
+    var price: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurePickerViews()
-        methodField.inputView = methodPickerView
-        stateField.inputView = statePickerView
+        initPickerViews()
+        method = methodList[0]
+        state = stateList[0]
     }
     
     @IBAction func createCheckin(_ sender: UIButton) {
-        price = Float(priceField.text!)!
+        price = priceField.text!
         origin = priceField.text!
+        
         checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, created_at: Date())
         
-        CheckinManager.create(
-            checkinCommand: checkinCommand,
-            onSuccess: { (checkin: Checkin) -> () in
-                print("Checkin was created")
-            },
-            onError: { (error: String) -> () in
-                print(error.description)
-        })
+        if checkinCommand.validateCommand() {
+            CheckinManager.create(
+                checkinCommand: checkinCommand,
+                onSuccess: { (checkin: Checkin) -> () in
+                    _ = self.navigationController?.popViewController(animated: true)
+                },
+                onError: { (error: String) -> () in
+                    print(error.description)
+            })
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -81,10 +85,14 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         self.view.endEditing(true)
     }
     
-    func configurePickerViews() {
+    func initPickerViews() {
         methodPickerView.delegate = self
         statePickerView.delegate = self
         methodPickerView.backgroundColor = UIColor.white
         statePickerView.backgroundColor = UIColor.white
+        methodField.inputView = methodPickerView
+        stateField.inputView = statePickerView
+        methodField.text = methodList[0]
+        stateField.text = stateList[0]
     }
 }
