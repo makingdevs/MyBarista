@@ -106,6 +106,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="checkinPhoto" destination="9zz-tD-TKS" id="uea-Nn-NM8"/>
                         <outlet property="methodField" destination="TKO-X5-2nO" id="c4c-zR-abF"/>
                         <outlet property="originField" destination="qpk-dW-0gy" id="wSD-oF-K6P"/>
                         <outlet property="priceField" destination="k4D-Zl-yXi" id="3H2-8S-2Ti"/>
@@ -123,7 +124,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Som-Sp-3kd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Check-In" image="item_check_in" id="Shy-qk-hp2"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mL0-CX-gKW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mL0-CX-gKW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
