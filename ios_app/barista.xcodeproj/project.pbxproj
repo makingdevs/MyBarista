@@ -37,6 +37,7 @@
 		4B9836781DBACE760027BE5D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836771DBACE760027BE5D /* Formatter.swift */; };
 		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
 		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
+		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -76,6 +77,7 @@
 		4B9836771DBACE760027BE5D /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
 		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
+		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA131D2D50B1007028B1 /* Main.storyboard */,
+				4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */,
 				4B2C504C1DC297A600105278 /* Checkin.storyboard */,
 				4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */,
 			);
@@ -318,6 +321,7 @@
 			files = (
 				4B2C504E1DC297A600105278 /* Checkin.storyboard in Resources */,
 				4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */,
+				4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */,
 				4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */,
 				4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */,
 				4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */,
@@ -448,6 +452,14 @@
 				4B2C504D1DC297A600105278 /* Base */,
 			);
 			name = Checkin.storyboard;
+			sourceTree = "<group>";
+		};
+		4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BC36E9B1DC8FE86007BDB38 /* Base */,
+			);
+			name = CreateCheckin.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
