@@ -22,12 +22,16 @@ class CheckinManager {
                     let json = JSON(value)
                     for(_, subJson) in json{
                         let checkinId = subJson["id"].intValue
+                        let checkinAuthor = subJson["author"].stringValue
                         let checkinMethod = subJson["method"].stringValue
                         let checkinOrigin = subJson["origin"].stringValue
-                        let checkinPrice = subJson["price"].floatValue
+                        let checkinState = subJson["state"].stringValue
+                        let checkinPrice = subJson["price"].stringValue
+                        let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
-                        let checkin = Checkin(id:checkinId, method:checkinMethod, note:checkinNote, origin: checkinOrigin, price:checkinPrice, urlPhoto: urlPhoto)
+                        let checkinCreatedAt = subJson["created_at"].timeValue
+                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
@@ -35,6 +39,43 @@ class CheckinManager {
             case .failure(let error):
                 onError(error.localizedDescription)
             }
+        }
+    }
+    
+    static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
+        
+        let createCheckinURL: String = "http://mybarista.makingdevs.com/checkins/"
+        let parameters = ["username": checkinCommand.username!,
+                          "method": checkinCommand.method!,
+                          "state": checkinCommand.state!,
+                          "origin": checkinCommand.origin!,
+                          "price": checkinCommand.price!,
+                          "created_at": checkinCommand.created_at!] as [String : Any]
+        
+        Alamofire.request(createCheckinURL, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let checkinId = json["id"].intValue
+                        let checkinAuthor = json["author"].stringValue
+                        let checkinMethod = json["method"].stringValue
+                        let checkinState = json["state"].stringValue
+                        let checkinOrigin = json["origin"].stringValue
+                        let checkinPrice = json["price"].stringValue
+                        let checkinRating = json["rating"].floatValue
+                        let checkinNote = json["note"].stringValue
+                        let urlPhoto = json["s3_asset"]["url_file"].stringValue
+                        let checkinCreatedAt = json["created_at"].timeValue
+                        let checkin = Checkin(id: checkinId,author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt : checkinCreatedAt as Date?)
+                        onSuccess(checkin)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
+                }
         }
     }
 }

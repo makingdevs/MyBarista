@@ -10,19 +10,26 @@ import Foundation
 
 class Checkin {
     var id:NSInteger?
+    var author:String?
     var method:String?
     var note:String?
     var origin:String?
-    var price:Float?
+    var state:String?
+    var price:String?
+    var rating:Float?
     var urlPhoto:String?
     var createdAt:Date?
     
-    init(id:NSInteger, method:String, note:String, origin:String, price:Float, urlPhoto:String){
+    init(id:NSInteger, author:String, method:String, note:String, origin:String, state: String, price:String, rating: Float, urlPhoto:String, createdAt:Date?){
         self.id = id
+        self.author = author
         self.method = method
         self.note = note
         self.origin = origin
+        self.state = state
         self.price = price
+        self.rating = rating
         self.urlPhoto = urlPhoto
+        self.createdAt = createdAt
     }
 }

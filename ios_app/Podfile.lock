@@ -1,15 +1,37 @@
 PODS:
   - Alamofire (4.0.1)
+  - Crashlytics (3.8.3):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.10)
+  - FDRatingView (0.0.4)
+  - Kingfisher (3.1.4)
   - SwiftyJSON (3.1.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - Crashlytics
+  - Fabric
+  - FDRatingView (from `https://github.com/FelixSFD/FDRatingView.git`)
+  - Kingfisher (~> 3.0)
   - SwiftyJSON
+
+EXTERNAL SOURCES:
+  FDRatingView:
+    :git: https://github.com/FelixSFD/FDRatingView.git
+
+CHECKOUT OPTIONS:
+  FDRatingView:
+    :commit: 835e7d10f81c95d011bdbb3fa23537ea0adcdc32
+    :git: https://github.com/FelixSFD/FDRatingView.git
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  FDRatingView: 6509d3c8ddb0119d5df1dd97d03aef5c0ccdf99f
+  Kingfisher: 6c67e3e57f2d81a9cfdfa25052cd86f33ceac9bb
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: 47f4542269a417e7c3a0101e7ba9e2c0489e7bd6
+PODFILE CHECKSUM: 6819187330bee4e63535005488889ee0c3efde99
 
 COCOAPODS: 1.1.0.rc.3

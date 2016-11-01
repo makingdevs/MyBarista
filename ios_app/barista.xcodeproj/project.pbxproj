@@ -24,11 +24,20 @@
 		4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA131D2D50B1007028B1 /* Main.storyboard */; };
 		4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA161D2D50B1007028B1 /* Assets.xcassets */; };
 		4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */; };
-		4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */; };
 		4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */; };
 		4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2C1D2D6004007028B1 /* Checkin.swift */; };
 		4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */; };
 		4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */; };
+		4B2C504E1DC297A600105278 /* Checkin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C504C1DC297A600105278 /* Checkin.storyboard */; };
+		4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */; };
+		4B98366E1DBA7D810027BE5D /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */; };
+		4B9836701DBA7DBD0027BE5D /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */; };
+		4B9836741DBAB4580027BE5D /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836731DBAB4580027BE5D /* DateExtensions.swift */; };
+		4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */; };
+		4B9836781DBACE760027BE5D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836771DBACE760027BE5D /* Formatter.swift */; };
+		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
+		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
+		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -55,11 +64,20 @@
 		4B17FA161D2D50B1007028B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B17FA191D2D50B1007028B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B17FA1B1D2D50B1007028B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CheckinsStoryBoard.storyboard; sourceTree = "<group>"; };
 		4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewController.swift; sourceTree = "<group>"; };
 		4B17FA2C1D2D6004007028B1 /* Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkin.swift; sourceTree = "<group>"; };
 		4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinManager.swift; sourceTree = "<group>"; };
 		4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
+		4B2C504D1DC297A600105278 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Checkin.storyboard; sourceTree = "<group>"; };
+		4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewCell.swift; sourceTree = "<group>"; };
+		4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
+		4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		4B9836731DBAB4580027BE5D /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExtensions.swift; sourceTree = "<group>"; };
+		4B9836771DBACE760027BE5D /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
+		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
+		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -126,6 +144,7 @@
 		4B17FA0E1D2D50B1007028B1 /* barista */ = {
 			isa = PBXGroup;
 			children = (
+				4B9836621DBA73940027BE5D /* Commons */,
 				4B07804A1D7758140001A9D1 /* Resources */,
 				4B17FA271D2D58D1007028B1 /* Delegate */,
 				4B17FA261D2D58C8007028B1 /* Controllers */,
@@ -160,8 +179,9 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA131D2D50B1007028B1 /* Main.storyboard */,
+				4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */,
+				4B2C504C1DC297A600105278 /* Checkin.storyboard */,
 				4B17FA181D2D50B1007028B1 /* LaunchScreen.storyboard */,
-				4B17FA281D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -199,6 +219,8 @@
 				4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */,
 				4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */,
 				4B07804D1D79C4CA0001A9D1 /* SignUpViewController.swift */,
+				4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */,
+				4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -211,11 +233,24 @@
 			name = Delegate;
 			sourceTree = "<group>";
 		};
+		4B9836621DBA73940027BE5D /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */,
+				4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */,
+				4B9836731DBAB4580027BE5D /* DateExtensions.swift */,
+				4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */,
+				4B9836771DBACE760027BE5D /* Formatter.swift */,
+			);
+			name = Commons;
+			sourceTree = "<group>";
+		};
 		8F8DCFB81DB7101B00F2B33E /* Commands */ = {
 			isa = PBXGroup;
 			children = (
 				8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */,
 				8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */,
+				4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -233,6 +268,7 @@
 				4B17FA0A1D2D50B1007028B1 /* Resources */,
 				3E3609995017164874FA0AA4 /* [CP] Embed Pods Frameworks */,
 				10E99D3FF5516CAEB2911DD8 /* [CP] Copy Pods Resources */,
+				4BAC486D1DC2A06B009A1850 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -283,9 +319,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B2C504E1DC297A600105278 /* Checkin.storyboard in Resources */,
 				4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */,
+				4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */,
 				4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */,
-				4B17FA291D2D5CDF007028B1 /* CheckinsStoryBoard.storyboard in Resources */,
 				4B17FA171D2D50B1007028B1 /* Assets.xcassets in Resources */,
 				4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */,
 			);
@@ -324,6 +361,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barista/Pods-barista-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4BAC486D1DC2A06B009A1850 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" d33994ba306ba33f1b147bf996196b8a479081fd ff3fa7def4702b6f1247e4650540ca0c77d0d69c2e6b7f981f9ddc19d504b447";
+		};
 		E680F296768ED6FEE605E098 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -348,20 +398,28 @@
 			files = (
 				8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */,
 				4B0780171D70C1980001A9D1 /* User.swift in Sources */,
+				4B98366E1DBA7D810027BE5D /* ImageViewExtensions.swift in Sources */,
 				4B07801B1D70C1AE0001A9D1 /* Venue.swift in Sources */,
 				8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */,
+				4B9836741DBAB4580027BE5D /* DateExtensions.swift in Sources */,
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
+				4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */,
 				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
 				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
+				4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */,
+				4B9836761DBAC74D0027BE5D /* JSONExtensions.swift in Sources */,
 				4B07804E1D79C4CA0001A9D1 /* SignUpViewController.swift in Sources */,
 				4B0780151D70C18C0001A9D1 /* S3Asset.swift in Sources */,
+				4B9836701DBA7DBD0027BE5D /* ViewExtensions.swift in Sources */,
 				4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */,
+				4B9836781DBACE760027BE5D /* Formatter.swift in Sources */,
 				8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */,
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
 				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
+				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
 				4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */,
 				4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */,
 				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
@@ -386,6 +444,22 @@
 				4B17FA191D2D50B1007028B1 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4B2C504C1DC297A600105278 /* Checkin.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B2C504D1DC297A600105278 /* Base */,
+			);
+			name = Checkin.storyboard;
+			sourceTree = "<group>";
+		};
+		4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BC36E9B1DC8FE86007BDB38 /* Base */,
+			);
+			name = CreateCheckin.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

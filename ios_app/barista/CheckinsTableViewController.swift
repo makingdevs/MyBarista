@@ -10,8 +10,8 @@ import UIKit
 
 class CheckinsTableViewController: UITableViewController {
     
-    var checkins:[Checkin] = []
-
+    var checkins:[Checkin] = [Checkin]()
+    let userPreferences = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,14 +19,20 @@ class CheckinsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        retriveCheckinsForManager()
+        if userPreferences.object(forKey: "currentUser") != nil {
+            retriveCheckinsForManager(username: userPreferences.string(forKey: "currentUser")!)
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewCell = tableView.dequeueReusableCell(withIdentifier: "checkinCell", for: indexPath)
-        viewCell.textLabel?.text = checkins[(indexPath as NSIndexPath).row].method
-        viewCell.detailTextLabel?.text = checkins[(indexPath as NSIndexPath).row].origin
-        
+        //TODO: Improve this piece of code
+        let viewCell = tableView.dequeueReusableCell(withIdentifier: "CheckinsTableViewCell", for: indexPath) as! CheckinsTableViewCell
+        let checkin = checkins[indexPath.row]
+        viewCell.methodLabel?.text = checkin.method
+        viewCell.coffeeOriginLabel?.text = checkin.state
+        viewCell.ratingView.loadRating(rating: checkin.rating!)
+        viewCell.createdAtLabel.text = checkin.createdAt?.relativeTime
+        viewCell.coffeeImageView.loadURL(url: checkin.urlPhoto!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         return viewCell
     }
     
@@ -39,18 +45,22 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
-        checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
+        if segue.identifier == "ShowCheckin" {
+            let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
+            checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
+        }
     }
     
-    func retriveCheckinsForManager(){
-        CheckinManager.findAllCheckinsByUser("cggg88jorge",
-          onSuccess: { (checkins:[Checkin]) -> () in
+    func retriveCheckinsForManager(username: String){
+        CheckinManager.findAllCheckinsByUser(
+            username,
+            onSuccess: { (checkins:[Checkin]) -> () in
                 self.checkins = checkins
                 self.tableView.reloadData()
-          },
-          onError:{ (error:String) -> () in
-            print("Errorsss" + error)
-          })
+            },
+            onError:{ (error:String) -> () in
+                print(error)
+        })
     }
 }
+
