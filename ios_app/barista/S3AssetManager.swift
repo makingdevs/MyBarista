@@ -7,7 +7,15 @@
 //
 
 import Foundation
+import Alamofire
 
 class S3AssetManager {
     
+    static func upload(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin) -> (), onError: @escaping (_ error: String) -> () ) {
+        
+        let checkinPhotoURL: String = "http://mybarista.makingdevs.com/checkin/photo/save"
+        let parameters = [
+            "url_file": uploadCommand.path
+        ]
+    }
 }
