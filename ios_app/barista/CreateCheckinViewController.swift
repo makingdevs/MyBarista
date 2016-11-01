@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     
     @IBOutlet weak var methodField: UITextField!
@@ -63,6 +63,17 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 _ = self.tabBarController?.selectedIndex = 0
             }
         }
+    }
+    
+    @IBAction func selectPicture(_ sender: UIBarButtonItem) {
+        let checkInImagePicker = UIImagePickerController()
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            checkInImagePicker.sourceType = .camera
+        } else {
+            checkInImagePicker.sourceType = .photoLibrary
+        }
+        checkInImagePicker.delegate = self
+        present(checkInImagePicker, animated: true, completion: nil)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
