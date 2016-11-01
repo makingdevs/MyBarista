@@ -201,6 +201,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="hem-Ks-qfg" kind="relationship" relationship="viewControllers" id="PJz-9w-8cv"/>
+                        <segue destination="5Tl-vj-oLN" kind="relationship" relationship="viewControllers" id="vpT-0W-dSB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FgN-M8-nqU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -215,7 +216,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IzV-L4-0Kv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="197"/>
+            <point key="canvasLocation" x="1525" y="96"/>
+        </scene>
+        <!--CreateCheckin-->
+        <scene sceneID="tso-JR-Gfl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CreateCheckin" id="5Tl-vj-oLN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="H7D-7U-wtg"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PQz-qJ-y44" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1557" y="197"/>
         </scene>
     </scenes>
     <resources>
