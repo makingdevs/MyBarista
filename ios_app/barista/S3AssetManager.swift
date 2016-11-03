@@ -11,9 +11,9 @@ import Alamofire
 
 class S3AssetManager {
     
-    static func upload(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin) -> (), onError: @escaping (_ error: String) -> () ) {
+    static func upload(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin) -> (), onPhotoError: @escaping (_ error: String) -> () ) {
         
-        let checkinPhotoURL: String = "http://mybarista.makingdevs.com/checkin/photo/save"
+        let assetURL = try! URLRequest(url: URL(string: "http://localhost:3000/checkin/photo/save")!, method: .post, headers: nil)
         
         Alamofire.upload(
             multipartFormData: { multipartFromData in
@@ -24,7 +24,7 @@ class S3AssetManager {
                     mimeType: uploadCommand.imageMimeType
                 )
             },
-            to: checkinPhotoURL,
+            with: assetURL,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
