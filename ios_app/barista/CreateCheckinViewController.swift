@@ -2,7 +2,7 @@
 //  CreateCheckinViewController.swift
 //  barista
 //
-//  Created by Ariana Santillán on 28/10/16.
+//  Created by MakingDevs on 28/10/16.
 //  Copyright © 2016 MakingDevs. All rights reserved.
 //
 
@@ -25,10 +25,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let userPreferences = UserDefaults.standard
     var checkinCommand: CheckinCommand!
+    var uploadCommand: UploadCommand!
     var method: String!
     var state: String!
     var origin: String!
     var price: String!
+    var image: UIImage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,29 +42,34 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
         if let action = sender.title {
             if action == "Done" {
-                price = priceField.text!
-                origin = priceField.text!
-                
-                checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!,
-                                                method: method,
-                                                state: state,
-                                                origin: origin,
-                                                price: price,
-                                                created_at: Date())
-                
-                if checkinCommand.validateCommand() {
-                    CheckinManager.create(
-                        checkinCommand: checkinCommand,
-                        onSuccess: { (checkin: Checkin) -> () in
-                            _ = self.tabBarController?.selectedIndex = 0
-                        },
-                        onError: { (error: String) -> () in
-                            print(error.description)
-                    })
-                }
+                uploadCommand = UploadCommand(userId: "32", image: image, imageName: "checkin", imageFileName: "checkin.png", imageMimeType: "image/png")
+                S3AssetManager.upload(
+                    uploadCommand: uploadCommand,
+                    onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
+                        self.getCheckInForm(assetId: photoCheckin.id)
+                    },
+                    onPhotoError: { (error: String) -> () in
+                        print(error.description)
+                })
             } else {
                 _ = self.tabBarController?.selectedIndex = 0
             }
+        }
+    }
+    
+    func getCheckInForm(assetId: String){
+        price = priceField.text!
+        origin = priceField.text!
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, created_at: Date())
+        if checkinCommand.validateCommand() {
+            CheckinManager.create(
+                checkinCommand: checkinCommand,
+                onSuccess: { (checkin: Checkin) -> () in
+                    _ = self.tabBarController?.selectedIndex = 0
+                },
+                onError: { (error: String) -> () in
+                    print(error.description)
+            })
         }
     }
     
@@ -78,8 +85,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        checkinPhoto.image = image
+        self.image = info[UIImagePickerControllerOriginalImage] as! UIImage!
+        checkinPhoto.image = self.image
         dismiss(animated: true, completion: nil)
     }
     
