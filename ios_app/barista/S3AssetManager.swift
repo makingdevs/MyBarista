@@ -14,11 +14,11 @@ class S3AssetManager {
     static func upload(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin) -> (), onPhotoError: @escaping (_ error: String) -> () ) {
         
         let assetURL = try! URLRequest(url: URL(string: "http://localhost:3000/checkin/photo/save")!, method: .post, headers: nil)
+        let image: Data = UIImageJPEGRepresentation(uploadCommand.image, 0.5)!
         
         Alamofire.upload(
             multipartFormData: { multipartFromData in
-                multipartFromData.append(
-                    UIImagePNGRepresentation(uploadCommand.image)!,
+                multipartFromData.append(image,
                     withName: uploadCommand.imageName,
                     fileName: uploadCommand.imageFileName,
                     mimeType: uploadCommand.imageMimeType
@@ -37,4 +37,6 @@ class S3AssetManager {
                 }
         })
     }
+    
+    
 }
