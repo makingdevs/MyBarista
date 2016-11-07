@@ -18,7 +18,7 @@ class CheckinCommand {
     var idS3Asset: Int?
     var created_at: Date?
     
-    init(username: String, method: String, state: String, origin: String, price: String, idS3Asset: Int, created_at: Date) {
+    init(username: String, method: String, state: String, origin: String, price: String, idS3Asset: Int?, created_at: Date) {
         self.username = username
         self.method = method
         self.state = state
