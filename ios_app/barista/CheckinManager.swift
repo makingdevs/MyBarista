@@ -14,7 +14,7 @@ class CheckinManager {
     
     static func findAllCheckinsByUser(_ username: String, onSuccess:@escaping (_ checkins:[Checkin]) -> (), onError:@escaping (_ error:String) -> () ){
         let parameters = ["username":username]
-        Alamofire.request("http://mybarista.makingdevs.com/checkins/", parameters: parameters).responseJSON{ response in
+        Alamofire.request("http://localhost:3000/checkins/", parameters: parameters).responseJSON{ response in
             switch response.result {
             case .success:
                 var checkins = [Checkin]()
@@ -29,9 +29,12 @@ class CheckinManager {
                         let checkinPrice = subJson["price"].stringValue
                         let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
+                        let checkinS3Id = subJson["s3_asset"]["id"].intValue
+                        let checkinS3Url = subJson["s3_asset"]["url_file"].stringValue
                         let urlPhoto = subJson["s3_asset"]["url_file"].stringValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
-                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
+                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
+                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, urlPhoto: urlPhoto, createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
@@ -44,12 +47,13 @@ class CheckinManager {
     
     static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
         
-        let createCheckinURL: String = "http://mybarista.makingdevs.com/checkins/"
+        let createCheckinURL: String = "http://localhost:3000/checkins/"
         let parameters = ["username": checkinCommand.username!,
                           "method": checkinCommand.method!,
                           "state": checkinCommand.state!,
                           "origin": checkinCommand.origin!,
                           "price": checkinCommand.price!,
+                          "idS3asset": checkinCommand.idS3Asset,
                           "created_at": checkinCommand.created_at!] as [String : Any]
         
         Alamofire.request(createCheckinURL, method: .post, parameters: parameters)
@@ -68,9 +72,12 @@ class CheckinManager {
                         let checkinPrice = json["price"].stringValue
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
+                        let checkinS3Id = json["s3_asset"]["id"].intValue
+                        let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let urlPhoto = json["s3_asset"]["url_file"].stringValue
                         let checkinCreatedAt = json["created_at"].timeValue
-                        let checkin = Checkin(id: checkinId,author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, urlPhoto: urlPhoto, createdAt : checkinCreatedAt as Date?)
+                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
+                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, urlPhoto: urlPhoto ,createdAt : checkinCreatedAt as Date?)
                         onSuccess(checkin)
                     }
                 case .failure(let error):
