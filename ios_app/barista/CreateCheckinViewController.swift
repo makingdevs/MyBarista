@@ -64,7 +64,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func getCheckInForm(assetId: Int?){
         price = priceField.text!
-        origin = priceField.text!
+        origin = originField.text!
         checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, created_at: Date())
         if checkinCommand.validateCommand() {
             CheckinManager.create(
