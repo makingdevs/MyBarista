@@ -87,6 +87,7 @@
                                             <action selector="selectPicture:" destination="cHO-lH-kyL" id="Hgx-Eg-kKf"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Place" id="JkQ-dC-B9N"/>
                                 </items>
                             </toolbar>
                         </subviews>
