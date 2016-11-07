@@ -10,7 +10,6 @@ import UIKit
 
 class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    
     @IBOutlet weak var checkinPhoto: UIImageView!
     @IBOutlet weak var methodField: UITextField!
     @IBOutlet weak var stateField: UITextField!
@@ -40,24 +39,30 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
+        // Improve this piece of code
         if let action = sender.title {
-            if action == "Done" {
-                uploadCommand = UploadCommand(image: image)
-                S3AssetManager.uploadCheckinPhoto(
-                    uploadCommand: uploadCommand,
-                    onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
-                        self.getCheckInForm(assetId: photoCheckin.id)
-                    },
-                    onPhotoError: { (error: String) -> () in
-                        print(error.description)
-                })
-            } else {
+            switch action {
+            case "Done":
+                if image != nil {
+                    uploadCommand = UploadCommand(image: image)
+                    S3AssetManager.uploadCheckinPhoto(
+                        uploadCommand: uploadCommand,
+                        onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
+                            self.getCheckInForm(assetId: photoCheckin.id)
+                        },
+                        onPhotoError: { (error: String) -> () in
+                            print(error.description)
+                    })
+                } else {
+                    getCheckInForm(assetId: nil)
+                }
+            default:
                 _ = self.tabBarController?.selectedIndex = 0
             }
         }
     }
     
-    func getCheckInForm(assetId: Int){
+    func getCheckInForm(assetId: Int?){
         price = priceField.text!
         origin = priceField.text!
         checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, created_at: Date())
