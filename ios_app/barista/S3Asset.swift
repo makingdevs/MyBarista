@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+class S3Asset {
+    var id: Int?
+    var urlFile: String?
+    
+    init(id: Int, urlFile: String) {
+        self.id = id
+        self.urlFile = urlFile
+    }
+}
