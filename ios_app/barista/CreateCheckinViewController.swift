@@ -42,8 +42,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
         if let action = sender.title {
             if action == "Done" {
-                uploadCommand = UploadCommand(userId: "32", image: image, imageName: "checkin", imageFileName: "checkin.png", imageMimeType: "image/png")
-                S3AssetManager.upload(
+                uploadCommand = UploadCommand(image: image)
+                S3AssetManager.uploadCheckinPhoto(
                     uploadCommand: uploadCommand,
                     onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
                         self.getCheckInForm(assetId: photoCheckin.id)
@@ -57,10 +57,10 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
-    func getCheckInForm(assetId: String){
+    func getCheckInForm(assetId: Int){
         price = priceField.text!
         origin = priceField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, created_at: Date())
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, created_at: Date())
         if checkinCommand.validateCommand() {
             CheckinManager.create(
                 checkinCommand: checkinCommand,
