@@ -57,13 +57,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lugar" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xyK-O3-Za2">
-                                <frame key="frameInset" minX="16" minY="524" width="262" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Origen del grano" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52Q-fH-Fwm">
                                 <frame key="frameInset" minX="16" minY="390" width="343" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -87,9 +80,15 @@
                                             <action selector="selectPicture:" destination="cHO-lH-kyL" id="Hgx-Eg-kKf"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Place" id="JkQ-dC-B9N"/>
                                 </items>
                             </toolbar>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Agrega un lugar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5Z-yL-XDf">
+                                <frame key="frameInset" minX="16" minY="524" width="262" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -112,12 +111,40 @@
                         <outlet property="originField" destination="qpk-dW-0gy" id="wSD-oF-K6P"/>
                         <outlet property="priceField" destination="k4D-Zl-yXi" id="3H2-8S-2Ti"/>
                         <outlet property="stateField" destination="030-Co-Ixn" id="pUZ-VB-dLh"/>
-                        <outlet property="venueField" destination="xyK-O3-Za2" id="ORu-wr-Ckh"/>
+                        <outlet property="venueLabel" destination="E5Z-yL-XDf" id="p0Y-ng-BWh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mv6-mI-qyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2912.8000000000002" y="625.63718140929541"/>
+            <point key="canvasLocation" x="2634" y="626"/>
+        </scene>
+        <!--Venue Table View Controller-->
+        <scene sceneID="ILh-9W-BwJ">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U89-Os-Ko4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController storyboardIdentifier="venueCheckin" id="YTt-pe-oK6" customClass="VenueTableViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zoU-qz-h23">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="d6I-Ev-vrw">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6I-Ev-vrw" id="lOW-Rq-O6i">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="YTt-pe-oK6" id="PDA-fO-p3c"/>
+                            <outlet property="delegate" destination="YTt-pe-oK6" id="WDS-My-BTn"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="3222" y="626"/>
         </scene>
         <!--Check-In-->
         <scene sceneID="Hbh-Fv-bc2">
@@ -125,7 +152,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Som-Sp-3kd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Check-In" image="item_check_in" id="Shy-qk-hp2"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mL0-CX-gKW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mL0-CX-gKW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
