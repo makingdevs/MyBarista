@@ -41,7 +41,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func selectVenue() {
-        venueLabel.text = "Espressarte"
+        let venueController: VenueTableViewController = VenueTableViewController()
+        self.navigationController?.pushViewController(venueController, animated: true)
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
