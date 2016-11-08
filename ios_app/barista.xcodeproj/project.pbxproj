@@ -38,6 +38,8 @@
 		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
 		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
 		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
+		4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */; };
+		4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */; };
 		4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE430FA1DC945540055D280 /* S3AssetManager.swift */; };
 		4BE430FD1DC94B820055D280 /* UploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE430FC1DC94B820055D280 /* UploadCommand.swift */; };
 		4BE887551DD2302D009576FC /* VenueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE887541DD2302D009576FC /* VenueTableViewController.swift */; };
@@ -83,6 +85,8 @@
 		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
 		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
 		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
+		4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoursquareManager.swift; sourceTree = "<group>"; };
+		4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCommand.swift; sourceTree = "<group>"; };
 		4BE430FA1DC945540055D280 /* S3AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3AssetManager.swift; sourceTree = "<group>"; };
 		4BE430FC1DC94B820055D280 /* UploadCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadCommand.swift; sourceTree = "<group>"; };
 		4BE887541DD2302D009576FC /* VenueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 				8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */,
 				4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */,
 				4BE430FA1DC945540055D280 /* S3AssetManager.swift */,
+				4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 				8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */,
 				4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */,
 				4BE430FC1DC94B820055D280 /* UploadCommand.swift */,
+				4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -437,6 +443,7 @@
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
 				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
+				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
 				4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */,
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,
 				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
@@ -444,6 +451,7 @@
 				4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */,
 				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
 				4B0780111D70C1640001A9D1 /* GPSLocation.swift in Sources */,
+				4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
