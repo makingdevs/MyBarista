@@ -42,6 +42,7 @@
 		4BE430FD1DC94B820055D280 /* UploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE430FC1DC94B820055D280 /* UploadCommand.swift */; };
 		4BE887551DD2302D009576FC /* VenueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE887541DD2302D009576FC /* VenueTableViewController.swift */; };
 		4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE887561DD240B4009576FC /* VenueTableViewCell.swift */; };
+		4BE887591DD25FBB009576FC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE887581DD25FBB009576FC /* CoreLocation.framework */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -86,6 +87,7 @@
 		4BE430FC1DC94B820055D280 /* UploadCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadCommand.swift; sourceTree = "<group>"; };
 		4BE887541DD2302D009576FC /* VenueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewController.swift; sourceTree = "<group>"; };
 		4BE887561DD240B4009576FC /* VenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewCell.swift; sourceTree = "<group>"; };
+		4BE887581DD25FBB009576FC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE887591DD25FBB009576FC /* CoreLocation.framework in Frameworks */,
 				AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +121,7 @@
 		1FC7915E400035CA60ABDDE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4BE887581DD25FBB009576FC /* CoreLocation.framework */,
 				D66AE602CAFECCA888BC7735 /* Pods_barista.framework */,
 			);
 			name = Frameworks;
