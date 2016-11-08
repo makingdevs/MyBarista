@@ -14,8 +14,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var methodField: UITextField!
     @IBOutlet weak var stateField: UITextField!
     @IBOutlet weak var originField: UITextField!
-    @IBOutlet weak var venueField: UITextField!
     @IBOutlet weak var priceField: UITextField!
+    @IBOutlet weak var venueLabel: UILabel!
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
@@ -36,6 +36,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         initPickerViews()
         method = methodList[0]
         state = stateList[0]
+        let venueAction = UITapGestureRecognizer(target: self, action: #selector(CreateCheckinViewController.selectVenue))
+        venueLabel.addGestureRecognizer(venueAction)
+    }
+    
+    func selectVenue() {
+        venueLabel.text = "Espressarte"
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
