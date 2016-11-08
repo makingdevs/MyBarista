@@ -41,8 +41,9 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func selectVenue() {
-        let venueController: VenueTableViewController = VenueTableViewController()
-        self.navigationController?.pushViewController(venueController, animated: true)
+        let storyboard: UIStoryboard = UIStoryboard(name: "CreateCheckin", bundle: nil)
+        let venueController = storyboard.instantiateViewController(withIdentifier: "venueCheckin")
+        self.present(venueController, animated: true, completion: nil)
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
