@@ -7,14 +7,26 @@
 //
 
 import UIKit
+import CoreLocation
 
-class VenueTableViewController: UITableViewController {
+class VenueTableViewController: UITableViewController, CLLocationManagerDelegate {
     
     var venues: [Venue] = [Venue]()
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSampleVenues()
+        initLocationManager()
+        // Getting the current location
+        let latitude = locationManager.location?.coordinate.latitude;
+        let longitude = locationManager.location?.coordinate.longitude;
+    }
+    
+    func initLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -31,10 +43,5 @@ class VenueTableViewController: UITableViewController {
         venueCell.venueName.text = venue.name
         venueCell.venueLocation.text = venue.location
         return venueCell
-    }
-    
-    func loadSampleVenues() {
-        let venue = Venue(id: 0, name: "Espressarte", location: "México")
-        venues += [venue, venue, venue]
     }
 }
