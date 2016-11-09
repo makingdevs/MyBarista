@@ -11,9 +11,9 @@ import Foundation
 class Venue {
     var id: Int
     var name: String
-    var location: String
+    var location: [String]
     
-    init(id: Int, name: String, location: String) {
+    init(id: Int, name: String, location: [String]) {
         self.id = id
         self.name = name
         self.location = location
