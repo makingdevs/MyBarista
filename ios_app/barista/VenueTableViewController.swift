@@ -34,11 +34,12 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         venueCommand = VenueCommand(latitude: latitude!, longitude: longitude!, query: "")
         FoursquareManager.getVenuesNear(
             venueCommand: venueCommand,
-            onSuccess: { (venue: Venue) -> () in
-                // Something here
+            onSuccess: { (venues: [Venue]) -> () in
+                self.venues = venues
+                self.tableView.reloadData()
             },
             onError: { (error: String) -> () in
-                // Something here
+                print(error)
         })
     }
 
