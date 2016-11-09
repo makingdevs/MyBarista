@@ -13,13 +13,12 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     
     var venues: [Venue] = [Venue]()
     let locationManager = CLLocationManager()
+    var venueCommand: VenueCommand!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initLocationManager()
-        // Getting the current location
-        let latitude = locationManager.location?.coordinate.latitude;
-        let longitude = locationManager.location?.coordinate.longitude;
+        fetchVenues()
     }
     
     func initLocationManager() {
@@ -27,6 +26,20 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    func fetchVenues() {
+        let latitude = locationManager.location?.coordinate.latitude.description;
+        let longitude = locationManager.location?.coordinate.longitude.description;
+        venueCommand = VenueCommand(latitude: latitude!, longitude: longitude!, query: "")
+        FoursquareManager.getVenuesNear(
+            venueCommand: venueCommand,
+            onSuccess: { (venue: Venue) -> () in
+                // Something here
+            },
+            onError: { (error: String) -> () in
+                // Something here
+        })
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
