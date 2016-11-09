@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 protocol VenueDelegate {
-    func updateVenueName(venueSelected: String)
+    func updateVenueName(venueSelected: Venue)
 }
 
 class VenueTableViewController: UITableViewController, CLLocationManagerDelegate {
@@ -66,8 +66,8 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: false)
-        let venue: Venue = venues[indexPath.row]
-        self.delegate.updateVenueName(venueSelected: venue.name)
+        let venue: Venue = self.venues[indexPath.row]
+        self.delegate.updateVenueName(venueSelected: venue)
         _ = self.navigationController?.popViewController(animated: true)
     }
 }
