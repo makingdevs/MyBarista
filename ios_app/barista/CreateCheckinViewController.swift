@@ -29,7 +29,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var state: String!
     var origin: String!
     var price: String!
-    var venue: Venue?
+    var venue: Venue!
     var image: UIImage!
 
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func updateVenueName(venueSelected: Venue) {
         self.venue = venueSelected
-        self.venueName.setTitle(venue?.name, for: .normal)
+        self.venueName.setTitle(venue.name, for: .normal)
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
@@ -71,7 +71,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(assetId: Int?){
         price = priceField.text!
         origin = originField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, idVenueFoursquare: venue?.id, created_at: Date())
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, idVenueFoursquare: venue.id, created_at: Date())
         if checkinCommand.validateCommand() {
             CheckinManager.create(
                 checkinCommand: checkinCommand,
