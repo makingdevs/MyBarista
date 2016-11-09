@@ -8,10 +8,11 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class FoursquareManager {
     
-    static func getVenuesNear(venueCommand: VenueCommand, onSuccess: @escaping (_ venue: Venue) -> (), onError: @escaping (_ error: String) -> () ) {
+    static func getVenuesNear(venueCommand: VenueCommand, onSuccess: @escaping (_ venues: [Venue]) -> (), onError: @escaping (_ error: String) -> () ) {
         let venuesURL: String = "http://localhost:3000/foursquare/searh_venues"
         let parameters = [ "latitude": venueCommand.latitude,
                            "longitude": venueCommand.longitude,
@@ -23,7 +24,17 @@ class FoursquareManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
+                    var venues = [Venue]()
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        for(_, json) in json {
+                            let venueId = json["id"].intValue
+                            let venueName = json["name"].stringValue
+                            let venue = Venue(id: venueId, name: venueName, location: "")
+                            venues.append(venue)
+                        }
+                    }
+                    onSuccess(venues)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
