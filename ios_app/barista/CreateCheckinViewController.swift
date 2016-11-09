@@ -15,7 +15,6 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var stateField: UITextField!
     @IBOutlet weak var originField: UITextField!
     @IBOutlet weak var priceField: UITextField!
-    @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var venueName: UIButton!
     
     let methodPickerView = UIPickerView()
@@ -37,14 +36,6 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         initPickerViews()
         method = methodList[0]
         state = stateList[0]
-        let venueAction = UITapGestureRecognizer(target: self, action: #selector(CreateCheckinViewController.selectVenue))
-        venueLabel.addGestureRecognizer(venueAction)
-    }
-    
-    func selectVenue() {
-        let storyboard: UIStoryboard = UIStoryboard(name: "CreateCheckin", bundle: nil)
-        let venueController = storyboard.instantiateViewController(withIdentifier: "venueCheckin")
-        self.present(venueController, animated: true, completion: nil)
     }
     
     func updateVenueName(venueSelected: String) {
