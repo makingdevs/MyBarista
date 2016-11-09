@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, VenueDelegate {
     
     @IBOutlet weak var checkinPhoto: UIImageView!
     @IBOutlet weak var methodField: UITextField!
@@ -16,6 +16,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var originField: UITextField!
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var venueLabel: UILabel!
+    @IBOutlet weak var venueName: UIButton!
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
@@ -44,6 +45,10 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         let storyboard: UIStoryboard = UIStoryboard(name: "CreateCheckin", bundle: nil)
         let venueController = storyboard.instantiateViewController(withIdentifier: "venueCheckin")
         self.present(venueController, animated: true, completion: nil)
+    }
+    
+    func updateVenueName(venueSelected: String) {
+        self.venueName.setTitle(venueSelected, for: .normal)
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
@@ -143,5 +148,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         stateField.inputView = statePickerView
         methodField.text = methodList[0]
         stateField.text = stateList[0]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "performSelectVenue" {
+            let venueTableViewController = segue.destination as! VenueTableViewController
+            venueTableViewController.delegate = self
+        }
     }
 }
