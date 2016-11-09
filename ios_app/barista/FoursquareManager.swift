@@ -30,7 +30,8 @@ class FoursquareManager {
                         for(_, json) in json {
                             let venueId = json["id"].intValue
                             let venueName = json["name"].stringValue
-                            let venue = Venue(id: venueId, name: venueName, location: "")
+                            let venueFormatedAddress = json["location"]["formattedAddress"].arrayValue.map({$0.stringValue})
+                            let venue = Venue(id: venueId, name: venueName, location: venueFormatedAddress)
                             venues.append(venue)
                         }
                     }
