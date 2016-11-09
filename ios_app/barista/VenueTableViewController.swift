@@ -60,7 +60,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         let venueCell = tableView.dequeueReusableCell(withIdentifier: "VenueTableViewCell", for: indexPath) as! VenueTableViewCell
         let venue: Venue = venues[indexPath.row]
         venueCell.venueName.text = venue.name
-        venueCell.venueLocation.text = venue.location
+        venueCell.venueLocation.text = venue.location.joined(separator: "\n")
         return venueCell
     }
     
