@@ -101,7 +101,7 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="YTt-pe-oK6" kind="show" id="5vo-xG-ltr"/>
+                                    <segue destination="YTt-pe-oK6" kind="show" identifier="performSelectVenue" id="5vo-xG-ltr"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -127,6 +127,7 @@
                         <outlet property="priceField" destination="k4D-Zl-yXi" id="3H2-8S-2Ti"/>
                         <outlet property="stateField" destination="030-Co-Ixn" id="pUZ-VB-dLh"/>
                         <outlet property="venueLabel" destination="E5Z-yL-XDf" id="p0Y-ng-BWh"/>
+                        <outlet property="venueName" destination="6JL-UP-eGg" id="PpH-GB-ayF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mv6-mI-qyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -142,11 +143,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="VenueTableViewCell" rowHeight="80" id="d6I-Ev-vrw" customClass="VenueTableViewCell" customModule="barista" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="VenueTableViewCell" rowHeight="80" id="d6I-Ev-vrw" customClass="VenueTableViewCell" customModule="barista" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6I-Ev-vrw" id="lOW-Rq-O6i">
-                                    <frame key="frameInset" width="375" height="79.5"/>
+                                    <frame key="frameInset" width="375" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Venue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="CuA-TC-Y7l">
@@ -193,7 +194,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Som-Sp-3kd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Check-In" image="item_check_in" id="Shy-qk-hp2"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mL0-CX-gKW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mL0-CX-gKW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
