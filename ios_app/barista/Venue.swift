@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class Venue {
+    var id: String
+    var name: String
+    var location: [String]
+    
+    init(id: String, name: String, location: [String]) {
+        self.id = id
+        self.name = name
+        self.location = location
+    }
+}

@@ -2,9 +2,9 @@ PODS:
   - Alamofire (4.0.1)
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.10)
+  - Fabric (1.6.11)
   - FDRatingView (0.0.4)
-  - Kingfisher (3.1.4)
+  - Kingfisher (3.2.0)
   - SwiftyJSON (3.1.1)
 
 DEPENDENCIES:
@@ -27,9 +27,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
-  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FDRatingView: 6509d3c8ddb0119d5df1dd97d03aef5c0ccdf99f
-  Kingfisher: 6c67e3e57f2d81a9cfdfa25052cd86f33ceac9bb
+  Kingfisher: 50407d1d5dbc34965009d425a286342ff36a84ea
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
 PODFILE CHECKSUM: 6819187330bee4e63535005488889ee0c3efde99
