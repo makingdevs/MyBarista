@@ -16,13 +16,21 @@ class CheckinViewController: UIViewController {
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var checkinPhotoView: UIImageView!
+    @IBOutlet weak var venueLabel: UILabel!
+    @IBOutlet weak var noteLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = checkin.method
+        showCheckinDetail()
+    }
+    
+    func showCheckinDetail () {
+        checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price!)"
-        checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
+        venueLabel.text = checkin.venue
+        noteLabel.text = checkin.note
     }
 }
