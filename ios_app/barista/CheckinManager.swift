@@ -53,8 +53,8 @@ class CheckinManager {
                           "state": checkinCommand.state!,
                           "origin": checkinCommand.origin!,
                           "price": checkinCommand.price!,
-                          "idS3asset": checkinCommand.idS3Asset,
-                          "idVenueFoursquare": checkinCommand.idVenueFoursquare,
+                          "idS3asset": checkinCommand.idS3Asset ?? "",
+                          "idVenueFoursquare": checkinCommand.idVenueFoursquare ?? "",
                           "created_at": checkinCommand.created_at!] as [String : Any]
         
         Alamofire.request(createCheckinURL, method: .post, parameters: parameters)
