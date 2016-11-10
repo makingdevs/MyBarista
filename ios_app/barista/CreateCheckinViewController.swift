@@ -29,7 +29,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var state: String!
     var origin: String!
     var price: String!
-    var image: UIImage!
+    var image: UIImage?
     var venue: String?
 
     override func viewDidLoad() {
@@ -49,8 +49,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let action = sender.title {
             switch action {
             case "Done":
-                if image != nil {
-                    uploadCommand = UploadCommand(image: image)
+                uploadCommand = UploadCommand(image: image)
+                if uploadCommand.validateCommand() {
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
                         onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
