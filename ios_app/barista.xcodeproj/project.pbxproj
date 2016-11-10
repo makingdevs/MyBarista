@@ -48,6 +48,7 @@
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
+		8FB582321DD5133A00150059 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB582311DD5133A00150059 /* Constants.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
+		8FB582311DD5133A00150059 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
 		D66AE602CAFECCA888BC7735 /* Pods_barista.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barista.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +263,7 @@
 				4B9836731DBAB4580027BE5D /* DateExtensions.swift */,
 				4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */,
 				4B9836771DBACE760027BE5D /* Formatter.swift */,
+				8FB582311DD5133A00150059 /* Constants.swift */,
 			);
 			name = Commons;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
 				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
+				8FB582321DD5133A00150059 /* Constants.swift in Sources */,
 				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
 				4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */,
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,

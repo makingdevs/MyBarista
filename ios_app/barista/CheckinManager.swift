@@ -14,7 +14,7 @@ class CheckinManager {
     
     static func findAllCheckinsByUser(_ username: String, onSuccess:@escaping (_ checkins:[Checkin]) -> (), onError:@escaping (_ error:String) -> () ){
         let parameters = ["username":username]
-        Alamofire.request("http://localhost:3000/checkins/", parameters: parameters).responseJSON{ response in
+        Alamofire.request("\(Constants.urlBase)/checkins/", parameters: parameters).responseJSON{ response in
             switch response.result {
             case .success:
                 var checkins = [Checkin]()
@@ -47,7 +47,7 @@ class CheckinManager {
     
     static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
         
-        let createCheckinURL: String = "http://localhost:3000/checkins/"
+        let createCheckinURL: String = "\(Constants.urlBase)/checkins/"
         let parameters = ["username": checkinCommand.username!,
                           "method": checkinCommand.method!,
                           "state": checkinCommand.state!,
