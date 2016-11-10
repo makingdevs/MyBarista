@@ -15,7 +15,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var stateField: UITextField!
     @IBOutlet weak var originField: UITextField!
     @IBOutlet weak var priceField: UITextField!
-    @IBOutlet weak var venueName: UIButton!
+    @IBOutlet weak var venueLabel: UIButton!
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
@@ -29,8 +29,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var state: String!
     var origin: String!
     var price: String!
-    var venue: Venue!
     var image: UIImage!
+    var venue: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +40,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func updateVenueName(venueSelected: Venue) {
-        self.venue = venueSelected
-        self.venueName.setTitle(venue.name, for: .normal)
+        self.venue = venueSelected.id
+        self.venueLabel.setTitle(venueSelected.name, for: .normal)
     }
     
     @IBAction func createCheckin(_ sender: UIBarButtonItem) {
@@ -54,13 +54,13 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
                         onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
-                            self.getCheckInForm(assetId: photoCheckin.id)
+                            self.getCheckInForm(asset: photoCheckin.id)
                         },
                         onPhotoError: { (error: String) -> () in
                             print(error.description)
                     })
                 } else {
-                    getCheckInForm(assetId: nil)
+                    getCheckInForm(asset: nil)
                 }
             default:
                 _ = self.tabBarController?.selectedIndex = 0
@@ -68,10 +68,10 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
-    func getCheckInForm(assetId: Int?){
+    func getCheckInForm(asset: Int?){
         price = priceField.text!
         origin = originField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: assetId, idVenueFoursquare: venue.id, created_at: Date())
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: Date())
         if checkinCommand.validateCommand() {
             CheckinManager.create(
                 checkinCommand: checkinCommand,
@@ -79,9 +79,18 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                     _ = self.tabBarController?.selectedIndex = 0
                 },
                 onError: { (error: String) -> () in
-                    print(error.description)
+                    self.present(self.showErrorAlert(message: error.description), animated: true)
             })
+        } else {
+            self.present(self.showErrorAlert(message: checkinCommand.errorMessage!), animated: true)
         }
+    }
+    
+    func showErrorAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Algo salió mal", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
+        alert.addAction(okAction)
+        return alert
     }
     
     @IBAction func selectPicture(_ sender: UIBarButtonItem) {
