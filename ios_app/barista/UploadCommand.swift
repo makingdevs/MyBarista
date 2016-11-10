@@ -11,9 +11,13 @@ import UIKit
 
 class UploadCommand {
 
-    var image: UIImage
+    var image: UIImage?
     
-    init(image: UIImage) {
+    init(image: UIImage?) {
         self.image = image
+    }
+    
+    func validateCommand() -> Bool {
+        return image != nil
     }
 }
