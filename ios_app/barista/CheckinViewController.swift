@@ -33,4 +33,17 @@ class CheckinViewController: UIViewController {
         venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
     }
+    
+    /* This method updates check-in note
+     TODO: Replace this view for the correct one */
+    @IBAction func addNote(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Describe tu experiencia", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        let okAction = UIAlertAction(title: "Guardar", style: .default) { (action) in
+            let answer = alert.textFields?[0].text
+            self.noteLabel.text = answer
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
