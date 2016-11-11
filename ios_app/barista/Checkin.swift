@@ -39,4 +39,9 @@ class Checkin {
         self.id = id
         self.note = note
     }
+    
+    init(id: Int, rating: Float) {
+        self.id = id
+        self.rating = rating
+    }
 }

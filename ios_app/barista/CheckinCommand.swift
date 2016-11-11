@@ -16,6 +16,7 @@ class CheckinCommand {
     var origin: String?
     var price: String?
     var note: String?
+    var rating: Float?
     var idS3Asset: Int?
     var idVenueFoursquare: String?
     var created_at: Date?
@@ -35,6 +36,11 @@ class CheckinCommand {
     init(id: Int, note: String) {
         self.id = id
         self.note = note
+    }
+    
+    init(id: Int, rating: Float) {
+        self.id = id
+        self.rating = rating
     }
     
     func validateCommand() -> Bool {
