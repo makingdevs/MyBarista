@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class CheckinsTableViewCell: UITableViewCell {
     
@@ -14,8 +15,8 @@ class CheckinsTableViewCell: UITableViewCell {
     @IBOutlet weak var coffeeImageView: UIImageView!
     @IBOutlet weak var methodLabel: UILabel!
     @IBOutlet weak var coffeeOriginLabel: UILabel!
-    @IBOutlet weak var ratingView: UIView!
     @IBOutlet weak var createdAtLabel: UILabel!
+    @IBOutlet weak var ratingView: CosmosView!
     
 
     override func awakeFromNib() {
