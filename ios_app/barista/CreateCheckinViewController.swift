@@ -24,7 +24,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let userPreferences = UserDefaults.standard
     var uploadCommand: UploadCommand!
-    var checkInAction: String?
+    var checkInAction: String = "CREATE"
     var checkin: Checkin?
     var method: String!
     var state: String!
@@ -82,17 +82,32 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(asset: Int?){
         price = priceField.text!
         origin = originField.text!
-        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: Date())
+        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
         if checkinCommand.validateCommand() {
-            CheckinManager.create(
-                checkinCommand: checkinCommand,
-                onSuccess: { (checkin: Checkin) -> () in
-                    _ = self.tabBarController?.selectedIndex = 0
-                },
-                onError: { (error: String) -> () in
-                    self.present(self.showErrorAlert(message: error.description), animated: true)
-            })
-        } else {
+            switch checkInAction {
+            case "CREATE":
+                CheckinManager.create(
+                    checkinCommand: checkinCommand,
+                    onSuccess: { (checkin: Checkin) -> () in
+                        _ = self.tabBarController?.selectedIndex = 0
+                    },
+                    onError: { (error: String) -> () in
+                        self.present(self.showErrorAlert(message: error.description), animated: true)
+                })
+            case "UPDATE":
+                CheckinManager.update(
+                    checkinId: checkin?.id,
+                    checkinCommand: checkinCommand,
+                    onSuccess: { (checkin: Checkin) -> () in
+                        print(checkin)
+                    },
+                    onError: { (error: String) -> () in
+                        print(error.description)
+                })
+            default:
+                break
+            }
+                    } else {
             self.present(self.showErrorAlert(message: checkinCommand.errorMessage!), animated: true)
         }
     }
