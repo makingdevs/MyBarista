@@ -39,11 +39,25 @@ class CheckinViewController: UIViewController {
     @IBAction func addNote(_ sender: UIButton) {
         let alert = UIAlertController(title: "Describe tu experiencia", message: nil, preferredStyle: .alert)
         alert.addTextField()
+        alert.textFields?[0].text = self.checkin.note
         let okAction = UIAlertAction(title: "Guardar", style: .default) { (action) in
-            let answer = alert.textFields?[0].text
-            self.noteLabel.text = answer
+            let note = alert.textFields?[0].text
+            self.updateNoteInCheckIn(note: note!)
         }
         alert.addAction(okAction)
         present(alert, animated: true)
+    }
+    
+    func updateNoteInCheckIn(note: String) {
+        let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, note: note)
+        CheckinManager.saveNote(
+            checkinCommand: checkinCommand,
+            onSuccess: { (checkin: Checkin) -> () in
+                self.checkin = checkin
+                self.noteLabel.text = checkin.note
+        },
+            onError: { (error: String) -> () in
+                print(error)
+        })
     }
 }
