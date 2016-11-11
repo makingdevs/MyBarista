@@ -47,8 +47,21 @@ class CheckinViewController: UIViewController {
         }
         /* Sends check-in rating to the server */
         ratingView.didFinishTouchingCosmos = { rating in
-            self.checkin.rating = Float(rating)
+            self.updateRatingInCheckIn(rating: Float(rating))
         }
+    }
+    
+    /* Updates check-in rating */
+    func updateRatingInCheckIn(rating: Float) {
+        let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, rating: rating)
+        CheckinManager.saveRating(
+            checkinCommand: checkinCommand,
+            onSuccess: { (checkin: Checkin) -> () in
+                self.checkin = checkin
+        },
+            onError: { (error: String) -> () in
+                print(error)
+        })
     }
     
     @IBAction func addNote(_ sender: UIButton) {
