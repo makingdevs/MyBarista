@@ -23,8 +23,9 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var stateList = ["Veracruz", "Chiapas", "Guerrero", "Oaxaca", "Puebla", "Otro"]
     
     let userPreferences = UserDefaults.standard
-    var checkinCommand: CheckinCommand!
     var uploadCommand: UploadCommand!
+    var checkInAction: String?
+    var checkin: Checkin?
     var method: String!
     var state: String!
     var origin: String!
@@ -35,8 +36,18 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         initPickerViews()
+        setCurrentCheckIn()
         method = methodList[0]
         state = stateList[0]
+    }
+    
+    func setCurrentCheckIn() {
+        checkinPhoto.loadURL(url: checkin != nil ? (checkin?.s3Asset?.urlFile)! : "", placeholder: #imageLiteral(resourceName: "coffee_holder"))
+        methodField.text = checkin?.method
+        stateField.text = checkin?.state
+        originField.text = checkin?.origin
+        priceField.text = checkin?.price
+        venueLabel.setTitle(!(checkin?.venue?.isEmpty)! ? checkin?.venue : "Agrega un lugar", for: .normal)
     }
     
     func updateVenueName(venueSelected: Venue) {
@@ -71,7 +82,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(asset: Int?){
         price = priceField.text!
         origin = originField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: Date())
+        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: Date())
         if checkinCommand.validateCommand() {
             CheckinManager.create(
                 checkinCommand: checkinCommand,
