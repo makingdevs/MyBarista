@@ -93,7 +93,8 @@ class CheckinViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "performUpdate" {
             let createCheckinController = segue.destination as! CreateCheckinViewController
-            createCheckinController.actionCheckin = "UPDATE"
+            createCheckinController.checkin = self.checkin
+            createCheckinController.checkInAction = "UPDATE"
         }
     }
 }
