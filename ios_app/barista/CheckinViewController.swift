@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class CheckinViewController: UIViewController {
     
@@ -18,11 +19,14 @@ class CheckinViewController: UIViewController {
     @IBOutlet weak var checkinPhotoView: UIImageView!
     @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var ratingView: CosmosView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = checkin.method
         showCheckinDetail()
+        initRatingView()
     }
     
     func showCheckinDetail () {
@@ -32,10 +36,22 @@ class CheckinViewController: UIViewController {
         priceLabel!.text = "$ \(checkin.price!)"
         venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
+        ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
     }
     
-    /* This method updates check-in note
-     TODO: Replace this view for the correct one */
+    func initRatingView() {
+        ratingView.settings.fillMode = .half
+        ratingView.rating = Double(checkin.rating!)
+        /* Updates UI as the rating is being changed by touching the view */
+        ratingView.didTouchCosmos = { rating in
+            self.ratingLabel.text = rating == 0 ? "0" : String(rating)
+        }
+        /* Sends check-in rating to the server */
+        ratingView.didFinishTouchingCosmos = { rating in
+            self.checkin.rating = Float(rating)
+        }
+    }
+    
     @IBAction func addNote(_ sender: UIButton) {
         let alert = UIAlertController(title: "Describe tu experiencia", message: nil, preferredStyle: .alert)
         alert.addTextField()
@@ -48,6 +64,7 @@ class CheckinViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    /* Updates check-in note */
     func updateNoteInCheckIn(note: String) {
         let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, note: note)
         CheckinManager.saveNote(
