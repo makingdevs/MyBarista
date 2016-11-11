@@ -14,7 +14,7 @@ class UserManager {
     
     static func signin(loginCommand: LoginCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
-        let signinURL: String = "http://localhost:3000/login/user/"
+        let signinURL: String = "\(Constants.urlBase)/login/user/"
         let parameters = ["username": loginCommand.username!,
                           "password": loginCommand.password!]
         
@@ -49,7 +49,7 @@ class UserManager {
     
     static func signup(registrationCommand: RegistrtionCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
-        let signupURL: String = "http://192.168.1.243:3000/users/"
+        let signupURL: String = "\(Constants.urlBase)/users/"
         let parameters = ["email": registrationCommand.email!,
                           "username": registrationCommand.username!,
                           "password": registrationCommand.password!]

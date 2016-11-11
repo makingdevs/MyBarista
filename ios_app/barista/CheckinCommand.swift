@@ -9,12 +9,14 @@
 import Foundation
 
 class CheckinCommand {
-    
+    var id: Int?
     var username: String?
     var method: String?
     var state: String?
     var origin: String?
     var price: String?
+    var note: String?
+    var rating: Float?
     var idS3Asset: Int?
     var idVenueFoursquare: String?
     var created_at: Date?
@@ -29,6 +31,16 @@ class CheckinCommand {
         self.idS3Asset = idS3Asset
         self.idVenueFoursquare = idVenueFoursquare
         self.created_at = created_at
+    }
+    
+    init(id: Int, note: String) {
+        self.id = id
+        self.note = note
+    }
+    
+    init(id: Int, rating: Float) {
+        self.id = id
+        self.rating = rating
     }
     
     func validateCommand() -> Bool {

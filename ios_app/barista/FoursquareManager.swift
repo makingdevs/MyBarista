@@ -13,7 +13,7 @@ import SwiftyJSON
 class FoursquareManager {
     
     static func getVenuesNear(venueCommand: VenueCommand, onSuccess: @escaping (_ venues: [Venue]) -> (), onError: @escaping (_ error: String) -> () ) {
-        let venuesURL: String = "http://localhost:3000/foursquare/searh_venues"
+        let venuesURL: String = "\(Constants.urlBase)/foursquare/searh_venues"
         let parameters = [ "latitude": venueCommand.latitude,
                            "longitude": venueCommand.longitude,
                            "query": venueCommand.query]
