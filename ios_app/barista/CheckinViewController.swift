@@ -40,8 +40,7 @@ class CheckinViewController: UIViewController {
     }
     
     func initRatingView() {
-        ratingView.settings.fillMode = .half
-        ratingView.rating = Double(checkin.rating!)
+        ratingView.loadRating(rating: checkin.rating!)
         /* Updates UI as the rating is being changed by touching the view */
         ratingView.didTouchCosmos = { rating in
             self.ratingLabel.text = rating == 0 ? "0" : String(rating)
