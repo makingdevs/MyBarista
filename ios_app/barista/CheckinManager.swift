@@ -86,4 +86,28 @@ class CheckinManager {
                 }
         }
     }
+    
+    static func saveNote(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
+        let updateNoteUrl: String = "\(Constants.urlBase)/checkins/\(checkinCommand.id!)/setNote"
+        let parameters = ["id": checkinCommand.id ?? "",
+                          "note": checkinCommand.note ?? ""] as [String : Any]
+        
+        Alamofire.request(updateNoteUrl, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON() {
+                response in
+                switch response.result {
+                case .success:
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let checkinId = json["id"].intValue
+                        let checkinNote = json["note"].stringValue
+                        let checkin = Checkin(id: checkinId, note: checkinNote)
+                        onSuccess(checkin)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
+                }
+        }
+    }
 }
