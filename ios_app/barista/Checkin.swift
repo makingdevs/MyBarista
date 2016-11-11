@@ -9,7 +9,7 @@
 import Foundation
 
 class Checkin {
-    var id:NSInteger?
+    var id:NSInteger
     var author:String?
     var method:String?
     var note:String?
@@ -33,5 +33,10 @@ class Checkin {
         self.s3Asset = s3Asset
         self.venue = venue
         self.createdAt = createdAt
+    }
+    
+    init(id: Int, note: String) {
+        self.id = id
+        self.note = note
     }
 }
