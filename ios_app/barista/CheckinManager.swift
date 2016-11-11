@@ -87,6 +87,10 @@ class CheckinManager {
         }
     }
     
+    static func update(checkinId: Int, checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
+        
+    }
+    
     static func saveNote(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
         let updateNoteUrl: String = "\(Constants.urlBase)/checkins/\(checkinCommand.id!)/setNote"
         let parameters = ["id": checkinCommand.id ?? "",
