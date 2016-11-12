@@ -90,7 +90,7 @@ class CheckinManager {
     }
     
     static func update(checkinId: Int, checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
-        
+        // TODO: Server is changing the id venue, if I send an idVenue 1 it gives me another diffrent everytime
         let updateCheckinURL: String = "\(Constants.urlBase)/checkins/\(checkinId)/updateCheckin"
         let parameters = ["id": checkinId,
                           "username": checkinCommand.username!,
