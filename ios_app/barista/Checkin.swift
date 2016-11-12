@@ -19,10 +19,9 @@ class Checkin {
     var rating:Float?
     var s3Asset: S3Asset?
     var venue: String?
-    var venueId: String?
     var createdAt:Date?
     
-    init(id:NSInteger, author:String, method:String, note:String, origin:String, state: String, price:String, rating: Float, s3Asset: S3Asset, venue: String?, venueId: String?, createdAt:Date?){
+    init(id:NSInteger, author:String, method:String, note:String, origin:String, state: String, price:String, rating: Float, s3Asset: S3Asset, venue: String?, createdAt:Date?){
         self.id = id
         self.author = author
         self.method = method
@@ -33,7 +32,6 @@ class Checkin {
         self.rating = rating
         self.s3Asset = s3Asset
         self.venue = venue
-        self.venueId = venueId
         self.createdAt = createdAt
     }
     
