@@ -32,9 +32,10 @@ class CheckinManager {
                         let checkinS3Id = subJson["s3_asset"]["id"].intValue
                         let checkinS3Url = subJson["s3_asset"]["url_file"].stringValue
                         let checkinVenue = subJson["venue"]["name"].stringValue
+                        let checkinVenueId = subJson["venue_id"].intValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
                         let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: String(checkinVenueId), createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
@@ -76,9 +77,10 @@ class CheckinManager {
                         let checkinS3Id = json["s3_asset"]["id"].intValue
                         let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
+                        let checkinVenueId = json["venue_id"].stringValue
                         let checkinCreatedAt = json["created_at"].timeValue
                         let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: checkinVenueId, createdAt: checkinCreatedAt as Date?)
                         onSuccess(checkin)
                     }
                 case .failure(let error):
@@ -89,6 +91,46 @@ class CheckinManager {
     
     static func update(checkinId: Int, checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
         
+        let updateCheckinURL: String = "\(Constants.urlBase)/checkins/\(checkinId)/updateCheckin"
+        let parameters = ["id": checkinId,
+                          "username": checkinCommand.username!,
+                          "method": checkinCommand.method!,
+                          "state": checkinCommand.state!,
+                          "origin": checkinCommand.origin!,
+                          "price": checkinCommand.price!,
+                          "idS3asset": checkinCommand.idS3Asset ?? "",
+                          "idVenueFoursquare": checkinCommand.idVenueFoursquare ?? "",
+                          "created_at": checkinCommand.created_at!] as [String : Any]
+        
+        Alamofire.request(updateCheckinURL, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let checkinId = json["id"].intValue
+                        let checkinAuthor = json["author"].stringValue
+                        let checkinMethod = json["method"].stringValue
+                        let checkinState = json["state"].stringValue
+                        let checkinOrigin = json["origin"].stringValue
+                        let checkinPrice = json["price"].stringValue
+                        let checkinRating = json["rating"].floatValue
+                        let checkinNote = json["note"].stringValue
+                        let checkinS3Id = json["s3_asset"]["id"].intValue
+                        let checkinS3Url = json["s3_asset"]["url_file"].stringValue
+                        let checkinVenue = json["venue"]["name"].stringValue
+                        let checkinVenueId = json["venue_id"].intValue
+                        let checkinCreatedAt = json["created_at"].timeValue
+                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
+                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: String(checkinVenueId), createdAt: checkinCreatedAt as Date?)
+                        onSuccess(checkin)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
+                }
+        }
     }
     
     static func saveNote(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
