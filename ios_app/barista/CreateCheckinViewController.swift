@@ -68,13 +68,17 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                             self.getCheckInForm(asset: photoCheckin.id)
                         },
                         onPhotoError: { (error: String) -> () in
-                            print(error.description)
+                            print("Photo: \(error.description)")
                     })
                 } else {
                     getCheckInForm(asset: nil)
                 }
             default:
-                _ = self.tabBarController?.selectedIndex = 0
+                if checkInAction == "CREATE" {
+                    _ = self.tabBarController?.selectedIndex = 0
+                } else {
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }
@@ -82,7 +86,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(asset: Int?){
         price = priceField.text!
         origin = originField.text!
-        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
+        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: checkInAction == "CREATE" ? venue : checkin?.venueId, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
         if checkinCommand.validateCommand() {
             switch checkInAction {
             case "CREATE":
@@ -96,13 +100,14 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 })
             case "UPDATE":
                 CheckinManager.update(
-                    checkinId: checkin?.id,
+                    checkinId: (checkin?.id)!,
                     checkinCommand: checkinCommand,
                     onSuccess: { (checkin: Checkin) -> () in
                         print(checkin)
+                        _ = self.navigationController?.popViewController(animated: true)
                     },
                     onError: { (error: String) -> () in
-                        print(error.description)
+                        print("Check-in: \(error.description)")
                 })
             default:
                 break
