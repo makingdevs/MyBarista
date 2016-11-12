@@ -32,10 +32,9 @@ class CheckinManager {
                         let checkinS3Id = subJson["s3_asset"]["id"].intValue
                         let checkinS3Url = subJson["s3_asset"]["url_file"].stringValue
                         let checkinVenue = subJson["venue"]["name"].stringValue
-                        let checkinVenueId = subJson["venue_id"].intValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
                         let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: String(checkinVenueId), createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
                         checkins.append(checkin)
                     }
                 }
@@ -77,10 +76,9 @@ class CheckinManager {
                         let checkinS3Id = json["s3_asset"]["id"].intValue
                         let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
-                        let checkinVenueId = json["venue_id"].stringValue
                         let checkinCreatedAt = json["created_at"].timeValue
                         let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: checkinVenueId, createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
                         onSuccess(checkin)
                     }
                 case .failure(let error):
@@ -90,7 +88,6 @@ class CheckinManager {
     }
     
     static func update(checkinId: Int, checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
-        // TODO: Server is changing the id venue, if I send an idVenue 1 it gives me another diffrent everytime
         let updateCheckinURL: String = "\(Constants.urlBase)/checkins/\(checkinId)/updateCheckin"
         let parameters = ["id": checkinId,
                           "username": checkinCommand.username!,
@@ -121,10 +118,9 @@ class CheckinManager {
                         let checkinS3Id = json["s3_asset"]["id"].intValue
                         let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
-                        let checkinVenueId = json["venue_id"].intValue
                         let checkinCreatedAt = json["created_at"].timeValue
                         let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, venueId: String(checkinVenueId), createdAt: checkinCreatedAt as Date?)
+                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
                         onSuccess(checkin)
                     }
                 case .failure(let error):
