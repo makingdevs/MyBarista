@@ -86,7 +86,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(asset: Int?){
         price = priceField.text!
         origin = originField.text!
-        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: checkInAction == "CREATE" ? venue : checkin?.venueId, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
+        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
         if checkinCommand.validateCommand() {
             switch checkInAction {
             case "CREATE":
