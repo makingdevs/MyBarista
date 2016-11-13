@@ -9,7 +9,7 @@
 import UIKit
 import Cosmos
 
-class CheckinViewController: UIViewController {
+class CheckinViewController: UIViewController, CheckinDelegate {
     
     var checkin:Checkin!
     
@@ -37,6 +37,12 @@ class CheckinViewController: UIViewController {
         venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
         ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
+    }
+    
+    /* Protocol function that updates check-in after edition */
+    func updateCheckinDetail(currentCheckin: Checkin) {
+        self.checkin = currentCheckin
+        showCheckinDetail()
     }
     
     func initRatingView() {
@@ -95,6 +101,7 @@ class CheckinViewController: UIViewController {
             let createCheckinController = segue.destination as! CreateCheckinViewController
             createCheckinController.checkin = self.checkin
             createCheckinController.checkInAction = "UPDATE"
+            createCheckinController.delegate = self
         }
     }
 }
