@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CheckinDelegate {
+    func updateCheckinDetail(currentCheckin: Checkin)
+}
+
 class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, VenueDelegate {
     
     @IBOutlet weak var checkinPhoto: UIImageView!
@@ -24,6 +28,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let userPreferences = UserDefaults.standard
     var uploadCommand: UploadCommand!
+    var delegate: CheckinDelegate!
     var checkInAction: String = "CREATE"
     var checkin: Checkin?
     var method: String!
@@ -103,7 +108,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                     checkinId: (checkin?.id)!,
                     checkinCommand: checkinCommand,
                     onSuccess: { (checkin: Checkin) -> () in
-                        print(checkin)
+                        self.delegate.updateCheckinDetail(currentCheckin: checkin)
                         _ = self.navigationController?.popViewController(animated: true)
                     },
                     onError: { (error: String) -> () in
