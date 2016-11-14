@@ -21,33 +21,23 @@ class CheckinManager {
                 if let value = response.result.value {
                     let json = JSON(value)
                     for(_, subJson) in json{
+                        let checkinId = subJson["id"].intValue
+                        let checkinAuthor = subJson["author"].stringValue
+                        let checkinMethod = subJson["method"].stringValue
+                        let checkinOrigin = subJson["origin"].stringValue
+                        let checkinState = subJson["state"].stringValue
+                        let checkinPrice = subJson["price"].stringValue
+                        let checkinRating = subJson["rating"].floatValue
+                        let checkinNote = subJson["note"].stringValue
+                        let checkinVenue = subJson["venue"]["name"].stringValue
+                        let checkinCreatedAt = subJson["created_at"].timeValue
                         if subJson["s3_asset"].exists() {
-                            let checkinId = subJson["id"].intValue
-                            let checkinAuthor = subJson["author"].stringValue
-                            let checkinMethod = subJson["method"].stringValue
-                            let checkinOrigin = subJson["origin"].stringValue
-                            let checkinState = subJson["state"].stringValue
-                            let checkinPrice = subJson["price"].stringValue
-                            let checkinRating = subJson["rating"].floatValue
-                            let checkinNote = subJson["note"].stringValue
-                            let checkinVenue = subJson["venue"]["name"].stringValue
-                            let checkinCreatedAt = subJson["created_at"].timeValue
                             let s3assetId = subJson["s3_asset"]["id"].intValue
                             let s3assetUrl = subJson["s3_asset"]["url_file"].stringValue
                             let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
                             let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
                             checkins.append(checkin)
                         } else {
-                            let checkinId = subJson["id"].intValue
-                            let checkinAuthor = subJson["author"].stringValue
-                            let checkinMethod = subJson["method"].stringValue
-                            let checkinOrigin = subJson["origin"].stringValue
-                            let checkinState = subJson["state"].stringValue
-                            let checkinPrice = subJson["price"].stringValue
-                            let checkinRating = subJson["rating"].floatValue
-                            let checkinNote = subJson["note"].stringValue
-                            let checkinVenue = subJson["venue"]["name"].stringValue
-                            let checkinCreatedAt = subJson["created_at"].timeValue
                             let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
                             checkins.append(checkin)
                         }
@@ -61,7 +51,6 @@ class CheckinManager {
     }
     
     static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
-        
         let createCheckinURL: String = "\(Constants.urlBase)/checkins/"
         let parameters = ["username": checkinCommand.username!,
                           "method": checkinCommand.method!,
@@ -88,13 +77,18 @@ class CheckinManager {
                         let checkinPrice = json["price"].stringValue
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
-                        let checkinS3Id = json["s3_asset"]["id"].intValue
-                        let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
                         let checkinCreatedAt = json["created_at"].timeValue
-                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
-                        onSuccess(checkin)
+                        if json["s3_asset"].exists() {
+                            let s3assetId = json["s3_asset"]["id"].intValue
+                            let s3assetUrl = json["s3_asset"]["url_file"].stringValue
+                            let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            onSuccess(checkin)
+                        } else {
+                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            onSuccess(checkin)
+                        }
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
@@ -130,13 +124,18 @@ class CheckinManager {
                         let checkinPrice = json["price"].stringValue
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
-                        let checkinS3Id = json["s3_asset"]["id"].intValue
-                        let checkinS3Url = json["s3_asset"]["url_file"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
                         let checkinCreatedAt = json["created_at"].timeValue
-                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
-                        onSuccess(checkin)
+                        if json["s3_asset"].exists() {
+                            let s3assetId = json["s3_asset"]["id"].intValue
+                            let s3assetUrl = json["s3_asset"]["url_file"].stringValue
+                            let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            onSuccess(checkin)
+                        } else {
+                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            onSuccess(checkin)
+                        }
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
