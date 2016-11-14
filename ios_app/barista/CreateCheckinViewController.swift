@@ -28,6 +28,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let userPreferences = UserDefaults.standard
     var uploadCommand: UploadCommand!
+    var checkinCommand: CheckinCommand!
     var delegate: CheckinDelegate!
     var checkInAction: String = "CREATE"
     var checkin: Checkin?
@@ -69,21 +70,22 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let action = sender.title {
             switch action {
             case "Done":
+                getCheckInForm(asset: nil)
                 uploadCommand = UploadCommand(image: image)
-                if uploadCommand.validateCommand() {
+                if uploadCommand.validateCommand() && checkinCommand.validateCommand() {
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
                         onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
-                            self.getCheckInForm(asset: photoCheckin.id)
+                            self.saveCheckin(asset: photoCheckin.id)
                         },
                         onPhotoError: { (error: String) -> () in
                             print("Photo: \(error.description)")
                     })
                 } else {
                     if checkin?.s3Asset != nil {
-                        getCheckInForm(asset: checkin?.s3Asset?.id)
+                        saveCheckin(asset: checkin?.s3Asset?.id)
                     } else {
-                        getCheckInForm(asset: nil)
+                        saveCheckin(asset: nil)
                     }
                 }
             default:
@@ -96,38 +98,45 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
-    func getCheckInForm(asset: Int?){
+    func saveCheckin (asset: Int?) {
+        getCheckInForm(asset: asset)
+        switch checkInAction {
+        case "CREATE":
+            CheckinManager.create(
+                checkinCommand: checkinCommand,
+                onSuccess: { (checkin: Checkin) -> () in
+                    _ = self.tabBarController?.selectedIndex = 0
+                },
+                onError: { (error: String) -> () in
+                    self.present(self.showErrorAlert(message: error.description), animated: true)
+            })
+        case "UPDATE":
+            CheckinManager.update(
+                checkinId: (checkin?.id)!,
+                checkinCommand: checkinCommand,
+                onSuccess: { (checkin: Checkin) -> () in
+                    self.delegate.updateCheckinDetail(currentCheckin: checkin)
+                    _ = self.navigationController?.popViewController(animated: true)
+                },
+                onError: { (error: String) -> () in
+                    self.present(self.showErrorAlert(message: error.description), animated: true)
+            })
+        default:
+            break
+        }
+    }
+    
+    func getCheckInForm(asset: Int?) {
         price = priceField.text!
         origin = originField.text!
-        let checkinCommand: CheckinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
-        if checkinCommand.validateCommand() {
-            switch checkInAction {
-            case "CREATE":
-                CheckinManager.create(
-                    checkinCommand: checkinCommand,
-                    onSuccess: { (checkin: Checkin) -> () in
-                        _ = self.tabBarController?.selectedIndex = 0
-                    },
-                    onError: { (error: String) -> () in
-                        self.present(self.showErrorAlert(message: error.description), animated: true)
-                })
-            case "UPDATE":
-                CheckinManager.update(
-                    checkinId: (checkin?.id)!,
-                    checkinCommand: checkinCommand,
-                    onSuccess: { (checkin: Checkin) -> () in
-                        self.delegate.updateCheckinDetail(currentCheckin: checkin)
-                        _ = self.navigationController?.popViewController(animated: true)
-                    },
-                    onError: { (error: String) -> () in
-                        print("Check-in: \(error.description)")
-                })
-            default:
-                break
-            }
-                    } else {
-            self.present(self.showErrorAlert(message: checkinCommand.errorMessage!), animated: true)
-        }
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!,
+                                        method: method,
+                                        state: state,
+                                        origin: origin,
+                                        price: price,
+                                        idS3Asset: asset,
+                                        idVenueFoursquare: venue,
+                                        created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
     }
     
     func showErrorAlert(message: String) -> UIAlertController {
