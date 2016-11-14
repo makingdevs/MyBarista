@@ -99,6 +99,10 @@ class CheckinViewController: UIViewController, CheckinDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        /* Pass check-in data to CircleFlavour container view */
+        let circleFlavorController = segue.destination as! CircleFlavourViewController
+        circleFlavorController.checkin = self.checkin
+        
         if segue.identifier == "performUpdate" {
             let createCheckinController = segue.destination as! CreateCheckinViewController
             createCheckinController.checkin = self.checkin
