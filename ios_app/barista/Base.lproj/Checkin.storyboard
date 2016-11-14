@@ -464,10 +464,10 @@
             </objects>
             <point key="canvasLocation" x="4321" y="900"/>
         </scene>
-        <!--View Controller-->
+        <!--Circle Flavour View Controller-->
         <scene sceneID="6uJ-9Q-ceH">
             <objects>
-                <viewController id="Y62-2i-ywt" sceneMemberID="viewController">
+                <viewController id="Y62-2i-ywt" customClass="CircleFlavourViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Zgz-DH-9jl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
