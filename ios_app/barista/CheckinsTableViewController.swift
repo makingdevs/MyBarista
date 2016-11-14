@@ -32,7 +32,9 @@ class CheckinsTableViewController: UITableViewController {
         viewCell.coffeeOriginLabel?.text = checkin.state
         viewCell.ratingView.loadRating(rating: checkin.rating!)
         viewCell.createdAtLabel.text = checkin.createdAt?.relativeTime
-        viewCell.coffeeImageView.loadURL(url: (checkin.s3Asset?.urlFile)!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
+        if (checkin.s3Asset != nil) {
+            viewCell.coffeeImageView.loadURL(url: (checkin.s3Asset?.urlFile)!)
+        }
         return viewCell
     }
     

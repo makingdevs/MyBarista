@@ -41,18 +41,22 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         initPickerViews()
-        setCurrentCheckIn()
         method = methodList[0]
         state = stateList[0]
+        if checkin != nil {
+            setCurrentCheckIn()
+        }
     }
     
     func setCurrentCheckIn() {
-        checkinPhoto.loadURL(url: checkin != nil ? (checkin?.s3Asset?.urlFile)! : "", placeholder: #imageLiteral(resourceName: "coffee_holder"))
         methodField.text = checkin?.method
         stateField.text = checkin?.state
         originField.text = checkin?.origin
         priceField.text = checkin?.price
-        venueLabel.setTitle(!(checkin?.venue?.isEmpty)! ? checkin?.venue : "Agrega un lugar", for: .normal)
+        venueLabel.setTitle( checkin?.venue ?? "Agrega un lugar", for: .normal)
+        if checkin?.s3Asset != nil {
+            checkinPhoto.loadURL(url: (checkin?.s3Asset?.urlFile)!)
+        }
     }
     
     func updateVenueName(venueSelected: Venue) {

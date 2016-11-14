@@ -30,13 +30,15 @@ class CheckinViewController: UIViewController, CheckinDelegate {
     }
     
     func showCheckinDetail () {
-        checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price!)"
         venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
         ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
+        if checkin.s3Asset != nil {
+            checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!)
+        }
     }
     
     /* Protocol function that updates check-in after edition */
