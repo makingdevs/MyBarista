@@ -80,7 +80,11 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                             print("Photo: \(error.description)")
                     })
                 } else {
-                    getCheckInForm(asset: nil)
+                    if checkin?.s3Asset != nil {
+                        getCheckInForm(asset: checkin?.s3Asset?.id)
+                    } else {
+                        getCheckInForm(asset: nil)
+                    }
                 }
             default:
                 if checkInAction == "CREATE" {
