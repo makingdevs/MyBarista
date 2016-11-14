@@ -21,7 +21,7 @@ class CircleFlavor {
     var cleaning: Int?
     
     init(sweetness: Int?, acidity: Int?, flowery: Int?, spicy: Int?, salty: Int?, berries: Int?, chocolate: Int?, candy: Int?, body: Int?, cleaning: Int?) {
-        self. sweetness = sweetness
+        self.sweetness = sweetness
         self.acidity = acidity
         self.flowery = flowery
         self.spicy = spicy
