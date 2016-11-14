@@ -206,9 +206,24 @@ class CheckinManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
-                case .failure:
-                    print(response)
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let sweetness = json["sweetness"].intValue
+                        let acidity = json["acidity"].intValue
+                        let flowery = json["flowery"].intValue
+                        let spicy = json["spicy"].intValue
+                        let salty = json["salty"].intValue
+                        let berries = json["berries"].intValue
+                        let chocolate = json["chocolate"].intValue
+                        let candy = json["candy"].intValue
+                        let body = json["body"].intValue
+                        let cleaning = json["cleaning"].intValue
+                        let circleFlavor = CircleFlavor(sweetness: sweetness, acidity: acidity, flowery: flowery, spicy: spicy, salty: salty, berries: berries, chocolate: chocolate, candy: candy, body: body, cleaning: cleaning)
+                        
+                        onSuccess(circleFlavor)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
                 }
         }
     }
