@@ -21,21 +21,36 @@ class CheckinManager {
                 if let value = response.result.value {
                     let json = JSON(value)
                     for(_, subJson) in json{
-                        let checkinId = subJson["id"].intValue
-                        let checkinAuthor = subJson["author"].stringValue
-                        let checkinMethod = subJson["method"].stringValue
-                        let checkinOrigin = subJson["origin"].stringValue
-                        let checkinState = subJson["state"].stringValue
-                        let checkinPrice = subJson["price"].stringValue
-                        let checkinRating = subJson["rating"].floatValue
-                        let checkinNote = subJson["note"].stringValue
-                        let checkinS3Id = subJson["s3_asset"]["id"].intValue
-                        let checkinS3Url = subJson["s3_asset"]["url_file"].stringValue
-                        let checkinVenue = subJson["venue"]["name"].stringValue
-                        let checkinCreatedAt = subJson["created_at"].timeValue
-                        let checkinS3 = S3Asset(id: checkinS3Id, urlFile: checkinS3Url)
-                        let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: checkinS3, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
-                        checkins.append(checkin)
+                        if subJson["s3_asset"].exists() {
+                            let checkinId = subJson["id"].intValue
+                            let checkinAuthor = subJson["author"].stringValue
+                            let checkinMethod = subJson["method"].stringValue
+                            let checkinOrigin = subJson["origin"].stringValue
+                            let checkinState = subJson["state"].stringValue
+                            let checkinPrice = subJson["price"].stringValue
+                            let checkinRating = subJson["rating"].floatValue
+                            let checkinNote = subJson["note"].stringValue
+                            let checkinVenue = subJson["venue"]["name"].stringValue
+                            let checkinCreatedAt = subJson["created_at"].timeValue
+                            let s3assetId = subJson["s3_asset"]["id"].intValue
+                            let s3assetUrl = subJson["s3_asset"]["url_file"].stringValue
+                            let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            checkins.append(checkin)
+                        } else {
+                            let checkinId = subJson["id"].intValue
+                            let checkinAuthor = subJson["author"].stringValue
+                            let checkinMethod = subJson["method"].stringValue
+                            let checkinOrigin = subJson["origin"].stringValue
+                            let checkinState = subJson["state"].stringValue
+                            let checkinPrice = subJson["price"].stringValue
+                            let checkinRating = subJson["rating"].floatValue
+                            let checkinNote = subJson["note"].stringValue
+                            let checkinVenue = subJson["venue"]["name"].stringValue
+                            let checkinCreatedAt = subJson["created_at"].timeValue
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            checkins.append(checkin)
+                        }
                     }
                 }
                 onSuccess(checkins)
