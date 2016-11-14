@@ -192,4 +192,24 @@ class CheckinManager {
                 }
         }
     }
+    
+    static func fetchCircleFlavor(checkinId: String,
+                                 onSuccess: @escaping (_ circleFlavour: CircleFlavor) -> (),
+                                 onError: @escaping (_ error: String) -> ()) {
+        
+        let circleFlavorUrl: String = "\(Constants.urlBase)/circles/\(checkinId)"
+        let parameters = ["id", checkinId]
+        
+        Alamofire.request(circleFlavorUrl, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print(response)
+                case: .failure:
+                    print(response)
+                }
+        }
+    }
 }
