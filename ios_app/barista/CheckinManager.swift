@@ -30,15 +30,16 @@ class CheckinManager {
                         let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
                         let checkinVenue = subJson["venue"]["name"].stringValue
+                        let checkinCircle = subJson["circle_flavor_id"].intValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
                         if subJson["s3_asset"].exists() {
                             let s3assetId = subJson["s3_asset"]["id"].intValue
                             let s3assetUrl = subJson["s3_asset"]["url_file"].stringValue
                             let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
-                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             checkins.append(checkin)
                         } else {
-                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             checkins.append(checkin)
                         }
                     }
@@ -78,15 +79,16 @@ class CheckinManager {
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
+                        let checkinCircle = json["circle_flavor_id"].intValue
                         let checkinCreatedAt = json["created_at"].timeValue
                         if json["s3_asset"].exists() {
                             let s3assetId = json["s3_asset"]["id"].intValue
                             let s3assetUrl = json["s3_asset"]["url_file"].stringValue
                             let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
-                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             onSuccess(checkin)
                         } else {
-                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             onSuccess(checkin)
                         }
                     }
@@ -125,15 +127,16 @@ class CheckinManager {
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
                         let checkinVenue = json["venue"]["name"].stringValue
+                        let checkinCircle = json["circle_flavor_id"].intValue
                         let checkinCreatedAt = json["created_at"].timeValue
                         if json["s3_asset"].exists() {
                             let s3assetId = json["s3_asset"]["id"].intValue
                             let s3assetUrl = json["s3_asset"]["url_file"].stringValue
                             let s3asset = S3Asset(id: s3assetId, urlFile: s3assetUrl)
-                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id:checkinId, author: checkinAuthor, method:checkinMethod, note:checkinNote, origin: checkinOrigin, state: checkinState, price:checkinPrice, rating: checkinRating, s3Asset: s3asset, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             onSuccess(checkin)
                         } else {
-                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, createdAt: checkinCreatedAt as Date?)
+                            let checkin = Checkin(id: checkinId, author: checkinAuthor, method: checkinMethod, note: checkinNote, origin: checkinOrigin, state: checkinState, price: checkinPrice, rating: checkinRating, venue: checkinVenue, circleFlavor: checkinCircle, createdAt: checkinCreatedAt as Date?)
                             onSuccess(checkin)
                         }
                     }
@@ -193,12 +196,12 @@ class CheckinManager {
         }
     }
     
-    static func fetchCircleFlavor(checkinId: Int,
+    static func fetchCircleFlavor(circleFlavorId: Int,
                                  onSuccess: @escaping (_ circleFlavour: CircleFlavor) -> (),
                                  onError: @escaping (_ error: String) -> ()) {
         
-        let circleFlavorUrl: String = "\(Constants.urlBase)/circles/\(checkinId)"
-        let parameters = ["id": checkinId]
+        let circleFlavorUrl: String = "\(Constants.urlBase)/circles/\(circleFlavorId)"
+        let parameters = ["id": circleFlavorId]
         
         Alamofire.request(circleFlavorUrl, parameters: parameters)
             .validate(statusCode: 200..<202)
@@ -224,6 +227,37 @@ class CheckinManager {
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
+                }
+        }
+    }
+    
+    static func createCircleFlavor(checkinId: Int,
+                                   circleFlavor: CircleFlavor,
+                                   onSuccess: @escaping (_ checkin: Checkin) -> (),
+                                   onError: @escaping (_ error: String) -> ()) {
+        
+        let circleFlavorUrl: String = "\(Constants.urlBase)/checkins/\(checkinId)/circleFlavor"
+        let parameters = ["id": checkinId,
+                          "sweetness": circleFlavor.sweetness,
+                          "acidity": circleFlavor.acidity,
+                          "flowery": circleFlavor.flowery,
+                          "spicy": circleFlavor.spicy,
+                          "salty": circleFlavor.salty,
+                          "berries": circleFlavor.berries,
+                          "chocolate": circleFlavor.chocolate,
+                          "candy": circleFlavor.candy,
+                          "body": circleFlavor.body,
+                          "cleaning": circleFlavor.cleaning]
+        
+        Alamofire.request(circleFlavorUrl, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print(response)
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
         }
     }
