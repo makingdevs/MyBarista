@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CircleFlavourViewController: UIViewController {
+class CircleFlavourViewController: UIViewController, CircleFlavorDelegate {
 
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
@@ -30,9 +30,15 @@ class CircleFlavourViewController: UIViewController {
         })
     }
     
+    func updateCircleFlavor(checkin: Checkin, circleFlavor: CircleFlavor) {
+        self.checkin = checkin
+        self.circleFlavor = circleFlavor
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let createCircleViewController = segue.destination as! CreateCircleFlavorViewController
         createCircleViewController.checkin = self.checkin
         createCircleViewController.circleFlavor = self.circleFlavor
+        createCircleViewController.delegate = self
     }
 }
