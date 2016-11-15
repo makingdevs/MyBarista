@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol CircleFlavorDelegate {
+    func updateCircleFlavor(checkin: Checkin, circleFlavor: CircleFlavor)
+}
+
 class CreateCircleFlavorViewController: UIViewController {
 
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
+    var delegate: CircleFlavorDelegate!
     
     @IBOutlet weak var sweetnessLabel: UILabel!
     @IBOutlet weak var acidityLabel: UILabel!
@@ -34,17 +39,6 @@ class CreateCircleFlavorViewController: UIViewController {
     @IBOutlet weak var candySlider: UISlider!
     @IBOutlet weak var bodySlider: UISlider!
     @IBOutlet weak var cleaningSlider: UISlider!
-    
-    var sweetness: Int?
-    var acidity: Int?
-    var flowery: Int?
-    var spicy: Int?
-    var salty: Int?
-    var berries: Int?
-    var chocolate: Int?
-    var candy: Int?
-    var body: Int?
-    var cleaning: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,34 +75,24 @@ class CreateCircleFlavorViewController: UIViewController {
             let flavorValue = Int(roundf(sender.value))
             switch slider {
             case "sweetness":
-                self.sweetness = flavorValue
                 sweetnessLabel.text = "Dulzura: \(flavorValue)"
             case "acidity":
-                self.acidity = flavorValue
                 acidityLabel.text = "Acidez: \(flavorValue)"
             case "flowery":
-                self.flowery = flavorValue
                 floweryLabel.text = "Florar: \(flavorValue)"
             case "spicy":
-                self.spicy = flavorValue
                 spicyLabel.text = "Especiado: \(flavorValue)"
             case "salty":
-                self.salty = flavorValue
                 saltyLabel.text = "Salado: \(flavorValue)"
             case "berries":
-                self.berries = flavorValue
                 berriesLabel.text = "Frutos Rojos: \(flavorValue)"
             case "chocolate":
-                self.chocolate = flavorValue
                 chocolateLabel.text = "Chocolate: \(flavorValue)"
             case "candy":
-                self.candy = flavorValue
                 candyLabel.text = "Caramelo: \(flavorValue)"
             case "body":
-                self.body = flavorValue
                 bodyLabel.text = "Cuerpo: \(flavorValue)"
             case "cleaning":
-                self.cleaning = flavorValue
                 cleaningLabel.text = "Limpieza: \(flavorValue)"
             default:
                 break
@@ -121,7 +105,8 @@ class CreateCircleFlavorViewController: UIViewController {
             checkinId: checkin.id,
             circleFlavor:  getCircleFlavor(),
             onSuccess: {(checkin: Checkin) -> () in
-                print(checkin.circleFlavor)
+                self.delegate.updateCircleFlavor(checkin: checkin, circleFlavor: self.circleFlavor)
+                _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in
                 print(error)
@@ -129,16 +114,16 @@ class CreateCircleFlavorViewController: UIViewController {
     }
     
     func getCircleFlavor() -> CircleFlavor {
-        let circleFlavor: CircleFlavor = CircleFlavor(sweetness: self.sweetness,
-                                                      acidity: self.acidity,
-                                                      flowery: self.flowery,
-                                                      spicy: self.spicy,
-                                                      salty: self.salty,
-                                                      berries: self.berries,
-                                                      chocolate: self.chocolate,
-                                                      candy: self.candy,
-                                                      body: self.body,
-                                                      cleaning: self.cleaning)
+        self.circleFlavor = CircleFlavor(sweetness: Int(roundf(sweetnessSlider.value)),
+                                         acidity: Int(roundf(aciditySlider.value)),
+                                         flowery: Int(roundf(flowerySlider.value)),
+                                         spicy: Int(roundf(spicySlider.value)),
+                                         salty: Int(roundf(saltySlider.value)),
+                                         berries: Int(roundf(berriesSlider.value)),
+                                         chocolate: Int(roundf(chocolateSlider.value)),
+                                         candy: Int(roundf(candySlider.value)),
+                                         body: Int(roundf(bodySlider.value)),
+                                         cleaning: Int(roundf(cleaningSlider.value)))
         return circleFlavor
     }
 }
