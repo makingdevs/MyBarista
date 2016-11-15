@@ -11,6 +11,7 @@ import UIKit
 class CircleFlavourViewController: UIViewController {
 
     var checkin: Checkin!
+    var circleFlavor: CircleFlavor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class CircleFlavourViewController: UIViewController {
         CheckinManager.fetchCircleFlavor(
             circleFlavorId: checkin.circleFlavor!,
             onSuccess: {(circleFlavor: CircleFlavor) -> () in
-                print(circleFlavor)
+                self.circleFlavor = circleFlavor
             },
             onError: {(error: String) -> () in
                 print(error)
@@ -32,5 +33,6 @@ class CircleFlavourViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let createCircleViewController = segue.destination as! CreateCircleFlavorViewController
         createCircleViewController.checkin = self.checkin
+        createCircleViewController.circleFlavor = self.circleFlavor
     }
 }
