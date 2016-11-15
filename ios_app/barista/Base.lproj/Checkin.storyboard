@@ -482,7 +482,6 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Crear Círculo"/>
                                 <connections>
-                                    <action selector="createCircleFlavor:" destination="Y62-2i-ywt" eventType="touchUpInside" id="gjT-nN-5tJ"/>
                                     <segue destination="OAr-Y7-be2" kind="show" id="FUv-f5-86i"/>
                                 </connections>
                             </button>
@@ -505,12 +504,22 @@
                     <view key="view" contentMode="scaleToFill" id="OY6-Ij-YhN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOB-yQ-VBz">
+                                <frame key="frameInset" minX="127" minY="329" width="120" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Crear Círculo"/>
+                                <connections>
+                                    <action selector="saveCircleFlavor:" destination="OAr-Y7-be2" eventType="touchUpInside" id="gVA-EH-WnL"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mED-cX-TMR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3534" y="1519"/>
+            <point key="canvasLocation" x="3533.5999999999999" y="1518.8905547226389"/>
         </scene>
     </scenes>
     <resources>
