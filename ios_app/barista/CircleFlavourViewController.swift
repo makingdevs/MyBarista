@@ -20,12 +20,17 @@ class CircleFlavourViewController: UIViewController {
     /* Fetchs Check-in circle flavor */
     func showCircleFlavor() {
         CheckinManager.fetchCircleFlavor(
-            checkinId: checkin.id,
+            circleFlavorId: checkin.circleFlavor!,
             onSuccess: {(circleFlavor: CircleFlavor) -> () in
                 print(circleFlavor)
             },
             onError: {(error: String) -> () in
                 print(error)
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let createCircleViewController = segue.destination as! CreateCircleFlavorViewController
+        createCircleViewController.checkin = self.checkin
     }
 }
