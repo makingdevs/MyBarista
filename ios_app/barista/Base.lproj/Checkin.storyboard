@@ -506,59 +506,79 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bxZ-Yz-wia">
-                                <frame key="frameInset" minY="63" width="375" height="559"/>
+                                <frame key="frameInset" minY="46" width="375" height="559"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="emI-G6-hEg">
                                         <frame key="frameInset" minX="15" minY="25" width="349" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="sweetness"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="lIr-GB-5AU"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="QJY-IE-P7P">
                                         <frame key="frameInset" minX="15" minY="80" width="349" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="acidity"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="rdJ-Jt-gUY"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="myy-by-gbg">
                                         <frame key="frameInset" minX="15" minY="135" width="349" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="flowery"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="3ZK-bj-eYy"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zny-a6-RPa">
                                         <frame key="frameInset" minX="15" minY="190" width="349" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="spicy"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="Y4F-s1-bd6"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Mrj-5G-mVv">
                                         <frame key="frameInset" minX="15" minY="245" width="349" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="salty"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="5Zn-op-VzB"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dulzura" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXR-ap-cHT">
-                                        <frame key="frameInset" minX="17" minY="8" width="59" height="18"/>
+                                        <frame key="frameInset" minX="17" minY="8" width="280" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Acidez" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYb-0F-eXw">
-                                        <frame key="frameInset" minX="17" minY="63" width="52" height="18"/>
+                                        <frame key="frameInset" minX="17" minY="63" width="345" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Floral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cV6-Id-hO7">
-                                        <frame key="frameInset" minX="17" minY="118" width="42" height="18"/>
+                                        <frame key="frameInset" minX="17" minY="118" width="345" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Especiado" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQz-Ra-vFl">
-                                        <frame key="frameInset" minX="14" minY="173" width="67" height="18"/>
+                                        <frame key="frameInset" minX="14" minY="173" width="348" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Salado" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6W3-MR-UAx">
-                                        <frame key="frameInset" minX="17" minY="228" width="59" height="18"/>
+                                        <frame key="frameInset" minX="17" minY="228" width="345" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
@@ -567,64 +587,114 @@
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="wmU-Bt-UIF">
                                         <frame key="frameInset" minX="10" minY="355" width="354" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="chocolate"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="JEX-sm-kmm"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="yMT-BB-Qy1">
                                         <frame key="frameInset" minX="10" minY="410" width="354" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="candy"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="e0Z-Hh-10R"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="fAe-gt-guf">
                                         <frame key="frameInset" minX="10" minY="465" width="354" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="body"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="yld-oP-qxK"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vix-OS-0jJ">
                                         <frame key="frameInset" minX="10" minY="300" width="354" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="berries"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="Z2d-dR-6BO"/>
+                                        </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gfx-bZ-g9M">
                                         <frame key="frameInset" minX="10" minY="520" width="354" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="cleaning"/>
+                                        <connections>
+                                            <action selector="flavorValueChanged:" destination="OAr-Y7-be2" eventType="valueChanged" id="1E1-q7-963"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cuerpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9N-M9-8D9">
-                                        <frame key="frameInset" minX="12" minY="448" width="59" height="18"/>
+                                        <frame key="frameInset" minX="12" minY="448" width="350" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Limpieza" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIf-QP-CSw">
-                                        <frame key="frameInset" minX="12" minY="503" width="59" height="18"/>
+                                        <frame key="frameInset" minX="12" minY="503" width="350" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Frutos Rojos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUw-y8-oKm">
-                                        <frame key="frameInset" minX="12" minY="283" width="81" height="18"/>
+                                        <frame key="frameInset" minX="12" minY="283" width="350" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chocolate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KoA-rq-cV4">
-                                        <frame key="frameInset" minX="12" minY="338" width="66" height="18"/>
+                                        <frame key="frameInset" minX="12" minY="338" width="350" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Caramelo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NBA-Va-avX">
-                                        <frame key="frameInset" minX="12" minY="393" width="62" height="18"/>
+                                        <frame key="frameInset" minX="12" minY="393" width="350" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogD-yt-nEf">
+                                        <frame key="frameInset" minX="297" minY="2" width="70" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Aceptar"/>
+                                        <connections>
+                                            <action selector="saveCircleFlavor:" destination="OAr-Y7-be2" eventType="touchUpInside" id="f2y-3P-r7n"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="acidityLabel" destination="cYb-0F-eXw" id="caO-Y8-lSm"/>
+                        <outlet property="aciditySlider" destination="QJY-IE-P7P" id="NKP-Wf-p2i"/>
+                        <outlet property="berriesLabel" destination="YUw-y8-oKm" id="T3w-bX-iOH"/>
+                        <outlet property="berriesSlider" destination="Vix-OS-0jJ" id="CqX-ha-3Je"/>
+                        <outlet property="bodyLabel" destination="N9N-M9-8D9" id="ASf-pi-Rkg"/>
+                        <outlet property="bodySlider" destination="fAe-gt-guf" id="UNX-x8-P5P"/>
+                        <outlet property="candyLabel" destination="NBA-Va-avX" id="OCd-AH-RAz"/>
+                        <outlet property="candySlider" destination="yMT-BB-Qy1" id="vA8-E3-pAj"/>
+                        <outlet property="chocolateLabel" destination="KoA-rq-cV4" id="eyx-O1-UUk"/>
+                        <outlet property="chocolateSlider" destination="wmU-Bt-UIF" id="n1E-NH-EoG"/>
+                        <outlet property="cleaningLabel" destination="sIf-QP-CSw" id="EPZ-5l-4yZ"/>
+                        <outlet property="cleaningSlider" destination="Gfx-bZ-g9M" id="px4-Ah-4e5"/>
+                        <outlet property="floweryLabel" destination="cV6-Id-hO7" id="Qdk-gH-zSe"/>
+                        <outlet property="flowerySlider" destination="myy-by-gbg" id="Y2j-9F-3tE"/>
+                        <outlet property="saltyLabel" destination="6W3-MR-UAx" id="che-RP-GNd"/>
+                        <outlet property="saltySlider" destination="Mrj-5G-mVv" id="cep-fc-jYA"/>
+                        <outlet property="spicyLabel" destination="EQz-Ra-vFl" id="r9f-dZ-atp"/>
+                        <outlet property="spicySlider" destination="Zny-a6-RPa" id="jxS-dQ-ddP"/>
+                        <outlet property="sweetnessLabel" destination="FXR-ap-cHT" id="L5f-LU-6eO"/>
+                        <outlet property="sweetnessSlider" destination="emI-G6-hEg" id="Nak-Ok-SpY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mED-cX-TMR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
