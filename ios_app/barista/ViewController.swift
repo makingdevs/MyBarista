@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     
     var loginCommand: LoginCommand!
     var performSignIn: Bool = false
-    let userPreferences = UserDefaults.standard
   
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -25,8 +24,7 @@ class ViewController: UIViewController {
         if loginCommand.validateCommand() {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
-                                self.userPreferences.set(user.username, forKey: "currentUser")
-                                self.userPreferences.synchronize()
+                                self.setUserPreferences(currentUser: user)
                                 self.performSignIn = true
                                 self.performSegue(withIdentifier: "PerformSignIn", sender: self)
                 },
@@ -43,6 +41,14 @@ class ViewController: UIViewController {
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
         alert.addAction(okAction)
         return alert
+    }
+    
+    func setUserPreferences(currentUser: User) {
+        let userPreferences = UserDefaults.standard
+        userPreferences.set(currentUser.username, forKey: "currentUser")
+        userPreferences.set(currentUser.id, forKey: "currentUserId")
+        userPreferences.set(currentUser.password, forKey: "currentUserPassword")
+        userPreferences.synchronize()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
