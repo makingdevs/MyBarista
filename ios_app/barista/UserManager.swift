@@ -82,4 +82,24 @@ class UserManager {
                 }
         }
     }
+    
+    static func fetchProfile(userId: Int,
+                             onSuccess: @escaping (_ userProfile: UserProfile) -> (),
+                             onError: @escaping (_ error: String) -> ()) {
+        
+        let userProfileUrl: String = "\(Constants.urlBase)/users/\(userId)"
+        let parameters = ["id": userId]
+        
+        Alamofire.request(userProfileUrl, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print(response)
+                case .failure(let error):
+                    print(error)
+                }
+        }
+    }
 }
