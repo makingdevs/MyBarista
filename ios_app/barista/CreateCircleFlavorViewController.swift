@@ -16,7 +16,7 @@ class CreateCircleFlavorViewController: UIViewController {
 
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
-    var delegate: CircleFlavorDelegate!
+    var delegate: CircleFlavorDelegate?
     
     @IBOutlet weak var sweetnessLabel: UILabel!
     @IBOutlet weak var acidityLabel: UILabel!
@@ -105,7 +105,7 @@ class CreateCircleFlavorViewController: UIViewController {
             checkinId: checkin.id,
             circleFlavor:  getCircleFlavor(),
             onSuccess: {(checkin: Checkin) -> () in
-                self.delegate.updateCircleFlavor(checkin: checkin, circleFlavor: self.circleFlavor)
+                self.delegate?.updateCircleFlavor(checkin: checkin, circleFlavor: self.circleFlavor)
                 _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in

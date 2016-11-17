@@ -68,7 +68,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let createCircleViewController = segue.destination as! CreateCircleFlavorViewController
-        createCircleViewController.delegate = self
+        createCircleViewController.delegate? = self
         createCircleViewController.checkin = self.checkin
         createCircleViewController.circleFlavor = self.circleFlavor
     }

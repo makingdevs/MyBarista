@@ -29,7 +29,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     let userPreferences = UserDefaults.standard
     var uploadCommand: UploadCommand!
     var checkinCommand: CheckinCommand!
-    var delegate: CheckinDelegate!
+    var delegate: CheckinDelegate?
     var checkInAction: String = "CREATE"
     var checkin: Checkin?
     var method: String!
@@ -115,7 +115,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 checkinId: (checkin?.id)!,
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
-                    self.delegate.updateCheckinDetail(currentCheckin: checkin)
+                    self.delegate?.updateCheckinDetail(currentCheckin: checkin)
                     _ = self.navigationController?.popViewController(animated: true)
                 },
                 onError: { (error: String) -> () in
