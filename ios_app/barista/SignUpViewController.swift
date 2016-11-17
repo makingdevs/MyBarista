@@ -12,7 +12,6 @@ class SignUpViewController: UIViewController {
     
     var registrationCommand: RegistrtionCommand!
     var perfomrSignUp: Bool = false
-    let userPreferences = UserDefaults.standard
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
@@ -30,8 +29,7 @@ class SignUpViewController: UIViewController {
         if registrationCommand.validateCommand() {
             UserManager.signup(registrationCommand: registrationCommand,
                                onSuccess: { (user: User) -> () in
-                                self.userPreferences.set(user.username, forKey: "currentUser")
-                                self.userPreferences.synchronize()
+                                self.setUserPreferences(currentUser: user)
                                 self.perfomrSignUp = true
                                 self.performSegue(withIdentifier: "PerformSignUp", sender: self)
                 },
@@ -48,6 +46,14 @@ class SignUpViewController: UIViewController {
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
         alert.addAction(okAction)
         return alert
+    }
+    
+    func setUserPreferences(currentUser: User) {
+        let userPreferences = UserDefaults.standard
+        userPreferences.set(currentUser.username, forKey: "currentUser")
+        userPreferences.set(currentUser.id, forKey: "currentUserId")
+        userPreferences.set(currentUser.password, forKey: "currentUserPassword")
+        userPreferences.synchronize()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
