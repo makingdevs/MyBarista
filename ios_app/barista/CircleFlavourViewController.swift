@@ -13,8 +13,6 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
 
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
-    var valueFlavors: [Double]!
-    var flavors: [String]!
     var axisFormatterDelegate: IAxisValueFormatter!
     
     @IBOutlet weak var circleFlavorChart: RadarChartView!
@@ -23,11 +21,10 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     override func viewDidLoad() {
         super.viewDidLoad()
         axisFormatterDelegate = self
-        flavors = ["Dulzura", "Acidez", "Florar", "Especiado", "Salado", "Frutos Rojos", "Chocolate", "Caramelo", "Cuerpo", "Limpieza"]
+        
         if (circleFlavor == nil) {
-            showCircleFlavor()
-        } else {
             circleFlavorChart.noDataText = "Crea un círculo para tu bebida"
+            showCircleFlavor()
         }
     }
     
@@ -45,8 +42,17 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     }
     
     func setFlavorsInChart(circleFlavor: CircleFlavor) {
-        
-        valueFlavors = [Double(circleFlavor.sweetness!), Double(circleFlavor.acidity!), Double(circleFlavor.flowery!), Double(circleFlavor.spicy!), Double(circleFlavor.salty!), Double(circleFlavor.berries!), Double(circleFlavor.chocolate!), Double(circleFlavor.candy!), Double(circleFlavor.body!), Double(circleFlavor.cleaning!)]
+        // TODO: Improve this code
+        let valueFlavors = [Double(circleFlavor.sweetness!),
+                        Double(circleFlavor.acidity!),
+                        Double(circleFlavor.flowery!),
+                        Double(circleFlavor.spicy!),
+                        Double(circleFlavor.salty!),
+                        Double(circleFlavor.berries!),
+                        Double(circleFlavor.chocolate!),
+                        Double(circleFlavor.candy!),
+                        Double(circleFlavor.body!),
+                        Double(circleFlavor.cleaning!)]
         
         let flavorRadar = valueFlavors.enumerated().map { x, y in return RadarChartDataEntry(value: y) }
         
@@ -64,16 +70,18 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     func updateCircleFlavor(checkin: Checkin, circleFlavor: CircleFlavor) {
         self.checkin = checkin
         self.circleFlavor = circleFlavor
+        self.setFlavorsInChart(circleFlavor: circleFlavor)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let createCircleViewController = segue.destination as! CreateCircleFlavorViewController
-        createCircleViewController.delegate? = self
+        createCircleViewController.circleFlavorDelegate = self
         createCircleViewController.checkin = self.checkin
         createCircleViewController.circleFlavor = self.circleFlavor
     }
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        let flavors = ["Dulzura", "Acidez", "Florar", "Especiado", "Salado", "Frutos Rojos", "Chocolate", "Caramelo", "Cuerpo", "Limpieza"]
         return flavors[Int(value) % flavors.count];
     }
 }
