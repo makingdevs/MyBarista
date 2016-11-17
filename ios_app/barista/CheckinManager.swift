@@ -255,9 +255,15 @@ class CheckinManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let checkinId = json["id"].intValue
+                        let checkinCircleFlavor = json["circle_flavor_id"].intValue
+                        let checkin = Checkin(id: checkinId, circleFlavor: checkinCircleFlavor)
+                        onSuccess(checkin)
+                    }
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    onError(error.localizedDescription)
                 }
         }
     }
