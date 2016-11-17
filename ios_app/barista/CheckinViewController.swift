@@ -107,7 +107,7 @@ class CheckinViewController: UIViewController, CheckinDelegate {
             let createCheckinController = segue.destination as! CreateCheckinViewController
             createCheckinController.checkin = self.checkin
             createCheckinController.checkInAction = "UPDATE"
-            createCheckinController.delegate = self
+            createCheckinController.checkinDelegate = self
         }
     }
 }
