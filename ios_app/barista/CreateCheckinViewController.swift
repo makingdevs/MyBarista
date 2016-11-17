@@ -29,7 +29,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     let userPreferences = UserDefaults.standard
     var uploadCommand: UploadCommand!
     var checkinCommand: CheckinCommand!
-    var delegate: CheckinDelegate?
+    var checkinDelegate: CheckinDelegate?
     var checkInAction: String = "CREATE"
     var checkin: Checkin?
     var method: String!
@@ -115,7 +115,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 checkinId: (checkin?.id)!,
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
-                    self.delegate?.updateCheckinDetail(currentCheckin: checkin)
+                    self.checkinDelegate?.updateCheckinDetail(currentCheckin: checkin)
                     _ = self.navigationController?.popViewController(animated: true)
                 },
                 onError: { (error: String) -> () in
@@ -208,7 +208,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "performSelectVenue" {
             let venueTableViewController = segue.destination as! VenueTableViewController
-            venueTableViewController.delegate = self
+            venueTableViewController.venueDelegate = self
         }
     }
 }
