@@ -42,6 +42,7 @@
 		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
 		4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */; };
 		4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */; };
+		4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */; };
 		4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE430FA1DC945540055D280 /* S3AssetManager.swift */; };
 		4BE430FD1DC94B820055D280 /* UploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE430FC1DC94B820055D280 /* UploadCommand.swift */; };
 		4BE887551DD2302D009576FC /* VenueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE887541DD2302D009576FC /* VenueTableViewController.swift */; };
@@ -92,6 +93,7 @@
 		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
 		4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoursquareManager.swift; sourceTree = "<group>"; };
 		4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCommand.swift; sourceTree = "<group>"; };
+		4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4BE430FA1DC945540055D280 /* S3AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3AssetManager.swift; sourceTree = "<group>"; };
 		4BE430FC1DC94B820055D280 /* UploadCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadCommand.swift; sourceTree = "<group>"; };
 		4BE887541DD2302D009576FC /* VenueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				4BE887561DD240B4009576FC /* VenueTableViewCell.swift */,
 				4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */,
 				4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */,
+				4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
 				8FB582321DD5133A00150059 /* Constants.swift in Sources */,
 				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
+				4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */,
 				4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */,
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,
 				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
