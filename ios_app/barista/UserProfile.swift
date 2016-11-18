@@ -26,4 +26,13 @@ class UserProfile {
         self.visibleName = visibleName
         self.s3asset = s3asset
     }
+    
+    init(id: Int, username: String, name: String, lastName: String, checkinsCount: Int, visibleName: String) {
+        self.id = id
+        self.username = username
+        self.name = name
+        self.lastName = lastName
+        self.checkinsCount = checkinsCount
+        self.visibleName = visibleName
+    }
 }
