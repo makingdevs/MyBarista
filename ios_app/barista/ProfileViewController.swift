@@ -51,4 +51,11 @@ class ProfileViewController: UIViewController {
         self.username = userPreferences.string(forKey: "currentUser")
         self.userId = userPreferences.integer(forKey: "currentUserId")
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "performProfileUpdate" {
+            let editProfileViewController = segue.destination as! EditProfileViewController
+            editProfileViewController.userId = self.userId
+        }
+    }
 }
