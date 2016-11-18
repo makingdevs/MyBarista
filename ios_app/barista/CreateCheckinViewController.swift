@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CheckinDelegate {
+    func updateCheckinDetail(currentCheckin: Checkin)
+}
+
 class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, VenueDelegate {
     
     @IBOutlet weak var checkinPhoto: UIImageView!
@@ -23,8 +27,11 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var stateList = ["Veracruz", "Chiapas", "Guerrero", "Oaxaca", "Puebla", "Otro"]
     
     let userPreferences = UserDefaults.standard
-    var checkinCommand: CheckinCommand!
     var uploadCommand: UploadCommand!
+    var checkinCommand: CheckinCommand!
+    var checkinDelegate: CheckinDelegate?
+    var checkInAction: String = "CREATE"
+    var checkin: Checkin?
     var method: String!
     var state: String!
     var origin: String!
@@ -37,6 +44,20 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         initPickerViews()
         method = methodList[0]
         state = stateList[0]
+        if checkin != nil {
+            setCurrentCheckIn()
+        }
+    }
+    
+    func setCurrentCheckIn() {
+        methodField.text = checkin?.method
+        stateField.text = checkin?.state
+        originField.text = checkin?.origin
+        priceField.text = checkin?.price
+        venueLabel.setTitle( checkin?.venue ?? "Agrega un lugar", for: .normal)
+        if checkin?.s3Asset != nil {
+            checkinPhoto.loadURL(url: (checkin?.s3Asset?.urlFile)!)
+        }
     }
     
     func updateVenueName(venueSelected: Venue) {
@@ -49,30 +70,38 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let action = sender.title {
             switch action {
             case "Done":
+                getCheckInForm(asset: nil)
                 uploadCommand = UploadCommand(image: image)
-                if uploadCommand.validateCommand() {
+                if uploadCommand.validateCommand() && checkinCommand.validateCommand() {
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
                         onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
-                            self.getCheckInForm(asset: photoCheckin.id)
+                            self.saveCheckin(asset: photoCheckin.id)
                         },
                         onPhotoError: { (error: String) -> () in
-                            print(error.description)
+                            print("Photo: \(error.description)")
                     })
                 } else {
-                    getCheckInForm(asset: nil)
+                    if checkin?.s3Asset != nil {
+                        saveCheckin(asset: checkin?.s3Asset?.id)
+                    } else {
+                        saveCheckin(asset: nil)
+                    }
                 }
             default:
-                _ = self.tabBarController?.selectedIndex = 0
+                if checkInAction == "CREATE" {
+                    _ = self.tabBarController?.selectedIndex = 0
+                } else {
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }
     
-    func getCheckInForm(asset: Int?){
-        price = priceField.text!
-        origin = originField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!, method: method, state: state, origin: origin, price: price, idS3Asset: asset, idVenueFoursquare: venue, created_at: Date())
-        if checkinCommand.validateCommand() {
+    func saveCheckin (asset: Int?) {
+        getCheckInForm(asset: asset)
+        switch checkInAction {
+        case "CREATE":
             CheckinManager.create(
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
@@ -81,9 +110,33 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 onError: { (error: String) -> () in
                     self.present(self.showErrorAlert(message: error.description), animated: true)
             })
-        } else {
-            self.present(self.showErrorAlert(message: checkinCommand.errorMessage!), animated: true)
+        case "UPDATE":
+            CheckinManager.update(
+                checkinId: (checkin?.id)!,
+                checkinCommand: checkinCommand,
+                onSuccess: { (checkin: Checkin) -> () in
+                    self.checkinDelegate?.updateCheckinDetail(currentCheckin: checkin)
+                    _ = self.navigationController?.popViewController(animated: true)
+                },
+                onError: { (error: String) -> () in
+                    self.present(self.showErrorAlert(message: error.description), animated: true)
+            })
+        default:
+            break
         }
+    }
+    
+    func getCheckInForm(asset: Int?) {
+        price = priceField.text!
+        origin = originField.text!
+        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!,
+                                        method: method,
+                                        state: state,
+                                        origin: origin,
+                                        price: price,
+                                        idS3Asset: asset,
+                                        idVenueFoursquare: venue,
+                                        created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
     }
     
     func showErrorAlert(message: String) -> UIAlertController {
@@ -155,7 +208,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "performSelectVenue" {
             let venueTableViewController = segue.destination as! VenueTableViewController
-            venueTableViewController.delegate = self
+            venueTableViewController.venueDelegate = self
         }
     }
 }

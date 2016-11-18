@@ -37,6 +37,8 @@
 		4B9836781DBACE760027BE5D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836771DBACE760027BE5D /* Formatter.swift */; };
 		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
 		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
+		4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */; };
+		4BBB204E1DDA64CB0051932D /* CircleFlavourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */; };
 		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
 		4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */; };
 		4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */; };
@@ -85,6 +87,8 @@
 		4B9836771DBACE760027BE5D /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
 		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
+		4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCircleFlavorViewController.swift; sourceTree = "<group>"; };
+		4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavourViewController.swift; sourceTree = "<group>"; };
 		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
 		4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoursquareManager.swift; sourceTree = "<group>"; };
 		4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCommand.swift; sourceTree = "<group>"; };
@@ -243,6 +247,8 @@
 				4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */,
 				4BE887541DD2302D009576FC /* VenueTableViewController.swift */,
 				4BE887561DD240B4009576FC /* VenueTableViewCell.swift */,
+				4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */,
+				4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -311,7 +317,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MakingDevs;
 				TargetAttributes = {
 					4B17FA0B1D2D50B1007028B1 = {
@@ -421,6 +427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BBB204E1DDA64CB0051932D /* CircleFlavourViewController.swift in Sources */,
 				4BE430FD1DC94B820055D280 /* UploadCommand.swift in Sources */,
 				8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */,
 				4B0780171D70C1980001A9D1 /* User.swift in Sources */,
@@ -452,6 +459,7 @@
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,
 				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
 				4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */,
+				4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */,
 				4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */,
 				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
 				4B0780111D70C1640001A9D1 /* GPSLocation.swift in Sources */,

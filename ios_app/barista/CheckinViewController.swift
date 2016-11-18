@@ -9,7 +9,7 @@
 import UIKit
 import Cosmos
 
-class CheckinViewController: UIViewController {
+class CheckinViewController: UIViewController, CheckinDelegate {
     
     var checkin:Checkin!
     
@@ -30,13 +30,21 @@ class CheckinViewController: UIViewController {
     }
     
     func showCheckinDetail () {
-        checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!, placeholder: #imageLiteral(resourceName: "coffee_holder"))
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price!)"
         venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
         ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
+        if checkin.s3Asset != nil {
+            checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!)
+        }
+    }
+    
+    /* Protocol function that updates check-in after edition */
+    func updateCheckinDetail(currentCheckin: Checkin) {
+        self.checkin = currentCheckin
+        showCheckinDetail()
     }
     
     func initRatingView() {
@@ -88,5 +96,18 @@ class CheckinViewController: UIViewController {
             onError: { (error: String) -> () in
                 print(error)
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        /* Pass check-in data to CircleFlavour container view */
+        let circleFlavorController = segue.destination as! CircleFlavourViewController
+        circleFlavorController.checkin = self.checkin
+        
+        if segue.identifier == "performUpdate" {
+            let createCheckinController = segue.destination as! CreateCheckinViewController
+            createCheckinController.checkin = self.checkin
+            createCheckinController.checkInAction = "UPDATE"
+            createCheckinController.checkinDelegate = self
+        }
     }
 }

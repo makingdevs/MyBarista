@@ -18,7 +18,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     var venues: [Venue] = [Venue]()
     let locationManager = CLLocationManager()
     var venueCommand: VenueCommand!
-    var delegate: VenueDelegate!
+    var venueDelegate: VenueDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +67,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: false)
         let venue: Venue = self.venues[indexPath.row]
-        self.delegate.updateVenueName(venueSelected: venue)
+        self.venueDelegate?.updateVenueName(venueSelected: venue)
         _ = self.navigationController?.popViewController(animated: true)
     }
 }
