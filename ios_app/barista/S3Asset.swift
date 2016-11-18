@@ -16,4 +16,9 @@ class S3Asset {
         self.id = id
         self.urlFile = urlFile
     }
+    
+    /* For User Profile Asset */
+    init(urlFile: String) {
+        self.urlFile = urlFile
+    }
 }
