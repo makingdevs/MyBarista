@@ -16,7 +16,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var coffeeCountLabel: UILabel!
     @IBOutlet weak var webProfileLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var lastNameLabel: UILabel!
     
     var username: String!
     var userId: Int!
@@ -39,14 +38,12 @@ class ProfileViewController: UIViewController {
     }
     
     func showUserProfile(currentUser: UserProfile) {
-        avatarImageView.circleFrame()
-        blurAvatarImageView.loadURL(url: (currentUser.s3asset?.urlFile)!)
-        avatarImageView.loadURL(url: (currentUser.s3asset?.urlFile)!)
-        usernameLabel.text = currentUser.username
-        coffeeCountLabel.text = String(describing: currentUser.checkinsCount!)
+        blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
+        avatarImageView.loadAvatar(url: (currentUser.s3asset?.urlFile)!)
+        nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
+        usernameLabel.text = "@\(currentUser.username!)"
+        coffeeCountLabel.text = "\(currentUser.checkinsCount!) Cafés"
         webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
-        nameLabel.text = currentUser.name
-        lastNameLabel.text = currentUser.lastName
     }
     
     func fetchUserPreferences() {
