@@ -130,4 +130,33 @@ class UserManager {
                 }
         }
     }
+    
+    static func updateProfile(userCommand: UpdateUserCommand,
+                              onSucces: @escaping (_ user: UserProfile) -> (),
+                              onError: @escaping (_ error: String) -> ()) {
+        
+        let updateProfileURL: String = "\(Constants.urlBase)/users/\(userCommand.id!)"
+        let parameters = ["id": userCommand.id!,
+                          "name": userCommand.name!,
+                          "lastName": userCommand.lastName!] as [String : Any]
+        
+        Alamofire.request(updateProfileURL, method: .put, parameters: parameters)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let userId = json["id"].intValue
+                        let userName = json["name"].stringValue
+                        let userLastName = json["lastName"].stringValue
+                        let userProfile = UserProfile(id: userId, name: userName, lastName: userLastName)
+                        onSucces(userProfile)
+                    }
+                case .failure(let error):
+                    onError(error.localizedDescription)
+                }
+        }
+    }
 }
