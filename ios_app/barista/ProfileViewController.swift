@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, ProfileDelegate {
     
     @IBOutlet weak var blurAvatarImageView: UIImageView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var webProfileLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     
+    var userProfile: UserProfile?
     var username: String!
     var userId: Int!
 
@@ -30,6 +31,7 @@ class ProfileViewController: UIViewController {
         UserManager.fetchProfile(
             userId: id,
             onSuccess: {(user: UserProfile) -> () in
+                self.userProfile = user
                 self.showUserProfile(currentUser: user)
             },
             onError: {(error: String) -> () in
@@ -46,6 +48,12 @@ class ProfileViewController: UIViewController {
         webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
     }
     
+    func updateProfile(userProfile: UserProfile) {
+        self.userProfile?.name = userProfile.name
+        self.userProfile?.lastName = userProfile.lastName
+        nameLabel.text = "\(userProfile.name!) \(userProfile.lastName!)"
+    }
+    
     func fetchUserPreferences() {
         let userPreferences = UserDefaults.standard
         self.username = userPreferences.string(forKey: "currentUser")
@@ -55,7 +63,8 @@ class ProfileViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "performProfileUpdate" {
             let editProfileViewController = segue.destination as! EditProfileViewController
-            editProfileViewController.userId = self.userId
+            editProfileViewController.profileDelegate = self
+            editProfileViewController.userProfile = self.userProfile
         }
     }
 }
