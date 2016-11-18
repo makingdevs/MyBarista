@@ -6,8 +6,6 @@ set :repo_url, 'git@github.com:makingdevs/MyBarista.git'
 set :rbenv_ruby, '2.2.3'
 
 set :repo_tree, 'ruby_app'
-set :stage, :production
-set :puma_bind, %w(tcp://0.0.0.0:3000)
 # set :puma_init_active_record, true
 set :puma_user, fetch(:user)
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')

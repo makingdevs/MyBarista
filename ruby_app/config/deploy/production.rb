@@ -2,6 +2,10 @@
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
+set :stage, :production
+set :puma_bind, %w(tcp://0.0.0.0:3000)
+set :branch, 'production'
+set :deploy_to, "/var/www/#{fetch(:application)}/production"
 
 server 'mybarista.makingdevs.com', user: 'ec2-user', roles: %w{app web}
 # server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
