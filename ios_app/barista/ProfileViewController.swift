@@ -40,12 +40,16 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     }
     
     func showUserProfile(currentUser: UserProfile) {
-        blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
-        avatarImageView.loadAvatar(url: (currentUser.s3asset?.urlFile)!)
-        nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
+                nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
         usernameLabel.text = "@\(currentUser.username!)"
         coffeeCountLabel.text = "\(currentUser.checkinsCount!) Cafés"
         webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
+        if currentUser.s3asset != nil {
+            blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
+            avatarImageView.loadAvatar(url: (currentUser.s3asset?.urlFile)!)
+        } else {
+            avatarImageView.loadAvatar(url: "")
+        }
     }
     
     func updateProfile(userProfile: UserProfile) {
