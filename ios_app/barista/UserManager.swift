@@ -96,9 +96,37 @@ class UserManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        let id = json["id"].intValue
+                        let username = json["username"].stringValue
+                        let checkinsCount = json["checkins_count"].intValue
+                        let name = json["name"].stringValue
+                        let lastName = json["lastName"].stringValue
+                        let visibleName = json["visible_name"].stringValue
+                        if json["s3_asset"].exists() {
+                            let urlFile = json["s3_asset"]["url_file"].stringValue
+                            let s3asset = S3Asset(urlFile: urlFile)
+                            let userProfile: UserProfile = UserProfile(id: id,
+                                                                       username: username,
+                                                                       name: name,
+                                                                       lastName: lastName,
+                                                                       checkinsCount: checkinsCount,
+                                                                       visibleName: visibleName,
+                                                                       s3asset: s3asset)
+                            onSuccess(userProfile)
+                        } else {
+                            let userProfile: UserProfile = UserProfile(id: id,
+                                                                       username: username,
+                                                                       name: name,
+                                                                       lastName: lastName,
+                                                                       checkinsCount: checkinsCount,
+                                                                       visibleName: visibleName)
+                            onSuccess(userProfile)
+                        }
+                    }
                 case .failure(let error):
-                    print(error)
+                    onError(error.localizedDescription)
                 }
         }
     }
