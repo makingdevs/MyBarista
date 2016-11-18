@@ -39,6 +39,8 @@
 		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
 		4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */; };
 		4BBB204E1DDA64CB0051932D /* CircleFlavourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */; };
+		4BBC40F31DDF751000A8EBF5 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */; };
+		4BBC40F51DDF774E00A8EBF5 /* UpdateUserCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */; };
 		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
 		4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */; };
 		4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */; };
@@ -91,6 +93,8 @@
 		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
 		4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCircleFlavorViewController.swift; sourceTree = "<group>"; };
 		4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavourViewController.swift; sourceTree = "<group>"; };
+		4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserCommand.swift; sourceTree = "<group>"; };
 		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
 		4BD026741DD28C7400F6FF25 /* FoursquareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoursquareManager.swift; sourceTree = "<group>"; };
 		4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCommand.swift; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 				4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */,
 				4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */,
 				4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */,
+				4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -288,6 +293,7 @@
 				4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */,
 				4BE430FC1DC94B820055D280 /* UploadCommand.swift */,
 				4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */,
+				4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -460,6 +466,8 @@
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
 				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
+				4BBC40F31DDF751000A8EBF5 /* EditProfileViewController.swift in Sources */,
+				4BBC40F51DDF774E00A8EBF5 /* UpdateUserCommand.swift in Sources */,
 				8FB582321DD5133A00150059 /* Constants.swift in Sources */,
 				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
 				4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */,
