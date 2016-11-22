@@ -55,7 +55,10 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     func updateProfile(userProfile: UserProfile) {
         self.userProfile?.name = userProfile.name
         self.userProfile?.lastName = userProfile.lastName
+        self.userProfile?.s3asset?.urlFile = userProfile.s3asset?.urlFile
         nameLabel.text = "\(userProfile.name!) \(userProfile.lastName!)"
+        blurAvatarImageView.loadUrlWithBlur(url: (userProfile.s3asset?.urlFile)!)
+        avatarImageView.loadAvatarWithBorder(url: (userProfile.s3asset?.urlFile)!)
     }
     
     func fetchUserPreferences() {
