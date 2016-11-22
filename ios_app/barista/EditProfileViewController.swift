@@ -84,6 +84,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         S3AssetManager.uploadUserPhoto(
             uploadCommand: uploadCommand,
             onSuccess: {(userPhoto: PhotoCheckin) -> () in
+                self.userProfile.s3asset?.urlFile = userPhoto.urlFile
+                self.profileDelegate?.updateProfile(userProfile: self.userProfile)
                 _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in
