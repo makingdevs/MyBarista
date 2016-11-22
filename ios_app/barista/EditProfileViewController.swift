@@ -23,7 +23,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     var profileDelegate: ProfileDelegate?
     var userId: Int!
     var userProfile: UserProfile!
-    var image: UIImage?
+    var userImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     func initProfileForm() {
         nameField.text = userProfile.name
         lastNameField.text = userProfile.lastName
+        if userProfile.s3asset != nil {
+            userPhotoImageView.loadAvatar(url: (userProfile.s3asset?.urlFile)!)
+        }
     }
     
     @IBAction func sendProfileData(_ sender: UIButton) {
@@ -70,8 +73,21 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        self.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        userPhotoImageView.image = self.image
-        dismiss(animated: true, completion: nil)
+        self.userImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        userPhotoImageView.image = self.userImage
+        self.dismiss(animated: true, completion: nil)
+        uploadAsset()
+    }
+    
+    func uploadAsset(){
+        let uploadCommand = UploadCommand(userId: userProfile.id!, image: self.userImage!)
+        S3AssetManager.uploadUserPhoto(
+            uploadCommand: uploadCommand,
+            onSuccess: {(userPhoto: PhotoCheckin) -> () in
+                _ = self.navigationController?.popViewController(animated: true)
+            },
+            onError: {(error: String) -> () in
+                print(error)
+        })
     }
 }
