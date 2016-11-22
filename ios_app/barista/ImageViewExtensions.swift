@@ -30,6 +30,12 @@ extension UIImageView {
     func loadAvatar(url: String) {
         self.layer.cornerRadius = self.frame.size.width / 2;
         self.clipsToBounds = true
+        self.kf.setImage(with: URL(string: url))
+    }
+    
+    func loadAvatarWithBorder(url: String) {
+        self.layer.cornerRadius = self.frame.size.width / 2;
+        self.clipsToBounds = true
         self.layer.borderWidth = 3
         self.layer.borderColor = UIColor.white.cgColor
         self.kf.setImage(with: URL(string: url))

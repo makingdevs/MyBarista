@@ -46,9 +46,9 @@ class ProfileViewController: UIViewController, ProfileDelegate {
         webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
         if currentUser.s3asset != nil {
             blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
-            avatarImageView.loadAvatar(url: (currentUser.s3asset?.urlFile)!)
+            avatarImageView.loadAvatarWithBorder(url: (currentUser.s3asset?.urlFile)!)
         } else {
-            avatarImageView.loadAvatar(url: "")
+            avatarImageView.loadAvatarWithBorder(url: "")
         }
     }
     
