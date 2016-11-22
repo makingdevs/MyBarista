@@ -12,16 +12,18 @@ protocol ProfileDelegate {
     func updateProfile(userProfile: UserProfile)
 }
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
+    @IBOutlet weak var userPhotoImageView: UIImageView!
     
     var updateUserCommand: UpdateUserCommand!
     var profileDelegate: ProfileDelegate?
     var userId: Int!
     var userProfile: UserProfile!
+    var image: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,5 +56,22 @@ class EditProfileViewController: UIViewController {
         self.updateUserCommand = UpdateUserCommand(id: userProfile.id!,
                                                    name: name,
                                                    lastName: lastName)
+    }
+    
+    @IBAction func changeUserPhoto(_ sender: UIButton) {
+        let checkInImagePicker = UIImagePickerController()
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            checkInImagePicker.sourceType = .camera
+        } else {
+            checkInImagePicker.sourceType = .photoLibrary
+        }
+        checkInImagePicker.delegate = self
+        present(checkInImagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        userPhotoImageView.image = self.image
+        dismiss(animated: true, completion: nil)
     }
 }
