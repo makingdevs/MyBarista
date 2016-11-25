@@ -12,9 +12,11 @@ import SwiftyJSON
 
 class CheckinManager {
     
-    static func findAllCheckinsByUser(_ username: String, onSuccess:@escaping (_ checkins:[Checkin]) -> (), onError:@escaping (_ error:String) -> () ){
-        let parameters = ["username":username]
-        Alamofire.request("\(Constants.urlBase)/checkins/", parameters: parameters).responseJSON{ response in
+    static let sharedInstance = CheckinManager()
+    
+    func findAllCheckinsByUser(_ username: String, onSuccess:@escaping (_ checkins:[Checkin]) -> (), onError:@escaping (_ error:String) -> () ){
+        
+        Alamofire.request(CheckInRouter.fetchList(username)).responseJSON{ response in
             switch response.result {
             case .success:
                 var checkins = [Checkin]()
