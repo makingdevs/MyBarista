@@ -54,7 +54,7 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     func retriveCheckinsForManager(username: String){
-        CheckinManager.findAllCheckinsByUser(
+        CheckinManager.sharedInstance.findAllCheckinsByUser(
             username,
             onSuccess: { (checkins:[Checkin]) -> () in
                 self.checkins = checkins
