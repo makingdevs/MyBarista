@@ -54,6 +54,7 @@
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
+		8FA7EBE71DEF221E005D3844 /* FacebookProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA7EBE61DEF221E005D3844 /* FacebookProfile.swift */; };
 		8FB582321DD5133A00150059 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB582311DD5133A00150059 /* Constants.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
@@ -109,6 +110,7 @@
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
 		8FA7EBE51DEE77F7005D3844 /* barista.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = barista.entitlements; sourceTree = "<group>"; };
+		8FA7EBE61DEF221E005D3844 /* FacebookProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookProfile.swift; sourceTree = "<group>"; };
 		8FB582311DD5133A00150059 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				4B0780181D70C1A40001A9D1 /* UserProfile.swift */,
 				4B07801A1D70C1AE0001A9D1 /* Venue.swift */,
 				4B07801C1D70C1C20001A9D1 /* VenueDetailBindable.swift */,
+				8FA7EBE61DEF221E005D3844 /* FacebookProfile.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
 				4BBC40F31DDF751000A8EBF5 /* EditProfileViewController.swift in Sources */,
 				4BBC40F51DDF774E00A8EBF5 /* UpdateUserCommand.swift in Sources */,
+				8FA7EBE71DEF221E005D3844 /* FacebookProfile.swift in Sources */,
 				8FB582321DD5133A00150059 /* Constants.swift in Sources */,
 				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
 				4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */,
