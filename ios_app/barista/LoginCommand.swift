@@ -12,6 +12,10 @@ class LoginCommand {
     
     var username: String?
     var password: String?
+    var email: String?
+    var token: String?
+    var firstName: String?
+    var lastName: String?
     var errorMessage: String?
     
     init(username: String, password: String){
@@ -19,7 +23,15 @@ class LoginCommand {
         self.password = password
     }
     
-    //Maybe method
+    init(username: String, password: String, email: String, token: String, firstName: String, lastName: String) {
+        self.username = username
+        self.password = password
+        self.email = email
+        self.token = token
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
     func validateCommand() -> Bool {
         if (self.username?.isEmpty)! {
             self.errorMessage = "Nombre de usuario requerido"
