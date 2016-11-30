@@ -9,8 +9,11 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import FBSDKLoginKit
 
 class UserManager {
+    
+    static let sharedInstance = UserManager()
     
     static func signin(loginCommand: LoginCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
@@ -157,6 +160,28 @@ class UserManager {
                 case .failure(let error):
                     onError(error.localizedDescription)
                 }
+        }
+    }
+    
+    func fetchFacebookProfile(onSuccess: @escaping (_ fbProfile: FacebookProfile) -> (),
+                              onError: @escaping (_ error: String) -> ()) {
+        let profilePath = "/me"
+        let readPermissions = ["fields": "id, first_name, last_name, email, birthday"]
+        
+        FBSDKGraphRequest(graphPath: profilePath, parameters: readPermissions).start {
+            (connection, result, error) in
+            if let value = result {
+                let json = JSON(value)
+                let id = json["id"].intValue
+                let firstName = json["first_name"].stringValue
+                let lastName = json["last_name"].stringValue
+                let email = json["email"].stringValue
+                let birthday = json["birthday"].stringValue
+                let fbProfile = FacebookProfile(id: id, firstName: firstName, lastName: lastName, email: email, birthday: birthday)
+                onSuccess(fbProfile)
+            } else {
+                onError((error?.localizedDescription)!)
+            }
         }
     }
 }
