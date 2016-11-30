@@ -82,6 +82,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="1g5-F2-M0d"/>
                     <connections>
+                        <outlet property="facebookLoginButton" destination="jyZ-m3-Bzp" id="a41-uX-MOy"/>
                         <outlet property="passwordField" destination="ggD-yZ-XO1" id="5RN-X2-x3y"/>
                         <outlet property="usernameField" destination="gug-pE-3eH" id="IU6-ja-4IQ"/>
                     </connections>
