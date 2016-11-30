@@ -17,11 +17,22 @@ class UserManager {
     
     static func signin(loginCommand: LoginCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
-        let signinURL: String = "\(Constants.urlBase)/login/user/"
-        let parameters = ["username": loginCommand.username!,
-                          "password": loginCommand.password!]
+        let signInPath: String = "\(Constants.urlBase)/login/user/"
+        let signInParams: [String : Any]
         
-        Alamofire.request(signinURL, parameters: parameters)
+        if loginCommand.email != nil {
+            signInParams = ["username" : loginCommand.username!,
+                            "firstName": loginCommand.firstName!,
+                            "lastName" : loginCommand.lastName!,
+                            "password" : loginCommand.password!,
+                            "email"    : loginCommand.email!,
+                            "token"    : loginCommand.token!]
+        } else {
+            signInParams = ["username" : loginCommand.username!,
+                            "password" : loginCommand.password!]
+        }
+        
+        Alamofire.request(signInPath, parameters: signInParams)
                  .validate(statusCode: 200..<202)
                  .responseJSON {
             response in
