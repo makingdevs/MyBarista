@@ -11,7 +11,6 @@ import FBSDKLoginKit
 
 class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
-    var loginCommand: LoginCommand!
     var performSignIn: Bool = false
   
     @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
@@ -25,34 +24,46 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         facebookLoginButton.readPermissions = ["email", "public_profile"]
     }
     
-    @IBAction func fetchUserData(_ sender: UIButton) {
+    @IBAction func signInWithUsername(_ sender: UIButton) {
         let username: String = usernameField.text!
         let password: String = passwordField.text!
-        loginCommand = LoginCommand(username: username, password: password)
+        let loginCommand = LoginCommand(username: username, password: password)
         
-        if loginCommand.validateCommand() {
-            UserManager.signin(loginCommand: loginCommand,
-                               onSuccess: { (user: User) -> () in
-                                self.setUserPreferences(currentUser: user)
-                                self.performSignIn = true
-                                self.performSegue(withIdentifier: "PerformSignIn", sender: self)
-                },
-                               onError:{ (error: String) -> () in
-                                self.present(self.showErrorAlert(message: error.description), animated: true)
-            })
-        } else {
-            self.present(self.showErrorAlert(message: loginCommand.errorMessage!), animated: true)
-        }
+        fetchUserData(loginCommand: loginCommand)
     }
     
     /* Performs Sign In with Facebook */
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         UserManager.sharedInstance.fetchFacebookProfile(
             onSuccess: {(fbProfile: FacebookProfile) -> () in
-                // TODO: Barista Sign In
+                let username = fbProfile.firstName! + fbProfile.lastName!
+                let loginCommand = LoginCommand(username: username,
+                                                password: String(fbProfile.id!),
+                                                email: fbProfile.email!,
+                                                token: String(describing: result.token),
+                                                firstName: fbProfile.firstName!,
+                                                lastName: fbProfile.lastName!)
+                
+                self.fetchUserData(loginCommand: loginCommand)
         }, onError: {(error: String) -> () in
             print(error)
         })
+    }
+    
+    func fetchUserData(loginCommand: LoginCommand) {
+        if loginCommand.validateCommand() {
+            UserManager.signin(loginCommand: loginCommand,
+                               onSuccess: { (user: User) -> () in
+                                self.setUserPreferences(currentUser: user)
+                                self.performSignIn = true
+                                self.performSegue(withIdentifier: "PerformSignIn", sender: self)
+            },
+                               onError:{ (error: String) -> () in
+                                self.present(self.showErrorAlert(message: error.description), animated: true)
+            })
+        } else {
+            self.present(self.showErrorAlert(message: loginCommand.errorMessage!), animated: true)
+        }
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
