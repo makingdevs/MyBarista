@@ -7,14 +7,22 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     var loginCommand: LoginCommand!
     var performSignIn: Bool = false
   
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        facebookLoginButton.delegate = self
+    }
     
     @IBAction func fetchUserData(_ sender: UIButton) {
         let username: String = usernameField.text!
@@ -36,6 +44,15 @@ class ViewController: UIViewController {
         }
     }
     
+    /* Performs Sign In with Facebook */
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        print("Success Facebook Sign In ")
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        // FBSDKLoginButtonDelegate says I must implement this method
+    }
+    
     func showErrorAlert(message: String) -> UIAlertController {
         let alert = UIAlertController(title: "Ocurrió un error", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
@@ -54,4 +71,5 @@ class ViewController: UIViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return identifier == "PerformSignIn" ? performSignIn : true
     }
+    
 }
