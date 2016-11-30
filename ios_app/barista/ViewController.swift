@@ -22,6 +22,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         facebookLoginButton.delegate = self
+        facebookLoginButton.readPermissions = ["email", "public_profile"]
     }
     
     @IBAction func fetchUserData(_ sender: UIButton) {
@@ -46,7 +47,12 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     /* Performs Sign In with Facebook */
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        print("Success Facebook Sign In ")
+        UserManager.sharedInstance.fetchFacebookProfile(
+            onSuccess: {(fbProfile: FacebookProfile) -> () in
+                // TODO: Barista Sign In
+        }, onError: {(error: String) -> () in
+            print(error)
+        })
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
