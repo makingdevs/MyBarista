@@ -22,12 +22,15 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
-            if CLLocationManager.authorizationStatus() == .notDetermined {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined:
                 initLocationManager()
+            case .authorizedAlways, .authorizedWhenInUse:
                 fetchVenues()
+            default:
+                print("The app is not permitted to use location services")
             }
         }
     }
@@ -36,6 +39,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
+        fetchVenues()
     }
     
     func fetchVenues() {
