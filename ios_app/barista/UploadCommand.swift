@@ -10,10 +10,15 @@ import Foundation
 import UIKit
 
 class UploadCommand {
-
+    var userId: Int?
     var image: UIImage?
     
     init(image: UIImage?) {
+        self.image = image
+    }
+    
+    init(userId: Int, image: UIImage) {
+        self.userId = userId
         self.image = image
     }
     

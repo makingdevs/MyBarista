@@ -11,5 +11,9 @@ target 'barista' do
   pod 'Kingfisher', '~> 3.0'
   pod 'Cosmos', '~> 7.0'
   pod 'Charts/Realm'
+  pod 'Bolts'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
 
 end

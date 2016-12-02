@@ -7,35 +7,67 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
-    var loginCommand: LoginCommand!
     var performSignIn: Bool = false
-    let userPreferences = UserDefaults.standard
   
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    @IBAction func fetchUserData(_ sender: UIButton) {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        facebookLoginButton.delegate = self
+        facebookLoginButton.readPermissions = ["email", "public_profile"]
+    }
+    
+    @IBAction func signInWithUsername(_ sender: UIButton) {
         let username: String = usernameField.text!
         let password: String = passwordField.text!
-        loginCommand = LoginCommand(username: username, password: password)
+        let loginCommand = LoginCommand(username: username, password: password)
         
+        fetchUserData(loginCommand: loginCommand)
+    }
+    
+    /* Performs Sign In with Facebook */
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        UserManager.sharedInstance.fetchFacebookProfile(
+            onSuccess: {(fbProfile: FacebookProfile) -> () in
+                let username = fbProfile.firstName! + fbProfile.lastName!
+                let loginCommand = LoginCommand(username: username,
+                                                password: String(fbProfile.id!),
+                                                email: fbProfile.email!,
+                                                token: String(describing: result.token),
+                                                firstName: fbProfile.firstName!,
+                                                lastName: fbProfile.lastName!)
+                
+                self.fetchUserData(loginCommand: loginCommand)
+        }, onError: {(error: String) -> () in
+            print(error)
+        })
+    }
+    
+    func fetchUserData(loginCommand: LoginCommand) {
         if loginCommand.validateCommand() {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
-                                self.userPreferences.set(user.username, forKey: "currentUser")
-                                self.userPreferences.synchronize()
+                                self.setUserPreferences(currentUser: user)
                                 self.performSignIn = true
                                 self.performSegue(withIdentifier: "PerformSignIn", sender: self)
-                },
+            },
                                onError:{ (error: String) -> () in
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
             self.present(self.showErrorAlert(message: loginCommand.errorMessage!), animated: true)
         }
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        // FBSDKLoginButtonDelegate says I must implement this method
     }
     
     func showErrorAlert(message: String) -> UIAlertController {
@@ -45,7 +77,16 @@ class ViewController: UIViewController {
         return alert
     }
     
+    func setUserPreferences(currentUser: User) {
+        let userPreferences = UserDefaults.standard
+        userPreferences.set(currentUser.username, forKey: "currentUser")
+        userPreferences.set(currentUser.id, forKey: "currentUserId")
+        userPreferences.set(currentUser.password, forKey: "currentUserPassword")
+        userPreferences.synchronize()
+    }
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return identifier == "PerformSignIn" ? performSignIn : true
     }
+    
 }

@@ -50,4 +50,49 @@ class S3AssetManager {
                 }
         })
     }
+    
+    static func uploadUserPhoto(uploadCommand: UploadCommand,
+                                onSuccess: @escaping (_ userPhoto: PhotoCheckin) -> (),
+                                onError: @escaping (_ error: String) -> ()){
+        let assetURL = try! URLRequest(url: URL(string: "\(Constants.urlBase)/users/photo/save")!, method: .post, headers: nil)
+        let image: Data = UIImageJPEGRepresentation(uploadCommand.image!, 0.3)!
+        let imageName: String = "file"
+        let imageFileName: String = "photo_user.png"
+        let imageMimeType: String = "image/png"
+        
+        let parameters = ["user": String(describing: uploadCommand.userId!)]
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFromData in
+                for (key, value) in parameters {
+                    multipartFromData.append(value.data(using: .utf8)!, withName: key)
+                }
+                multipartFromData.append(image,
+                                         withName: imageName,
+                                         fileName: imageFileName,
+                                         mimeType: imageMimeType
+                )
+            },
+            with: assetURL,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON {
+                        response in
+                        if let value = response.result.value {
+                            let json = JSON(value)
+                            let s3Id = json["id"].intValue
+                            let s3FileName = json["name_file"].stringValue
+                            let s3UrlFile = json["url_file"].stringValue
+                            let s3CreatedAt = json["created_at"].stringValue
+                            let s3UpdatedAt = json["updated_at"].stringValue
+                            let s3Asset = PhotoCheckin(id: s3Id, fileName: s3FileName, urlFile: s3UrlFile, createdAt: s3CreatedAt, updatedAt: s3UpdatedAt)
+                            onSuccess(s3Asset)
+                        }
+                    }
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+        })
+    }
 }
