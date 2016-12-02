@@ -22,14 +22,19 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initLocationManager()
-        fetchVenues()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            if CLLocationManager.authorizationStatus() == .notDetermined {
+                initLocationManager()
+                fetchVenues()
+            }
+        }
     }
     
     func initLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
     }
     
