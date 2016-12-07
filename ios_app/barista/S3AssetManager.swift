@@ -91,7 +91,7 @@ class S3AssetManager {
                         }
                     }
                 case .failure(let encodingError):
-                    print(encodingError)
+                    print(encodingError.localizedDescription)
                 }
         })
     }
