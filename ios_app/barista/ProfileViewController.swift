@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     }
     
     func showUserProfile(currentUser: UserProfile) {
-                nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
+        nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
         usernameLabel.text = "@\(currentUser.username!)"
         coffeeCountLabel.text = "\(currentUser.checkinsCount!) Cafés"
         webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
@@ -53,12 +53,7 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     }
     
     func updateProfile(userProfile: UserProfile) {
-        self.userProfile?.name = userProfile.name
-        self.userProfile?.lastName = userProfile.lastName
-        self.userProfile?.s3asset?.urlFile = userProfile.s3asset?.urlFile
-        nameLabel.text = "\(userProfile.name!) \(userProfile.lastName!)"
-        blurAvatarImageView.loadUrlWithBlur(url: (userProfile.s3asset?.urlFile)!)
-        avatarImageView.loadAvatarWithBorder(url: (userProfile.s3asset?.urlFile)!)
+        showUserProfile(currentUser: userProfile)
     }
     
     func fetchUserPreferences() {
