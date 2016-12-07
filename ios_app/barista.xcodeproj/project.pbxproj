@@ -29,6 +29,7 @@
 		4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */; };
 		4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */; };
 		4B2C504E1DC297A600105278 /* Checkin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C504C1DC297A600105278 /* Checkin.storyboard */; };
+		4B6292651DF87C450024C7AF /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6292641DF87C450024C7AF /* ViewControllerExtensions.swift */; };
 		4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */; };
 		4B98366E1DBA7D810027BE5D /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */; };
 		4B9836701DBA7DBD0027BE5D /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */; };
@@ -84,6 +85,7 @@
 		4B17FA2E1D2D6978007028B1 /* CheckinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinManager.swift; sourceTree = "<group>"; };
 		4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
 		4B2C504D1DC297A600105278 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Checkin.storyboard; sourceTree = "<group>"; };
+		4B6292641DF87C450024C7AF /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
 		4B9836601DB921AB0027BE5D /* CheckinsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinsTableViewCell.swift; sourceTree = "<group>"; };
 		4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 		4B9836621DBA73940027BE5D /* Commons */ = {
 			isa = PBXGroup;
 			children = (
+				4B6292641DF87C450024C7AF /* ViewControllerExtensions.swift */,
 				4B98366D1DBA7D810027BE5D /* ImageViewExtensions.swift */,
 				4B98366F1DBA7DBD0027BE5D /* ViewExtensions.swift */,
 				4B9836731DBAB4580027BE5D /* DateExtensions.swift */,
@@ -484,6 +487,7 @@
 				4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */,
 				4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */,
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,
+				4B6292651DF87C450024C7AF /* ViewControllerExtensions.swift in Sources */,
 				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
 				4B17FA311D2D7B52007028B1 /* CheckinViewController.swift in Sources */,
 				4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */,
