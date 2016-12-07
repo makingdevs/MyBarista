@@ -20,6 +20,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         facebookLoginButton.delegate = self
         facebookLoginButton.readPermissions = ["email", "public_profile"]
     }
