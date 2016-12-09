@@ -104,32 +104,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let id = json["id"].intValue
-                        let username = json["username"].stringValue
-                        let checkinsCount = json["checkins_count"].intValue
-                        let name = json["name"].stringValue
-                        let lastName = json["lastName"].stringValue
-                        let visibleName = json["visible_name"].stringValue
-                        if json["s3_asset"].exists() {
-                            let urlFile = json["s3_asset"]["url_file"].stringValue
-                            let s3asset = S3Asset(urlFile: urlFile)
-                            let userProfile: UserProfile = UserProfile(id: id,
-                                                                       username: username,
-                                                                       name: name,
-                                                                       lastName: lastName,
-                                                                       checkinsCount: checkinsCount,
-                                                                       visibleName: visibleName,
-                                                                       s3asset: s3asset)
-                            onSuccess(userProfile)
-                        } else {
-                            let userProfile: UserProfile = UserProfile(id: id,
-                                                                       username: username,
-                                                                       name: name,
-                                                                       lastName: lastName,
-                                                                       checkinsCount: checkinsCount,
-                                                                       visibleName: visibleName)
-                            onSuccess(userProfile)
-                        }
+                        onSuccess(UserManager.sharedInstance.parseProfileJSON(json: json))
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
@@ -193,13 +168,31 @@ class UserManager {
     }
     
     func parseProfileJSON(json: JSON) -> UserProfile {
+        let userProfile: UserProfile?
         let id = json["id"].intValue
         let username = json["username"].stringValue
         let name = json["name"].stringValue
         let lastName = json["lastName"].stringValue
         let checkinsCount = json["checkins_count"].intValue
         let visibleName = json["visible_name"].stringValue
-        let userProfile: UserProfile = UserProfile(id: id, username: username, name: name, lastName: lastName, checkinsCount: checkinsCount, visibleName: visibleName)
-        return userProfile
+        if json["s3_asset"].exists() {
+            let urlFile = json["s3_asset"]["url_file"].stringValue
+            let s3asset = S3Asset(urlFile: urlFile)
+            userProfile = UserProfile(id: id,
+                                      username: username,
+                                      name: name,
+                                      lastName: lastName,
+                                      checkinsCount: checkinsCount,
+                                      visibleName: visibleName,
+                                      s3asset: s3asset)
+        } else {
+            userProfile = UserProfile(id: id,
+                                      username: username,
+                                      name: name,
+                                      lastName: lastName,
+                                      checkinsCount: checkinsCount,
+                                      visibleName: visibleName)
+        }
+        return userProfile!
     }
 }
