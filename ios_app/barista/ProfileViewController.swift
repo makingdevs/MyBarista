@@ -47,13 +47,12 @@ class ProfileViewController: UIViewController, ProfileDelegate {
         if currentUser.s3asset != nil {
             blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
             avatarImageView.loadAvatarWithBorder(url: (currentUser.s3asset?.urlFile)!)
-        } else {
-            avatarImageView.loadAvatarWithBorder(url: "")
         }
     }
     
-    func updateProfile(userProfile: UserProfile) {
-        showUserProfile(currentUser: userProfile)
+    func updateProfile(profileUpdated: UserProfile) {
+        self.userProfile = profileUpdated
+        showUserProfile(currentUser: profileUpdated)
     }
     
     func fetchUserPreferences() {
