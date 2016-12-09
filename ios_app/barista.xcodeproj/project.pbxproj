@@ -53,6 +53,7 @@
 		4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE887561DD240B4009576FC /* VenueTableViewCell.swift */; };
 		4BE887591DD25FBB009576FC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE887581DD25FBB009576FC /* CoreLocation.framework */; };
 		4BEE65AD1DFB1C9500C49FFD /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEE65AC1DFB1C9500C49FFD /* CommentManager.swift */; };
+		4BEE65AF1DFB715B00C49FFD /* CommentCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEE65AE1DFB715B00C49FFD /* CommentCommand.swift */; };
 		8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */; };
 		8F114C201DB6CE9F009B80F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */; };
 		8F8DCFBA1DB7112B00F2B33E /* RegistrationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */; };
@@ -110,6 +111,7 @@
 		4BE887561DD240B4009576FC /* VenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewCell.swift; sourceTree = "<group>"; };
 		4BE887581DD25FBB009576FC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4BEE65AC1DFB1C9500C49FFD /* CommentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentManager.swift; sourceTree = "<group>"; };
+		4BEE65AE1DFB715B00C49FFD /* CommentCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCommand.swift; sourceTree = "<group>"; };
 		8F114C1D1DB6CE1D009B80F6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		8F114C1F1DB6CE9F009B80F6 /* LoginCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
 		8F8DCFB91DB7112B00F2B33E /* RegistrationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationCommand.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				4BE430FC1DC94B820055D280 /* UploadCommand.swift */,
 				4BD026761DD28CCE00F6FF25 /* VenueCommand.swift */,
 				4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */,
+				4BEE65AE1DFB715B00C49FFD /* CommentCommand.swift */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */,
 				4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */,
 				4B17FA2B1D2D5E86007028B1 /* CheckinsTableViewController.swift in Sources */,
+				4BEE65AF1DFB715B00C49FFD /* CommentCommand.swift in Sources */,
 				4B0780111D70C1640001A9D1 /* GPSLocation.swift in Sources */,
 				4BD026771DD28CCE00F6FF25 /* VenueCommand.swift in Sources */,
 			);
