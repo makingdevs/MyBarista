@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class CommentManager {
     
@@ -23,9 +24,21 @@ class CommentManager {
                 response in
                 switch response.result {
                 case .success:
-                    print(response)
+                    var comments = [Comment]()
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        for(_, json) in
+                            json {
+                                let commentAuthor = json["user"]["username"].stringValue
+                                let commentBody = json["body"].stringValue
+                                let commentDate = json["created_at"].timeValue
+                                let comment = Comment(author: commentAuthor, body: commentBody, created_at: commentDate as! Date)
+                                comments.append(comment)
+                        }
+                        onSuccess(comments)
+                    }
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    onError(error.localizedDescription)
                 }
         }
     }
