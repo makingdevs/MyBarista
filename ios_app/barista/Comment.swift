@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+class Comment {
+    
+    var author: String?
+    var body: String?
+    var created_at: Date?
+    
+    init(author: String, body: String, created_at: Date) {
+        self.author = author
+        self.body = body
+        self.created_at = created_at
+    }
+}
