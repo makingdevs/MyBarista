@@ -42,4 +42,25 @@ class CommentManager {
                 }
         }
     }
+    
+    func saveComment(commentCommand: CommentCommand, onSuccess: @escaping (_ comment: Comment) -> (), onError: @escaping (_ error: String) -> ()) {
+        
+        let commentPath: String = "\(Constants.urlBase)/comments/"
+        let commentParams = ["username": commentCommand.author,
+                             "body": commentCommand.body,
+                             "checkin_id": commentCommand.checkinId,
+                             "created_at": commentCommand.createdAt] as [String : Any]
+        
+        Alamofire.request(commentPath, method: .post, parameters: commentParams)
+            .validate(statusCode: 200..<202)
+            .responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    print(response)
+                case .failure(let error):
+                    print(error)
+                }
+        }
+    }
 }
