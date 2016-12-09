@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ProfileDelegate {
-    func updateProfile(userProfile: UserProfile)
+    func updateProfile(profileUpdated: UserProfile)
 }
 
 class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -45,7 +45,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             UserManager.updateProfile(
                 userCommand: updateUserCommand,
                 onSucces: {(userProfile: UserProfile) -> () in
-                    self.profileDelegate?.updateProfile(userProfile: userProfile)
+                    self.profileDelegate?.updateProfile(profileUpdated: userProfile)
                     _ = self.navigationController?.popViewController(animated: true)
                 },
                 onError: {(error: String) -> () in
@@ -86,7 +86,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             uploadCommand: uploadCommand,
             onSuccess: {(userPhoto: PhotoCheckin) -> () in
                 self.userProfile.s3asset?.urlFile = userPhoto.urlFile
-                self.profileDelegate?.updateProfile(userProfile: self.userProfile)
+                self.profileDelegate?.updateProfile(profileUpdated: self.userProfile)
                 _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in
