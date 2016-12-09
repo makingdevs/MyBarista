@@ -26,26 +26,33 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
             locationManager.delegate = self
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined:
-                initLocationManager()
+                locationManager.requestWhenInUseAuthorization()
+                startUpdatingLocation()
             case .authorizedAlways, .authorizedWhenInUse:
-                fetchVenues()
+                startUpdatingLocation()
             default:
                 print("The app is not permitted to use location services")
             }
         }
     }
     
-    func initLocationManager() {
-        locationManager.requestWhenInUseAuthorization()
+    func startUpdatingLocation() {
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
-        fetchVenues()
     }
     
-    func fetchVenues() {
-        let latitude = locationManager.location?.coordinate.latitude.description;
-        let longitude = locationManager.location?.coordinate.longitude.description;
-        venueCommand = VenueCommand(latitude: latitude!, longitude: longitude!, query: "")
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let currentLatitude = manager.location?.coordinate.latitude.description;
+        let currentLongitude = manager.location?.coordinate.longitude.description;
+        fetchVenues(latitude: currentLatitude!, longitude: currentLongitude!)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func fetchVenues(latitude: String, longitude: String) {
+        venueCommand = VenueCommand(latitude: latitude, longitude: longitude, query: "")
         FoursquareManager.getVenuesNear(
             venueCommand: venueCommand,
             onSuccess: { (venues: [Venue]) -> () in
