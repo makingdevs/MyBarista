@@ -35,11 +35,4 @@ class UserProfile {
         self.checkinsCount = checkinsCount
         self.visibleName = visibleName
     }
-    
-    /* Update */
-    init(id: Int, name: String, lastName: String) {
-        self.id = id
-        self.name = name
-        self.lastName = lastName
-    }
 }
