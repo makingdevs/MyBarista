@@ -40,11 +40,7 @@ class UserManager {
             case .success:
                 if let value = response.result.value {
                     let json = JSON(value)
-                    let userID = json["id"].intValue
-                    let userName = json["username"].stringValue
-                    let userPass = json["password_digest"].stringValue
-                    let user = User(id: userID, username: userName, password: userPass)
-                    onSuccess(user)
+                    onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
                 }
             case .failure(_):
                 let errorMessage : String
@@ -76,11 +72,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let userID = json["id"].intValue
-                        let userName = json["username"].stringValue
-                        let userPass = json["password_digest"].stringValue
-                        let user = User(id: userID, username: userName, password: userPass)
-                        onSuccess(user)
+                        onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
                     }
                 case .failure(_):
                     let errorMessage: String
@@ -162,11 +154,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let userId = json["id"].intValue
-                        let userName = json["name"].stringValue
-                        let userLastName = json["lastName"].stringValue
-                        let userProfile = UserProfile(id: userId, name: userName, lastName: userLastName)
-                        onSucces(userProfile)
+                        onSucces(UserManager.sharedInstance.parseProfileJSON(json: json))
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
@@ -194,5 +182,24 @@ class UserManager {
                 onError((error?.localizedDescription)!)
             }
         }
+    }
+    
+    func parseUserJSON(json: JSON) -> User {
+        let userID = json["id"].intValue
+        let userName = json["username"].stringValue
+        let userPass = json["password_digest"].stringValue
+        let user = User(id: userID, username: userName, password: userPass)
+        return user
+    }
+    
+    func parseProfileJSON(json: JSON) -> UserProfile {
+        let id = json["id"].intValue
+        let username = json["username"].stringValue
+        let name = json["name"].stringValue
+        let lastName = json["lastName"].stringValue
+        let checkinsCount = json["checkins_count"].intValue
+        let visibleName = json["visible_name"].stringValue
+        let userProfile: UserProfile = UserProfile(id: id, username: username, name: name, lastName: lastName, checkinsCount: checkinsCount, visibleName: visibleName)
+        return userProfile
     }
 }
