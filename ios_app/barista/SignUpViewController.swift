@@ -18,6 +18,11 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmField: UITextField!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+    }
+    
     @IBAction func sendRequest(_ sender: UIButton) {
         let email: String = emailField.text!
         let username: String = usernameField.text!

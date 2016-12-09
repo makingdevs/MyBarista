@@ -40,11 +40,7 @@ class UserManager {
             case .success:
                 if let value = response.result.value {
                     let json = JSON(value)
-                    let userID = json["id"].intValue
-                    let userName = json["username"].stringValue
-                    let userPass = json["password_digest"].stringValue
-                    let user = User(id: userID, username: userName, password: userPass)
-                    onSuccess(user)
+                    onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
                 }
             case .failure(_):
                 let errorMessage : String
@@ -76,11 +72,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let userID = json["id"].intValue
-                        let userName = json["username"].stringValue
-                        let userPass = json["password_digest"].stringValue
-                        let user = User(id: userID, username: userName, password: userPass)
-                        onSuccess(user)
+                        onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
                     }
                 case .failure(_):
                     let errorMessage: String
@@ -112,32 +104,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let id = json["id"].intValue
-                        let username = json["username"].stringValue
-                        let checkinsCount = json["checkins_count"].intValue
-                        let name = json["name"].stringValue
-                        let lastName = json["lastName"].stringValue
-                        let visibleName = json["visible_name"].stringValue
-                        if json["s3_asset"].exists() {
-                            let urlFile = json["s3_asset"]["url_file"].stringValue
-                            let s3asset = S3Asset(urlFile: urlFile)
-                            let userProfile: UserProfile = UserProfile(id: id,
-                                                                       username: username,
-                                                                       name: name,
-                                                                       lastName: lastName,
-                                                                       checkinsCount: checkinsCount,
-                                                                       visibleName: visibleName,
-                                                                       s3asset: s3asset)
-                            onSuccess(userProfile)
-                        } else {
-                            let userProfile: UserProfile = UserProfile(id: id,
-                                                                       username: username,
-                                                                       name: name,
-                                                                       lastName: lastName,
-                                                                       checkinsCount: checkinsCount,
-                                                                       visibleName: visibleName)
-                            onSuccess(userProfile)
-                        }
+                        onSuccess(UserManager.sharedInstance.parseProfileJSON(json: json))
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
@@ -162,11 +129,7 @@ class UserManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let userId = json["id"].intValue
-                        let userName = json["name"].stringValue
-                        let userLastName = json["lastName"].stringValue
-                        let userProfile = UserProfile(id: userId, name: userName, lastName: userLastName)
-                        onSucces(userProfile)
+                        onSucces(UserManager.sharedInstance.parseProfileJSON(json: json))
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)
@@ -194,5 +157,42 @@ class UserManager {
                 onError((error?.localizedDescription)!)
             }
         }
+    }
+    
+    func parseUserJSON(json: JSON) -> User {
+        let userID = json["id"].intValue
+        let userName = json["username"].stringValue
+        let userPass = json["password_digest"].stringValue
+        let user = User(id: userID, username: userName, password: userPass)
+        return user
+    }
+    
+    func parseProfileJSON(json: JSON) -> UserProfile {
+        let userProfile: UserProfile?
+        let id = json["id"].intValue
+        let username = json["username"].stringValue
+        let name = json["name"].stringValue
+        let lastName = json["lastName"].stringValue
+        let checkinsCount = json["checkins_count"].intValue
+        let visibleName = json["visible_name"].stringValue
+        if json["s3_asset"].exists() {
+            let urlFile = json["s3_asset"]["url_file"].stringValue
+            let s3asset = S3Asset(urlFile: urlFile)
+            userProfile = UserProfile(id: id,
+                                      username: username,
+                                      name: name,
+                                      lastName: lastName,
+                                      checkinsCount: checkinsCount,
+                                      visibleName: visibleName,
+                                      s3asset: s3asset)
+        } else {
+            userProfile = UserProfile(id: id,
+                                      username: username,
+                                      name: name,
+                                      lastName: lastName,
+                                      checkinsCount: checkinsCount,
+                                      visibleName: visibleName)
+        }
+        return userProfile!
     }
 }

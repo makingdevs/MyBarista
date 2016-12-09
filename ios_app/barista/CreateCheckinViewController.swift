@@ -41,6 +41,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         initPickerViews()
         method = methodList[0]
         state = stateList[0]
