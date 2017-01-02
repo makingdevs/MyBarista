@@ -107,6 +107,9 @@ class CheckinViewController: UIViewController, CheckinDelegate {
         } else if segue.identifier == "performCircleFlavor" {
             let circleFlavorController = segue.destination as! CircleFlavourViewController
             circleFlavorController.checkin = self.checkin
+        } else if segue.identifier == "performComment" {
+            let commentController = segue.destination as! CommentTableViewController
+            commentController.checkin = self.checkin
         }
     }
 }
