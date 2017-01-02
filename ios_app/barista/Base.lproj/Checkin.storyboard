@@ -235,7 +235,7 @@
                                                 <rect key="frame" x="1" y="817" width="374" height="250"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <connections>
-                                                    <segue destination="rO4-S1-PhV" kind="embed" id="qcV-0D-ugR"/>
+                                                    <segue destination="rO4-S1-PhV" kind="embed" identifier="performComment" id="qcV-0D-ugR"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
@@ -526,16 +526,16 @@
             </objects>
             <point key="canvasLocation" x="4322" y="326"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Comment Table View Controller-->
         <scene sceneID="bYP-zP-b13">
             <objects>
-                <tableViewController id="rO4-S1-PhV" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wsz-xq-P3d">
+                <tableViewController id="rO4-S1-PhV" customClass="CommentTableViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wsz-xq-P3d">
                         <rect key="frame" x="0.0" y="0.0" width="374" height="250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <stackView key="tableFooterView" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" id="0TZ-ZP-iDW" userLabel="Comment Stack">
-                            <rect key="frame" x="0.0" y="108" width="374" height="44"/>
+                        <stackView key="tableFooterView" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" id="0TZ-ZP-iDW" userLabel="Comment Box Stack">
+                            <rect key="frame" x="0.0" y="118" width="374" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Deja un comentario" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v40-XR-L4l">
@@ -547,16 +547,47 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q99-dg-Z78">
                                     <rect key="frame" x="294" y="0.0" width="80" height="44"/>
                                     <state key="normal" title="Done"/>
+                                    <connections>
+                                        <action selector="getComment:" destination="rO4-S1-PhV" eventType="touchUpInside" id="e9H-Hi-eGH"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Kik-le-Rhb">
-                                <rect key="frame" x="0.0" y="28" width="374" height="80"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="90" id="Kik-le-Rhb" customClass="CommentTableViewCell" customModule="barista" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="374" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kik-le-Rhb" id="mPI-QP-syT">
-                                    <rect key="frame" x="0.0" y="0.0" width="374" height="79"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O7e-M5-EWR" userLabel="Avatar View">
+                                            <rect key="frame" x="8" y="8" width="63" height="63"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plO-7Y-yF0" userLabel="Username">
+                                            <rect key="frame" x="79" y="8" width="42" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u02-SA-xs2" userLabel="Date">
+                                            <rect key="frame" x="324" y="8" width="42" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MsI-6q-eiG" userLabel="Comment">
+                                            <rect key="frame" x="79" y="37" width="287" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -565,10 +596,14 @@
                             <outlet property="delegate" destination="rO4-S1-PhV" id="mk8-nd-dpy"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="commentField" destination="v40-XR-L4l" id="212-6F-dN9"/>
+                        <outlet property="saveCommentButton" destination="q99-dg-Z78" id="6ws-qi-QoH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s3t-Gk-3ZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4322" y="707"/>
+            <point key="canvasLocation" x="4321.6000000000004" y="706.14692653673171"/>
         </scene>
         <!--Create Circle Flavor View Controller-->
         <scene sceneID="7LP-5j-rQR">
