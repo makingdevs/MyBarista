@@ -2,14 +2,18 @@
 //  CommentTableViewCell.swift
 //  barista
 //
-//  Created by Ariana Gothwski on 22/12/16.
+//  Created by MakingDevs on 22/12/16.
 //  Copyright © 2016 MakingDevs. All rights reserved.
 //
 
 import UIKit
 
 class CommentTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet weak var author: UILabel!
+    @IBOutlet weak var createdAt: UILabel!
+    @IBOutlet weak var bodyComment: UITextView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
