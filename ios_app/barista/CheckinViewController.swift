@@ -110,6 +110,7 @@ class CheckinViewController: UIViewController, CheckinDelegate {
         } else if segue.identifier == "performComment" {
             let commentController = segue.destination as! CommentTableViewController
             commentController.checkin = self.checkin
+            commentController.view.translatesAutoresizingMaskIntoConstraints = false
         }
     }
 }
