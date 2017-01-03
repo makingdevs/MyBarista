@@ -2,7 +2,7 @@
 //  CommentTableViewController.swift
 //  barista
 //
-//  Created by Ariana Gothwski on 23/12/16.
+//  Created by MakingDevs on 23/12/16.
 //  Copyright © 2016 MakingDevs. All rights reserved.
 //
 
@@ -37,11 +37,21 @@ class CommentTableViewController: UITableViewController {
         return comments.count
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let commentCell = tableView.dequeueReusableCell(withIdentifier: "CommentTableViewCell", for: indexPath) as! CommentTableViewCell
+        let comment: Comment = comments[indexPath.row]
+        commentCell.author.text = comment.author
+        commentCell.bodyComment.text = comment.body
+        commentCell.createdAt.text = String(describing: comment.created_at!)
+        return commentCell
+    }
+    
     func fetchCheckInComments() {
         CommentManager.sharedInstance.fetchComments(
             checkinId: checkin.id,
             onSuccess: {(comments: [Comment]) -> () in
                 self.comments = comments
+                self.tableView.reloadData()
         },
             onError: {(error: String) -> () in
                 print(error)
@@ -52,6 +62,7 @@ class CommentTableViewController: UITableViewController {
         CommentManager.sharedInstance.saveComment(
             commentCommand: self.initCommentCommand(),
             onSuccess: {(comment: Comment) -> () in
+                self.fetchCheckInComments()
                 self.commentField.text = ""
         },
             onError: {(error: String) -> () in
