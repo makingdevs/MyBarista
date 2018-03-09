@@ -23,13 +23,19 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         self.hideKeyboardWhenTappedAround()
         facebookLoginButton.delegate = self
         facebookLoginButton.readPermissions = ["email", "public_profile"]
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if isUserLogged(){
+            self.perfomSignIn()
+        }
     }
     
     @IBAction func signInWithUsername(_ sender: UIButton) {
         let username: String = usernameField.text!
         let password: String = passwordField.text!
         let loginCommand = LoginCommand(username: username, password: password)
-        
         fetchUserData(loginCommand: loginCommand)
     }
     
@@ -51,13 +57,18 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         })
     }
     
+    
+    fileprivate func perfomSignIn() {
+        self.performSignIn = true
+        self.performSegue(withIdentifier: "PerformSignIn", sender: self)
+    }
+    
     func fetchUserData(loginCommand: LoginCommand) {
         if loginCommand.validateCommand() {
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
                                 self.setUserPreferences(currentUser: user)
-                                self.performSignIn = true
-                                self.performSegue(withIdentifier: "PerformSignIn", sender: self)
+                                self.perfomSignIn()
             },
                                onError:{ (error: String) -> () in
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
@@ -84,6 +95,16 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         userPreferences.set(currentUser.id, forKey: "currentUserId")
         userPreferences.set(currentUser.password, forKey: "currentUserPassword")
         userPreferences.synchronize()
+    }
+    
+    func isUserLogged() -> Bool{
+        let userPreferences = UserDefaults.standard
+        if (userPreferences.value(forKey: "currentUser") != nil) &&
+            (userPreferences.value(forKey: "currentUserId") != nil) &&
+            (userPreferences.value(forKey: "currentUserPassword") != nil){
+            return true;
+        }
+        return false;
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
