@@ -68,4 +68,15 @@ class ProfileViewController: UIViewController, ProfileDelegate {
             editProfileViewController.userProfile = self.userProfile
         }
     }
+    
+    @IBAction func signOutUser(_ sender: Any) {
+        let userPreferences = UserDefaults.standard
+        userPreferences.set(nil, forKey: "currentUser")
+        userPreferences.set(nil, forKey: "currentUserId")
+        userPreferences.set(nil, forKey: "currentUserPassword")
+        userPreferences.synchronize()
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
