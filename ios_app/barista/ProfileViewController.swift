@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class ProfileViewController: UIViewController, ProfileDelegate {
     
@@ -75,7 +76,10 @@ class ProfileViewController: UIViewController, ProfileDelegate {
         userPreferences.set(nil, forKey: "currentUserId")
         userPreferences.set(nil, forKey: "currentUserPassword")
         userPreferences.synchronize()
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut() // this is an instance function
         self.dismiss(animated: true, completion: nil)
+
     }
     
     

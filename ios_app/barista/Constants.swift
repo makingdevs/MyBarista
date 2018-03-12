@@ -9,5 +9,5 @@
 import Foundation
 
 struct Constants {
-    static let urlBase: String = "http://mybarista-stage.makingdevs.com"
+    static let urlBase: String = "http://localhost:3000"
 }
