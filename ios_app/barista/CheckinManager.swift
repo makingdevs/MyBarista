@@ -53,14 +53,17 @@ class CheckinManager {
     
     static func create(checkinCommand: CheckinCommand, onSuccess: @escaping (_ checkin: Checkin) -> (), onError: @escaping (_ error: String) -> () ) {
         let createCheckinURL: String = "\(Constants.urlBase)/checkins/"
-        let parameters = ["username": checkinCommand.username!,
+        var parameters = ["username": checkinCommand.username!,
                           "method": checkinCommand.method!,
                           "state": checkinCommand.state!,
                           "origin": checkinCommand.origin!,
                           "price": checkinCommand.price!,
                           "idS3asset": checkinCommand.idS3Asset ?? "",
-                          "idVenueFoursquare": checkinCommand.idVenueFoursquare ?? "",
                           "created_at": checkinCommand.created_at!] as [String : Any]
+        
+        if checkinCommand.idVenueFoursquare != ""{
+            parameters["idVenueFoursquare"] = checkinCommand.idVenueFoursquare
+        }
         
         Alamofire.request(createCheckinURL, method: .post, parameters: parameters)
             .validate(statusCode: 200..<202)

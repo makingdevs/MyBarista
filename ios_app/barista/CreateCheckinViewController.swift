@@ -73,7 +73,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             case "Done":
                 getCheckInForm(asset: nil)
                 uploadCommand = UploadCommand(image: image)
-                if uploadCommand.validateCommand() && checkinCommand.validateCommand() {
+                if uploadCommand.validateCommand() {
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
                         onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in

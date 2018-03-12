@@ -43,17 +43,4 @@ class CheckinCommand {
         self.rating = rating
     }
     
-    func validateCommand() -> Bool {
-        if (self.origin?.isEmpty)! {
-            errorMessage = "Agrega el municipio de origen"
-            return false
-        } else if (self.price?.isEmpty)! {
-            errorMessage = "Agrega el precio de tu bebida"
-            return false
-        } else if idVenueFoursquare == nil {
-            errorMessage = "Agrega el lugar de preparación"
-            return false
-        }
-        return  true
-    }
 }
