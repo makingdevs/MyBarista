@@ -50,6 +50,21 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    func cleanView(){
+        methodField.text = methodList[0]
+        stateField.text = stateList[0]
+        originField.text = ""
+        priceField.text = ""
+        venueLabel.setTitle("Agrega un lugar", for: .normal)
+        checkin?.method = nil
+        checkin?.state = nil
+        checkin?.origin = nil
+        checkin?.price = nil
+        checkin?.venue = nil
+        checkin?.s3Asset = nil
+        checkinPhoto.image =  UIImage(named: "coffee_holder")
+    }
+    
     func setCurrentCheckIn() {
         methodField.text = checkin?.method
         stateField.text = checkin?.state
@@ -106,6 +121,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             CheckinManager.create(
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
+                    self.cleanView()
                     _ = self.tabBarController?.selectedIndex = 0
                 },
                 onError: { (error: String) -> () in
