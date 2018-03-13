@@ -8,8 +8,22 @@
 
 import UIKit
 import Cosmos
+import FBSDKShareKit
+import FBSDKCoreKit
 
-class CheckinViewController: UIViewController, CheckinDelegate {
+class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDelegate {
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable : Any]!) {
+
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+        self.present(self.showErrorAlert(message:"No es posible compartir tu publicación"), animated: true)
+    }
+    
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
+
+    }
+    
     
     var checkin:Checkin!
     
@@ -108,5 +122,21 @@ class CheckinViewController: UIViewController, CheckinDelegate {
             let circleFlavorController = segue.destination as! CircleFlavourViewController
             circleFlavorController.checkin = self.checkin
         }
+    }
+    @IBAction func shareWithFacebook(_ sender: Any) {
+        let image = checkinPhotoView.image
+        let sharePhoto = FBSDKSharePhoto()
+        sharePhoto.image = image;
+        sharePhoto.isUserGenerated = true;
+        let content = FBSDKSharePhotoContent()
+        content.photos = [sharePhoto]
+        _ = FBSDKShareDialog.show(from: self, with: content, delegate: self)
+    }
+    
+    func showErrorAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Ocurrió un error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { (action) in }
+        alert.addAction(okAction)
+        return alert
     }
 }
