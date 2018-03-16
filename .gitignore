@@ -21,7 +21,11 @@ xcuserdata/
 *.dSYM
 
 # fastlane
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-ifastlane/test_output
+/fastlane/report.xml
+/fastlane/Preview.html
+/fastlane/screenshots
+/ifastlane/test_output
+/fastlane/README.md
+
+#benv ruby version
+.ruby-version
