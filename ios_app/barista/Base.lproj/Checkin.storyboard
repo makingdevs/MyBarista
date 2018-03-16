@@ -41,7 +41,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KGq-Y1-6fd">
-                                            <rect key="frame" x="24" y="207" width="272" height="17"/>
+                                            <rect key="frame" x="24" y="205" width="272" height="17"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k22-Tu-XAb">
                                                     <rect key="frame" x="0.0" y="0.0" width="236.5" height="17"/>
@@ -52,7 +52,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCn-n8-xJH">
                                                     <rect key="frame" x="236.5" y="0.0" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -61,7 +61,7 @@
                                             </constraints>
                                         </stackView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="boX-Tm-d1O" customClass="CosmosView" customModule="Cosmos">
-                                            <rect key="frame" x="166" y="226" width="130" height="21"/>
+                                            <rect key="frame" x="166" y="224" width="130" height="21"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="130" id="F5h-9R-eSv"/>
@@ -99,7 +99,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="nzC-We-odN" firstAttribute="top" secondItem="vT8-U6-TkI" secondAttribute="bottom" constant="-21" id="2mD-h9-EDV"/>
-                                        <constraint firstItem="KGq-Y1-6fd" firstAttribute="top" secondItem="vT8-U6-TkI" secondAttribute="bottom" constant="2" id="4Xc-h8-MrW"/>
+                                        <constraint firstItem="KGq-Y1-6fd" firstAttribute="top" secondItem="vT8-U6-TkI" secondAttribute="bottom" id="4Xc-h8-MrW"/>
                                         <constraint firstItem="WYh-kA-MbI" firstAttribute="leading" secondItem="Ahm-ke-DJF" secondAttribute="leading" constant="24" id="5vv-Uj-ZJi"/>
                                         <constraint firstAttribute="trailing" secondItem="nzC-We-odN" secondAttribute="trailing" constant="24" id="6mE-eK-EcE"/>
                                         <constraint firstItem="nzC-We-odN" firstAttribute="leading" secondItem="Ahm-ke-DJF" secondAttribute="leading" constant="24" id="VO4-Ho-Cxk"/>
