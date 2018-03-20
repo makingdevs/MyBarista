@@ -31,7 +31,6 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var checkinPhotoView: UIImageView!
-    @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
@@ -47,7 +46,6 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price!)"
-        venueLabel.text = checkin.venue
         noteLabel.text = checkin.note
         ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
         if checkin.s3Asset != nil {
