@@ -33,23 +33,30 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     @IBAction func signInWithUsername(_ sender: UIButton) {
-        let username: String = usernameField.text!
-        let password: String = passwordField.text!
+      let username: String = usernameField.text!
+      let password: String = passwordField.text!
         let loginCommand = LoginCommand(username: username, password: password)
         fetchUserData(loginCommand: loginCommand)
     }
-    
+  
     /* Performs Sign In with Facebook */
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         UserManager.sharedInstance.fetchFacebookProfile(
             onSuccess: {(fbProfile: FacebookProfile) -> () in
-                let username = fbProfile.firstName! + fbProfile.lastName!
-                let loginCommand = LoginCommand(username: username,
-                                                password: String(fbProfile.id!),
-                                                email: fbProfile.email!,
+              guard let firstName = fbProfile.firstName,
+                let lastName = fbProfile.lastName,
+                let email = fbProfile.email,
+                let id = fbProfile.id else{
+                
+                return
+              }
+              let username = firstName + lastName
+              let loginCommand = LoginCommand(username: username,
+                                                password: String(id),
+                                                email: email,
                                                 token: String(describing: result.token),
-                                                firstName: fbProfile.firstName!,
-                                                lastName: fbProfile.lastName!)
+                                                firstName: firstName,
+                                                lastName: lastName)
                 
                 self.fetchUserData(loginCommand: loginCommand)
         }, onError: {(error: String) -> () in
@@ -74,7 +81,9 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            self.present(self.showErrorAlert(message: loginCommand.errorMessage!), animated: true)
+          if let errorMessage = loginCommand.errorMessage {
+            self.present(self.showErrorAlert(message:errorMessage), animated: true)
+          }
         }
     }
     

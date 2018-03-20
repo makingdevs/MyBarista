@@ -18,18 +18,21 @@ class UserManager {
     static func signin(loginCommand: LoginCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
         let signInPath: String = "\(Constants.urlBase)/login/user/"
-        let signInParams: [String : Any]
+        var signInParams: [String : Any] = [:]
         
-        if loginCommand.email != nil {
-            signInParams = ["username" : loginCommand.username!,
-                            "firstName": loginCommand.firstName!,
-                            "lastName" : loginCommand.lastName!,
-                            "password" : loginCommand.password!,
-                            "email"    : loginCommand.email!,
-                            "token"    : loginCommand.token!]
-        } else {
-            signInParams = ["username" : loginCommand.username!,
-                            "password" : loginCommand.password!]
+        if let email = loginCommand.email, let username = loginCommand.username,
+          let firstName = loginCommand.firstName, let lastName = loginCommand.lastName,
+          let password = loginCommand.password,
+          let token = loginCommand.token {
+            signInParams = ["username" : username,
+                            "firstName": firstName,
+                            "lastName" : lastName,
+                            "password" : password,
+                            "email"    : email,
+                            "token"    : token]
+        } else if let username = loginCommand.username, let password = loginCommand.password{
+            signInParams = ["username" : username,
+                            "password" : password]
         }
         
         Alamofire.request(signInPath, parameters: signInParams)
