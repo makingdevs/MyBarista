@@ -41,13 +41,15 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     }
     
     func showUserProfile(currentUser: UserProfile) {
-        nameLabel.text = "\(currentUser.name!) \(currentUser.lastName!)"
-        usernameLabel.text = "@\(currentUser.username!)"
-        coffeeCountLabel.text = "\(currentUser.checkinsCount!) Cafés"
-        webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username!)"
+        nameLabel.text = "\(currentUser.name ?? "") \(currentUser.lastName ?? "")"
+        usernameLabel.text = "@\(currentUser.username ?? "")"
+        coffeeCountLabel.text = "\(currentUser.checkinsCount ?? 0) Cafés"
+        webProfileLabel.text = "http://users.barist.coffee/#profile/\(currentUser.username ?? "")"
         if currentUser.s3asset != nil {
-            blurAvatarImageView.loadUrlWithBlur(url: (currentUser.s3asset?.urlFile)!)
-            avatarImageView.loadAvatarWithBorder(url: (currentUser.s3asset?.urlFile)!)
+            if let urlFile = currentUser.s3asset?.urlFile {
+                blurAvatarImageView.loadUrlWithBlur(url: urlFile)
+                avatarImageView.loadAvatarWithBorder(url: urlFile)
+            }
         }
     }
     

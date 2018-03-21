@@ -45,9 +45,11 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     func showCheckinDetail () {
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
-        priceLabel!.text = "$ \(checkin.price!)"
+        priceLabel!.text = "$ \(checkin.price ?? "")"
         noteLabel.text = checkin.note
-        ratingLabel.text = checkin.rating == 0 ? "0" : String(checkin.rating!)
+        if let rating = checkin.rating {
+            ratingLabel.text = rating == 0 ? "0" : String(rating)
+        }
         if checkin.s3Asset != nil {
             checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!)
         }
@@ -60,7 +62,9 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     }
     
     func initRatingView() {
-        ratingView.loadRating(rating: checkin.rating!)
+        if let rating = checkin.rating {
+            ratingView.loadRating(rating: rating)
+        }
         /* Updates UI as the rating is being changed by touching the view */
         ratingView.didTouchCosmos = { rating in
             self.ratingLabel.text = rating == 0 ? "0" : String(rating)
@@ -90,7 +94,9 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         alert.textFields?[0].text = self.checkin.note
         let okAction = UIAlertAction(title: "Guardar", style: .default) { (action) in
             let note = alert.textFields?[0].text
-            self.updateNoteInCheckIn(note: note!)
+            if let note = note {
+                self.updateNoteInCheckIn(note: note)
+            }
         }
         alert.addAction(okAction)
         present(alert, animated: true)

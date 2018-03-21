@@ -63,31 +63,35 @@ class UserManager {
     static func signup(registrationCommand: RegistrtionCommand, onSuccess:@escaping (_ user: User) -> (), onError:@escaping (_ error: String) -> () ) {
         
         let signupURL: String = "\(Constants.urlBase)/users/"
-        let parameters = ["email": registrationCommand.email!,
-                          "username": registrationCommand.username!,
-                          "password": registrationCommand.password!]
-        
-        Alamofire.request(signupURL, method: .post, parameters: parameters)
-            .validate(statusCode: 200..<202)
-            .responseJSON {
-                response in
-                switch response.result {
-                case .success:
-                    if let value = response.result.value {
-                        let json = JSON(value)
-                        onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
-                    }
-                case .failure(_):
-                    let errorMessage: String
-                    if let statusCode = response.response?.statusCode {
-                        switch(statusCode) {
-                        case 422:
-                            errorMessage = "El usuario ya se encuentra registrado"
-                        case _:
-                            errorMessage = "Desconocido"
+        if let email = registrationCommand.email,
+            let username = registrationCommand.username,
+            let password = registrationCommand.password {
+                let parameters = ["email": email,
+                          "username": username,
+                          "password": password]
+
+                Alamofire.request(signupURL, method: .post, parameters: parameters)
+                    .validate(statusCode: 200..<202)
+                    .responseJSON {
+                        response in
+                        switch response.result {
+                        case .success:
+                            if let value = response.result.value {
+                                let json = JSON(value)
+                                onSuccess(UserManager.sharedInstance.parseUserJSON(json: json))
+                            }
+                        case .failure(_):
+                            let errorMessage: String
+                            if let statusCode = response.response?.statusCode {
+                                switch(statusCode) {
+                                case 422:
+                                    errorMessage = "El usuario ya se encuentra registrado"
+                                case _:
+                                    errorMessage = "Desconocido"
+                                }
+                                onError(errorMessage)
+                            }
                         }
-                        onError(errorMessage)
-                    }
                 }
         }
     }
@@ -119,10 +123,11 @@ class UserManager {
                               onSucces: @escaping (_ user: UserProfile) -> (),
                               onError: @escaping (_ error: String) -> ()) {
         
-        let updateProfileURL: String = "\(Constants.urlBase)/users/\(userCommand.id!)"
-        let parameters = ["id": userCommand.id!,
-                          "name": userCommand.name!,
-                          "lastName": userCommand.lastName!] as [String : Any]
+        guard let userId = userCommand.id else { print("there is not user id to update"); return }
+        let updateProfileURL: String = "\(Constants.urlBase)/users/\(userId)"
+        let parameters = ["id": userId,
+                          "name": userCommand.name ?? "",
+                          "lastName": userCommand.lastName ?? ""] as [String : Any]
         
         Alamofire.request(updateProfileURL, method: .put, parameters: parameters)
             .validate(statusCode: 200..<202)
@@ -157,7 +162,7 @@ class UserManager {
                 let fbProfile = FacebookProfile(id: id, firstName: firstName, lastName: lastName, email: email, birthday: birthday)
                 onSuccess(fbProfile)
             } else {
-                onError((error?.localizedDescription)!)
+                onError((error?.localizedDescription) ?? "Unknow error")
             }
         }
     }
@@ -171,7 +176,7 @@ class UserManager {
     }
     
     func parseProfileJSON(json: JSON) -> UserProfile {
-        let userProfile: UserProfile?
+        let userProfile: UserProfile
         let id = json["id"].intValue
         let username = json["username"].stringValue
         let name = json["name"].stringValue
@@ -196,6 +201,6 @@ class UserManager {
                                       checkinsCount: checkinsCount,
                                       visibleName: visibleName)
         }
-        return userProfile!
+        return userProfile
     }
 }

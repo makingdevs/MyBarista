@@ -42,7 +42,11 @@ class SignUpViewController: UIViewController {
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
-            self.present(self.showErrorAlert(message: registrationCommand.errorMessage!), animated: true)
+            if let errorMessage = registrationCommand.errorMessage {
+                self.present(self.showErrorAlert(message: errorMessage), animated: true)
+            }else{
+                self.present(self.showErrorAlert(message: "Error desconocido"), animated: true)
+            }
         }
     }
     

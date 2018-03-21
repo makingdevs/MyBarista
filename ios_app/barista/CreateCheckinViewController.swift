@@ -71,8 +71,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         originField.text = checkin?.origin
         priceField.text = checkin?.price
         venueLabel.setTitle( checkin?.venue ?? "Agrega un lugar", for: .normal)
-        if checkin?.s3Asset != nil {
-            checkinPhoto.loadURL(url: (checkin?.s3Asset?.urlFile)!)
+        if let venueId = checkin?.venueId {
+            self.venue = "\(venueId)"
+        }
+        print(self.venue ?? "venue nil...")
+        if let s3Asset = checkin?.s3Asset, let urlFile = s3Asset.urlFile {
+            checkinPhoto.loadURL(url: urlFile)
         }
     }
     
@@ -128,8 +132,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                     self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         case "UPDATE":
+            guard let checkinId = checkin?.id else{
+                return
+            }
+            
             CheckinManager.update(
-                checkinId: (checkin?.id)!,
+                checkinId: checkinId,
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
                     self.checkinDelegate?.updateCheckinDetail(currentCheckin: checkin)
@@ -146,14 +154,20 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func getCheckInForm(asset: Int?) {
         price = priceField.text!
         origin = originField.text!
-        checkinCommand = CheckinCommand(username: userPreferences.string(forKey: "currentUser")!,
+        var asignedDate = Date()
+        if checkInAction == "CREATE", let createdAt = checkin?.createdAt{
+            asignedDate = createdAt
+        }
+        if let currentUser = userPreferences.string(forKey: "currentUser") {
+            checkinCommand = CheckinCommand(username: currentUser,
                                         method: method,
                                         state: state,
                                         origin: origin,
                                         price: price,
                                         idS3Asset: asset,
                                         idVenueFoursquare: venue,
-                                        created_at: checkInAction == "CREATE" ? Date() : (checkin?.createdAt)!)
+                                        created_at: asignedDate)
+        }
     }
     
     func showErrorAlert(message: String) -> UIAlertController {

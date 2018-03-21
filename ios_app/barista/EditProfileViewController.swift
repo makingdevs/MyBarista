@@ -81,7 +81,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func uploadAsset(){
-        let uploadCommand = UploadCommand(userId: userProfile.id!, image: self.userImage!)
+        guard let userProfileId = userProfile.id, let userImage = self.userImage else{
+            print("There are not values for id and image")
+            return
+        }
+        
+        let uploadCommand = UploadCommand(userId: userProfileId, image: userImage)
         S3AssetManager.uploadUserPhoto(
             uploadCommand: uploadCommand,
             onSuccess: {(userPhoto: PhotoCheckin) -> () in

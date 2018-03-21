@@ -42,9 +42,10 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let currentLatitude = manager.location?.coordinate.latitude.description;
-        let currentLongitude = manager.location?.coordinate.longitude.description;
-        fetchVenues(latitude: currentLatitude!, longitude: currentLongitude!)
+        if let currentLatitude = manager.location?.coordinate.latitude.description,
+            let currentLongitude = manager.location?.coordinate.longitude.description {
+            fetchVenues(latitude: currentLatitude, longitude: currentLongitude)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

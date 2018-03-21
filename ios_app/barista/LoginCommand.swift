@@ -33,10 +33,10 @@ class LoginCommand {
     }
     
     func validateCommand() -> Bool {
-        if (self.username?.isEmpty)! {
+        if (self.username?.isEmpty) != nil {
             self.errorMessage = "Nombre de usuario requerido"
             return false
-        } else if (self.password?.isEmpty)! {
+        }else if (self.password?.isEmpty) != nil {
             self.errorMessage = "Contraseña requerida"
             return false
         }

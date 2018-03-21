@@ -43,10 +43,14 @@ class CheckinsTableViewController: UITableViewController {
         let checkin = checkins[indexPath.row]
         viewCell.methodLabel?.text = checkin.method
         viewCell.coffeeOriginLabel?.text = checkin.state
-        viewCell.ratingView.loadRating(rating: checkin.rating!)
-        viewCell.createdAtLabel.text = self.getDaysSinceNow(from: checkin.createdAt!)
-        if (checkin.s3Asset != nil) {
-            viewCell.coffeeImageView.loadURL(url: (checkin.s3Asset?.urlFile)!)
+        if let rating = checkin.rating {
+            viewCell.ratingView.loadRating(rating: rating)
+        }
+        if let createdAt = checkin.createdAt{
+            viewCell.createdAtLabel.text = self.getDaysSinceNow(from: createdAt)
+        }
+        if let s3Asset = checkin.s3Asset, let urlFile = s3Asset.urlFile {
+            viewCell.coffeeImageView.loadURL(url: urlFile)
         }
         return viewCell
     }

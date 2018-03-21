@@ -48,26 +48,46 @@ class CreateCircleFlavorViewController: UIViewController {
     }
     
     func setCurrentCircleFlavor() {
-        sweetnessSlider.setValue(Float(circleFlavor.sweetness!), animated: true)
-        sweetnessLabel.text = "Dulzura: \(circleFlavor.sweetness!)"
-        aciditySlider.setValue(Float(circleFlavor.acidity!), animated: true)
-        acidityLabel.text = "Acidez: \(circleFlavor.acidity!)"
-        flowerySlider.setValue(Float(circleFlavor.flowery!), animated: true)
-        floweryLabel.text = "Florar: \(circleFlavor.flowery!)"
-        spicySlider.setValue(Float(circleFlavor.spicy!), animated: true)
-        spicyLabel.text = "Especiado: \(circleFlavor.spicy!)"
-        saltySlider.setValue(Float(circleFlavor.salty!), animated: true)
-        saltyLabel.text = "Salado: \(circleFlavor.salty!)"
-        berriesSlider.setValue(Float(circleFlavor.berries!), animated: true)
-        berriesLabel.text = "Frutos Rojos: \(circleFlavor.berries!)"
-        chocolateSlider.setValue(Float(circleFlavor.chocolate!), animated: true)
-        chocolateLabel.text = "Chocolate: \(circleFlavor.chocolate!)"
-        candySlider.setValue(Float(circleFlavor.candy!), animated: true)
-        candyLabel.text = "Caramelo: \(circleFlavor.candy!)"
-        bodySlider.setValue(Float(circleFlavor.body!), animated: true)
-        bodyLabel.text = "Cuerpo: \(circleFlavor.body!)"
-        cleaningSlider.setValue(Float(circleFlavor.cleaning!), animated: true)
-        cleaningLabel.text = "Limpieza: \(circleFlavor.cleaning!)"
+        if let sweetness = circleFlavor.sweetness {
+            sweetnessSlider.setValue(Float(sweetness), animated: true)
+            sweetnessLabel.text = "Dulzura: \(sweetness)"
+        }
+        if let acidity = circleFlavor.acidity {
+            aciditySlider.setValue(Float(acidity), animated: true)
+            acidityLabel.text = "Acidez: \(acidity)"
+        }
+        if let flowery = circleFlavor.flowery {
+            flowerySlider.setValue(Float(flowery), animated: true)
+            floweryLabel.text = "Florar: \(flowery)"
+        }
+        if let spicy = circleFlavor.spicy {
+            spicySlider.setValue(Float(spicy), animated: true)
+            spicyLabel.text = "Especiado: \(spicy)"
+        }
+        if let salty = circleFlavor.salty {
+            saltySlider.setValue(Float(salty), animated: true)
+            saltyLabel.text = "Salado: \(salty)"
+        }
+        if let berries = circleFlavor.berries {
+            berriesSlider.setValue(Float(berries), animated: true)
+            berriesLabel.text = "Frutos Rojos: \(berries)"
+        }
+        if let chocolate = circleFlavor.chocolate {
+            chocolateSlider.setValue(Float(chocolate), animated: true)
+            chocolateLabel.text = "Chocolate: \(chocolate)"
+        }
+        if let candy = circleFlavor.candy {
+            candySlider.setValue(Float(candy), animated: true)
+            candyLabel.text = "Caramelo: \(candy)"
+        }
+        if let body = circleFlavor.body {
+            bodySlider.setValue(Float(body), animated: true)
+            bodyLabel.text = "Cuerpo: \(body)"
+        }
+        if let cleaning = circleFlavor.cleaning {
+            cleaningSlider.setValue(Float(cleaning), animated: true)
+            cleaningLabel.text = "Limpieza: \(cleaning)"
+        }
     }
 
     @IBAction func flavorValueChanged(_ sender: UISlider) {
