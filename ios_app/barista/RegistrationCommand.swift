@@ -29,10 +29,10 @@ class RegistrtionCommand {
         if !email.evaluate(with: self.email) {
             self.errorMessage = "Email inválido"
             return false
-        } else if self.username?.isEmpty != nil {
+        } else if (self.username?.isEmpty)! {
             self.errorMessage = "Nombre de usuario requerido"
             return false
-        } else if self.password?.isEmpty != nil {
+        } else if (self.password?.isEmpty)! {
             self.errorMessage = "Contraseña requerida"
             return false
         } else if self.password == self.email {
