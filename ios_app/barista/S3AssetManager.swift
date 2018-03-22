@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class S3AssetManager {
     
-    static func uploadCheckinPhoto(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin) -> (), onPhotoError: @escaping (_ error: String) -> () ) {
+    static func uploadCheckinPhoto(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin?) -> (), onPhotoError: @escaping (_ error: String) -> () ) {
         
         let assetURL = try! URLRequest(url: URL(string: "\(Constants.urlBase)/barista/photo/save_photo")!, method: .post, headers: nil)
         let image: Data = UIImageJPEGRepresentation(uploadCommand.image!, 1)!
@@ -34,7 +34,10 @@ class S3AssetManager {
                 case .success(let upload, _, _):
                     upload.responseJSON {
                         response in
+                        print("image uploaded")
+                        print(response.result)
                         if let value = response.result.value {
+                            print("image uploaded...")
                             let json = JSON(value)
                             let s3Id = json["id"].intValue
                             let s3FileName = json["name_file"].stringValue
@@ -43,6 +46,8 @@ class S3AssetManager {
                             let s3UpdatedAt = json["updated_at"].stringValue
                             let s3Asset = PhotoCheckin(id: s3Id, fileName: s3FileName, urlFile: s3UrlFile, createdAt: s3CreatedAt, updatedAt: s3UpdatedAt)
                                 onPhotoSuccess(s3Asset)
+                        }else{
+                            onPhotoSuccess(nil)
                         }
                     }
                 case .failure(let encodingError):
