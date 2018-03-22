@@ -76,7 +76,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.userImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         userPhotoImageView.image = self.userImage
-        uploadAsset()
+        picker.dismiss(animated: true, completion: {
+            self.uploadAsset()
+        })
     }
     
     func uploadAsset(){
