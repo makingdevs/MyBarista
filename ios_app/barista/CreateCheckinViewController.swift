@@ -95,8 +95,12 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 if uploadCommand.validateCommand() {
                     S3AssetManager.uploadCheckinPhoto(
                         uploadCommand: uploadCommand,
-                        onPhotoSuccess: { (photoCheckin: PhotoCheckin) -> () in
-                            self.saveCheckin(asset: photoCheckin.id)
+                        onPhotoSuccess: { (photoCheckin: PhotoCheckin?) -> () in
+                            if let checkinId = photoCheckin?.id {
+                                self.saveCheckin(asset: checkinId)
+                            }else{
+                                 self.present(self.showErrorAlert(message: "Error al guardar la imagen"), animated: true)
+                            }
                         },
                         onPhotoError: { (error: String) -> () in
                             print("Photo: \(error.description)")
@@ -125,6 +129,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             CheckinManager.create(
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
+                    print("save ending")
                     self.cleanView()
                     _ = self.tabBarController?.selectedIndex = 0
                 },
