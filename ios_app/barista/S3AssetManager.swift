@@ -15,7 +15,7 @@ class S3AssetManager {
     static func uploadCheckinPhoto(uploadCommand: UploadCommand, onPhotoSuccess: @escaping (_ photoCheckin: PhotoCheckin?) -> (), onPhotoError: @escaping (_ error: String) -> () ) {
         
         let assetURL = try! URLRequest(url: URL(string: "\(Constants.urlBase)/barista/photo/save_photo")!, method: .post, headers: nil)
-        let image: Data = UIImageJPEGRepresentation(uploadCommand.image!, 1)!
+        let image: Data = UIImageJPEGRepresentation(uploadCommand.image!, 0.6)!
         let imageName: String = "file"
         let imageFileName: String = "checkin.png"
         let imageMimeType: String = "image/png"
