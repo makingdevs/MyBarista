@@ -24,17 +24,34 @@ class CheckinsTableViewController: UITableViewController {
         }
     }
     
-    fileprivate func getDaysSinceNow(from someDate: Date) -> String {
-        let yesterday = Date(timeInterval: -86400, since: someDate)
-        let tomorrow = Date(timeInterval: 86400, since: Date())
-        let diff = tomorrow.interval(ofComponent: .day, fromDate: yesterday)
-        
-        if diff < 1{
-            return "Hace unas hroas"
-        }else if diff == 1 {
-            return "Hace un día"
+    fileprivate func getDaysUntilNow(from someDate: Date) -> String {
+        let components = Calendar.current.dateComponents([.month, .day, .hour], from: someDate, to: Date())
+        var timeFromNow = "Hace "
+        if let month = components.month, month > 0 {
+            if month == 1{
+                timeFromNow = "\(timeFromNow) un mes"
+            }else{
+                timeFromNow = "\(timeFromNow) \(month) meses"
+            }
         }
-        return "Hace \(diff) dias"
+        if let day = components.day, day > 0{
+            if day == 1{
+                timeFromNow = " \(timeFromNow) un día"
+            }else{
+                timeFromNow = " \(timeFromNow) \(day) días"
+            }
+        }
+        if let hour = components.hour, hour > 0{
+            if hour == 1{
+                timeFromNow = " \(timeFromNow) una hora"
+            }else{
+                timeFromNow = " \(timeFromNow) \(hour) horas"
+            }
+        }
+        if components.month ?? 0 <= 0 && components.day ?? 0 <= 0 && components.hour ?? 0 <= 0{
+            timeFromNow = "Hace poco"
+        }
+        return timeFromNow
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,7 +64,7 @@ class CheckinsTableViewController: UITableViewController {
             viewCell.ratingView.loadRating(rating: rating)
         }
         if let createdAt = checkin.createdAt{
-            viewCell.createdAtLabel.text = self.getDaysSinceNow(from: createdAt)
+            viewCell.createdAtLabel.text = self.getDaysUntilNow(from: createdAt)
         }
         if let s3Asset = checkin.s3Asset, let urlFile = s3Asset.urlFile {
             viewCell.coffeeImageView.loadURL(url: urlFile)
