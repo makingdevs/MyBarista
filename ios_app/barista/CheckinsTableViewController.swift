@@ -19,6 +19,9 @@ class CheckinsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
         if userPreferences.object(forKey: "currentUser") != nil {
             retriveCheckinsForManager(username: userPreferences.string(forKey: "currentUser")!)
         }
@@ -26,29 +29,26 @@ class CheckinsTableViewController: UITableViewController {
     
     fileprivate func getDaysUntilNow(from someDate: Date) -> String {
         let components = Calendar.current.dateComponents([.month, .day, .hour], from: someDate, to: Date())
-        var timeFromNow = "Hace "
+        var timeFromNow = ""
         if let month = components.month, month > 0 {
             if month == 1{
-                timeFromNow = "\(timeFromNow) un mes"
+                timeFromNow = "Hace \(timeFromNow) un mes"
             }else{
-                timeFromNow = "\(timeFromNow) \(month) meses"
+                timeFromNow = "Hace \(timeFromNow) \(month) meses"
             }
-        }
-        if let day = components.day, day > 0{
+        } else if let day = components.day, day > 0{
             if day == 1{
-                timeFromNow = " \(timeFromNow) un día"
+                timeFromNow = "Hace \(timeFromNow) un día"
             }else{
-                timeFromNow = " \(timeFromNow) \(day) días"
+                timeFromNow = "Hace \(timeFromNow) \(day) días"
             }
-        }
-        if let hour = components.hour, hour > 0{
+        }else if let hour = components.hour, hour > 0{
             if hour == 1{
-                timeFromNow = " \(timeFromNow) una hora"
+                timeFromNow = "Hace \(timeFromNow) una hora"
             }else{
-                timeFromNow = " \(timeFromNow) \(hour) horas"
+                timeFromNow = "Hace \(timeFromNow) \(hour) horas"
             }
-        }
-        if components.month ?? 0 <= 0 && components.day ?? 0 <= 0 && components.hour ?? 0 <= 0{
+        } else if components.month ?? 0 <= 0 && components.day ?? 0 <= 0 && components.hour ?? 0 <= 0{
             timeFromNow = "Hace poco"
         }
         return timeFromNow
@@ -100,4 +100,11 @@ class CheckinsTableViewController: UITableViewController {
                 print(error)
         })
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
 }
