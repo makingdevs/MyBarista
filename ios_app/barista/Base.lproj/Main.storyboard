@@ -297,6 +297,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.91764705882352937" green="0.36470588235294116" blue="0.18431372549019609" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
                         <segue destination="hem-Ks-qfg" kind="relationship" relationship="viewControllers" id="PJz-9w-8cv"/>
@@ -344,7 +350,7 @@
         <image name="started_barista" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eZ1-DK-rOQ"/>
+        <segue reference="RBy-DO-Z0j"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.36470588240000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
 </document>
