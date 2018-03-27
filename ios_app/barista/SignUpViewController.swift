@@ -17,9 +17,25 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmField: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailField.underlined()
+        emailField.attributedPlaceholder = NSAttributedString(string: "Correo",
+                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        usernameField.underlined()
+        usernameField.attributedPlaceholder = NSAttributedString(string: "Usuario",
+                                                              attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        passwordField.underlined()
+        passwordField.attributedPlaceholder = NSAttributedString(string: "Contraseña",
+                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        confirmField.underlined()
+        confirmField.attributedPlaceholder = NSAttributedString(string: "Confirma Contraseña",
+                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        signUpButton.layer.cornerRadius = 10
+        signUpButton.clipsToBounds = true
+        
         self.hideKeyboardWhenTappedAround()
     }
     
