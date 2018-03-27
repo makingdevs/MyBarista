@@ -8,22 +8,57 @@
 
 import UIKit
 import FBSDKLoginKit
+import FBSDKCoreKit
 
-class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+class ViewController: UIViewController {
     
     var performSignIn: Bool = false
-  
-    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+    
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var facebookLoginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        facebookLoginButton.delegate = self
-        facebookLoginButton.readPermissions = ["email", "public_profile"]
-        
+        usernameField.underlined()
+        usernameField.attributedPlaceholder = NSAttributedString(string: "Usuario",
+                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        passwordField.underlined()
+        passwordField.attributedPlaceholder = NSAttributedString(string: "Contraseña",
+                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+        facebookLoginButton.layer.cornerRadius = 10
+        facebookLoginButton.clipsToBounds = true
+        loginButton.layer.cornerRadius = 10
+        loginButton.clipsToBounds = true
+    }
+    
+    func getFBUserData(){
+        if((FBSDKAccessToken.current()) != nil){
+            UserManager.sharedInstance.fetchFacebookProfile(
+                onSuccess: {(fbProfile: FacebookProfile) -> () in
+                    guard let firstName = fbProfile.firstName,
+                        let lastName = fbProfile.lastName,
+                        let email = fbProfile.email,
+                        let id = fbProfile.id else{
+                            
+                            return
+                    }
+                    print ("LOGIN FACE" )
+                    let username = firstName + lastName
+                    let loginCommand = LoginCommand(username: username,
+                                                    password: String(id),
+                                                    email: email,
+                                                    token: String(describing: FBSDKAccessToken.current()),
+                                                    firstName: firstName,
+                                                    lastName: lastName)
+                    
+                    self.fetchUserData(loginCommand: loginCommand)
+            }, onError: {(error: String) -> () in
+                print(error)
+            })
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,32 +73,23 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         let loginCommand = LoginCommand(username: username, password: password)
         fetchUserData(loginCommand: loginCommand)
     }
-  
-    /* Performs Sign In with Facebook */
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        UserManager.sharedInstance.fetchFacebookProfile(
-            onSuccess: {(fbProfile: FacebookProfile) -> () in
-              guard let firstName = fbProfile.firstName,
-                let lastName = fbProfile.lastName,
-                let email = fbProfile.email,
-                let id = fbProfile.id else{
-                
-                return
-              }
-              let username = firstName + lastName
-              let loginCommand = LoginCommand(username: username,
-                                                password: String(id),
-                                                email: email,
-                                                token: String(describing: result.token),
-                                                firstName: firstName,
-                                                lastName: lastName)
-                
-                self.fetchUserData(loginCommand: loginCommand)
-        }, onError: {(error: String) -> () in
-            print(error)
-        })
-    }
     
+    @IBAction func loginFacebookAction(_ sender: Any) {
+        let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+        fbLoginManager.logIn(withReadPermissions: ["email","public_profile"], from: self) { (result, error) -> Void in
+            if (error == nil){
+                let fbloginresult : FBSDKLoginManagerLoginResult = result!
+                // if user cancel the login
+                if (result?.isCancelled)!{
+                    return
+                }
+                if(fbloginresult.grantedPermissions.contains("email"))
+                {
+                    self.getFBUserData()
+                }
+            }
+        }
+    }
     
     fileprivate func perfomSignIn() {
         self.performSignIn = true
@@ -85,10 +111,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             self.present(self.showErrorAlert(message:errorMessage), animated: true)
           }
         }
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        // FBSDKLoginButtonDelegate says I must implement this method
     }
     
     func showErrorAlert(message: String) -> UIAlertController {
