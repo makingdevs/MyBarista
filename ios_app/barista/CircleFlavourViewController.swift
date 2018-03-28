@@ -61,8 +61,6 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
         dataChartSet.colors = [UIColor.brown]
         data.addDataSet(dataChartSet)
         self.circleFlavorChart.data = data
-        self.circleFlavorChart.chartDescription?.text = ""
-        
         let xaxis = circleFlavorChart.xAxis
         xaxis.valueFormatter = axisFormatterDelegate
     }
