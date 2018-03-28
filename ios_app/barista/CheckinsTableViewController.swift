@@ -86,6 +86,10 @@ class CheckinsTableViewController: UITableViewController {
         if segue.identifier == "ShowCheckin" {
             let checkinViewController:CheckinViewController = segue.destination as! CheckinViewController
             checkinViewController.checkin = checkins[((tableView.indexPathForSelectedRow as NSIndexPath?)?.row)!]
+            
+            let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem
         }
     }
     

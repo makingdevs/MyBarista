@@ -32,12 +32,10 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var checkinPhotoView: UIImageView!
     @IBOutlet weak var noteLabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = checkin.method
         showCheckinDetail()
         initRatingView()
     }
@@ -47,9 +45,7 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price ?? "")"
         noteLabel.text = checkin.note
-        if let rating = checkin.rating {
-            ratingLabel.text = rating == 0 ? "0" : String(rating)
-        }
+        
         if checkin.s3Asset != nil {
             checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!)
         }
@@ -65,11 +61,7 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         if let rating = checkin.rating {
             ratingView.loadRating(rating: rating)
         }
-        /* Updates UI as the rating is being changed by touching the view */
-        ratingView.didTouchCosmos = { rating in
-            self.ratingLabel.text = rating == 0 ? "0" : String(rating)
-        }
-        /* Sends check-in rating to the server */
+        
         ratingView.didFinishTouchingCosmos = { rating in
             self.updateRatingInCheckIn(rating: Float(rating))
         }
