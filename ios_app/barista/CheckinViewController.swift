@@ -44,8 +44,12 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         methodLabel.text = checkin.method
         stateLabel.text = checkin.state
         priceLabel!.text = "$ \(checkin.price ?? "")"
-        noteLabel.text = checkin.note
-        
+        noteLabel.text = checkin.note ?? " "
+      
+        if noteLabel.text == ""{//this code is to avoid issue in empty stack view
+          noteLabel.text = " "
+        }
+      
         if checkin.s3Asset != nil {
             checkinPhotoView.loadURL(url: (checkin.s3Asset?.urlFile)!)
         }
