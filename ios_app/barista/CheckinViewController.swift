@@ -36,6 +36,9 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+      let backItem = UIBarButtonItem()
+      backItem.title = ""
+      navigationItem.backBarButtonItem = backItem
         showCheckinDetail()
         initRatingView()
     }
