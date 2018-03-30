@@ -25,7 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         UINavigationBar.appearance().isTranslucent = true
-        
+        let attrs = [
+          NSAttributedStringKey.foregroundColor: UIColor(red: 234.0/255.0, green: 93.0/255.0, blue: 47.0/255.0, alpha: 0.8),
+          NSAttributedStringKey.font: UIFont(name: "Helvetica Neue", size: 17)!
+        ]
+      
+        UINavigationBar.appearance().titleTextAttributes = attrs
         // Connecting Facebook SDK
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
