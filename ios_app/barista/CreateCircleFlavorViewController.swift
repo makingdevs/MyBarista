@@ -42,7 +42,8 @@ class CreateCircleFlavorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if circleFlavor != nil {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Guardar", style: .plain, target: self, action: #selector(saveCircleFlavor))
+      if circleFlavor != nil {
             setCurrentCircleFlavor()
         }
     }
@@ -120,7 +121,7 @@ class CreateCircleFlavorViewController: UIViewController {
         }
     }
     
-    @IBAction func saveCircleFlavor(_ sender: UIButton) {
+    @IBAction func saveCircleFlavor() {
         CheckinManager.createCircleFlavor(
             checkinId: checkin.id,
             circleFlavor:  getCircleFlavor(),
