@@ -27,13 +27,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
       showCircleFlavor()
     }
     
-    
-//    circleButton.clipsToBounds = true
-    circleButton.backgroundColor = .clear
-    circleButton.layer.cornerRadius = 5
-    circleButton.layer.borderWidth = 1
-    let coffe = UIColor(red: 145.0/255.0, green: 116.0/255.0, blue: 70.0/255.0, alpha: 1.0)
-    circleButton.layer.borderColor = coffe.cgColor
+    circleButton.bordered()
     
   }
     

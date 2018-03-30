@@ -17,7 +17,9 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     @IBOutlet weak var coffeeCountLabel: UILabel!
     @IBOutlet weak var webProfileLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var closeSessionButton: UIButton!
+  
     var userProfile: UserProfile?
     var username: String!
     var userId: Int!
@@ -26,6 +28,9 @@ class ProfileViewController: UIViewController, ProfileDelegate {
         super.viewDidLoad()
         fetchUserPreferences()
         fetchUserProfile(id: self.userId)
+        editButton.bordered()
+        let orange = UIColor(red: 234.0/255.0, green: 93.0/255.0, blue: 47.0/255.0, alpha: 0.8)
+        closeSessionButton.bordered(with: orange)
     }
     
     func fetchUserProfile(id: Int) {
@@ -69,6 +74,9 @@ class ProfileViewController: UIViewController, ProfileDelegate {
             let editProfileViewController = segue.destination as! EditProfileViewController
             editProfileViewController.profileDelegate = self
             editProfileViewController.userProfile = self.userProfile
+            let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem
         }
     }
     

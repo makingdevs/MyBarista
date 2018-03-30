@@ -18,7 +18,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var userPhotoImageView: UIImageView!
-    
+    @IBOutlet weak var changePhotoButton: UIButton!
+  
     var updateUserCommand: UpdateUserCommand!
     var profileDelegate: ProfileDelegate?
     var userId: Int!
@@ -27,6 +28,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameField.underlined()
+        lastNameField.underlined()
+        changePhotoButton.bordered()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Guardar", style: .plain, target: self, action: #selector(sendProfileData))
         self.hideKeyboardWhenTappedAround()
         initProfileForm()
     }
@@ -39,7 +44,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    @IBAction func sendProfileData(_ sender: UIButton) {
+  @objc func sendProfileData() {
         initUserCommand()
         if updateUserCommand.validateCommand() {
             UserManager.updateProfile(

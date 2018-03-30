@@ -41,6 +41,11 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        methodField.underlined()
+        stateField.underlined()
+        originField.underlined()
+        priceField.underlined()
+        
         self.hideKeyboardWhenTappedAround()
         initPickerViews()
         method = methodList[0]
@@ -70,11 +75,16 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         stateField.text = checkin?.state
         originField.text = checkin?.origin
         priceField.text = checkin?.price
-        venueLabel.setTitle( checkin?.venue ?? "Agrega un lugar", for: .normal)
+        if let venue = checkin?.venue, venue != "" {
+            venueLabel.setTitle( checkin?.venue, for: .normal)
+        }else{
+            venueLabel.setTitle( "Agrega un lugar", for: .normal)
+        }
+      
         if let venueId = checkin?.venueId {
             self.venue = "\(venueId)"
         }
-        print(self.venue ?? "venue nil...")
+      
         if let s3Asset = checkin?.s3Asset, let urlFile = s3Asset.urlFile {
             checkinPhoto.loadURL(url: urlFile)
         }
@@ -89,7 +99,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         // Improve this piece of code
         if let action = sender.title {
             switch action {
-            case "Done":
+            case "Guardar":
                 getCheckInForm(asset: nil)
                 uploadCommand = UploadCommand(image: image)
                 if uploadCommand.validateCommand() {
@@ -245,6 +255,9 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if segue.identifier == "performSelectVenue" {
             let venueTableViewController = segue.destination as! VenueTableViewController
             venueTableViewController.venueDelegate = self
+            let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem
         }
     }
 }
