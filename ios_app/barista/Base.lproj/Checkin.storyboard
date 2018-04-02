@@ -438,7 +438,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhc-Yu-t8g">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhc-Yu-t8g">
                                 <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="0HC-OP-pKm">
@@ -455,7 +455,7 @@
                                         <rect key="frame" x="0.0" y="350" width="375" height="380"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eSX-3i-Meb">
-                                                <rect key="frame" x="16" y="24" width="343" height="309"/>
+                                                <rect key="frame" x="16" y="24" width="343" height="319"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5eM-0W-jkp">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
@@ -565,7 +565,10 @@
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFS-PX-E1Q">
-                                                        <rect key="frame" x="0.0" y="277" width="343" height="32"/>
+                                                        <rect key="frame" x="0.0" y="277" width="343" height="42"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="42" id="djS-av-zKR"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                         <state key="normal" title="GUARDAR">
                                                             <color key="titleColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -576,7 +579,6 @@
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="gFS-PX-E1Q" firstAttribute="top" secondItem="nE3-bO-ZhJ" secondAttribute="bottom" constant="16" id="2xD-sM-6rR"/>
                                                     <constraint firstItem="MRo-sr-LGP" firstAttribute="leading" secondItem="eSX-3i-Meb" secondAttribute="leading" id="2xI-Da-OmA"/>
                                                 </constraints>
                                             </stackView>

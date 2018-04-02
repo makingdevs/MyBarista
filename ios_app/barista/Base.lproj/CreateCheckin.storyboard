@@ -26,24 +26,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eC-NL-3Hk">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eC-NL-3Hk">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="9zz-tD-TKS">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="205"/>
+                                        <rect key="frame" x="0.0" y="45" width="375" height="305"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="205" id="3QL-iY-g7Q"/>
+                                            <constraint firstAttribute="height" constant="305" id="3QL-iY-g7Q"/>
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="3vU-Jd-FUf" appends="YES" id="cTq-6S-sC0"/>
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EhT-lj-ARh">
-                                        <rect key="frame" x="0.0" y="205" width="375" height="538"/>
+                                        <rect key="frame" x="0.0" y="350" width="375" height="430"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="tmA-z7-jmN">
-                                                <rect key="frame" x="8" y="24" width="359" height="261"/>
+                                                <rect key="frame" x="8" y="24" width="359" height="319"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Gbk-0B-r4a">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="48"/>
@@ -56,6 +56,7 @@
                                                             </label>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Método de preparación" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TKO-X5-2nO">
                                                                 <rect key="frame" x="0.0" y="28" width="359" height="20"/>
+                                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits"/>
@@ -76,12 +77,14 @@
                                                                 <subviews>
                                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Estado representativo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="030-Co-Ixn">
                                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="20"/>
+                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                         <textInputTraits key="textInputTraits"/>
                                                                     </textField>
                                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Municipio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qpk-dW-0gy">
                                                                         <rect key="frame" x="0.0" y="36" width="359" height="20"/>
+                                                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                         <textInputTraits key="textInputTraits"/>
@@ -101,6 +104,7 @@
                                                             </label>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$ 00.00" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k4D-Zl-yXi">
                                                                 <rect key="frame" x="54.5" y="0.0" width="61" height="21"/>
+                                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="light"/>
@@ -147,13 +151,26 @@
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47T-3W-G0b">
+                                                        <rect key="frame" x="0.0" y="277" width="359" height="42"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="42" id="bC6-bx-V7L"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                        <state key="normal" title="Guardar">
+                                                            <color key="titleColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="saveCheckin:" destination="cHO-lH-kyL" eventType="touchUpInside" id="NaK-Ej-QkP"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="tmA-z7-jmN" firstAttribute="top" secondItem="EhT-lj-ARh" secondAttribute="top" constant="24" id="Isz-eW-pC4"/>
-                                            <constraint firstAttribute="height" constant="538" id="TLV-Ym-Ibe"/>
+                                            <constraint firstAttribute="height" constant="430" id="TLV-Ym-Ibe"/>
                                             <constraint firstItem="tmA-z7-jmN" firstAttribute="leading" secondItem="EhT-lj-ARh" secondAttribute="leading" constant="8" id="uBS-dM-okf"/>
                                             <constraint firstAttribute="trailing" secondItem="tmA-z7-jmN" secondAttribute="trailing" constant="8" id="vOP-Xw-ljM"/>
                                         </constraints>
@@ -163,9 +180,9 @@
                                     <constraint firstAttribute="trailing" secondItem="9zz-tD-TKS" secondAttribute="trailing" id="0uK-A6-KPc"/>
                                     <constraint firstAttribute="bottom" secondItem="EhT-lj-ARh" secondAttribute="bottom" id="4td-zP-XVL"/>
                                     <constraint firstAttribute="trailing" secondItem="EhT-lj-ARh" secondAttribute="trailing" id="EbS-F1-D9W"/>
-                                    <constraint firstItem="EhT-lj-ARh" firstAttribute="top" secondItem="0eC-NL-3Hk" secondAttribute="top" constant="205" id="HSB-UO-dZP"/>
+                                    <constraint firstItem="EhT-lj-ARh" firstAttribute="top" secondItem="9zz-tD-TKS" secondAttribute="bottom" id="HZs-yM-bSO"/>
                                     <constraint firstItem="9zz-tD-TKS" firstAttribute="leading" secondItem="0eC-NL-3Hk" secondAttribute="leading" id="VVN-Cv-xBQ"/>
-                                    <constraint firstItem="9zz-tD-TKS" firstAttribute="top" secondItem="0eC-NL-3Hk" secondAttribute="top" id="W6Y-up-dQ0"/>
+                                    <constraint firstItem="9zz-tD-TKS" firstAttribute="top" secondItem="0eC-NL-3Hk" secondAttribute="top" constant="45" id="W6Y-up-dQ0"/>
                                     <constraint firstItem="EhT-lj-ARh" firstAttribute="leading" secondItem="0eC-NL-3Hk" secondAttribute="leading" id="bvl-BZ-GWe"/>
                                 </constraints>
                             </scrollView>
@@ -183,13 +200,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Cancelar" id="dWj-ga-eIP">
                             <color key="tintColor" red="0.91764705879999997" green="0.36470588240000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="createCheckin:" destination="cHO-lH-kyL" id="n1K-Ms-DzH"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Guardar" id="BI8-ra-oIW">
-                            <color key="tintColor" red="0.91764705879999997" green="0.36470588240000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="createCheckin:" destination="cHO-lH-kyL" id="HJR-va-n5I"/>
+                                <action selector="cancelEdittingCheckin:" destination="cHO-lH-kyL" id="ePg-Oj-rYi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -199,6 +210,7 @@
                         <outlet property="methodField" destination="TKO-X5-2nO" id="c4c-zR-abF"/>
                         <outlet property="originField" destination="qpk-dW-0gy" id="wSD-oF-K6P"/>
                         <outlet property="priceField" destination="k4D-Zl-yXi" id="3H2-8S-2Ti"/>
+                        <outlet property="saveButton" destination="47T-3W-G0b" id="Vgf-h4-kXB"/>
                         <outlet property="stateField" destination="030-Co-Ixn" id="pUZ-VB-dLh"/>
                         <outlet property="venueLabel" destination="6JL-UP-eGg" id="8cM-Gd-aDl"/>
                     </connections>
@@ -225,7 +237,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6I-Ev-vrw" id="lOW-Rq-O6i">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Venue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="CuA-TC-Y7l">
