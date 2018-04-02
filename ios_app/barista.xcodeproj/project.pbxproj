@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4745031E206EC05F00FC1659 /* UIButtonExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4745031D206EC05F00FC1659 /* UIButtonExtentions.swift */; };
+		475740AE206D428F00375CBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 475740AD206D428E00375CBE /* Assets.xcassets */; };
+		47EE0F95206D66C000540A23 /* CircleFlavourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE0F94206D66C000540A23 /* CircleFlavourViewController.swift */; };
 		4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800A1D70BF460001A9D1 /* Barista.swift */; };
 		4B07800D1D70C1270001A9D1 /* CircleFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */; };
 		4B07800F1D70C13E0001A9D1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07800E1D70C13E0001A9D1 /* Comment.swift */; };
@@ -38,7 +41,6 @@
 		4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */; };
 		4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */; };
 		4BA435A41DDB5DDE000C928A /* CreateCircleFlavorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */; };
-		4BBB204E1DDA64CB0051932D /* CircleFlavourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */; };
 		4BBC40F31DDF751000A8EBF5 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */; };
 		4BBC40F51DDF774E00A8EBF5 /* UpdateUserCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */; };
 		4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC36E9A1DC8FE86007BDB38 /* CreateCheckin.storyboard */; };
@@ -57,11 +59,13 @@
 		8FA7EBE71DEF221E005D3844 /* FacebookProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA7EBE61DEF221E005D3844 /* FacebookProfile.swift */; };
 		8FB582321DD5133A00150059 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB582311DD5133A00150059 /* Constants.swift */; };
 		A92A7B82206968D500C7B109 /* TextFieldExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */; };
-		A962F6EF205AE3C0009FFBDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A962F6EE205AE3C0009FFBDF /* Assets.xcassets */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4745031D206EC05F00FC1659 /* UIButtonExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtentions.swift; sourceTree = "<group>"; };
+		475740AD206D428E00375CBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		47EE0F94206D66C000540A23 /* CircleFlavourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavourViewController.swift; sourceTree = "<group>"; };
 		4B07800A1D70BF460001A9D1 /* Barista.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Barista.swift; sourceTree = "<group>"; };
 		4B07800C1D70C1270001A9D1 /* CircleFlavor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavor.swift; sourceTree = "<group>"; };
 		4B07800E1D70C13E0001A9D1 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -95,7 +99,6 @@
 		4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCheckinViewController.swift; sourceTree = "<group>"; };
 		4B9E20DB1DC3F6A6007440AB /* CheckinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinCommand.swift; sourceTree = "<group>"; };
 		4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCircleFlavorViewController.swift; sourceTree = "<group>"; };
-		4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFlavourViewController.swift; sourceTree = "<group>"; };
 		4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4BBC40F41DDF774E00A8EBF5 /* UpdateUserCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserCommand.swift; sourceTree = "<group>"; };
 		4BC36E9B1DC8FE86007BDB38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreateCheckin.storyboard; sourceTree = "<group>"; };
@@ -116,7 +119,6 @@
 		8FB582311DD5133A00150059 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtentions.swift; sourceTree = "<group>"; };
-		A962F6EE205AE3C0009FFBDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../mybarista_icons/Assets.xcassets; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
 		D66AE602CAFECCA888BC7735 /* Pods_barista.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barista.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -192,7 +194,7 @@
 				4B17FA221D2D588E007028B1 /* Configuration */,
 				4B17FA211D2D587F007028B1 /* Network */,
 				4B17FA1B1D2D50B1007028B1 /* Info.plist */,
-				A962F6EE205AE3C0009FFBDF /* Assets.xcassets */,
+				475740AD206D428E00375CBE /* Assets.xcassets */,
 			);
 			path = barista;
 			sourceTree = "<group>";
@@ -257,6 +259,7 @@
 		4B17FA261D2D58C8007028B1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				47EE0F94206D66C000540A23 /* CircleFlavourViewController.swift */,
 				4B17FA111D2D50B1007028B1 /* ViewController.swift */,
 				4B17FA2A1D2D5E86007028B1 /* CheckinsTableViewController.swift */,
 				4B17FA301D2D7B52007028B1 /* CheckinViewController.swift */,
@@ -265,7 +268,6 @@
 				4B9E20D71DC3B837007440AB /* CreateCheckinViewController.swift */,
 				4BE887541DD2302D009576FC /* VenueTableViewController.swift */,
 				4BE887561DD240B4009576FC /* VenueTableViewCell.swift */,
-				4BBB204D1DDA64CB0051932D /* CircleFlavourViewController.swift */,
 				4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */,
 				4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */,
 				4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */,
@@ -292,6 +294,7 @@
 				4B9836751DBAC74D0027BE5D /* JSONExtensions.swift */,
 				4B9836771DBACE760027BE5D /* Formatter.swift */,
 				8FB582311DD5133A00150059 /* Constants.swift */,
+				4745031D206EC05F00FC1659 /* UIButtonExtentions.swift */,
 			);
 			name = Commons;
 			sourceTree = "<group>";
@@ -347,7 +350,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = H2WD4JANN6;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -383,8 +386,8 @@
 				4B07804C1D775A790001A9D1 /* Blacksword.otf in Resources */,
 				4BC36E9C1DC8FE86007BDB38 /* CreateCheckin.storyboard in Resources */,
 				4B17FA1A1D2D50B1007028B1 /* LaunchScreen.storyboard in Resources */,
+				475740AE206D428F00375CBE /* Assets.xcassets in Resources */,
 				4BD977E21DDF6502005F3B86 /* Profile.storyboard in Resources */,
-				A962F6EF205AE3C0009FFBDF /* Assets.xcassets in Resources */,
 				4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +425,7 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -437,6 +441,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -485,7 +490,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BBB204E1DDA64CB0051932D /* CircleFlavourViewController.swift in Sources */,
 				4BE430FD1DC94B820055D280 /* UploadCommand.swift in Sources */,
 				8F114C1E1DB6CE1D009B80F6 /* UserManager.swift in Sources */,
 				4B0780171D70C1980001A9D1 /* User.swift in Sources */,
@@ -496,6 +500,7 @@
 				4B17FA2F1D2D6978007028B1 /* CheckinManager.swift in Sources */,
 				4B9E20DC1DC3F6A6007440AB /* CheckinCommand.swift in Sources */,
 				4B0780191D70C1A40001A9D1 /* UserProfile.swift in Sources */,
+				4745031E206EC05F00FC1659 /* UIButtonExtentions.swift in Sources */,
 				4B0780131D70C17B0001A9D1 /* PhotoCheckin.swift in Sources */,
 				4B9E20D81DC3B837007440AB /* CreateCheckinViewController.swift in Sources */,
 				A92A7B82206968D500C7B109 /* TextFieldExtentions.swift in Sources */,
@@ -519,6 +524,7 @@
 				4BD026751DD28C7400F6FF25 /* FoursquareManager.swift in Sources */,
 				4BD977DF1DDE6824005F3B86 /* ProfileViewController.swift in Sources */,
 				4BE887571DD240B4009576FC /* VenueTableViewCell.swift in Sources */,
+				47EE0F95206D66C000540A23 /* CircleFlavourViewController.swift in Sources */,
 				4BE430FB1DC945540055D280 /* S3AssetManager.swift in Sources */,
 				4B6292651DF87C450024C7AF /* ViewControllerExtensions.swift in Sources */,
 				4B9836611DB921AB0027BE5D /* CheckinsTableViewCell.swift in Sources */,
@@ -674,8 +680,8 @@
 				CODE_SIGN_ENTITLEMENTS = barista/barista.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = H2WD4JANN6;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -684,8 +690,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.mybarista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "444afd33-19bd-4335-93de-eccac9a399dd";
-				PROVISIONING_PROFILE_SPECIFIER = development_makingdevs;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
@@ -699,9 +705,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = barista/barista.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = H2WD4JANN6;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -710,8 +716,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.mybarista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be6287b7-3b59-4d7a-82db-623afec44898";
-				PROVISIONING_PROFILE_SPECIFIER = "com.makingdevs.mybarista AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
