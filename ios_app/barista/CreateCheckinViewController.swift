@@ -22,6 +22,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var originField: UITextField!
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var venueLabel: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
@@ -55,6 +56,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if checkin != nil {
             setCurrentCheckIn()
         }
+        saveButton.bordered()
     }
     
     func cleanView(){
@@ -97,40 +99,36 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         self.venueLabel.setTitle(venueSelected.name, for: .normal)
     }
     
-    @IBAction func createCheckin(_ sender: UIBarButtonItem) {
-        // Improve this piece of code
-        if let action = sender.title {
-            switch action {
-            case "Guardar":
-                getCheckInForm(asset: nil)
-                uploadCommand = UploadCommand(image: image)
-                if uploadCommand.validateCommand() {
-                    S3AssetManager.uploadCheckinPhoto(
-                        uploadCommand: uploadCommand,
-                        onPhotoSuccess: { (photoCheckin: PhotoCheckin?) -> () in
-                            if let checkinId = photoCheckin?.id {
-                                self.saveCheckin(asset: checkinId)
-                            }else{
-                                 self.present(self.showErrorAlert(message: "Error al guardar la imagen"), animated: true)
-                            }
-                        },
-                        onPhotoError: { (error: String) -> () in
-                            print("Photo: \(error.description)")
-                    })
-                } else {
-                    if checkin?.s3Asset != nil {
-                        saveCheckin(asset: checkin?.s3Asset?.id)
-                    } else {
-                        saveCheckin(asset: nil)
+    @IBAction func saveCheckin(_ sender: Any) {
+        getCheckInForm(asset: nil)
+        uploadCommand = UploadCommand(image: image)
+        if uploadCommand.validateCommand() {
+            S3AssetManager.uploadCheckinPhoto(
+                uploadCommand: uploadCommand,
+                onPhotoSuccess: { (photoCheckin: PhotoCheckin?) -> () in
+                    if let checkinId = photoCheckin?.id {
+                        self.saveCheckin(asset: checkinId)
+                    }else{
+                        self.present(self.showErrorAlert(message: "Error al guardar la imagen"), animated: true)
                     }
-                }
-            default:
-                if checkInAction == "CREATE" {
-                    _ = self.tabBarController?.selectedIndex = 0
-                } else {
-                    _ = self.navigationController?.popViewController(animated: true)
-                }
+            },
+                onPhotoError: { (error: String) -> () in
+                    print("Photo: \(error.description)")
+            })
+        } else {
+            if checkin?.s3Asset != nil {
+                saveCheckin(asset: checkin?.s3Asset?.id)
+            } else {
+                saveCheckin(asset: nil)
             }
+        }
+    }
+    @IBAction func cancelEdittingCheckin(_ sender: UIBarButtonItem) {
+        
+        if checkInAction == "CREATE" {
+            _ = self.tabBarController?.selectedIndex = 0
+        } else {
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -195,19 +193,9 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @IBAction func selectPicture(_ sender: Any?) {
-        let checkInImagePicker = UIImagePickerController()
-//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-//            checkInImagePicker.sourceType = .camera
-//        } else {
-//            checkInImagePicker.allowsEditing = false
-//            checkInImagePicker.sourceType = .photoLibrary
-//            checkInImagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-//        }
-//        checkInImagePicker.delegate = self
-//        present(checkInImagePicker, animated: true, completion: nil)
       var config = Configuration()
-      config.doneButtonTitle = "Finish"
-      config.noImagesTitle = "Sorry! There are no images here!"
+      config.doneButtonTitle = "OK"
+      config.noImagesTitle = "Lo sentimos, no hay imagenes disponibles"
       config.recordLocation = false
       config.allowVideoSelection = false
       
