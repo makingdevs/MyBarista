@@ -26,6 +26,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
       circleFlavorChart.noDataText = ""
       showCircleFlavor()
     }
+    circleFlavorChart.sizeToFit()
     
     circleButton.bordered()
     
@@ -60,10 +61,13 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
         let flavorRadar = valueFlavors.enumerated().map { x, y in return RadarChartDataEntry(value: y) }
         
         let data = RadarChartData()
-        let dataChartSet = RadarChartDataSet(values: flavorRadar, label: "Sabores")
+        let dataChartSet = RadarChartDataSet(values: flavorRadar, label: "")
         dataChartSet.colors = [UIColor.brown]
+        dataChartSet.drawFilledEnabled = true
+        dataChartSet.fillColor = .lightGray
         data.addDataSet(dataChartSet)
         self.circleFlavorChart.data = data
+        self.circleFlavorChart.drawWeb = false
         let xaxis = circleFlavorChart.xAxis
         xaxis.valueFormatter = axisFormatterDelegate
     }
