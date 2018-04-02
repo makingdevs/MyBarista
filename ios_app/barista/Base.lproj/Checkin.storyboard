@@ -444,13 +444,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhc-Yu-t8g">
-                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="0HC-OP-pKm">
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="0HC-OP-pKm">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="205"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="205" id="HvL-oc-hNY"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="0SX-ND-6ah" appends="YES" id="FcR-V5-6bH"/>
+                                        </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ue-kK-VIC">
                                         <rect key="frame" x="0.0" y="205" width="320" height="538"/>
@@ -507,13 +511,13 @@
                                                         <rect key="frame" x="0.0" y="164" width="288" height="21"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Precio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3q-pw-1L4">
-                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="21"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="25.5" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <color key="textColor" red="0.56862745100000001" green="0.4549019608" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$ 00.00" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvN-yj-cPh">
-                                                                <rect key="frame" x="56.5" y="0.0" width="38" height="21"/>
+                                                                <rect key="frame" x="33.5" y="0.0" width="61" height="21"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="light"/>
@@ -586,30 +590,14 @@
                                     <constraint firstItem="8ue-kK-VIC" firstAttribute="leading" secondItem="Qhc-Yu-t8g" secondAttribute="leading" id="u3G-hR-EP6"/>
                                 </constraints>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lio-Le-geD">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="v7I-cN-j6w"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem systemItem="camera" id="6TP-Eq-f5J">
-                                        <connections>
-                                            <action selector="selectPicture:" destination="svR-ic-M69" id="rtH-bK-qMA"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Lio-Le-geD" secondAttribute="trailing" id="CYb-AH-njB"/>
                             <constraint firstItem="Qhc-Yu-t8g" firstAttribute="leading" secondItem="ysU-rt-mhX" secondAttribute="leading" id="DtL-gn-HHV"/>
                             <constraint firstItem="8ue-kK-VIC" firstAttribute="width" secondItem="ysU-rt-mhX" secondAttribute="width" id="NSE-h7-jWI"/>
-                            <constraint firstItem="Lio-Le-geD" firstAttribute="top" secondItem="Qhc-Yu-t8g" secondAttribute="bottom" id="QQ4-rN-Obd"/>
-                            <constraint firstItem="Lio-Le-geD" firstAttribute="leading" secondItem="ysU-rt-mhX" secondAttribute="leading" id="bf7-yD-fff"/>
+                            <constraint firstAttribute="bottom" secondItem="Qhc-Yu-t8g" secondAttribute="bottom" id="VBy-yN-JGc"/>
                             <constraint firstAttribute="trailing" secondItem="Qhc-Yu-t8g" secondAttribute="trailing" id="jPc-r3-aRW"/>
                             <constraint firstItem="Qhc-Yu-t8g" firstAttribute="top" secondItem="w1e-EI-HEQ" secondAttribute="bottom" id="rt3-Aw-WKc"/>
-                            <constraint firstAttribute="bottom" secondItem="Lio-Le-geD" secondAttribute="bottom" id="yAL-Ho-gw5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UcQ-Bw-JNd">
@@ -635,6 +623,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLo-5Y-yzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="0SX-ND-6ah">
+                    <connections>
+                        <action selector="selectPicture:" destination="svR-ic-M69" id="a5B-Km-9rn"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4319.1999999999998" y="194.75262368815595"/>
         </scene>

@@ -29,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="eUn-9q-ahq">
+                            <imageView userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="eUn-9q-ahq">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="120" verticalHuggingPriority="120" image="started_barista" translatesAutoresizingMaskIntoConstraints="NO" id="Nky-Pw-nYF">
@@ -170,9 +170,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="4vY-Zs-YE2">
+                            <imageView userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="4vY-Zs-YE2">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="90" placeholderIntrinsicHeight="90" image="started_barista" translatesAutoresizingMaskIntoConstraints="NO" id="1ly-0t-875">
                                 <rect key="frame" x="110" y="113" width="100" height="100"/>
@@ -245,12 +244,16 @@
                         <constraints>
                             <constraint firstItem="1ly-0t-875" firstAttribute="centerX" secondItem="TBZ-HP-FH3" secondAttribute="centerX" id="8MX-5u-6DT"/>
                             <constraint firstAttribute="trailing" secondItem="ku3-TT-L0d" secondAttribute="trailing" constant="24" id="AYg-cc-NzY"/>
+                            <constraint firstItem="4vY-Zs-YE2" firstAttribute="leading" secondItem="TBZ-HP-FH3" secondAttribute="leading" id="ECl-bQ-6A6"/>
                             <constraint firstItem="yGl-aG-382" firstAttribute="top" secondItem="ku3-TT-L0d" secondAttribute="bottom" constant="24" id="MQT-8l-Hh4"/>
                             <constraint firstItem="ku3-TT-L0d" firstAttribute="centerY" secondItem="TBZ-HP-FH3" secondAttribute="centerY" constant="52" id="P3w-pC-qn5"/>
                             <constraint firstItem="yGl-aG-382" firstAttribute="leading" secondItem="TBZ-HP-FH3" secondAttribute="leading" constant="24" id="S1X-CH-Jzx"/>
+                            <constraint firstItem="uiH-sq-5gw" firstAttribute="top" secondItem="4vY-Zs-YE2" secondAttribute="bottom" id="Vv2-9t-Tsa"/>
                             <constraint firstItem="rkY-0F-Wdt" firstAttribute="centerX" secondItem="TBZ-HP-FH3" secondAttribute="centerX" id="YpN-FP-SCa"/>
+                            <constraint firstAttribute="trailing" secondItem="4vY-Zs-YE2" secondAttribute="trailing" id="a9K-gu-6zK"/>
                             <constraint firstAttribute="trailing" secondItem="yGl-aG-382" secondAttribute="trailing" constant="24" id="ds9-HM-CoA"/>
                             <constraint firstItem="ku3-TT-L0d" firstAttribute="leading" secondItem="TBZ-HP-FH3" secondAttribute="leading" constant="24" id="lm8-7y-oOR"/>
+                            <constraint firstItem="4vY-Zs-YE2" firstAttribute="top" secondItem="TBZ-HP-FH3" secondAttribute="top" id="qg1-DQ-XXW"/>
                             <constraint firstItem="rkY-0F-Wdt" firstAttribute="top" secondItem="1ly-0t-875" secondAttribute="bottom" constant="8" id="rws-wg-oOh"/>
                             <constraint firstItem="ku3-TT-L0d" firstAttribute="top" secondItem="rkY-0F-Wdt" secondAttribute="bottom" constant="24" id="vj9-4b-U7k"/>
                         </constraints>
@@ -342,11 +345,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="320" height="480"/>
+        <image name="background" width="1024" height="576"/>
         <image name="started_barista" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eZ1-DK-rOQ"/>
+        <segue reference="RBy-DO-Z0j"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.36470588240000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
 </document>

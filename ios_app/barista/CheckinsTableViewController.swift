@@ -68,6 +68,8 @@ class CheckinsTableViewController: UITableViewController {
         }
         if let s3Asset = checkin.s3Asset, let urlFile = s3Asset.urlFile {
             viewCell.coffeeImageView.loadURL(url: urlFile)
+        }else{
+            viewCell.coffeeImageView.image = #imageLiteral(resourceName: "coffee_holder")
         }
         return viewCell
     }
@@ -101,7 +103,7 @@ class CheckinsTableViewController: UITableViewController {
                 self.tableView.reloadData()
             },
             onError:{ (error:String) -> () in
-                print(error)
+                print("retriveCheckinsForManager \(error)")
         })
     }
     

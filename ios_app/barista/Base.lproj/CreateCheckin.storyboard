@@ -26,27 +26,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cC2-DY-k9g">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="AX6-hT-Sx2"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem systemItem="camera" id="IbP-Ma-G2p">
-                                        <connections>
-                                            <action selector="selectPicture:" destination="cHO-lH-kyL" id="Hgx-Eg-kKf"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eC-NL-3Hk">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="9zz-tD-TKS">
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee_holder" translatesAutoresizingMaskIntoConstraints="NO" id="9zz-tD-TKS">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="205"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="205" id="3QL-iY-g7Q"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="3vU-Jd-FUf" appends="YES" id="cTq-6S-sC0"/>
+                                        </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EhT-lj-ARh">
                                         <rect key="frame" x="0.0" y="205" width="375" height="538"/>
@@ -103,13 +94,13 @@
                                                         <rect key="frame" x="0.0" y="164" width="359" height="21"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Precio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rai-0O-r3g">
-                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="21"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="46.5" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <color key="textColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$ 00.00" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k4D-Zl-yXi">
-                                                                <rect key="frame" x="56.5" y="0.0" width="59" height="21"/>
+                                                                <rect key="frame" x="54.5" y="0.0" width="61" height="21"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="light"/>
@@ -181,13 +172,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="0eC-NL-3Hk" secondAttribute="bottom" id="1qb-T5-q9K"/>
                             <constraint firstAttribute="trailing" secondItem="0eC-NL-3Hk" secondAttribute="trailing" id="DJB-6a-jF3"/>
                             <constraint firstItem="0eC-NL-3Hk" firstAttribute="top" secondItem="p5l-3g-gGI" secondAttribute="bottom" id="O1n-eS-Iyc"/>
                             <constraint firstItem="EhT-lj-ARh" firstAttribute="width" secondItem="x6C-hy-eLz" secondAttribute="width" id="ZNz-fi-XO7"/>
-                            <constraint firstAttribute="trailing" secondItem="cC2-DY-k9g" secondAttribute="trailing" id="dwe-tg-xrg"/>
-                            <constraint firstAttribute="bottom" secondItem="cC2-DY-k9g" secondAttribute="bottom" id="ksz-x8-hSi"/>
-                            <constraint firstItem="cC2-DY-k9g" firstAttribute="leading" secondItem="x6C-hy-eLz" secondAttribute="leading" id="ovi-ac-aZQ"/>
-                            <constraint firstItem="cC2-DY-k9g" firstAttribute="top" secondItem="0eC-NL-3Hk" secondAttribute="bottom" id="pA8-9u-6M4"/>
                             <constraint firstItem="0eC-NL-3Hk" firstAttribute="leading" secondItem="x6C-hy-eLz" secondAttribute="leading" id="tKU-i3-J4b"/>
                         </constraints>
                     </view>
@@ -216,6 +204,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mv6-mI-qyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="3vU-Jd-FUf">
+                    <connections>
+                        <action selector="selectPicture:" destination="cHO-lH-kyL" id="LBi-Gb-TAw"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2807.1999999999998" y="622.93853073463276"/>
         </scene>

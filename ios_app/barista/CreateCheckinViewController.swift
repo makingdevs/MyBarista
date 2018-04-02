@@ -192,7 +192,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         return alert
     }
     
-    @IBAction func selectPicture(_ sender: UIBarButtonItem) {
+    @IBAction func selectPicture(_ sender: Any?) {
         let checkInImagePicker = UIImagePickerController()
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             checkInImagePicker.sourceType = .camera
