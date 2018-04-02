@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -81,10 +82,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="v6r-fo-BFC">
-                                <rect key="frame" x="92" y="388" width="136" height="100"/>
+                                <rect key="frame" x="40" y="388" width="240" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sL7-u3-qjg">
-                                        <rect key="frame" x="0.0" y="0.0" width="136" height="42"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="b0c-vf-vOn"/>
                                         </constraints>
@@ -97,7 +98,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yhl-BK-oqo">
-                                        <rect key="frame" x="0.0" y="58" width="136" height="42"/>
+                                        <rect key="frame" x="0.0" y="58" width="240" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="A5T-Jd-Yde"/>
                                         </constraints>
@@ -119,6 +120,8 @@
                             <constraint firstItem="v6r-fo-BFC" firstAttribute="top" secondItem="ggo-w0-xuZ" secondAttribute="bottom" constant="24" id="PW9-RK-X11"/>
                             <constraint firstAttribute="trailing" secondItem="ggo-w0-xuZ" secondAttribute="trailing" id="Pnk-60-4yx"/>
                             <constraint firstItem="0P4-8q-auU" firstAttribute="centerX" secondItem="Bi8-6j-xr1" secondAttribute="centerX" id="QVV-pT-Cxg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v6r-fo-BFC" secondAttribute="trailing" constant="24" id="egL-bY-H8g"/>
+                            <constraint firstItem="v6r-fo-BFC" firstAttribute="leading" secondItem="Bi8-6j-xr1" secondAttribute="leadingMargin" constant="24" id="kBV-WF-Siv"/>
                             <constraint firstItem="v6r-fo-BFC" firstAttribute="centerX" secondItem="Bi8-6j-xr1" secondAttribute="centerX" id="rJ2-gg-lcT"/>
                             <constraint firstItem="0P4-8q-auU" firstAttribute="centerY" secondItem="ggo-w0-xuZ" secondAttribute="centerY" id="vBb-TB-dXT"/>
                         </constraints>
@@ -163,10 +166,10 @@
                                 <rect key="frame" x="0.0" y="285" width="320" height="234"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dra-RU-QaY">
-                                        <rect key="frame" x="89" y="16" width="143" height="32"/>
+                                        <rect key="frame" x="24" y="16" width="272" height="32"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6Y-Ee-gji">
-                                                <rect key="frame" x="0.0" y="0.0" width="143" height="32"/>
+                                                <rect key="frame" x="64.5" y="0.0" width="143" height="32"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                 <state key="normal" title="CAMBIA TU FOTO">
                                                     <color key="titleColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -220,8 +223,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="mvW-5s-DRO" secondAttribute="trailing" constant="8" id="7Lq-9w-ZVb"/>
+                                    <constraint firstAttribute="trailing" secondItem="dra-RU-QaY" secondAttribute="trailing" constant="24" id="BEj-de-pux"/>
                                     <constraint firstItem="mvW-5s-DRO" firstAttribute="top" secondItem="dra-RU-QaY" secondAttribute="bottom" constant="24" id="BZp-XT-PAe"/>
                                     <constraint firstItem="dra-RU-QaY" firstAttribute="centerX" secondItem="iVt-jM-cwm" secondAttribute="centerX" id="GVd-w3-gix"/>
+                                    <constraint firstItem="dra-RU-QaY" firstAttribute="leading" secondItem="iVt-jM-cwm" secondAttribute="leading" constant="24" id="HIK-co-1BD"/>
                                     <constraint firstItem="dra-RU-QaY" firstAttribute="top" secondItem="iVt-jM-cwm" secondAttribute="top" constant="16" id="heg-jN-BVB"/>
                                     <constraint firstItem="mvW-5s-DRO" firstAttribute="leading" secondItem="iVt-jM-cwm" secondAttribute="leading" constant="8" id="yuN-aT-ikz"/>
                                 </constraints>

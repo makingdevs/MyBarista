@@ -185,7 +185,7 @@
                                                 <rect key="frame" x="0.0" y="213" width="375" height="667"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="dwO-L8-5Xw" userLabel="Stack Main">
-                                                        <rect key="frame" x="8" y="24" width="359" height="606.5"/>
+                                                        <rect key="frame" x="8" y="24" width="359" height="656.5"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h7q-hE-aGE" userLabel="Stack Data">
                                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="44.5"/>
@@ -244,7 +244,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ng8-57-HEu" userLabel="Stack Actions">
-                                                                <rect key="frame" x="0.0" y="68.5" width="359" height="114"/>
+                                                                <rect key="frame" x="0.0" y="68.5" width="359" height="164"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¡Registra, evalúa y comparte tu experiencia!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thb-EN-YiN">
                                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="20"/>
@@ -284,10 +284,10 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M7M-3j-gef" userLabel="Stack stars">
-                                                                        <rect key="frame" x="0.0" y="114" width="359" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="114" width="359" height="50"/>
                                                                         <subviews>
                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcZ-o7-LVm" customClass="CosmosView" customModule="Cosmos">
-                                                                                <rect key="frame" x="69.5" y="0.0" width="220" height="0.0"/>
+                                                                                <rect key="frame" x="69.5" y="0.0" width="220" height="50"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="50" id="92W-Wz-MAP"/>
                                                                                 </constraints>
@@ -312,7 +312,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oaA-ev-JnW" userLabel="Stack Indicators">
-                                                                <rect key="frame" x="0.0" y="206.5" width="359" height="400"/>
+                                                                <rect key="frame" x="0.0" y="256.5" width="359" height="400"/>
                                                                 <subviews>
                                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fX-fN-GDh">
                                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="400"/>
@@ -704,7 +704,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="42"/>
                                         <subviews>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Fr-tm-v8h">
-                                                <rect key="frame" x="60.5" y="0.0" width="238" height="42"/>
+                                                <rect key="frame" x="24" y="0.0" width="311" height="42"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="42" id="fU9-n5-Dbw"/>
                                                 </constraints>
@@ -717,6 +717,10 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="5Fr-tm-v8h" secondAttribute="trailing" constant="24" id="2c7-g3-1Nm"/>
+                                            <constraint firstItem="5Fr-tm-v8h" firstAttribute="leading" secondItem="xy4-H8-h72" secondAttribute="leading" constant="24" id="vWH-tU-OG1"/>
+                                        </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-YK-ofF" customClass="RadarChartView" customModule="Charts">
                                         <rect key="frame" x="0.0" y="42" width="359" height="400"/>
