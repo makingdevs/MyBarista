@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import ImagePicker
+
 
 protocol CheckinDelegate {
     func updateCheckinDetail(currentCheckin: Checkin)
 }
 
-class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, VenueDelegate {
+class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, VenueDelegate, ImagePickerDelegate{
     
     @IBOutlet weak var checkinPhoto: UIImageView!
     @IBOutlet weak var methodField: UITextField!
@@ -194,19 +196,28 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     @IBAction func selectPicture(_ sender: Any?) {
         let checkInImagePicker = UIImagePickerController()
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            checkInImagePicker.sourceType = .camera
-        } else {
-            checkInImagePicker.sourceType = .photoLibrary
-        }
-        checkInImagePicker.delegate = self
-        present(checkInImagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        self.image = info[UIImagePickerControllerOriginalImage] as! UIImage!
-        checkinPhoto.image = self.image
-        dismiss(animated: true, completion: nil)
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            checkInImagePicker.sourceType = .camera
+//        } else {
+//            checkInImagePicker.allowsEditing = false
+//            checkInImagePicker.sourceType = .photoLibrary
+//            checkInImagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+//        }
+//        checkInImagePicker.delegate = self
+//        present(checkInImagePicker, animated: true, completion: nil)
+      var config = Configuration()
+      config.doneButtonTitle = "Finish"
+      config.noImagesTitle = "Sorry! There are no images here!"
+      config.recordLocation = false
+      config.allowVideoSelection = false
+      
+      
+      let imagePicker = ImagePickerController(configuration: config)
+      imagePicker.imageLimit = 1
+      imagePicker.delegate = self
+      
+      present(imagePicker, animated: true, completion: nil)
+      
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -260,4 +271,25 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             navigationItem.backBarButtonItem = backItem
         }
     }
+  
+  // MARK: - ImagePickerDelegate
+  func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+    imagePicker.dismiss(animated: true, completion: nil)
+  }
+  
+  func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    guard images.count > 0 else { return }
+    self.image = images[0]
+    checkinPhoto.image = self.image
+
+    imagePicker.dismiss(animated: true, completion: nil)
+  }
+  
+  func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    guard images.count > 0 else { return }
+    self.image = images[0]
+    checkinPhoto.image = self.image
+    
+    imagePicker.dismiss(animated: true, completion: nil)
+  }
 }

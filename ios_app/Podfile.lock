@@ -22,6 +22,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.31.0):
     - FBSDKCoreKit (~> 4.31.0)
+  - ImagePicker (3.0.0)
   - Kingfisher (4.6.3)
   - Realm (3.1.1):
     - Realm/Headers (= 3.1.1)
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - ImagePicker
   - Kingfisher (~> 4.0)
   - SwiftyJSON
 
@@ -54,11 +56,12 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 54db4c581123745d25a9f7c1608020b3aeabd118
   FBSDKLoginKit: 95a252ddffd6919c0f132a02292f0824616d8709
   FBSDKShareKit: 7c3a2e6bb5be15676aebe256444afb18c5d238b3
+  ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   Kingfisher: 98e6d5b5e807645743e8ed5ececd25d688d38452
   Realm: 42d1c38a5b1bbcc828b48a7ce702cb86fc68adf4
   RealmSwift: d31937ca6a6ee54acde64ec839523c0a3c04924b
   SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
 
-PODFILE CHECKSUM: 87f534421edc989efbd3755b9d02a79f44d5a5c6
+PODFILE CHECKSUM: bda09817d5687bce5461343fb5dd4683946bc941
 
 COCOAPODS: 1.4.0
