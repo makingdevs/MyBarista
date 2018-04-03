@@ -28,7 +28,9 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.tabBarController?.selectedIndex = 1
+        if checkins.count == 0 {
+            self.tabBarController?.selectedIndex = 1
+        }
     }
     
     fileprivate func getDaysUntilNow(from someDate: Date) -> String {
