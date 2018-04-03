@@ -237,7 +237,6 @@
                                 </state>
                                 <connections>
                                     <action selector="sendRequest:" destination="f75-30-ify" eventType="touchUpInside" id="83Z-Lv-g1y"/>
-                                    <segue destination="Kim-Wg-5BM" kind="show" identifier="PerformSignUp" id="RBy-DO-Z0j"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -349,8 +348,5 @@
         <image name="background" width="291" height="511"/>
         <image name="started_barista" width="256" height="256"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="eZ1-DK-rOQ"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.36470588240000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
 </document>

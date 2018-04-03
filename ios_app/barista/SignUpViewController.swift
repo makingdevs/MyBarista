@@ -11,7 +11,6 @@ import UIKit
 class SignUpViewController: UIViewController {
     
     var registrationCommand: RegistrtionCommand!
-    var perfomrSignUp: Bool = false
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
@@ -51,8 +50,7 @@ class SignUpViewController: UIViewController {
             UserManager.signup(registrationCommand: registrationCommand,
                                onSuccess: { (user: User) -> () in
                                 self.setUserPreferences(currentUser: user)
-                                self.perfomrSignUp = true
-                                self.performSegue(withIdentifier: "PerformSignUp", sender: self)
+                                _ = self.navigationController?.popViewController(animated: true)
                 },
                                onError: { (error: String) -> () in
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
@@ -79,9 +77,5 @@ class SignUpViewController: UIViewController {
         userPreferences.set(currentUser.id, forKey: "currentUserId")
         userPreferences.set(currentUser.password, forKey: "currentUserPassword")
         userPreferences.synchronize()
-    }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return perfomrSignUp
     }
 }
