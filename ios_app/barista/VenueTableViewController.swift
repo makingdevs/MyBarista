@@ -111,6 +111,10 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         restartSearchBar()
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: searchBar.text)
+    }
+    
     func restartSearchBar(){
         venueSearchBar.text = ""
         venueSearchBar.resignFirstResponder()
