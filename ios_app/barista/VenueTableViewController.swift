@@ -13,15 +13,21 @@ protocol VenueDelegate {
     func updateVenueName(venueSelected: Venue)
 }
 
-class VenueTableViewController: UITableViewController, CLLocationManagerDelegate {
+class VenueTableViewController: UITableViewController, CLLocationManagerDelegate, UISearchBarDelegate {
     
     var venues: [Venue] = [Venue]()
     let locationManager = CLLocationManager()
     var venueCommand: VenueCommand!
     var venueDelegate: VenueDelegate?
-
+    var currentLatitude: String?
+    var currentLongitude: String?
+    
+    @IBOutlet weak var venueSearchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        venueSearchBar.delegate = self
+        
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             switch CLLocationManager.authorizationStatus() {
@@ -42,18 +48,22 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let currentLatitude = manager.location?.coordinate.latitude.description,
-            let currentLongitude = manager.location?.coordinate.longitude.description {
-            fetchVenues(latitude: currentLatitude, longitude: currentLongitude)
-        }
+        currentLatitude = manager.location?.coordinate.latitude.description
+        currentLongitude = manager.location?.coordinate.longitude.description
+        fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: "")
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
     
-    func fetchVenues(latitude: String, longitude: String) {
-        venueCommand = VenueCommand(latitude: latitude, longitude: longitude, query: "")
+    func fetchVenues(latitude: String?, longitude: String?, query: String?){
+        guard let latitude = latitude, let longitude = longitude, let query = query else {
+            return
+        }
+        
+        venueCommand = VenueCommand(latitude: latitude, longitude: longitude, query: query)
         FoursquareManager.getVenuesNear(
             venueCommand: venueCommand,
             onSuccess: { (venues: [Venue]) -> () in
@@ -86,5 +96,25 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         let venue: Venue = self.venues[indexPath.row]
         self.venueDelegate?.updateVenueName(venueSelected: venue)
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Buscnado....")
+        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: searchBar.text)
+        restartSearchBar()
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        venueSearchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: "")
+        restartSearchBar()
+    }
+    
+    func restartSearchBar(){
+        venueSearchBar.text = ""
+        venueSearchBar.resignFirstResponder()
+        venueSearchBar.setShowsCancelButton(false, animated: true)
     }
 }

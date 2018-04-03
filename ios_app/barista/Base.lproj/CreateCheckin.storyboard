@@ -232,9 +232,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="6Ea-n6-FwJ">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="tintColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="VenueTableViewCell" rowHeight="80" id="d6I-Ev-vrw" customClass="VenueTableViewCell" customModule="barista" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6I-Ev-vrw" id="lOW-Rq-O6i">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
@@ -273,6 +279,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="VENUES" id="eKB-UN-GA5"/>
+                    <connections>
+                        <outlet property="venueSearchBar" destination="6Ea-n6-FwJ" id="00b-ip-dxP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U89-Os-Ko4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
