@@ -232,7 +232,6 @@
                                             <color key="titleColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeUserPhoto:" destination="Fix-cn-3u1" eventType="touchUpInside" id="M9P-a7-b2V"/>
                                             <action selector="sendProfileData" destination="Fix-cn-3u1" eventType="touchUpInside" id="aav-BZ-TY3"/>
                                         </connections>
                                     </button>

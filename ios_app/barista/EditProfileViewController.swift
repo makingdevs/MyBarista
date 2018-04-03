@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import ImagePicker
 
 protocol ProfileDelegate {
     func updateProfile(profileUpdated: UserProfile)
 }
 
-class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate {
     
     
     @IBOutlet weak var nameField: UITextField!
@@ -68,15 +69,18 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                                                    lastName: lastName)
     }
     
-    @IBAction func changeUserPhoto(_ sender: UIButton) {
-        let checkInImagePicker = UIImagePickerController()
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            checkInImagePicker.sourceType = .camera
-        } else {
-            checkInImagePicker.sourceType = .photoLibrary
-        }
-        checkInImagePicker.delegate = self
-        present(checkInImagePicker, animated: true, completion: nil)
+    @IBAction func changeUserPhoto(_ sender: Any?) {
+        var config = Configuration()
+        config.doneButtonTitle = "OK"
+        config.noImagesTitle = "Lo sentimos, no hay imagenes disponibles"
+        config.recordLocation = false
+        config.allowVideoSelection = false
+        
+        let imagePicker = ImagePickerController(configuration: config)
+        imagePicker.imageLimit = 1
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -103,6 +107,29 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             },
             onError: {(error: String) -> () in
                 print(error)
+        })
+    }
+    
+    // MARK: - ImagePickerDelegate
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        guard images.count > 0 else { return }
+        self.userImage = images[0]
+        userPhotoImageView.image = self.userImage
+        imagePicker.dismiss(animated: true, completion: {
+            self.uploadAsset()
+        })
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        guard images.count > 0 else { return }
+        self.userImage = images[0]
+        userPhotoImageView.image = self.userImage
+        imagePicker.dismiss(animated: true, completion: {
+            self.uploadAsset()
         })
     }
 }
