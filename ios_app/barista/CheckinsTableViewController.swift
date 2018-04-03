@@ -27,6 +27,10 @@ class CheckinsTableViewController: UITableViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.selectedIndex = 1
+    }
+    
     fileprivate func getDaysUntilNow(from someDate: Date) -> String {
         let components = Calendar.current.dateComponents([.month, .day, .hour], from: someDate, to: Date())
         var timeFromNow = ""
