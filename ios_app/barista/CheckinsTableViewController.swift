@@ -27,12 +27,6 @@ class CheckinsTableViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if checkins.count == 0 {
-            self.tabBarController?.selectedIndex = 1
-        }
-    }
-    
     fileprivate func getDaysUntilNow(from someDate: Date) -> String {
         let components = Calendar.current.dateComponents([.month, .day, .hour], from: someDate, to: Date())
         var timeFromNow = ""
@@ -106,7 +100,11 @@ class CheckinsTableViewController: UITableViewController {
             username,
             onSuccess: { (checkins:[Checkin]) -> () in
                 self.checkins = checkins
-                self.tableView.reloadData()
+                if checkins.count == 0 {
+                    self.tabBarController?.selectedIndex = 1
+                }else{
+                    self.tableView.reloadData()
+                }
             },
             onError:{ (error:String) -> () in
                 print("retriveCheckinsForManager \(error)")
