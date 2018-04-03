@@ -27,10 +27,14 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserPreferences()
-        fetchUserProfile(id: self.userId)
         editButton.bordered()
         let orange = UIColor(red: 234.0/255.0, green: 93.0/255.0, blue: 47.0/255.0, alpha: 0.8)
         closeSessionButton.bordered(with: orange)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserProfile(id: self.userId)
     }
     
     func fetchUserProfile(id: Int) {
@@ -60,7 +64,6 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     
     func updateProfile(profileUpdated: UserProfile) {
         self.userProfile = profileUpdated
-        showUserProfile(currentUser: profileUpdated)
     }
     
     func fetchUserPreferences() {
