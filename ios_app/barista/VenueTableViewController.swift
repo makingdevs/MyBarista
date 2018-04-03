@@ -99,7 +99,6 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("Buscnado....")
         self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: searchBar.text)
         restartSearchBar()
     }
