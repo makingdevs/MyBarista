@@ -185,7 +185,7 @@ class CheckinManager {
     }
     
     static func saveRating(checkinCommand: CheckinCommand,
-                           onSuccess: @escaping (_ checkin: Checkin) -> (),
+                           onSuccess: @escaping (_ checkinRating: Float) -> (),
                            onError: @escaping (_ error: String) -> ()) {
         let updateRatingUrl: String = "\(Constants.urlBase)/checkins/\(checkinCommand.id!)/setRating"
         let parameters = ["id": checkinCommand.id ?? "",
@@ -199,10 +199,8 @@ class CheckinManager {
                 case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
-                        let checkinId = json["id"].intValue
                         let checkinRating = json["rating"].floatValue
-                        let checkin = Checkin(id: checkinId, rating: checkinRating)
-                        onSuccess(checkin)
+                        onSuccess(checkinRating)
                     }
                 case .failure(let error):
                     onError(error.localizedDescription)

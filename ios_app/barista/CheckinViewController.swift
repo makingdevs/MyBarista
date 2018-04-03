@@ -79,8 +79,8 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, rating: rating)
         CheckinManager.saveRating(
             checkinCommand: checkinCommand,
-            onSuccess: { (checkin: Checkin) -> () in
-                self.checkin = checkin
+            onSuccess: { (checkinRating: Float) -> () in
+                self.checkin.rating = checkinRating
         },
             onError: { (error: String) -> () in
                 print(error)
