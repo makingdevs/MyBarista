@@ -249,17 +249,18 @@ class CheckinManager {
                                    onError: @escaping (_ error: String) -> ()) {
         
         let circleFlavorUrl: String = "\(Constants.urlBase)/checkins/\(checkinId)/circleFlavor"
-        let parameters = ["id": checkinId,
-                          "sweetness": circleFlavor.sweetness,
-                          "acidity": circleFlavor.acidity,
-                          "flowery": circleFlavor.flowery,
-                          "spicy": circleFlavor.spicy,
-                          "salty": circleFlavor.salty,
-                          "berries": circleFlavor.berries,
-                          "chocolate": circleFlavor.chocolate,
-                          "candy": circleFlavor.candy,
-                          "body": circleFlavor.body,
-                          "cleaning": circleFlavor.cleaning]
+        var parameters = ["id": checkinId,
+                          "sweetness": circleFlavor.sweetness ?? 0,
+                          "acidity": circleFlavor.acidity ?? 0,
+                          "flowery": circleFlavor.flowery ?? 0,
+                          "spicy": circleFlavor.spicy ?? 0,
+                          "salty": circleFlavor.salty ?? 0,
+                          "berries": circleFlavor.berries ?? 0,
+                          "chocolate": circleFlavor.chocolate ?? 0] as [String : Any]
+        
+        parameters["candy"] = circleFlavor.candy ?? 0
+        parameters["body"] = circleFlavor.body ?? 0
+        parameters["cleaning"] = circleFlavor.cleaning ?? 0
         
         Alamofire.request(circleFlavorUrl, method: .post, parameters: parameters)
             .validate(statusCode: 200..<202)
