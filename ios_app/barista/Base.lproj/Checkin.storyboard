@@ -183,7 +183,7 @@
                                                 <rect key="frame" x="0.0" y="252" width="375" height="628"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="dwO-L8-5Xw" userLabel="Stack Main">
-                                                        <rect key="frame" x="8" y="24" width="359" height="602.66666666666663"/>
+                                                        <rect key="frame" x="8" y="24" width="359" height="642.66666666666663"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h7q-hE-aGE" userLabel="Stack Data">
                                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="44.333333333333336"/>
@@ -225,7 +225,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ng8-57-HEu" userLabel="Stack Actions">
-                                                                <rect key="frame" x="0.0" y="68.333333333333314" width="359" height="110.33333333333331"/>
+                                                                <rect key="frame" x="0.0" y="68.333333333333329" width="359" height="150.33333333333337"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¡Registra, evalúa y comparte tu experiencia!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thb-EN-YiN">
                                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="16.333333333333332"/>
@@ -265,10 +265,10 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M7M-3j-gef" userLabel="Stack stars">
-                                                                        <rect key="frame" x="0.0" y="110.33333333333337" width="359" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="110.33333333333337" width="359" height="40"/>
                                                                         <subviews>
                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcZ-o7-LVm" customClass="CosmosView" customModule="Cosmos">
-                                                                                <rect key="frame" x="69.666666666666686" y="0.0" width="220" height="0.0"/>
+                                                                                <rect key="frame" x="69.666666666666686" y="0.0" width="220" height="40"/>
                                                                                 <userDefinedRuntimeAttributes>
                                                                                     <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
                                                                                         <integer key="value" value="5"/>
@@ -290,7 +290,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oaA-ev-JnW" userLabel="Stack Indicators">
-                                                                <rect key="frame" x="0.0" y="202.66666666666669" width="359" height="400.00000000000006"/>
+                                                                <rect key="frame" x="0.0" y="242.66666666666663" width="359" height="400"/>
                                                                 <subviews>
                                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fX-fN-GDh">
                                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="400"/>
@@ -435,7 +435,7 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ue-kK-VIC">
-                                        <rect key="frame" x="0.0" y="350" width="375" height="380"/>
+                                        <rect key="frame" x="0.0" y="350" width="375" height="600"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eSX-3i-Meb">
                                                 <rect key="frame" x="16" y="24" width="343" height="319"/>
@@ -568,7 +568,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="380" id="APX-5m-rg0"/>
+                                            <constraint firstAttribute="height" constant="600" id="APX-5m-rg0"/>
                                             <constraint firstItem="eSX-3i-Meb" firstAttribute="leading" secondItem="8ue-kK-VIC" secondAttribute="leading" constant="16" id="LaS-FR-kGa"/>
                                             <constraint firstAttribute="trailing" secondItem="eSX-3i-Meb" secondAttribute="trailing" constant="16" id="Vey-GT-xU8"/>
                                             <constraint firstItem="eSX-3i-Meb" firstAttribute="top" secondItem="8ue-kK-VIC" secondAttribute="top" constant="24" id="yNC-ry-jfA"/>
