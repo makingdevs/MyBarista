@@ -64,12 +64,20 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
         let dataChartSet = RadarChartDataSet(values: flavorRadar, label: "")
         dataChartSet.colors = [UIColor.brown]
         dataChartSet.drawFilledEnabled = true
+        dataChartSet.drawIconsEnabled = false
+        dataChartSet.drawHighlightCircleEnabled = false
+        dataChartSet.drawVerticalHighlightIndicatorEnabled = false
         dataChartSet.fillColor = .lightGray
+        
         data.addDataSet(dataChartSet)
         self.circleFlavorChart.data = data
         self.circleFlavorChart.drawWeb = false
         let xaxis = circleFlavorChart.xAxis
         xaxis.valueFormatter = axisFormatterDelegate
+        
+        self.circleFlavorChart.legend.enabled = false
+        self.circleFlavorChart.chartDescription?.text = ""
+        
     }
     
     func updateCircleFlavor(checkin: Checkin, circleFlavor: CircleFlavor) {
