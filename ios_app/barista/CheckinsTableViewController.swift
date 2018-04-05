@@ -65,7 +65,10 @@ class CheckinsTableViewController: UITableViewController {
         }
         if let createdAt = checkin.createdAt{
             viewCell.createdAtLabel.text = self.getDaysUntilNow(from: createdAt)
+        }else{
+            viewCell.createdAtLabel.text = ""
         }
+        
         if let s3Asset = checkin.s3Asset, let urlFile = s3Asset.urlFile {
             viewCell.coffeeImageView.loadURL(url: urlFile)
         }else{

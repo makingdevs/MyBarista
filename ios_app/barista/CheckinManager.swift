@@ -20,6 +20,7 @@ class CheckinManager {
                 var checkins = [Checkin]()
                 if let value = response.result.value {
                     let json = JSON(value)
+                    print (json)
                     for(_, subJson) in json{
                         let checkinId = subJson["id"].intValue
                         let checkinAuthor = subJson["author"].stringValue
@@ -33,6 +34,8 @@ class CheckinManager {
                         let checkinVenue = subJson["venue"]["name"].stringValue
                         let checkinCircle = subJson["circle_flavor_id"].intValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
+                        
+                        
                         if subJson["s3_asset"].exists() {
                             let s3assetId = subJson["s3_asset"]["id"].intValue
                             let s3assetUrl = subJson["s3_asset"]["url_file"].stringValue

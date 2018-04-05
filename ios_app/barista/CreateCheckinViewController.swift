@@ -139,7 +139,6 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             CheckinManager.create(
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
-                    print("save ending")
                     self.cleanView()
                     _ = self.tabBarController?.selectedIndex = 0
                 },
