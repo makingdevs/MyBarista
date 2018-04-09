@@ -14,6 +14,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
     var axisFormatterDelegate: IAxisValueFormatter!
+    @IBOutlet weak var imageCircle: UIView!
     
     @IBOutlet weak var circleFlavorChart: RadarChartView!
     
@@ -38,6 +39,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
             circleFlavorId: checkin.circleFlavor!,
             onSuccess: {(circleFlavor: CircleFlavor) -> () in
                 self.circleFlavor = circleFlavor
+                self.circleButton.titleLabel?.text = "EDITAR CÍRCULO DE SABOR"
                 self.setFlavorsInChart(circleFlavor: circleFlavor)
             },
             onError: {(error: String) -> () in
@@ -46,7 +48,8 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     }
     
     func setFlavorsInChart(circleFlavor: CircleFlavor) {
-        // TODO: Improve this code
+        self.imageCircle.isHidden = true
+        
         let valueFlavors = [Double(circleFlavor.sweetness!),
                         Double(circleFlavor.acidity!),
                         Double(circleFlavor.flowery!),
@@ -83,6 +86,7 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     func updateCircleFlavor(checkin: Checkin, circleFlavor: CircleFlavor) {
         self.checkin = checkin
         self.circleFlavor = circleFlavor
+        circleButton.titleLabel?.text = "EDITAR CÍRCULO DE SABOR"
         self.setFlavorsInChart(circleFlavor: circleFlavor)
     }
     
