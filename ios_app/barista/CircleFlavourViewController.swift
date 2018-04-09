@@ -14,6 +14,9 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     var checkin: Checkin!
     var circleFlavor: CircleFlavor!
     var axisFormatterDelegate: IAxisValueFormatter!
+    
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     @IBOutlet weak var imageCircle: UIView!
     
     @IBOutlet weak var circleFlavorChart: RadarChartView!
@@ -35,14 +38,17 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     
     /* Fetchs Check-in circle flavor */
     func showCircleFlavor() {
+        self.startLoading()
         CheckinManager.fetchCircleFlavor(
             circleFlavorId: checkin.circleFlavor!,
             onSuccess: {(circleFlavor: CircleFlavor) -> () in
+                self.stopLoading()
                 self.circleFlavor = circleFlavor
                 self.circleButton.titleLabel?.text = "EDITAR CÍRCULO DE SABOR"
                 self.setFlavorsInChart(circleFlavor: circleFlavor)
             },
             onError: {(error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -100,5 +106,21 @@ class CircleFlavourViewController: UIViewController, CircleFlavorDelegate, IAxis
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         let flavors = ["Dulzura", "Acidez", "Florar", "Especiado", "Salado", "Frutos Rojos", "Chocolate", "Caramelo", "Cuerpo", "Limpieza"]
         return flavors[Int(value) % flavors.count];
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }

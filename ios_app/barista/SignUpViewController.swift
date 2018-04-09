@@ -18,6 +18,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var confirmField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         emailField.underlined()
@@ -47,8 +49,10 @@ class SignUpViewController: UIViewController {
         registrationCommand = RegistrtionCommand(username: username, password: password, confirmPassword: confirm, email: email)
         
         if registrationCommand.validateCommand() {
+            self.startLoading()
             UserManager.signup(registrationCommand: registrationCommand,
                                onSuccess: { (user: User) -> () in
+                                self.stopLoading()
                                 self.setUserPreferences(currentUser: user)
                                 _ = self.navigationController?.popViewController(animated: true)
                 },
@@ -77,5 +81,21 @@ class SignUpViewController: UIViewController {
         userPreferences.set(currentUser.id, forKey: "currentUserId")
         userPreferences.set(currentUser.password, forKey: "currentUserPassword")
         userPreferences.synchronize()
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }

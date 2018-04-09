@@ -12,6 +12,7 @@ class CheckinsTableViewController: UITableViewController {
     
     var checkins:[Checkin] = [Checkin]()
     let userPreferences = UserDefaults.standard
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,9 +100,11 @@ class CheckinsTableViewController: UITableViewController {
     }
     
     func retriveCheckinsForManager(username: String){
+        self.startLoading()
         CheckinManager.findAllCheckinsByUser(
             username,
             onSuccess: { (checkins:[Checkin]) -> () in
+                self.stopLoading()
                 self.checkins = checkins
                 if checkins.count == 0 {
                     self.tabBarController?.selectedIndex = 1
@@ -110,6 +113,7 @@ class CheckinsTableViewController: UITableViewController {
                 }
             },
             onError:{ (error:String) -> () in
+                self.stopLoading()
                 print("retriveCheckinsForManager \(error)")
         })
     }
@@ -118,6 +122,22 @@ class CheckinsTableViewController: UITableViewController {
         super.viewWillDisappear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
     
 }

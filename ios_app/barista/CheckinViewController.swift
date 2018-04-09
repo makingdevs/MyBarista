@@ -34,6 +34,8 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     @IBOutlet weak var noteLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
     
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
       let backItem = UIBarButtonItem()
@@ -77,12 +79,15 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     /* Updates check-in rating */
     func updateRatingInCheckIn(rating: Float) {
         let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, rating: rating)
+        self.startLoading()
         CheckinManager.saveRating(
             checkinCommand: checkinCommand,
             onSuccess: { (checkinRating: Float) -> () in
+                self.stopLoading()
                 self.checkin.rating = checkinRating
         },
             onError: { (error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -104,13 +109,16 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
     /* Updates check-in note */
     func updateNoteInCheckIn(note: String) {
         let checkinCommand: CheckinCommand = CheckinCommand(id: checkin.id, note: note)
+        self.startLoading()
         CheckinManager.saveNote(
             checkinCommand: checkinCommand,
             onSuccess: { (checkin: Checkin) -> () in
+                self.stopLoading()
                 self.checkin.note = checkin.note
                 self.noteLabel.text = checkin.note
         },
             onError: { (error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -138,4 +146,21 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         alert.addAction(okAction)
         return alert
     }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
 }

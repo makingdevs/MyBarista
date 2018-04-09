@@ -13,6 +13,7 @@ import FBSDKCoreKit
 class ViewController: UIViewController {
     
     var performSignIn: Bool = false
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -36,8 +37,10 @@ class ViewController: UIViewController {
     
     func getFBUserData(){
         if((FBSDKAccessToken.current()) != nil){
+            self.startLoading()
             UserManager.sharedInstance.fetchFacebookProfile(
                 onSuccess: {(fbProfile: FacebookProfile) -> () in
+                    self.stopLoading()
                     guard let firstName = fbProfile.firstName,
                         let lastName = fbProfile.lastName,
                         let email = fbProfile.email,
@@ -56,6 +59,7 @@ class ViewController: UIViewController {
                     
                     self.fetchUserData(loginCommand: loginCommand)
             }, onError: {(error: String) -> () in
+                self.stopLoading()
                 print(error)
             })
         }
@@ -98,12 +102,15 @@ class ViewController: UIViewController {
     
     func fetchUserData(loginCommand: LoginCommand) {
         if loginCommand.validateCommand() {
+            self.startLoading()
             UserManager.signin(loginCommand: loginCommand,
                                onSuccess: { (user: User) -> () in
+                                self.stopLoading()
                                 self.setUserPreferences(currentUser: user)
                                 self.perfomSignIn()
             },
                                onError:{ (error: String) -> () in
+                                self.stopLoading()
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
@@ -148,4 +155,19 @@ class ViewController: UIViewController {
         return identifier == "PerformSignIn" ? performSignIn : true
     }
     
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
 }

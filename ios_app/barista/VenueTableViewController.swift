@@ -24,6 +24,8 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     
     @IBOutlet weak var venueSearchBar: UISearchBar!
     
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         venueSearchBar.delegate = self
@@ -64,13 +66,16 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         }
         
         venueCommand = VenueCommand(latitude: latitude, longitude: longitude, query: query)
+        self.startLoading()
         FoursquareManager.getVenuesNear(
             venueCommand: venueCommand,
             onSuccess: { (venues: [Venue]) -> () in
+                self.stopLoading()
                 self.venues = venues
                 self.tableView.reloadData()
             },
             onError: { (error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -119,5 +124,21 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         venueSearchBar.text = ""
         venueSearchBar.resignFirstResponder()
         venueSearchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }

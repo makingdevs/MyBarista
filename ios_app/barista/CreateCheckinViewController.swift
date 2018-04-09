@@ -26,6 +26,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     var methodList = ["Expresso", "Americano", "Goteo", "Prensa", "Sifón", "Otro"]
     var stateList = ["Veracruz", "Chiapas", "Guerrero", "Oaxaca", "Puebla", "Otro"]
     
@@ -103,9 +105,11 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         getCheckInForm(asset: nil)
         uploadCommand = UploadCommand(image: image)
         if uploadCommand.validateCommand() {
+            self.startLoading()
             S3AssetManager.uploadCheckinPhoto(
                 uploadCommand: uploadCommand,
                 onPhotoSuccess: { (photoCheckin: PhotoCheckin?) -> () in
+                    self.stopLoading()
                     if let checkinId = photoCheckin?.id {
                         self.saveCheckin(asset: checkinId)
                     }else{
@@ -113,6 +117,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                     }
             },
                 onPhotoError: { (error: String) -> () in
+                    self.stopLoading()
                     print("Photo: \(error.description)")
             })
         } else {
@@ -134,15 +139,18 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func saveCheckin (asset: Int?) {
         getCheckInForm(asset: asset)
+        self.startLoading()
         switch checkInAction {
         case "CREATE":
             CheckinManager.create(
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
+                    self.stopLoading()
                     self.cleanView()
                     _ = self.tabBarController?.selectedIndex = 0
                 },
                 onError: { (error: String) -> () in
+                    self.stopLoading()
                     self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         case "UPDATE":
@@ -154,13 +162,16 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
                 checkinId: checkinId,
                 checkinCommand: checkinCommand,
                 onSuccess: { (checkin: Checkin) -> () in
+                    self.stopLoading()
                     self.checkinDelegate?.updateCheckinDetail(currentCheckin: checkin)
                     _ = self.navigationController?.popViewController(animated: true)
                 },
                 onError: { (error: String) -> () in
+                    self.stopLoading()
                     self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         default:
+            self.stopLoading()
             break
         }
     }
@@ -279,4 +290,20 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     imagePicker.dismiss(animated: true, completion: nil)
   }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
 }

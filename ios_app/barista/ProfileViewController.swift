@@ -23,7 +23,9 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     var userProfile: UserProfile?
     var username: String!
     var userId: Int!
-
+    
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserPreferences()
@@ -38,13 +40,16 @@ class ProfileViewController: UIViewController, ProfileDelegate {
     }
     
     func fetchUserProfile(id: Int) {
+        self.startLoading()
         UserManager.fetchProfile(
             userId: id,
             onSuccess: {(user: UserProfile) -> () in
+                self.stopLoading()
                 self.userProfile = user
                 self.showUserProfile(currentUser: user)
             },
             onError: {(error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -95,5 +100,19 @@ class ProfileViewController: UIViewController, ProfileDelegate {
 
     }
     
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
     
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
 }

@@ -28,6 +28,8 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
     var userProfile: UserProfile!
     var userImage: UIImage?
     
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         nameField.underlined()
@@ -49,13 +51,16 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
   @IBAction func sendProfileData() {
         initUserCommand()
         if updateUserCommand.validateCommand() {
+            self.startLoading()
             UserManager.updateProfile(
                 userCommand: updateUserCommand,
                 onSucces: {(userProfile: UserProfile) -> () in
+                    self.stopLoading()
                     self.profileDelegate?.updateProfile(profileUpdated: userProfile)
                     _ = self.navigationController?.popViewController(animated: true)
                 },
                 onError: {(error: String) -> () in
+                    self.stopLoading()
                     print(error)
             })
         }
@@ -98,14 +103,17 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         }
         
         let uploadCommand = UploadCommand(userId: userProfileId, image: userImage)
+        self.startLoading()
         S3AssetManager.uploadUserPhoto(
             uploadCommand: uploadCommand,
             onSuccess: {(userPhoto: PhotoCheckin) -> () in
+                self.stopLoading()
                 self.userProfile.s3asset?.urlFile = userPhoto.urlFile
                 self.profileDelegate?.updateProfile(profileUpdated: self.userProfile)
                 _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -131,5 +139,21 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         imagePicker.dismiss(animated: true, completion: {
             self.uploadAsset()
         })
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }

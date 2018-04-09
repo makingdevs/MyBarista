@@ -40,6 +40,8 @@ class CreateCircleFlavorViewController: UIViewController {
     @IBOutlet weak var bodySlider: UISlider!
     @IBOutlet weak var cleaningSlider: UISlider!
     
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Guardar", style: .plain, target: self, action: #selector(saveCircleFlavor))
@@ -122,14 +124,17 @@ class CreateCircleFlavorViewController: UIViewController {
     }
     
     @IBAction func saveCircleFlavor() {
+        self.startLoading()
         CheckinManager.createCircleFlavor(
             checkinId: checkin.id,
             circleFlavor:  getCircleFlavor(),
             onSuccess: {(checkin: Checkin) -> () in
+                self.stopLoading()
                 self.circleFlavorDelegate?.updateCircleFlavor(checkin: checkin, circleFlavor: self.circleFlavor)
                 _ = self.navigationController?.popViewController(animated: true)
             },
             onError: {(error: String) -> () in
+                self.stopLoading()
                 print(error)
         })
     }
@@ -146,5 +151,21 @@ class CreateCircleFlavorViewController: UIViewController {
                                          body: Int(roundf(bodySlider.value)),
                                          cleaning: Int(roundf(cleaningSlider.value)))
         return circleFlavor
+    }
+    
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        self.view.addSubview(activityIndicator);
+        self.view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopLoading(){
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }
