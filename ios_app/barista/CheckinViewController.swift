@@ -107,7 +107,7 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         CheckinManager.saveNote(
             checkinCommand: checkinCommand,
             onSuccess: { (checkin: Checkin) -> () in
-                self.checkin = checkin
+                self.checkin.note = checkin.note
                 self.noteLabel.text = checkin.note
         },
             onError: { (error: String) -> () in
