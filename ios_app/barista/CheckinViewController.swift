@@ -127,13 +127,9 @@ class CheckinViewController: UIViewController, CheckinDelegate, FBSDKSharingDele
         }
     }
     @IBAction func shareWithFacebook(_ sender: Any) {
-        let image = checkinPhotoView.image
-        let sharePhoto = FBSDKSharePhoto()
-        sharePhoto.image = image;
-        sharePhoto.isUserGenerated = true;
-        let content = FBSDKSharePhotoContent()
-        content.photos = [sharePhoto]
-        _ = FBSDKShareDialog.show(from: self, with: content, delegate: self)
+        let linkContent = FBSDKShareLinkContent()
+        linkContent.contentURL = URL(string:"http://users.barist.coffee/#profile/\(UserDefaults.standard.object(forKey:"currentUser") ?? "")" )
+        _ = FBSDKShareDialog.show(from: self, with:linkContent, delegate: self)
     }
     
     func showErrorAlert(message: String) -> UIAlertController {
