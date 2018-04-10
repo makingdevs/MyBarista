@@ -13,7 +13,7 @@ protocol ProfileDelegate {
     func updateProfile(profileUpdated: UserProfile)
 }
 
-class EditProfileViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate {
+class EditProfileViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate, UITextFieldDelegate {
     
     
     @IBOutlet weak var nameField: UITextField!
@@ -21,12 +21,19 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var userPhotoImageView: UIImageView!
     @IBOutlet weak var changePhotoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
     
     var updateUserCommand: UpdateUserCommand!
     var profileDelegate: ProfileDelegate?
     var userId: Int!
     var userProfile: UserProfile!
     var userImage: UIImage?
+    
+    var activeField: UITextField?
+    var lastOffset: CGPoint!
+    var keyboardHeight: CGFloat!
     
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
@@ -38,6 +45,11 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         changePhotoButton.bordered()
         self.hideKeyboardWhenTappedAround()
         initProfileForm()
+        nameField.delegate = self
+        lastNameField.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func initProfileForm() {
@@ -155,5 +167,62 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
     func stopLoading(){
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeField = textField
+        lastOffset = self.scrollView.contentOffset
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        activeField?.resignFirstResponder()
+        activeField = nil
+        return true
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        print("keyboardWillShow")
+        if keyboardHeight != nil {
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+            
+            // so increase contentView's height by keyboard height
+            UIView.animate(withDuration: 0.3, animations: {
+                print("aniamting 111")
+                self.constraintContentHeight.constant += self.keyboardHeight
+            })
+            
+            let globalPoint = activeField!.superview?.convert(activeField!.frame.origin, to: nil)
+            
+            // move if keyboard hide input field
+            let distanceToBottom = 46 + self.scrollView.frame.size.height - (globalPoint?.y)! - (activeField?.frame.size.height)!
+            let collapseSpace = keyboardHeight - distanceToBottom
+            if collapseSpace < 0 {
+                // no collapse
+                return
+            }
+            
+            // set new offset for scroll view
+            UIView.animate(withDuration: 0.3, animations: {
+                // scroll to the position above keyboard 10 points
+
+                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 20)
+            })
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        print("keyboardWillHide")
+        UIView.animate(withDuration: 0.3) {
+            self.constraintContentHeight.constant -= self.keyboardHeight
+            
+            self.scrollView.contentOffset = self.lastOffset
+        }
+        
+        keyboardHeight = nil
     }
 }
