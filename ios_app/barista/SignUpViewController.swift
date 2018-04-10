@@ -20,6 +20,9 @@ class SignUpViewController: UIViewController {
     
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
+    var keyboardHeight: CGFloat!
+    var distanceToBottom : CGFloat!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         emailField.underlined()
@@ -37,7 +40,21 @@ class SignUpViewController: UIViewController {
         signUpButton.layer.cornerRadius = 10
         signUpButton.clipsToBounds = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func sendRequest(_ sender: UIButton) {
@@ -97,5 +114,32 @@ class SignUpViewController: UIViewController {
     func stopLoading(){
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if keyboardHeight != nil {
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+            let globalPoint = signUpButton!.superview?.convert(signUpButton!.frame.origin, to: nil)
+            distanceToBottom = (globalPoint?.y)! - self.view.frame.size.height + keyboardHeight + ( 2 * signUpButton.frame.size.height)
+            UIView.animate(withDuration: 0.3, animations: {
+                if self.view.frame.origin.y == 0{
+                    self.view.frame.origin.y -= self.distanceToBottom
+                }
+            })
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += self.distanceToBottom
+            }
+        }
+        
+        keyboardHeight = nil
     }
 }

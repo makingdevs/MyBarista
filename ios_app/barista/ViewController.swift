@@ -19,6 +19,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var facebookLoginButton: UIButton!
     
+    var keyboardHeight: CGFloat!
+    var distanceToBottom : CGFloat!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
@@ -32,6 +35,19 @@ class ViewController: UIViewController {
         facebookLoginButton.clipsToBounds = true
         loginButton.layer.cornerRadius = 10
         loginButton.clipsToBounds = true
+        
+
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func getFBUserData(){
@@ -151,7 +167,7 @@ class ViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return false
+        return identifier == "ShowSignUp" ? true : false
     }
     
     func startLoading(){
@@ -168,5 +184,32 @@ class ViewController: UIViewController {
     func stopLoading(){
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if keyboardHeight != nil {
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+            let globalPoint = facebookLoginButton!.superview?.convert(facebookLoginButton!.frame.origin, to: nil)
+            distanceToBottom = (globalPoint?.y)! - self.view.frame.size.height + keyboardHeight + ( 2 * facebookLoginButton.frame.size.height)
+            UIView.animate(withDuration: 0.3, animations: {
+                if self.view.frame.origin.y == 0{
+                    self.view.frame.origin.y -= self.distanceToBottom
+                }
+            })
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += self.distanceToBottom
+            }
+        }
+        
+        keyboardHeight = nil
     }
 }
