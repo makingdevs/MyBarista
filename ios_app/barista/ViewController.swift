@@ -12,7 +12,6 @@ import FBSDKCoreKit
 
 class ViewController: UIViewController {
     
-    var performSignIn: Bool = false
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
     @IBOutlet weak var usernameField: UITextField!
@@ -66,6 +65,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.passwordField.text = ""
         if isUserLogged(){
             self.perfomSignIn()
         }
@@ -96,7 +96,6 @@ class ViewController: UIViewController {
     }
     
     fileprivate func perfomSignIn() {
-        self.performSignIn = true
         self.performSegue(withIdentifier: "PerformSignIn", sender: self)
     }
     
@@ -152,7 +151,7 @@ class ViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return identifier == "PerformSignIn" ? performSignIn : true
+        return false
     }
     
     func startLoading(){
