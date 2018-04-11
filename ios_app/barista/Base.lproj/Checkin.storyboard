@@ -428,7 +428,7 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ue-kK-VIC">
-                                        <rect key="frame" x="0.0" y="350" width="375" height="600"/>
+                                        <rect key="frame" x="0.0" y="350" width="375" height="345"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eSX-3i-Meb">
                                                 <rect key="frame" x="16" y="24" width="343" height="319"/>
@@ -561,7 +561,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="600" id="APX-5m-rg0"/>
+                                            <constraint firstAttribute="height" constant="345" id="APX-5m-rg0"/>
                                             <constraint firstItem="eSX-3i-Meb" firstAttribute="leading" secondItem="8ue-kK-VIC" secondAttribute="leading" constant="16" id="LaS-FR-kGa"/>
                                             <constraint firstAttribute="trailing" secondItem="eSX-3i-Meb" secondAttribute="trailing" constant="16" id="Vey-GT-xU8"/>
                                             <constraint firstItem="eSX-3i-Meb" firstAttribute="top" secondItem="8ue-kK-VIC" secondAttribute="top" constant="24" id="yNC-ry-jfA"/>
@@ -598,10 +598,12 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="checkinPhoto" destination="0HC-OP-pKm" id="08T-gs-BLE"/>
+                        <outlet property="constraintContentHeight" destination="APX-5m-rg0" id="TfU-4z-Uul"/>
                         <outlet property="methodField" destination="8TO-mD-ffU" id="H7I-qp-oyD"/>
                         <outlet property="originField" destination="Ov7-rB-LRV" id="RLi-hr-8wN"/>
                         <outlet property="priceField" destination="dvN-yj-cPh" id="Kmy-lr-0bE"/>
                         <outlet property="saveButton" destination="gFS-PX-E1Q" id="xUy-q9-6em"/>
+                        <outlet property="scrollView" destination="Qhc-Yu-t8g" id="qnv-yZ-40w"/>
                         <outlet property="stateField" destination="uc0-4l-MDA" id="gvE-H6-ECf"/>
                         <outlet property="venueLabel" destination="OpF-gf-yo7" id="tVc-cE-xeW"/>
                     </connections>

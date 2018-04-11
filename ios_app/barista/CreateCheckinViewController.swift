@@ -14,7 +14,7 @@ protocol CheckinDelegate {
     func updateCheckinDetail(currentCheckin: Checkin)
 }
 
-class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, VenueDelegate, ImagePickerDelegate{
+class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, VenueDelegate, ImagePickerDelegate, UITextFieldDelegate{
     
     @IBOutlet weak var checkinPhoto: UIImageView!
     @IBOutlet weak var methodField: UITextField!
@@ -23,6 +23,8 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var venueLabel: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
@@ -43,9 +45,20 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     var price: String!
     var image: UIImage?
     var venue: String?
+    
+    var activeField: UITextField?
+    var lastOffset: CGPoint!
+    var keyboardHeight: CGFloat!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        methodField.delegate = self
+        stateField.delegate = self
+        originField.delegate = self
+        priceField.delegate = self
+        
+        
         methodField.underlined()
         stateField.underlined()
         originField.underlined()
@@ -59,6 +72,16 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
             setCurrentCheckIn()
         }
         saveButton.bordered()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func cleanView(){
@@ -305,5 +328,56 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func stopLoading(){
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeField = textField
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        activeField?.resignFirstResponder()
+        activeField = nil
+        return true
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if keyboardHeight != nil {
+            return
+        }else{
+            lastOffset = self.scrollView.contentOffset
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+            UIView.animate(withDuration: 0.3, animations: {
+                self.constraintContentHeight.constant += self.keyboardHeight
+            })
+            
+            let globalPoint = activeField!.superview?.convert(activeField!.frame.origin, to: nil)
+            let collapseSpace = calculateCollapseSpace(globalPoint: globalPoint!, superViewHeigt: (activeField?.frame.size.height)!, size: (activeField?.frame.size.height)!)
+
+            if collapseSpace < 0 {
+                return
+            }
+
+            UIView.animate(withDuration: 0.3, animations: {
+                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 42)
+            })
+        }
+    }
+    
+    func calculateCollapseSpace(globalPoint: CGPoint, superViewHeigt: CGFloat, size: CGFloat) -> CGFloat{
+        let distanceToBottom = superViewHeigt - globalPoint.y - size
+        return keyboardHeight - distanceToBottom
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            self.constraintContentHeight.constant -= self.keyboardHeight
+            self.scrollView.contentOffset = self.lastOffset
+        }
+        
+        keyboardHeight = nil
     }
 }
