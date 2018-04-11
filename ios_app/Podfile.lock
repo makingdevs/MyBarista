@@ -45,6 +45,24 @@ DEPENDENCIES:
   - Kingfisher (~> 4.0)
   - SwiftyJSON
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Bolts
+    - Charts
+    - ChartsRealm
+    - Cosmos
+    - Crashlytics
+    - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - ImagePicker
+    - Kingfisher
+    - Realm
+    - RealmSwift
+    - SwiftyJSON
+
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
@@ -64,4 +82,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bda09817d5687bce5461343fb5dd4683946bc941
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

@@ -324,7 +324,6 @@
 				4B17FA091D2D50B1007028B1 /* Frameworks */,
 				4B17FA0A1D2D50B1007028B1 /* Resources */,
 				3E3609995017164874FA0AA4 /* [CP] Embed Pods Frameworks */,
-				10E99D3FF5516CAEB2911DD8 /* [CP] Copy Pods Resources */,
 				4BAC486D1DC2A06B009A1850 /* ShellScript */,
 			);
 			buildRules = (
@@ -395,21 +394,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		10E99D3FF5516CAEB2911DD8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barista/Pods-barista-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3E3609995017164874FA0AA4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
