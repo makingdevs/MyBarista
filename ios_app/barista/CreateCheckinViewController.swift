@@ -332,6 +332,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         activeField = textField
+        lastOffset = self.scrollView.contentOffset
         return true
     }
     
@@ -342,33 +343,32 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if keyboardHeight != nil {
-            return
-        }else{
-            lastOffset = self.scrollView.contentOffset
-        }
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            keyboardHeight = keyboardSize.height
-            UIView.animate(withDuration: 0.3, animations: {
-                self.constraintContentHeight.constant += self.keyboardHeight + 20
-            })
+            
+            if keyboardHeight == nil {
+                keyboardHeight = keyboardSize.height
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.constraintContentHeight.constant += self.keyboardHeight + 20
+                })
+            }
             
             let globalPoint = activeField!.superview?.convert(activeField!.frame.origin, to: nil)
-            let collapseSpace = calculateCollapseSpace(globalPoint: globalPoint!, superViewHeigt: (activeField?.frame.size.height)!, size: (activeField?.frame.size.height)!)
-
+            let collapseSpace = calculateCollapseSpace(globalPoint: globalPoint!, superViewHeigt:self.scrollView.frame.size.height, size: (activeField?.frame.size.height)!)
             if collapseSpace < 0 {
                 return
             }
 
             UIView.animate(withDuration: 0.3, animations: {
-                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 42)
+                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: (collapseSpace + self.lastOffset.y + 42))
             })
         }
     }
     
     func calculateCollapseSpace(globalPoint: CGPoint, superViewHeigt: CGFloat, size: CGFloat) -> CGFloat{
-        let distanceToBottom = superViewHeigt - globalPoint.y - size
+//        print("\(superViewHeigt) [ \(globalPoint.y) ] \(size)")
+        let distanceToBottom =  superViewHeigt - globalPoint.y - size
+//        print("\(keyboardHeight) - \(distanceToBottom)")
         return keyboardHeight - distanceToBottom
     }
     
