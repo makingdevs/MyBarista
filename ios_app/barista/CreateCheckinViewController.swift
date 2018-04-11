@@ -374,7 +374,9 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     @objc func keyboardWillHide(notification: NSNotification) {
         UIView.animate(withDuration: 0.3) {
-            self.constraintContentHeight.constant -= self.keyboardHeight
+            if self.keyboardHeight != nil {
+                self.constraintContentHeight.constant -= self.keyboardHeight
+            }
             self.scrollView.contentOffset = self.lastOffset
         }
         
