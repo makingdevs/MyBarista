@@ -351,7 +351,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
             UIView.animate(withDuration: 0.3, animations: {
-                self.constraintContentHeight.constant += self.keyboardHeight
+                self.constraintContentHeight.constant += self.keyboardHeight + 20
             })
             
             let globalPoint = activeField!.superview?.convert(activeField!.frame.origin, to: nil)
