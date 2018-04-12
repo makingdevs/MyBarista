@@ -30,7 +30,7 @@ class CheckinManager {
                         let checkinPrice = subJson["price"].stringValue
                         let checkinRating = subJson["rating"].floatValue
                         let checkinNote = subJson["note"].stringValue
-                        let checkinVenueId = subJson["venue_id"].intValue
+                        let checkinVenueId = 0//subJson["venue_id"].intValue
                         let checkinVenue = subJson["venue"]["name"].stringValue
                         let checkinCircle = subJson["circle_flavor_id"].intValue
                         let checkinCreatedAt = subJson["created_at"].timeValue
@@ -137,11 +137,10 @@ class CheckinManager {
                         let checkinPrice = json["price"].stringValue
                         let checkinRating = json["rating"].floatValue
                         let checkinNote = json["note"].stringValue
-                        let checkinVenueId = json["venue_id"].intValue
+                        let checkinVenueId = 0//json["venue_id"].intValue
                         let checkinVenue = json["venue"]["name"].stringValue
                         let checkinCircle = json["circle_flavor_id"].intValue
                         let checkinCreatedAt = json["created_at"].timeValue
-                        print("checkinVenueId \(checkinVenueId)")
                         if json["s3_asset"].exists() {
                             let s3assetId = json["s3_asset"]["id"].intValue
                             let s3assetUrl = json["s3_asset"]["url_file"].stringValue
