@@ -59,8 +59,20 @@
 		8FA7EBE71DEF221E005D3844 /* FacebookProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA7EBE61DEF221E005D3844 /* FacebookProfile.swift */; };
 		8FB582321DD5133A00150059 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB582311DD5133A00150059 /* Constants.swift */; };
 		A92A7B82206968D500C7B109 /* TextFieldExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */; };
+		A9825844207F9D2E005C7CB9 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9825842207F9CFA005C7CB9 /* SnapshotHelper.swift */; };
+		A9FEC72D207EAC57004BFBEE /* baristaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FEC72C207EAC57004BFBEE /* baristaUITests.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A9FEC72F207EAC57004BFBEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4B17FA041D2D50B1007028B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4B17FA0B1D2D50B1007028B1;
+			remoteInfo = barista;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4745031D206EC05F00FC1659 /* UIButtonExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtentions.swift; sourceTree = "<group>"; };
@@ -119,6 +131,10 @@
 		8FB582311DD5133A00150059 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtentions.swift; sourceTree = "<group>"; };
+		A9825842207F9CFA005C7CB9 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		A9FEC72A207EAC57004BFBEE /* baristaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = baristaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9FEC72C207EAC57004BFBEE /* baristaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = baristaUITests.swift; sourceTree = "<group>"; };
+		A9FEC72E207EAC57004BFBEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B37E783B522F37C46C18CF /* Pods-barista.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.debug.xcconfig"; sourceTree = "<group>"; };
 		D66AE602CAFECCA888BC7735 /* Pods_barista.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barista.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -130,6 +146,13 @@
 			files = (
 				4BE887591DD25FBB009576FC /* CoreLocation.framework in Frameworks */,
 				AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9FEC727207EAC57004BFBEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA0E1D2D50B1007028B1 /* barista */,
+				A9FEC72B207EAC57004BFBEE /* baristaUITests */,
 				4B17FA0D1D2D50B1007028B1 /* Products */,
 				1DAB4DE4312A79E0DFA4FAD2 /* Pods */,
 				1FC7915E400035CA60ABDDE7 /* Frameworks */,
@@ -176,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				4B17FA0C1D2D50B1007028B1 /* barista.app */,
+				A9FEC72A207EAC57004BFBEE /* baristaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,6 +208,7 @@
 		4B17FA0E1D2D50B1007028B1 /* barista */ = {
 			isa = PBXGroup;
 			children = (
+				A9825842207F9CFA005C7CB9 /* SnapshotHelper.swift */,
 				8FA7EBE51DEE77F7005D3844 /* barista.entitlements */,
 				4B9836621DBA73940027BE5D /* Commons */,
 				4B07804A1D7758140001A9D1 /* Resources */,
@@ -312,6 +338,15 @@
 			name = Commands;
 			sourceTree = "<group>";
 		};
+		A9FEC72B207EAC57004BFBEE /* baristaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A9FEC72C207EAC57004BFBEE /* baristaUITests.swift */,
+				A9FEC72E207EAC57004BFBEE /* Info.plist */,
+			);
+			path = baristaUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -335,13 +370,31 @@
 			productReference = 4B17FA0C1D2D50B1007028B1 /* barista.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A9FEC729207EAC57004BFBEE /* baristaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9FEC733207EAC57004BFBEE /* Build configuration list for PBXNativeTarget "baristaUITests" */;
+			buildPhases = (
+				A9FEC726207EAC57004BFBEE /* Sources */,
+				A9FEC727207EAC57004BFBEE /* Frameworks */,
+				A9FEC728207EAC57004BFBEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9FEC730207EAC57004BFBEE /* PBXTargetDependency */,
+			);
+			name = baristaUITests;
+			productName = baristaUITests;
+			productReference = A9FEC72A207EAC57004BFBEE /* baristaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		4B17FA041D2D50B1007028B1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = MakingDevs;
 				TargetAttributes = {
@@ -349,12 +402,18 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = H2WD4JANN6;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
+					};
+					A9FEC729207EAC57004BFBEE = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = H2WD4JANN6;
+						ProvisioningStyle = Manual;
+						TestTargetID = 4B17FA0B1D2D50B1007028B1;
 					};
 				};
 			};
@@ -372,6 +431,7 @@
 			projectRoot = "";
 			targets = (
 				4B17FA0B1D2D50B1007028B1 /* barista */,
+				A9FEC729207EAC57004BFBEE /* baristaUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -388,6 +448,13 @@
 				475740AE206D428F00375CBE /* Assets.xcassets in Resources */,
 				4BD977E21DDF6502005F3B86 /* Profile.storyboard in Resources */,
 				4B17FA151D2D50B1007028B1 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9FEC728207EAC57004BFBEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,7 +588,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9FEC726207EAC57004BFBEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9FEC72D207EAC57004BFBEE /* baristaUITests.swift in Sources */,
+				A9825844207F9D2E005C7CB9 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A9FEC730207EAC57004BFBEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4B17FA0B1D2D50B1007028B1 /* barista */;
+			targetProxy = A9FEC72F207EAC57004BFBEE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4B17FA131D2D50B1007028B1 /* Main.storyboard */ = {
@@ -676,9 +760,9 @@
 				CODE_SIGN_ENTITLEMENTS = barista/barista.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = H2WD4JANN6;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -687,8 +771,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.mybarista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "444afd33-19bd-4335-93de-eccac9a399dd";
-				PROVISIONING_PROFILE_SPECIFIER = development_makingdevs;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -703,9 +787,9 @@
 				CODE_SIGN_ENTITLEMENTS = barista/barista.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = H2WD4JANN6;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -714,10 +798,65 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.mybarista;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be6287b7-3b59-4d7a-82db-623afec44898";
-				PROVISIONING_PROFILE_SPECIFIER = "com.makingdevs.mybarista AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		A9FEC731207EAC57004BFBEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = H2WD4JANN6;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = baristaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.baristaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "444afd33-19bd-4335-93de-eccac9a399dd";
+				PROVISIONING_PROFILE_SPECIFIER = development_makingdevs;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = barista;
+			};
+			name = Debug;
+		};
+		A9FEC732207EAC57004BFBEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = H2WD4JANN6;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = baristaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingdevs.baristaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "444afd33-19bd-4335-93de-eccac9a399dd";
+				PROVISIONING_PROFILE_SPECIFIER = development_makingdevs;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = barista;
 			};
 			name = Release;
 		};
@@ -738,6 +877,15 @@
 			buildConfigurations = (
 				4B17FA1F1D2D50B1007028B1 /* Debug */,
 				4B17FA201D2D50B1007028B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9FEC733207EAC57004BFBEE /* Build configuration list for PBXNativeTarget "baristaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9FEC731207EAC57004BFBEE /* Debug */,
+				A9FEC732207EAC57004BFBEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

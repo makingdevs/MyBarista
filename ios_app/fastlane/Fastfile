@@ -18,4 +18,9 @@ platform :ios do
     build_app(workspace: "barista.xcworkspace", scheme: "barista")
     upload_to_testflight
   end
+
+  lane :release do
+    capture_screenshots
+    upload_to_app_store
+  end
 end
