@@ -19,13 +19,14 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
+*.mobileprovision
 
 # fastlane
-/fastlane/report.xml
-/fastlane/Preview.html
-/fastlane/screenshots
-/ifastlane/test_output
-/fastlane/README.md
+/ios_app/fastlane/report.xml
+/ios_app/fastlane/Preview.html
+/ios_app/fastlane/screenshots
+/ios_app/fastlane/test_output
+/ios_app/fastlane/README.md
 
 #benv ruby version
 .ruby-version
