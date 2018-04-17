@@ -47,7 +47,7 @@ class baristaUITests: XCTestCase {
         
         app.buttons["INICIAR SESIÓN"].tap()
         snapshot("checkins_view")
-        app.tables.children(matching: .cell).element(boundBy: 1).children(matching: .other).element(boundBy: 0).tap()
+        app.tables.cells.children(matching: .other).element(boundBy: 0).tap()
         
         let tabBarsQuery = app.tabBars
         tabBarsQuery.buttons["Check-In"].tap()
@@ -60,5 +60,4 @@ class baristaUITests: XCTestCase {
         app.navigationBars["barista.EditProfileView"].buttons["Back"].tap()
         app.buttons["CERRAR SESIÓN"].tap()
     }
-    
 }

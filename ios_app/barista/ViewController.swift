@@ -193,13 +193,16 @@ class ViewController: UIViewController {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
-            let globalPoint = facebookLoginButton!.superview?.convert(facebookLoginButton!.frame.origin, to: nil)
-            distanceToBottom = (globalPoint?.y)! - self.view.frame.size.height + keyboardHeight + ( 2 * facebookLoginButton.frame.size.height)
-            UIView.animate(withDuration: 0.3, animations: {
-                if self.view.frame.origin.y == 0{
-                    self.view.frame.origin.y -= self.distanceToBottom
-                }
-            })
+            if(keyboardHeight > 0.0){
+                print("keyboardHeight \(keyboardHeight)")
+                let globalPoint = facebookLoginButton!.superview?.convert(facebookLoginButton!.frame.origin, to: nil)
+                distanceToBottom = (globalPoint?.y)! - self.view.frame.size.height + keyboardHeight + ( 2 * facebookLoginButton.frame.size.height)
+                UIView.animate(withDuration: 0.3, animations: {
+                    if self.view.frame.origin.y == 0{
+                        self.view.frame.origin.y -= self.distanceToBottom
+                    }
+                })
+            }
         }
     }
     
