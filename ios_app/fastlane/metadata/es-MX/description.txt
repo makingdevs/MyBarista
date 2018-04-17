@@ -1,0 +1,2 @@
+Barista es una aplicación que te permitirá llevar un registro puntual de los cafés que te tomas. Orientado a los recientes métodos de preparación y los diferentes orígenes el café, te permitirá tener el histórico de todo lo relacionado con tu bebida. 
+Usa una técnica llamada círculo del sabor para identificar mejor tus gustos, y puedes tomar una foto del momento y del barista que te la preparó.
