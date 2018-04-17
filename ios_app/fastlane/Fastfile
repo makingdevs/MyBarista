@@ -14,28 +14,55 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-#    ensure_git_status_clean
-    increment_build_number
-    build_app(workspace: "barista.xcworkspace", scheme: "barista")
-    git_commit(path: ["../*.plist", "../*.pbxproj"], message: "increment build number for upload to test fight")
-    upload_to_testflight
-    slack(
-      message: "App successfully uploaded to TestFlight.",
-      success: true,
-      slack_url: "https://hooks.slack.com/services/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"
-    )
+    begin
+     ensure_git_status_clean
+      increment_build_number
+      build_app(workspace: "barista.xcworkspace", scheme: "barista")
+      git_commit(path: ["../*.plist", "../*.pbxproj"], message: "increment build number for upload to test fight")
+      upload_to_testflight
+    rescue => exception
+      on_error(exception)
+    else
+      slack(
+        message: "App successfully uploaded to TestFlight.",
+        success: true,
+        slack_url: "https://hooks.slack.com/services/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"
+      )
+    end
   end
 
   lane :submit_build_to_test do |build_number|
-    fastlane deliver submit_build --build_number build_number
-    slack(
-      message: "App successfully submited iTunesConnect for review.",
-      success: true,
-      slack_url: "https://hooks.slack.com/services/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"
-    )
+    begin
+      fastlane deliver submit_build --build_number build_number
+    rescue => exception
+      on_error(exception)
+    else
+      slack(
+        message: "App successfully submited iTunesConnect for review.",
+        success: true,
+        slack_url: "https://hooks.slack.com/services/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"
+      )
+    end
   end
 
-  lane :slack_message do
+  lane :error do |exception|
+      slack(
+        message: "Some thing goes wrong.",
+        success: false,
+        slack_url: "https://hooks.slack.com/services/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",
+        attachment_properties: {
+          fields: [
+            {
+              title: "Error message",
+              value: exception.to_s,
+              short: false
+            }
+          ]
+        }
+      )
+  end
+
+  lane :slack_message_test do
        slack(
            message: "App successfully uploaded to iTunesConnect.",
            success: true,
