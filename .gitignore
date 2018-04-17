@@ -1,4 +1,6 @@
 ruby_app/config/secrets.yml
+ruby_app/makingdevs
+ruby_app/makingdevs.pub
 android_app/app/fabric.properties
 **/.DS_Store
 android_app/fastlane/README.md
