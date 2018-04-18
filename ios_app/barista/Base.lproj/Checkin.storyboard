@@ -116,8 +116,41 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="j7g-vK-kGh"/>
+                    <connections>
+                        <outlet property="noItemsView" destination="vDf-a7-w67" id="xwM-jS-mBh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6V8-hf-wXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="vDf-a7-w67">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="267"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presiona Check-In para crear tu primer registro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVy-dg-ftw">
+                            <rect key="frame" x="0.0" y="123" width="240" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="rNp-Yz-mSE"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barista_logo_gray" translatesAutoresizingMaskIntoConstraints="NO" id="qdg-lx-sEO">
+                            <rect key="frame" x="70" y="15" width="100" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="9rA-Ag-d3O"/>
+                                <constraint firstAttribute="height" constant="100" id="NSs-sH-1Ma"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="dVy-dg-ftw" firstAttribute="centerY" secondItem="vDf-a7-w67" secondAttribute="centerY" id="8pI-Wu-UkN"/>
+                        <constraint firstItem="qdg-lx-sEO" firstAttribute="centerX" secondItem="vDf-a7-w67" secondAttribute="centerX" id="Ojo-QH-opY"/>
+                        <constraint firstAttribute="trailing" secondItem="dVy-dg-ftw" secondAttribute="trailing" id="PGj-en-0j3"/>
+                        <constraint firstItem="dVy-dg-ftw" firstAttribute="leading" secondItem="vDf-a7-w67" secondAttribute="leading" id="VDc-bJ-4ws"/>
+                        <constraint firstItem="dVy-dg-ftw" firstAttribute="top" secondItem="qdg-lx-sEO" secondAttribute="bottom" constant="8" id="bIy-Qu-sAI"/>
+                    </constraints>
+                </view>
             </objects>
             <point key="canvasLocation" x="2752.8000000000002" y="196.55172413793105"/>
         </scene>
@@ -1048,6 +1081,7 @@
     </scenes>
     <resources>
         <image name="add_notes" width="42" height="42"/>
+        <image name="barista_logo_gray" width="256" height="256"/>
         <image name="check_in_foursquare" width="21" height="21"/>
         <image name="circle" width="184" height="201"/>
         <image name="coffee_holder" width="320" height="205"/>

@@ -10,12 +10,15 @@ import UIKit
 
 class CheckinsTableViewController: UITableViewController {
     
+    @IBOutlet var noItemsView: UIView!
+    
     var checkins:[Checkin] = [Checkin]()
     let userPreferences = UserDefaults.standard
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.backgroundView = noItemsView
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,9 +109,7 @@ class CheckinsTableViewController: UITableViewController {
             onSuccess: { (checkins:[Checkin]) -> () in
                 self.stopLoading()
                 self.checkins = checkins
-                if checkins.count == 0 {
-                    self.tabBarController?.selectedIndex = 1
-                }else{
+                if checkins.count > 0 {
                     self.tableView.reloadData()
                 }
             },
