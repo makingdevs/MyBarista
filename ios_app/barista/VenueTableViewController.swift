@@ -19,8 +19,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     var venueCommand: VenueCommand!
     var venueDelegate: VenueDelegate?
-    var currentLatitude: String?
-    var currentLongitude: String?
+    var currentLocation : CLLocation?
     
     @IBOutlet weak var venueSearchBar: UISearchBar!
     
@@ -44,16 +43,23 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+    
     func startUpdatingLocation() {
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLatitude = manager.location?.coordinate.latitude.description
-        currentLongitude = manager.location?.coordinate.longitude.description
-        fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: "")
-        
+        if let newLocation = manager.location {
+            if currentLocation == nil || (currentLocation?.distance(from: newLocation).magnitude)! > 200 {
+                currentLocation = newLocation
+                fetchVenues(latitude: currentLocation?.coordinate.latitude.description, longitude: currentLocation?.coordinate.longitude.description, query: "")
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -66,16 +72,13 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
         }
         
         venueCommand = VenueCommand(latitude: latitude, longitude: longitude, query: query)
-        self.startLoading()
         FoursquareManager.getVenuesNear(
             venueCommand: venueCommand,
             onSuccess: { (venues: [Venue]) -> () in
-                self.stopLoading()
                 self.venues = venues
                 self.tableView.reloadData()
             },
             onError: { (error: String) -> () in
-                self.stopLoading()
                 print(error)
         })
     }
@@ -104,7 +107,7 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: searchBar.text)
+        self.fetchVenues(latitude: currentLocation?.coordinate.latitude.description, longitude: currentLocation?.coordinate.longitude.description, query: searchBar.text)
         restartSearchBar()
     }
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -112,33 +115,17 @@ class VenueTableViewController: UITableViewController, CLLocationManagerDelegate
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: "")
+        self.fetchVenues(latitude: currentLocation?.coordinate.latitude.description, longitude: currentLocation?.coordinate.longitude.description, query: "")
         restartSearchBar()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.fetchVenues(latitude: currentLatitude, longitude: currentLongitude, query: searchBar.text)
+        self.fetchVenues(latitude: currentLocation?.coordinate.latitude.description, longitude: currentLocation?.coordinate.longitude.description, query: searchBar.text)
     }
     
     func restartSearchBar(){
         venueSearchBar.text = ""
         venueSearchBar.resignFirstResponder()
         venueSearchBar.setShowsCancelButton(false, animated: true)
-    }
-    
-    func startLoading(){
-        activityIndicator.center = self.view.center;
-        activityIndicator.hidesWhenStopped = true;
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
-        self.view.addSubview(activityIndicator);
-        self.view.bringSubview(toFront: activityIndicator)
-        activityIndicator.startAnimating();
-        UIApplication.shared.beginIgnoringInteractionEvents();
-        
-    }
-    
-    func stopLoading(){
-        activityIndicator.stopAnimating();
-        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }
