@@ -110,8 +110,11 @@ class CheckinsTableViewController: UITableViewController {
                 self.stopLoading()
                 self.checkins = checkins
                 if checkins.count > 0 {
-                    self.tableView.reloadData()
+                    self.noItemsView.isHidden = true
+                }else{
+                    self.noItemsView.isHidden = false
                 }
+                self.tableView.reloadData()
             },
             onError:{ (error:String) -> () in
                 self.stopLoading()
