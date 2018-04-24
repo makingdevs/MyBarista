@@ -74,6 +74,7 @@ class SignUpViewController: UIViewController {
                                 _ = self.navigationController?.popViewController(animated: true)
                 },
                                onError: { (error: String) -> () in
+                                self.stopLoading()
                                 self.present(self.showErrorAlert(message: error.description), animated: true)
             })
         } else {
