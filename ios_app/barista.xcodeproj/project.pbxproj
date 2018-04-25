@@ -60,6 +60,8 @@
 		8FB582321DD5133A00150059 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB582311DD5133A00150059 /* Constants.swift */; };
 		A92A7B82206968D500C7B109 /* TextFieldExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */; };
 		A9825844207F9D2E005C7CB9 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9825842207F9CFA005C7CB9 /* SnapshotHelper.swift */; };
+		A9C59851208F8CD70005CDAB /* Instagram.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C59850208F8CD70005CDAB /* Instagram.swift */; };
+		A9C59853208FCE090005CDAB /* InstagramLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C59852208FCE090005CDAB /* InstagramLoginViewController.swift */; };
 		A9FEC72D207EAC57004BFBEE /* baristaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FEC72C207EAC57004BFBEE /* baristaUITests.swift */; };
 		AD2DF1EF61746574260F2E06 /* Pods_barista.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66AE602CAFECCA888BC7735 /* Pods_barista.framework */; };
 /* End PBXBuildFile section */
@@ -132,6 +134,8 @@
 		99CA5C49BEE9CD49734871B6 /* Pods-barista.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barista.release.xcconfig"; path = "Pods/Target Support Files/Pods-barista/Pods-barista.release.xcconfig"; sourceTree = "<group>"; };
 		A92A7B81206968D500C7B109 /* TextFieldExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtentions.swift; sourceTree = "<group>"; };
 		A9825842207F9CFA005C7CB9 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		A9C59850208F8CD70005CDAB /* Instagram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instagram.swift; sourceTree = "<group>"; };
+		A9C59852208FCE090005CDAB /* InstagramLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramLoginViewController.swift; sourceTree = "<group>"; };
 		A9FEC72A207EAC57004BFBEE /* baristaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = baristaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FEC72C207EAC57004BFBEE /* baristaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = baristaUITests.swift; sourceTree = "<group>"; };
 		A9FEC72E207EAC57004BFBEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 				4BA435A31DDB5DDE000C928A /* CreateCircleFlavorViewController.swift */,
 				4BD977DE1DDE6824005F3B86 /* ProfileViewController.swift */,
 				4BBC40F21DDF751000A8EBF5 /* EditProfileViewController.swift */,
+				A9C59852208FCE090005CDAB /* InstagramLoginViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 				4B9836771DBACE760027BE5D /* Formatter.swift */,
 				8FB582311DD5133A00150059 /* Constants.swift */,
 				4745031D206EC05F00FC1659 /* UIButtonExtentions.swift */,
+				A9C59850208F8CD70005CDAB /* Instagram.swift */,
 			);
 			name = Commons;
 			sourceTree = "<group>";
@@ -566,9 +572,11 @@
 				4B17FA121D2D50B1007028B1 /* ViewController.swift in Sources */,
 				4B17FA2D1D2D6004007028B1 /* Checkin.swift in Sources */,
 				4B17FA101D2D50B1007028B1 /* AppDelegate.swift in Sources */,
+				A9C59851208F8CD70005CDAB /* Instagram.swift in Sources */,
 				4B07800B1D70BF460001A9D1 /* Barista.swift in Sources */,
 				4B07801D1D70C1C20001A9D1 /* VenueDetailBindable.swift in Sources */,
 				4BBC40F31DDF751000A8EBF5 /* EditProfileViewController.swift in Sources */,
+				A9C59853208FCE090005CDAB /* InstagramLoginViewController.swift in Sources */,
 				4BBC40F51DDF774E00A8EBF5 /* UpdateUserCommand.swift in Sources */,
 				8FA7EBE71DEF221E005D3844 /* FacebookProfile.swift in Sources */,
 				8FB582321DD5133A00150059 /* Constants.swift in Sources */,

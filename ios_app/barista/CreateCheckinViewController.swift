@@ -26,6 +26,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var webView: UIWebView!
     let methodPickerView = UIPickerView()
     let statePickerView = UIPickerView()
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
@@ -76,6 +77,10 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        webView.isHidden = true
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -225,20 +230,59 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
         return alert
     }
     
+    func slectImageHandler(alert: UIAlertAction!) {
+        switch alert.title {
+            case "Instagram":
+                self.performSegue(withIdentifier: "performWebView", sender: self)
+                //showInstagramImages()
+                break
+            case "Rollo de camara":
+                break
+            case "Tomar foto":
+                break
+            default: break
+        }
+    }
+    
+    func showInstagramImages(){
+        do {
+            self.webView.isHidden = false
+            let request = URLRequest(url: try Router.requestOauthCode.asURLRequest().url!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
+            self.webView.loadRequest(request)
+            print("showInstagramImages")
+        } catch {
+            print("Error obteniendo la url del token")
+        }
+    }
+    
+    
+    
+    func showImageOptions(){
+        let alert = UIAlertController(title: "Carga Imagen", message: "¿Desde donde quieres cargar tu imagen?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        alert.addAction(UIAlertAction(title: "Rollo de camara", style: UIAlertActionStyle.default, handler: slectImageHandler))
+        alert.addAction(UIAlertAction(title: "Tomar foto", style: UIAlertActionStyle.default, handler: slectImageHandler))
+        alert.addAction(UIAlertAction(title: "Instagram", style: UIAlertActionStyle.default, handler: slectImageHandler))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func selectPicture(_ sender: Any?) {
-      var config = Configuration()
-      config.doneButtonTitle = "OK"
-      config.noImagesTitle = "Lo sentimos, no hay imagenes disponibles"
-      config.recordLocation = false
-      config.allowVideoSelection = false
-      
-      
-      let imagePicker = ImagePickerController(configuration: config)
-      imagePicker.imageLimit = 1
-      imagePicker.delegate = self
-      
-      present(imagePicker, animated: true, completion: nil)
-      
+        
+        
+//      var config = Configuration()
+//      config.doneButtonTitle = "OK"
+//      config.noImagesTitle = "Lo sentimos, no hay imagenes disponibles"
+//      config.recordLocation = false
+//      config.allowVideoSelection = false
+//
+//
+//      let imagePicker = ImagePickerController(configuration: config)
+//      imagePicker.imageLimit = 1
+//      imagePicker.delegate = self
+//
+//      present(imagePicker, animated: true, completion: nil)
+        showImageOptions()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

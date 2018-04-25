@@ -170,6 +170,10 @@
                                             <constraint firstAttribute="trailing" secondItem="tmA-z7-jmN" secondAttribute="trailing" constant="8" id="vOP-Xw-ljM"/>
                                         </constraints>
                                     </view>
+                                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sxg-na-s49">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </webView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="9zz-tD-TKS" secondAttribute="trailing" id="0uK-A6-KPc"/>
@@ -185,10 +189,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="0eC-NL-3Hk" secondAttribute="bottom" id="1qb-T5-q9K"/>
+                            <constraint firstItem="sxg-na-s49" firstAttribute="leading" secondItem="x6C-hy-eLz" secondAttribute="leading" id="4mw-mI-GOF"/>
                             <constraint firstAttribute="trailing" secondItem="0eC-NL-3Hk" secondAttribute="trailing" id="DJB-6a-jF3"/>
                             <constraint firstItem="0eC-NL-3Hk" firstAttribute="top" secondItem="p5l-3g-gGI" secondAttribute="bottom" id="O1n-eS-Iyc"/>
+                            <constraint firstAttribute="trailing" secondItem="sxg-na-s49" secondAttribute="trailing" id="VXO-1v-qIV"/>
                             <constraint firstItem="EhT-lj-ARh" firstAttribute="width" secondItem="x6C-hy-eLz" secondAttribute="width" id="ZNz-fi-XO7"/>
+                            <constraint firstItem="sxg-na-s49" firstAttribute="top" secondItem="p5l-3g-gGI" secondAttribute="bottom" id="lQ6-C6-8yp"/>
                             <constraint firstItem="0eC-NL-3Hk" firstAttribute="leading" secondItem="x6C-hy-eLz" secondAttribute="leading" id="tKU-i3-J4b"/>
+                            <constraint firstItem="LMQ-O9-YNh" firstAttribute="top" secondItem="sxg-na-s49" secondAttribute="bottom" id="v3L-es-hRP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lam-BS-n81">
@@ -210,6 +218,8 @@
                         <outlet property="scrollView" destination="0eC-NL-3Hk" id="Ud0-CN-vKg"/>
                         <outlet property="stateField" destination="030-Co-Ixn" id="pUZ-VB-dLh"/>
                         <outlet property="venueLabel" destination="6JL-UP-eGg" id="8cM-Gd-aDl"/>
+                        <outlet property="webView" destination="sxg-na-s49" id="4WS-9E-ojB"/>
+                        <segue destination="E7H-ow-Yec" kind="showDetail" identifier="performWebView" id="UPb-VV-hWJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mv6-mI-qyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -219,7 +229,40 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2807.1999999999998" y="622.93853073463276"/>
+            <point key="canvasLocation" x="2807.1999999999998" y="622.90640394088678"/>
+        </scene>
+        <!--Instagram Login View Controller-->
+        <scene sceneID="F1P-Oq-yxh">
+            <objects>
+                <viewController id="E7H-ow-Yec" customClass="InstagramLoginViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mAq-pE-Alu"/>
+                        <viewControllerLayoutGuide type="bottom" id="uCQ-N6-t28"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cKm-5v-8iB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNe-rF-Ygf">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yNe-rF-Ygf" firstAttribute="top" secondItem="mAq-pE-Alu" secondAttribute="bottom" id="Grb-DJ-cEr"/>
+                            <constraint firstItem="uCQ-N6-t28" firstAttribute="top" secondItem="yNe-rF-Ygf" secondAttribute="bottom" id="N5r-Vi-Vhe"/>
+                            <constraint firstAttribute="trailing" secondItem="yNe-rF-Ygf" secondAttribute="trailing" id="ZmF-Xj-XNg"/>
+                            <constraint firstItem="yNe-rF-Ygf" firstAttribute="leading" secondItem="cKm-5v-8iB" secondAttribute="leading" id="ale-0S-hzt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="yNe-rF-Ygf" id="gOk-c7-9K9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G9n-c8-QFN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3636" y="625"/>
         </scene>
         <!--VENUES-->
         <scene sceneID="ILh-9W-BwJ">
