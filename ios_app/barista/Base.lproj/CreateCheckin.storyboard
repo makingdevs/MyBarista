@@ -219,7 +219,7 @@
                         <outlet property="stateField" destination="030-Co-Ixn" id="pUZ-VB-dLh"/>
                         <outlet property="venueLabel" destination="6JL-UP-eGg" id="8cM-Gd-aDl"/>
                         <outlet property="webView" destination="sxg-na-s49" id="4WS-9E-ojB"/>
-                        <segue destination="E7H-ow-Yec" kind="showDetail" identifier="performWebView" id="UPb-VV-hWJ"/>
+                        <segue destination="EOC-Wp-Dp7" kind="showDetail" identifier="performInstagramPhotoSelect" id="4j2-rs-HtQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mv6-mI-qyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -262,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G9n-c8-QFN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3636" y="625"/>
+            <point key="canvasLocation" x="4590" y="625"/>
         </scene>
         <!--VENUES-->
         <scene sceneID="ILh-9W-BwJ">
@@ -326,6 +326,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U89-Os-Ko4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2807" y="1634"/>
+        </scene>
+        <!--Instagram Photo Browser Collection View Controller-->
+        <scene sceneID="dll-cg-cwg">
+            <objects>
+                <collectionViewController id="EOC-Wp-Dp7" customClass="InstagramPhotoBrowserCollectionViewController" customModule="barista" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="rfq-kA-lDJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kEf-vl-UnE">
+                            <size key="itemSize" width="139" height="106"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dzs-Ab-SCj">
+                                <rect key="frame" x="0.0" y="0.0" width="139" height="106"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="139" height="106"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="EOC-Wp-Dp7" id="p4o-YA-4Z4"/>
+                            <outlet property="delegate" destination="EOC-Wp-Dp7" id="0mP-6N-N3r"/>
+                        </connections>
+                    </collectionView>
+                    <connections>
+                        <segue destination="E7H-ow-Yec" kind="showDetail" identifier="performWebView" id="sIb-F9-D5r"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eyq-GY-Yyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3765.5999999999999" y="624.38423645320199"/>
         </scene>
         <!--Check-In-->
         <scene sceneID="Hbh-Fv-bc2">

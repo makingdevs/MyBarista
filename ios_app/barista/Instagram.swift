@@ -24,13 +24,16 @@ enum Router: URLRequestConvertible {
     static let redirectURI = "http://users.barist.coffee/redirect"
     static let clientSecret = "c1ac8ba35af8432d815625cc8587eb13"
     
-    case PopularPhotos(String, String)
+    case popularPhotos
     case requestOauthCode
     
     func asURLRequest() throws -> URLRequest {
         let result: (path: String, parameters: [String: AnyObject]?) = {
             switch self {
-            case .PopularPhotos (let userID, let accessToken):
+            case .popularPhotos:
+                let userPreferences = UserDefaults.standard
+                let userID = userPreferences.value(forKey: "user_id") as! String
+                let accessToken = userPreferences.value(forKey: "instagram_token")
                 let params = ["access_token": accessToken]
                 let pathString = "/v1/users/" + userID + "/media/recent"
                 return (pathString, params as [String : AnyObject])
@@ -44,7 +47,7 @@ enum Router: URLRequestConvertible {
         
         let baseURL = URL(string: Router.baseURLString)!
         let urlRequest = URLRequest(url: URL(string: result.path ,relativeTo:baseURL)!)
-        let encoding = Alamofire.JSONEncoding.default
+        let encoding = URLEncoding.default
         return try encoding.encode(urlRequest, with: result.parameters)
     }
     

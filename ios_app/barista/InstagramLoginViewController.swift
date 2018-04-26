@@ -94,9 +94,10 @@ extension InstagramLoginViewController: UIWebViewDelegate{
                     //debugPrint(jsonObject)
                     let json = JSON(jsonObject)
                     
-                    if let accessToken = json["access_token"].string, let _ = json["user"]["id"].string {
+                    if let accessToken = json["access_token"].string, let userId = json["user"]["id"].string {
                         print("token... \(accessToken)")
-                        self.setInstagramToken(token: accessToken)
+                        print("userId... \(userId)")
+                        self.setInstagramToken(token: accessToken, userId: userId)
                         self.dismiss(animated: true, completion: nil)
                     }
                 case .failure:
@@ -105,9 +106,10 @@ extension InstagramLoginViewController: UIWebViewDelegate{
         }
     }
     
-    func setInstagramToken(token: String) {
+    func setInstagramToken(token: String, userId: String) {
         let userPreferences = UserDefaults.standard
         userPreferences.set(token, forKey: "instagram_token")
+        userPreferences.set(userId, forKey: "user_id")
         userPreferences.synchronize()
     }
     func handleAuth(authToken: String) {

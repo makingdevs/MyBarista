@@ -233,7 +233,7 @@ class CreateCheckinViewController: UIViewController, UIPickerViewDelegate, UIPic
     func slectImageHandler(alert: UIAlertAction!) {
         switch alert.title {
             case "Instagram":
-                self.performSegue(withIdentifier: "performWebView", sender: self)
+                self.performSegue(withIdentifier: "performInstagramPhotoSelect", sender: self)
                 //showInstagramImages()
                 break
             case "Rollo de camara":
